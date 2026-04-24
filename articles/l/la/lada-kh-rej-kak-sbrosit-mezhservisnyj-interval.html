@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Лада XRAY: сброс межсервисного интервала — инструкция — Лада Справка</title>
+    <meta name="description" content="Как сбросить сервисный интервал на Лада XRAY. Пошаговая инструкция, методы без сканера, расшифровка кодов ошибок и советы по обслуживанию кроссовера.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-kh-rej-kak-sbrosit-mezhservisnyj-interval.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Лада XRAY: сброс межсервисного интервала — инструкция">
+    <meta property="og:description" content="Как сбросить сервисный интервал на Лада XRAY. Пошаговая инструкция, методы без сканера, расшифровка кодов ошибок и советы по обслуживанию кроссовера.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/xray/">Xray</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Лада XRAY: сброс межсервисного интервала — инструкция</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Лада XRAY: как сбросить межсервисный интервал</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#понимание-системы-сервисного-обслуживания-lada-xray">Понимание системы сервисного обслуживания Lada XRAY</a></li><li><a href="#метод-сброса-через-комбинацию-кнопок-на-приборной-панели">Метод сброса через комбинацию кнопок на приборной панели</a></li><li><a href="#использование-диагностического-адаптера-elm327-и-смартфона">Использование диагностического адаптера ELM327 и смартфона</a></li><li><a href="#сброс-через-мультимедийную-систему-и-бортовой-компьютер">Сброс через мультимедийную систему и бортовой компьютер</a></li><li><a href="#типичные-ошибки-и-проблемы-при-обнулении">Типичные ошибки и проблемы при обнулении</a></li><li><a href="#профессиональная-диагностика-и-сброс-у-дилера">Профессиональная диагностика и сброс у дилера</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владение современным автомобилем, таким как <em>Lada XRAY</em>, требует не только регулярного технического обслуживания, но и умения правильно взаимодействовать с бортовой электроникой. Часто после планового ТО в сервисном центре или при самостоятельной замене масла водители сталкиваются с навязчивым напоминанием о необходимости обслуживания, которое продолжает гореть на приборной панели. Это может сбивать с толку, создавая ложное впечатление о неисправности или пропущенном регламенте, хотя фактически автомобиль полностью исправен и готов к эксплуатации.</p>
+
+<p>Система мониторинга в <strong>Лада XRAY</strong> спроектирована так, чтобы напоминать владельцу о регламентных работах через определенные промежутки времени или пробега. Однако автоматика не всегда знает, что вы уже заменили фильтры и залили свежее масло, особенно если процедура проводилась в гаражных условиях или у частника. Именно поэтому умение вручную <strong>обнулить счетчик</strong> является полезным навыком для любого владельца кроссовера, позволяющим поддерживать порядок в бортовом компьютере и корректность отображаемой информации.</p>
+
+<p>В этой статье мы подробно разберем все доступные способы удаления сервисного значка, рассмотрим нюансы работы с диагностическими адаптерами и ответим на вопросы, возникающие у пользователей при попытке сбросить интервал. Вы узнаете, какие действия необходимо предпринять, чтобы система снова начала отсчет до следующего ТО, и почему иногда простые методы могут не сработать, требуя более глубокого вмешательства в настройки ЭБУ.</p>
+
+<h2 id="понимание-системы-сервисного-обслуживания-lada-xray">Понимание системы сервисного обслуживания Lada XRAY</h2>
+
+<p>Бортовой компьютер кроссовера <em>XRAY</em> непрерывно отслеживает множество параметров, включая пробег с момента последнего сброса сервисного интервала. В отличие от старых моделей ВАЗ, где индикация была примитивной, здесь используется сложная логика, завязанная на пробеге и, в некоторых версиях прошивок, на времени эксплуатации. <strong>Сервисный интервал</strong> по умолчанию обычно составляет 15 000 километров, после чего на дисплее загорается соответствующий индикатор.</p>
+
+<p>Важно понимать, что наличие горящего значка гаечного ключа или надписи "Service" не означает критическую поломку двигателя или трансмиссии. Это лишь программный таймер, который был запущен на заводе или при последнем визите к дилеру. Игнорирование этого сигнала не приведет к мгновенной остановке автомобиля, но может усложнить продажу машины в будущем или запутать владельца при диагностике реальных неисправностей, так как полезная информация может затеряться среди сервисных напоминаний.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Перед началом любых манипуляций с электроникой убедитесь, что аккумуляторная батарея полностью заряжена. Резкое падение напряжения в процессе сброса настроек может привести к некорректной работе приборной панели или зависанию системы.</p>
+</blockquote>
+
+<p>Механизм работы счетчика прост: он хранит значение в энергонезависимой памяти приборной панели или блока управления двигателем. При достижении порогового значения активируется визуальный и, иногда, звуковой сигнал. Сбросить эти данные можно несколькими способами, начиная от простой комбинации кнопок на "торпеде" и заканчивая подключением профессионального сканера <strong>OBD-II</strong>.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Как часто вы меняете масло в двигателе Лада XRAY?</strong><ul><li>По регламенту (15 000 км)</li><li>Каждые 10 000 км</li><li>Каждые 7-8 000 км (для города)</li><li>Только когда загорится датчик</li></ul></div></div>
+
+<h2 id="метод-сброса-через-комбинацию-кнопок-на-приборной-панели">Метод сброса через комбинацию кнопок на приборной панели</h2>
+
+<p>Наиболее доступный способ, не требующий покупки дополнительного оборудования, — это использование кнопок управления на самой приборной панели. Этот метод работает на большинстве комплектаций <em>Lada XRAY</em> с механическими или электромеханическими переключателями. Для начала необходимо включить зажигание, но не запускать двигатель, чтобы электроника активировалась, а стартер не потреблял лишнюю энергию.</p>
+
+<p>Далее следует найти кнопку сброса суточного пробега, которая обычно расположена на торце торпедо справа от руля или непосредственно на лицевой панели приборов. Алгоритм действий требует точности и определенной последовательности: зажмите кнопку и удерживайте её в течение нескольких секунд, пока на дисплее не начнут меняться показания или не появится меню настроек. В некоторых версиях ПО требуется кратковременное нажатие для переключения режимов и длительное — для подтверждения.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист подготовки к сбросу сервисного интервала</h4><label class="check-item"><input type="checkbox"><span>Включить зажигание (двигатель заглушен)</span></label><label class="check-item"><input type="checkbox"><span>Найти кнопку сброса пробега</span></label><label class="check-item"><input type="checkbox"><span>Убедиться в исправности АКБ</span></label><label class="check-item"><input type="checkbox"><span>Запомнить текущие показания одометра</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>Если первая попытка не дала результата, не стоит паниковать. Интерфейсы разных годов выпуска могут отличаться. Попробуйте изменить ритм нажатий: иногда требуется сначала нажать и отпустить кнопку, а затем зажать её при включенном зажигании. Ключевым моментом является попадание в временное окно, когда система опрашивает состояние кнопок при инициализации.</p>
+
+<h2 id="использование-диагностического-адаптера-elm327-и-смартфона">Использование диагностического адаптера ELM327 и смартфона</h2>
+
+<p>Для владельцев, которые предпочитают более технологичные решения или если механический метод не сработал, идеальным вариантом станет использование адаптера <strong>ELM327</strong>. Это компактное устройство, подключаемое в разъем OBD-II, который находится под рулевой колонкой или в районе педали газа. Стоимость такого гаджета невысока, а функциональность позволяет не только сбрасывать ошибки, но и мониторить параметры двигателя в реальном времени.</p>
+
+<p>Для работы вам понадобится смартфон с операционной системой Android или iOS и специальное приложение, например, OpenDiag Mobile, Torque или CarScanner. После подключения адаптера и сопряжения по Bluetooth необходимо выбрать в меню функцию "Сервисный интервал" или "Сброс адаптаций". Программа сама отправит необходимый пакет данных в ЭБУ, принудительно обнуляя счетчик.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Значение по умолчанию</th>
+<th>Рекомендуемое значение</th>
+<th>Единица измерения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Интервал замены масла</td>
+<td>15000</td>
+<td>10000</td>
+<td>км</td>
+</tr>
+<tr>
+<td>Интервал замены фильтров</td>
+<td>30000</td>
+<td>15000</td>
+<td>км</td>
+</tr>
+<tr>
+<td>Временной интервал</td>
+<td>365</td>
+<td>180</td>
+<td>дней</td>
+</tr>
+<tr>
+<td>Допустимый угар масла</td>
+<td>0.5</td>
+<td>0.3</td>
+<td>л/1000км</td>
+</tr>
+</tbody>
+</table>
+
+<p>Преимущество использования приложения <em>OpenDiag</em> заключается в наличии русифицированного интерфейса и специализированных профилей именно для автомобилей ВАЗ и Lada. В меню "Сервис" часто можно не только сбросить счетчик, но и настроить его значение под себя, если вы предпочитаете менять масло чаще регламента. Это делает процесс обслуживания более гибким и прозрачным для владельца.</p>
+
+<details class="faq-item"><summary>Что делать, если адаптер не подключается?</summary><div class="faq-answer"><p>Если смартфон не видит адаптер ELM327, проверьте, включен ли GPS на телефоне (требуется для работы Bluetooth в новых версиях Android). Также убедитесь, что адаптер подключен к разъему до включения зажигания. Попробуйте ввести стандартный пин-код 1234 или 0000. Если проблема сохраняется, возможно, адаптер несовместим с протоколом вашего автомобиля, и требуется версия с чипом PIC18F25K80.</p></div></details>
+
+<h2 id="сброс-через-мультимедийную-систему-и-бортовой-компьютер">Сброс через мультимедийную систему и бортовой компьютер</h2>
+
+<p>В более новых версиях прошивок мультимедийной системы <em>Lada EnjoY Pro</em> или штатных головных устройств иногда доступна функция управления сервисными интервалами через меню настроек автомобиля. Хотя это встречается реже, стоит проверить данный раздел, особенно если у вас автомобиль последних лет выпуска. Путь может выглядеть как <code>Настройки → Автомобиль → Сервис</code>.</p>
+
+<p>Здесь пользователь может увидеть текущий статус и, в некоторых случаях, подтвердить проведение работ. Однако чаще всего эта функция носит лишь информационный характер и требует подтверждения через диагностический сканер для полного сброса индикатора на приборной панели. Тем не менее, через "бортовик" удобно отслеживать остаток пробега до следующего ТО.</p>
+
+<p>Если в меню есть пункт "Сброс", но он неактивен (затемнен), это означает, что система блокирует изменение параметров без авторизации специалиста. В таком случае возврат к методу с кнопками или использование адаптера <strong>OBD-II</strong> остается единственным решением. Не пытайтесь разбирать панель приборов для физического отключения питания, это не приведет к сбросу памяти EEPROM, где хранится значение пробега.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Не пытайтесь сбрасывать сервисный интервал, если техническое обслуживание еще не проведено. Индикатор служит важным напоминанием о состоянии смазочных материалов и фильтров, от которых зависит ресурс двигателя.</p>
+</blockquote>
+
+<h2 id="типичные-ошибки-и-проблемы-при-обнулении">Типичные ошибки и проблемы при обнулении</h2>
+
+<p>Довольно часто пользователи сталкиваются с ситуацией, когда, казалось бы, все действия выполнены верно, но значок <strong>Service</strong> продолжает гореть. Одной из распространенных причин является несоблюдение временных интервалов между нажатиями кнопок. Система может требовать включения зажигания строго в момент удержания кнопки или, наоборот, после него.</p>
+
+<p>Еще одна проблема — разряд аккумулятора. Если напряжение в бортовой сети ниже 11.5 Вольт, электронный блок управления может переходить в энергосберегающий режим и игнорировать команды на запись в память. Также стоит учитывать, что на некоторых версиях приборов (например, от разных поставщиков комплектующих) логика работы может отличаться на несколько шагов.</p>
+
+<ul>
+<li>🔧 <strong>Ошибка тайминга:</strong> Слишком быстрое или медленное переключение между режимами меню на приборной панели.</li>
+<li>🔋 <strong>Низкий заряд АКБ:</strong> Нестабильное напряжение прерывает процесс записи данных в память.</li>
+<li>📱 <strong>Несовместимость ПО:</strong> Мобильное приложение не поддерживает конкретную версию прошивки ЭБУ вашего XRAY.</li>
+</ul>
+
+<p>В случае persistent-ошибки (когда индикатор загорается снова после перезапуска двигателя) рекомендуется проверить, не сохранена ли активная ошибка в системе диагностики. Иногда сам факт наличия неисправности (например, по датчику давления масла) автоматически активирует сервисный режим, и простой сброс счетчика не поможет — нужно устранять первопричину.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Совет: Если вы меняете масло самостоятельно, записывайте дату и пробег в блокнот или заметки в телефоне. Это поможет вам контролировать реальную периодичность обслуживания, независимо от того, что показывает бортовой компьютер.</p></div>
+
+<h2 id="профессиональная-диагностика-и-сброс-у-дилера">Профессиональная диагностика и сброс у дилера</h2>
+
+<p>Если ни один из самостоятельных методов не помог, или вы не уверены в своих силах, целесообразно обратиться к профессионалам. Официальные дилеры и специализированные СТО имеют доступ к дилерскому сканеру <strong>DiagLab</strong> или аналогам, которые позволяют проводить глубокую диагностику и сбрасывать любые адаптации, включая сервисные интервалы, ошибки ABS, SRS и другие.</p>
+
+<p>Процедура у специалиста занимает считанные минуты. Мастер подключает оборудование, считывает VIN-код автомобиля, выбирает соответствующую модель и выполняет команду сброса. Кроме того, диагност может проверить историю обслуживания, записанную в блоках управления, и выявить возможные вмешательства в работу электроники, которые могли привести к сбою.</p>
+
+<p>Обращение к профи также рекомендуется, если после сброса интервала начинают проявляться странные поведения автомобиля: плавают обороты холостого хода, дергается трансмиссия или неверно показывает уровень топлива. Это может означать, что в процессе предыдущих попыток сброса были нарушены другие калибровки, которые нужно восстановить до заводских значений.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Самостоятельный сброс сервисного интервала — это безопасная и полезная процедура, которая экономит время и деньги, но требует внимательного следования инструкции и исправного состояния аккумулятора.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Как часто нужно сбрасывать сервисный интервал на Лада XRAY?</summary>
+<p>Сброс производится после каждой плановой замены моторного масла и фильтров. В зависимости от условий эксплуатации это может быть каждые 10 000 – 15 000 км пробега. Если вы используете автомобиль в тяжелых городских условиях, интервал лучше сократить до 7-8 тысяч км, соответственно и сброс выполнять чаще.</p>
+</details>
+
+<details>
+<summary>Влияет ли горящий значок Service на работу двигателя?</summary>
+<p>Нет, сам по себе индикатор носит исключительно информационный характер и не влияет на динамические характеристики, расход топлива или мощность двигателя. Однако он сигнализирует о том, что ресурс масла подошел к концу, и дальнейшая эксплуатация на отработанном масле может привести к ускоренному износу трущихся деталей.</p>
+</details>
+
+<details>
+<summary>Можно ли сбросить интервал без снятия клеммы аккумулятора?</summary>
+<p>Да, снятие клеммы аккумулятора в современных автомобилях Lada, включая XRAY, не приводит к сбросу сервисного интервала. Значения пробега хранятся в энергонезависимой памяти, которая сохраняет данные даже при полном отключении питания. Для сброса необходимо послать специальный программный сигнал.</p>
+</details>
+
+<details>
+<summary>Что делать, если после сброса счетчик показывает 0 км?</summary>
+<p>Если после процедуры сброса на дисплее отображается 0 км или прочерк, это означает, что обнуление прошло успешно. Отсчет нового интервала начнется автоматически, как только вы тронетесь с места и проедете несколько метров. В некоторых случаях для активации нового значения требуется запустить двигатель и дать ему поработать 1-2 минуты.</p>
+</details>
+
+<details>
+<summary>Подойдет ли метод с кнопками для Lada XRAY Cross?</summary>
+<p>Да, метод с кнопками на приборной панели универсален для всех модификаций XRAY, включая версии Cross, Techno и Instinct, так как они используют идентичные или схожие комбинации приборов. Различия могут быть только в программном обеспечении, но физический алгоритм действий, как правило, сохраняется.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#понимание-системы-сервисного-обслуживания-lada-xray">Понимание системы сервисного обслуживания Lada XRAY</a></li><li><a href="#метод-сброса-через-комбинацию-кнопок-на-приборной-панели">Метод сброса через комбинацию кнопок на приборной панели</a></li><li><a href="#использование-диагностического-адаптера-elm327-и-смартфона">Использование диагностического адаптера ELM327 и смартфона</a></li><li><a href="#сброс-через-мультимедийную-систему-и-бортовой-компьютер">Сброс через мультимедийную систему и бортовой компьютер</a></li><li><a href="#типичные-ошибки-и-проблемы-при-обнулении">Типичные ошибки и проблемы при обнулении</a></li><li><a href="#профессиональная-диагностика-и-сброс-у-дилера">Профессиональная диагностика и сброс у дилера</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/t/to/tormoznoj-baraban-lada-xray.html" class="related-card">Тормозной барабан Lada XRAY: выбор, замена и ремонт</a></li><li><a href="/articles/l/la/lada-kh-rej-v-tyuninge.html" class="related-card">Лада XRAY в тюнинге: идеи доработок и стайлинга</a></li><li><a href="/articles/p/po/podshipnik-zadnij-lada-kh-rej-artikul.html" class="related-card">Подшипник задний Лада Х-Рей: артикулы, замена, цена</a></li><li><a href="/articles/d/dl/dlina-dvornikov-lada-kh-rej.html" class="related-card">Длина дворников Lada XRAY: таблица размеров и выбор щёток</a></li><li><a href="/articles/l/la/lada-khraj-kros.html" class="related-card">Лада XRAY Кросс: обзор, характеристики и опыт эксплуатации</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/t/to/tormoznoj-baraban-lada-xray.html" class="related-bottom-card"><span class="related-bottom-title">Тормозной барабан Lada XRAY: выбор, замена и ремонт</span><span class="related-bottom-desc">Как выбрать тормозной барабан для Lada XRAY? Признаки износа, инструкция по замене, оригинальные и а</span></a><a href="/articles/l/la/lada-kh-rej-v-tyuninge.html" class="related-bottom-card"><span class="related-bottom-title">Лада XRAY в тюнинге: идеи доработок и стайлинга</span><span class="related-bottom-desc">Полный гид по тюнингу Lada XRAY: стайлинг, чип-тюнинг, подвеска и салон. Узнайте, как превратить кро</span></a><a href="/articles/p/po/podshipnik-zadnij-lada-kh-rej-artikul.html" class="related-bottom-card"><span class="related-bottom-title">Подшипник задний Лада Х-Рей: артикулы, замена, цена</span><span class="related-bottom-desc">Ищете подшипник задней ступицы Лада Х-Рей? Полный список артикулов, таблица совместимости, пошаговая</span></a><a href="/articles/d/dl/dlina-dvornikov-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Длина дворников Lada XRAY: таблица размеров и выбор щёток</span><span class="related-bottom-desc">Официальные размеры дворников Лада Х Рей для всех годов выпуска. Как подобрать щётки по размеру, бре</span></a><a href="/articles/l/la/lada-khraj-kros.html" class="related-bottom-card"><span class="related-bottom-title">Лада XRAY Кросс: обзор, характеристики и опыт эксплуатации</span><span class="related-bottom-desc">Полный анализ Лада XRAY Кросс: двигатели, расход, клиренс, плюсы и минусы кроссовера. Реальные отзыв</span></a><a href="/articles/l/la/lada-iks-rej-obem-dvigatelya.html" class="related-bottom-card"><span class="related-bottom-title">Lada XRAY: объем двигателя, характеристики и расход топлива</span><span class="related-bottom-desc">Полный обзор силовых агрегатов Лада Икс Рей: объем двигателя 1.6 и 1.8, мощность, реальный расход, д</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

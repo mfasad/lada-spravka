@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Умный ключ и обучающий ключ Лада: программирование и отличия — Лада Справка</title>
+    <meta name="description" content="Полное руководство по умному и обучающему ключам Лада. Как запрограммировать новый пульт, отличия от обычного и частые ошибки при привязке.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/u/um/umnyj-klyuch-obuchayushchij-klyuch-lada.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Умный ключ и обучающий ключ Лада: программирование и отличия">
+    <meta property="og:description" content="Полное руководство по умному и обучающему ключам Лада. Как запрограммировать новый пульт, отличия от обычного и частые ошибки при привязке.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Умный ключ и обучающий ключ Лада: программирование и отличия</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Умный ключ и обучающий ключ Лада: полное руководство</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#что-такое-обучающий-ключ-лада-и-чем-он-отличается-от-обычного">Что такое обучающий ключ Лада и чем он отличается от обычного</a></li><li><a href="#принцип-работы-системы-апс-6-и-умных-ключей">Принцип работы системы АПС-6 и умных ключей</a></li><li><a href="#инструкция-как-запрограммировать-новый-ключ-лада">Инструкция: как запрограммировать новый ключ Лада</a></li><li><a href="#совместимость-ключей-разных-моделей-лада">Совместимость ключей разных моделей Лада</a></li><li><a href="#типичные-ошибки-при-обучении-ключей">Типичные ошибки при обучении ключей</a></li><li><a href="#что-делать-если-утерян-обучающий-ключ">Что делать, если утерян обучающий ключ</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы автомобилей отечественного производства часто сталкиваются с необходимостью замены или дополнительной активации пультов дистанционного управления. Особенно это актуально для современных моделей, где внедрена сложная система безопасности. Понятия <strong>умный ключ</strong> и <strong>обучающий ключ</strong> Лада вызывают множество вопросов у автолюбителей, пытающихся разобраться в электронике своего транспорта без обращения в сервис.</p>
+
+<p>Разница между штатным пультом и специальным мастер-ключом кроется в алгоритмах работы иммобилайзера. Если обычный пульт просто передает код открытия дверей, то <em>обучающий ключ</em> (часто красного цвета) служит инструментом для перепрограммирования блока управления. Без него самостоятельная привязка новых пультов становится практически невозможной задачей.</p>
+
+<p>В этой статье мы детально разберем функционал системы <em>Lada Immobillizer</em> (АПС-6), рассмотрим процедуру обучения и ответим на вопросы о совместимости разных поколений ключей. Вы узнаете, как правильно действовать, чтобы не заблокировать автомобиль, и какие нюансы существуют у разных моделей тольяттинского автогиганта.</p>
+
+<h2 id="что-такое-обучающий-ключ-лада-и-чем-он-отличается-от-обычного">Что такое обучающий ключ Лада и чем он отличается от обычного</h2>
+
+<p><strong>Обучающий ключ</strong> представляет собой специальный пульт, который имеет уникальный идентификатор в памяти иммобилайзера. Визуально его легко отличить от рабочих пультов: чаще всего он имеет красную вставку на корпусе, тогда как обычные ключи — черные. Именно наличие красной метки указывает на то, что этот предмет является мастер-инструментом для настройки системы.</p>
+
+<p>Основная функция такого устройства — перевод блока управления в режим обучения. Когда вы вставляете красный ключ в замок зажигания и поворачиваете его, система считывает специальный код и разрешает запись новых идентификаторов в память. Обычные <strong>рабочие ключи</strong> такой функции лишены, они могут только управлять уже запрограммированными системами.</p>
+
+<p>Важно понимать, что при использовании <em>обучающего ключа</em> происходит полная очистка памяти иммобилайзера от старых кодов. Это означает, что после процедуры старые пульты перестанут работать, и автомобиль будет реагировать только на новые, прошедшие обучение. Это мера безопасности, исключающая использование утерянных пультов посторонними лицами.</p>
+
+<blockquote>⚠️ Внимание: Никогда не передавайте красный (обучающий) ключ посторонним лицам или работникам сервисов, не вызывающим доверия. Владелец этого ключа получает полный контроль над системой безопасности вашего автомобиля.</blockquote>
+
+<p>Современные системы, такие как <em>Lada Ride</em> или обновленные версии АПС, могут использовать беспроводные технологии, но принцип мастер-ключа остается базовым элементом архитектуры безопасности. Без этого физического носителя кодов перепрограммирование штатными методами невозможно.</p>
+
+<h2 id="принцип-работы-системы-апс-6-и-умных-ключей">Принцип работы системы АПС-6 и умных ключей</h2>
+
+<p>Система <strong>АПС-6</strong> (Автомобильная Противоугонная Система) является стандартом для большинства автомобилей Лада, включая Калину, Гранту, Приору и Весту. Она базируется на радиоканале связи между транспондером в ключе и блоком управления иммобилайзером. <em>Умный ключ</em> в данном контексте — это не просто кусок пластика с кнопками, а сложное электронное устройство.</p>
+
+<p>Процесс взаимодействия выглядит следующим образом: при повороте ключа в замке зажигания катушка считывателя генерирует электромагнитное поле. Транспондер ключа активируется и отправляет ответный сигнал. Если код совпадает с записанным в памяти, блок управления разрешает запуск двигателя. Если нет — стартер блокируется через 60 секунд.</p>
+
+<p>Особенность <strong>умных ключей</strong> с кнопками заключается в наличии дополнительного радиоканала для управления центральным замком на расстоянии. Однако сам процесс разрешения запуска двигателя (иммобилайзер) работает по принципу RFID-метки, не требующей батареи в самом ключе для связи с замком зажигания, хотя батарейка нужна для кнопок пульта.</p>
+
+<details class="faq-item"><summary>Технические детали транспондера</summary><div class="faq-answer"><p>Внутри пластикового корпуса ключа находится микрочип (транспондер) и катушка индуктивности. Чип не имеет собственного источника питания и активируется только полем считывателя. Именно этот чип содержит уникальный код, который и проверяет система АПС-6.</p></div></details>
+
+<p>В новых моделях, таких как <em>Lada Vesta</em> или <em>Lada XRAY</em>, применяется более совершенная система с динамическим кодом, что делает перехват сигнала кодграббером практически невозможным. Тем не менее, процедура обучения через мастер-ключ остается схожей с более ранними модификациями.</p>
+
+<h2 id="инструкция-как-запрограммировать-новый-ключ-лада">Инструкция: как запрограммировать новый ключ Лада</h2>
+
+<p>Процедура программирования требует наличия хотя бы одного <strong>обучающего ключа</strong> (красного) и новых рабочих пультов, которые вы хотите привязать. Важно выполнять все действия быстро, так как система имеет временные ограничения на выполнение операций. Обычно интервал между действиями не должен превышать 6-10 секунд.</p>
+
+<p>Для начала убедитесь, что в салоне горит лампа индикации состояния системы (обычно мигает красным). Вставьте красный ключ в замок зажигания и включите зажигание. Лампа должна загореться постоянным светом. Если она погасла, значит, ключ не распознан или система неисправна. Выключите зажигание и быстро выньте красный ключ.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка перед началом обучения</h4><label class="check-item"><input type="checkbox"><span>Наличие красного обучающего ключа</span></label><label class="check-item"><input type="checkbox"><span>Наличие новых рабочих ключей</span></label><label class="check-item"><input type="checkbox"><span>Исправный аккумулятор автомобиля</span></label><label class="check-item"><input type="checkbox"><span>Отсутствие других ключей рядом с замком</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>Сразу после извлечения мастер-ключа вставьте первый рабочий (черный) ключ и включите зажигание. Прозвучит три сигнала зуммера, подтверждающих начало записи кода. Лампа индикации продолжит гореть. Выключите зажигание, но ключ пока не вынимайте, если инструкция для вашей модели требует иного, хотя в классической схеме АПС-6 его лучше вынуть.</p>
+
+<p>Повторите процедуру со вторым рабочим ключом, если он есть. После этого снова вставьте красный ключ, включите зажигание, дождитесь тройного сигнала, выключите зажигание. Не вынимая красный ключ, включите зажигание еще раз. В этот момент зуммер должен издать пять сигналов, а лампа погаснуть. Это означает успешное завершение обучения.</p>
+
+<blockquote>⚠️ Внимание: Если после пяти сигналов лампа продолжает мигать или гореть, значит, процедура прошла с ошибкой. В этом случае система может не запустить двигатель, и процедуру придется повторить с самого начала.</blockquote>
+
+<h2 id="совместимость-ключей-разных-моделей-лада">Совместимость ключей разных моделей Лада</h2>
+
+<p>Один из самых частых вопросов касается взаимозаменяемости пультов. К сожалению, <strong>универсальных ключей</strong> не существует. Пульт от <em>Lada Granta</em> ранних годов выпуска может не подойти к <em>Lada Kalina 2</em> или <em>Priora</em> без доработок. Физическая форма жала ключа и частота радиосигнала могут отличаться.</p>
+
+<p>Ключи с системой <em>Lada Ride</em> (пассивный вход в автомобиль) имеют совершенно другую архитектуру и не совместимы со стандартными системами АПС-6. Попытка обучить такой ключ на автомобиле без соответствующего оборудования приведет только к порче дорогостоящего компонента.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой у вас автомобиль Лада?</strong><ul><li>Granta</li><li>Kalina</li><li>Priora</li><li>Vesta</li><li>Niva</li></ul></div></div>
+
+<p>При покупке нового пульта обязательно обращайте внимание на маркировку частоты (обычно 433 МГц) и тип микрочипа. Для старых моделей это может быть PCF7936, для новых — более современные крипто-чипы. <mark>Использование ключа с неподходящим чипом сделает невозможным его программирование даже при наличии красного мастер-ключа.</mark></p>
+
+<h2 id="типичные-ошибки-при-обучении-ключей">Типичные ошибки при обучении ключей</h2>
+
+<p>Самая распространенная ошибка — нарушение временных интервалов. Между извлечением одного ключа и вставкой другого проходит слишком много времени, и система выходит из режима программирования. В этом случае лампа индикатора гаснет, и процедуру приходится начинать заново.</p>
+
+<p>Вторая ошибка — использование разряженной батарейки в рабочем ключе. Хотя для связи с иммобилайзером батарейка не нужна, для работы кнопок и иногда для подтверждения某些 этапов (в зависимости от версии ПО) заряд необходим. Также часто забывают, что обучать нужно сразу все ключи, которые будут использоваться.</p>
+
+<p>Таблица ниже поможет систематизировать основные проблемы:</p>
+
+<table>
+<thead>
+<tr>
+<th>Симптом</th>
+<th>Возможная причина</th>
+<th>Решение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Лампа горит постоянно после вставки красного ключа</td>
+<td>Ключ не распознан или поврежден</td>
+<td>Проверить целостность чипа, попробовать другой красный ключ</td>
+</tr>
+<tr>
+<td>Нет тройного сигнала при вставке рабочего ключа</td>
+<td>Превышено время или сбой системы</td>
+<td>Выключить зажигание, выждать 10 секунд, начать заново быстрее</td>
+</tr>
+<tr>
+<td>Двигатель заводится и глохнет через 1 сек</td>
+<td>Ключ не обучен или сбой иммобилайзера</td>
+<td>Провести процедуру обучения заново</td>
+</tr>
+<tr>
+<td>Лампа мигает 5 раз после обучения</td>
+<td>Ошибка записи кода</td>
+<td>Заменить рабочий ключ на исправный</td>
+</tr>
+</tbody>
+</table>
+
+<p>Также стоит упомянуть о влиянии электромагнитных помех. Если рядом с замком зажигания находятся другие ключи, мобильные телефоны или мощные источники излучения, считывание кода может проходить с ошибками. Убирайте посторонние предметы из зоны контакта.</p>
+
+<h2 id="что-делать-если-утерян-обучающий-ключ">Что делать, если утерян обучающий ключ</h2>
+
+<p>Потеря <strong>красного ключа</strong> — это серьезная проблема. Без него стандартная процедура привязки новых пультов невозможна. Автомобиль будет работать только с теми ключами, которые уже прописаны в памяти. Если утеряны все ключи, включая красный, ситуация становится критической.</p>
+
+<p>В таком случае существует два пути. Первый — поиск оригинального красного ключа по VIN-коду у официального дилера. Это возможно не всегда и часто требует доказательства права собственности на автомобиль. Второй путь — использование специального оборудования для перепрошивки блока иммобилайзера (загрузка чистой EEPROM или эмуляция).</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Сохраняйте номерной код, напечатанный на пластиковой карте, которая идет в комплекте с новым автомобилем. Этот код (PIN-код) может понадобиться для восстановления доступа через дилерский центр в случае утери всех ключей.</p></div>
+
+<p>Процедура "разблокировки" через перепрошивку требует квалификации и наличия программатора (например, Chiploader или аналогов). Специалист считывает дамп памяти блока управления, редактирует его, удаляя привязку к старым ключам, и записывает обратно. После этого автомобиль воспринимает любой вставленный ключ как чистый лист, и процедуру обучения можно провести с новым комплектом.</p>
+
+<blockquote>⚠️ Внимание: Самостоятельная перепрошивка блока управления иммобилайзером без опыта может привести к полной неработоспособности электроники автомобиля. Рекомендуется доверять эту задачу профессионалам.</p>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли сделать копию красного ключа в мастерской у дома?</summary>
+<p>Обычные мастерские по изготовлению ключей могут скопировать физическую форму жала и частоту радиосигнала для открытия дверей. Однако скопировать уникальный код чипа для функции <strong>обучения</strong> невозможно без специального дорогостоящего оборудования и доступа к базам данных производителя. Красный ключ уникален.</p>
+</details>
+
+<details>
+<summary>Сработает ли обучение, если использовать ключ от другой Лады?</summary>
+<p>Нет, это невозможно. Каждый <em>обучающий ключ</em> имеет уникальный код, который должен быть "известен" блоку управления. Ключ от другого автомобиля будет воспринят как обычный рабочий (если частоты совпадут) или не будет работать вовсе, но режим обучения не активирует.</p>
+</details>
+
+<details>
+<summary>Сколько ключей можно прописать за один цикл?</summary>
+<p>Система АПС-6 позволяет прописать до четырех рабочих ключей в одном цикле обучения. Если вам нужно прописать пятый, процедуру придется повторить, но помните: при повторном обучении коды первых четырех будут стерты, и они перестанут работать.</p>
+</details>
+
+<details>
+<summary>Нужно ли ехать к дилеру для замены батарейки в ключе?</summary>
+<p>Нет, замена элемента питания (обычно это типоразмер CR2032 или аналогичный) не требует перепрограммирования. Достаточно аккуратно вскрыть корпус, заменить батарейку и собрать ключ обратно. Главное — не потерять микрочип и пружинки при разборке.</p>
+</details>
+
+<details>
+<summary>Что означает, если лампа иммобилайзера горит постоянно при работающем двигателе?</summary>
+<p>Это сигнал о неисправности системы или отсутствии связи с ключом. Если двигатель работает, но лампа горит, возможно, произошел сбой в считывании кода, но блокировка еще не активирована. Стоит проверить, не находится ли рядом второй ключ, создающий помехи, или обратиться к диагносту.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#что-такое-обучающий-ключ-лада-и-чем-он-отличается-от-обычного">Что такое обучающий ключ Лада и чем он отличается от обычного</a></li><li><a href="#принцип-работы-системы-апс-6-и-умных-ключей">Принцип работы системы АПС-6 и умных ключей</a></li><li><a href="#инструкция-как-запрограммировать-новый-ключ-лада">Инструкция: как запрограммировать новый ключ Лада</a></li><li><a href="#совместимость-ключей-разных-моделей-лада">Совместимость ключей разных моделей Лада</a></li><li><a href="#типичные-ошибки-при-обучении-ключей">Типичные ошибки при обучении ключей</a></li><li><a href="#что-делать-если-утерян-обучающий-ключ">Что делать, если утерян обучающий ключ</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/v/vy/vysota-lada-vesta.html" class="related-card">Высота Лада Веста: дорожный просвет, габариты и клиренс</a></li><li><a href="/articles/l/la/lada-vch-servis-orel.html" class="related-card">Лада ВЧ Сервис Орел: официальный дилер, цены, отзывы</a></li><li><a href="/articles/k/ko/komplektatsiya-komfort-lada-vesta-chto-vkhodit.html" class="related-card">Комплектация Комфорт Лада Веста: что входит и стоит ли переплачивать</a></li><li><a href="/articles/r/ra/razmery-shin-dlya-lada-vesta.html" class="related-card">Размеры шин для Лада Веста: полный справочник дисков и резины</a></li><li><a href="/articles/s/sh/shtatnye-dinamiki-lada-vesta-razmer.html" class="related-card">Размер штатных динамиков Лада Веста: полный справочник по акустике</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/v/vy/vysota-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Высота Лада Веста: дорожный просвет, габариты и клиренс</span><span class="related-bottom-desc">Полный разбор высоты Лада Веста: дорожный просвет, габариты с багажником, влияние колес и тюнинга на</span></a><a href="/articles/l/la/lada-vch-servis-orel.html" class="related-bottom-card"><span class="related-bottom-title">Лада ВЧ Сервис Орел: официальный дилер, цены, отзывы</span><span class="related-bottom-desc">Полный обзор Лада ВЧ Сервис в Орле: цены на ТО, запись к дилеру, реальные отзывы, график работы и пр</span></a><a href="/articles/k/ko/komplektatsiya-komfort-lada-vesta-chto-vkhodit.html" class="related-bottom-card"><span class="related-bottom-title">Комплектация Комфорт Лада Веста: что входит и стоит ли переплачивать</span><span class="related-bottom-desc">Полный обзор комплектации Comfort Lada Vesta. Список опций, технические характеристики, отличия от C</span></a><a href="/articles/r/ra/razmery-shin-dlya-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Размеры шин для Лада Веста: полный справочник дисков и резины</span><span class="related-bottom-desc">Заводские размеры шин и дисков Лада Веста, Седан, SW, Кросс. Разболтовка, вылет, допустимые отклонен</span></a><a href="/articles/s/sh/shtatnye-dinamiki-lada-vesta-razmer.html" class="related-bottom-card"><span class="related-bottom-title">Размер штатных динамиков Лада Веста: полный справочник по акустике</span><span class="related-bottom-desc">Узнайте точный размер динамиков в дверях Лада Веста. Подробный разбор акустики для седана, SW и SW C</span></a><a href="/articles/s/st/stuk-pri-troganii-s-mesta-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Стук при трогании с места на Lada Vesta: причины и решения</span><span class="related-bottom-desc">Разбираемся, почему появляется стук при старте на Лада Веста: диагностика подвески, КПП, двигателя и</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Бортовой компьютер на Лада Ларгус: установка, настройка и коды ошибок — Лада Справка</title>
+    <meta name="description" content="Полный гид по бортовому компьютеру Лада Ларгус. Установка ММЦ, расшифровка кодов ошибок, настройка штатного БК и советы по тюнингу приборной панели.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/b/bo/bortovoj-kompyuter-na-lada-largus.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Бортовой компьютер на Лада Ларгус: установка, настройка и коды ошибок">
+    <meta property="og:description" content="Полный гид по бортовому компьютеру Лада Ларгус. Установка ММЦ, расшифровка кодов ошибок, настройка штатного БК и советы по тюнингу приборной панели.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/largus/">Largus</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Бортовой компьютер на Лада Ларгус: установка, настройка и коды ошибок</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Бортовой компьютер на Лада Ларгус: от штатного функционала до продвинутого тюнинга</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#эволюция-приборных-панелей-и-штатные-решения">Эволюция приборных панелей и штатные решения</a></li><li><a href="#установка-маршрутного-компьютера-в-дорестайлинговые-версии">Установка маршрутного компьютера в дорестайлинговые версии</a></li><li><a href="#функционал-и-меню-бортового-компьютера">Функционал и меню бортового компьютера</a></li><li><a href="#диагностика-и-коды-ошибок-через-бк">Диагностика и коды ошибок через БК</a></li><li><a href="#тюнинг-и-альтернативные-варианты-бк">Тюнинг и альтернативные варианты БК</a></li><li><a href="#частые-проблемы-и-их-решение">Частые проблемы и их решение</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Лада Ларгус, являясь адаптированной версией Renault Logan первого поколения, долгое время комплектовалась довольно примитивной приборной панелью без полноценного маршрутного компьютера. В базовых комплектациях водители видели лишь стрелочные указатели и контрольные лампы, что создавало ощутимый дискомфорт при длительных поездках. Отсутствие информации о расходе топлива, средней скорости и пробеге до пустого бака заставляло владельцев искать альтернативные решения или мириться с неопределенностью.</p>
+
+<p>Ситуация кардинально изменилась с выходом рестайлинговой версии <em>Largus FL</em> и внедрением мультимедийной системы <em>Lada EnjoY Pro</em>, а также с появлением возможности установки штатных маршрутных компьютеров в более ранние модели. Сегодня <strong>бортовой компьютер на Лада Ларгус</strong> — это не просто роскошь, а необходимый инструмент для контроля технического состояния автомобиля и оптимизации расходов на топливо. Грамотное использование этого устройства позволяет значительно продлить ресурс двигателя.</p>
+
+<p>В данном материале мы детально разберем функционал штатных систем, способы установки дополнительных модулей в автомобили до рестайлинга, а также нюансы диагностики через встроенные интерфейсы. Понимание принципов работы электроники поможет вам избежать распространенных ошибок при эксплуатации и обслуживании вашего универсала или фургона.</p>
+
+<h2 id="эволюция-приборных-панелей-и-штатные-решения">Эволюция приборных панелей и штатные решения</h2>
+
+<p>История развития приборных панелей на семействе <em>Lada Largus</em> делится на два четких этапа: до и после масштабного обновления модельного ряда. В первых версиях автомобиля использовалась комбинация приборов от Renault, где дисплей либо отсутствовал вовсе, либо отображал минимальный набор данных, таких как время и общий пробег. Функции <strong>маршрутного компьютера</strong> были доступны только в топовых версиях с кондиционером и кнопками управления на подрулевом переключателе.</p>
+
+<p>Современные версии автомобиля, особенно после 2021 года, получили полностью переработанную архитектуру. Центральное место в салоне заняла мультимедийная система на базе Android, которая взяла на себя часть функций отображения телеметрии. Однако классический <strong>бортовой компьютер</strong>, встроенный непосредственно в панель приборов, остался основным источником оперативной информации для водителя. Он считывает данные напрямую с <em>ECU</em> (электронного блока управления двигатлем) через CAN-шину.</p>
+
+<blockquote>⚠️ Внимание: При замене приборной панели на автомобиле с иммобилайзером обязательна привязка нового блока к блоку управления кузовом (<em>BCM</em>). Без проведения процедуры согласования через диагностический сканер автомобиль не заведется.</blockquote>
+
+<p>Штатное решение позволяет контролировать следующие параметры в реальном времени:</p>
+<ul>
+<li>🚗 Мгновенный и средний расход топлива в литрах на 100 км.</li>
+<li>🛣 Прогнозируемый запас хода до окончания топлива в баке.</li>
+<li>⏱ Средняя скорость движения за текущую поездку.</li>
+<li>🌡 Температура охлаждающей жидкости и время, проведенное в пути.</li>
+</ul>
+
+<p>Важно отметить, что точность показаний напрямую зависит от калибровки форсунок и состояния датчиков. Если вы установили <strong>газовое оборудование</strong>, показания бортового компьютера по расходу бензина станут неактуальными, так как система продолжит считать инжекторный цикл, игнорируя подачу газа.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какая у вас версия Лада Ларгус?</strong><ul><li>Дорестайлинг (до 2020)</li><li>Рестайлинг FL (2020-2022)</li><li>Largus Cross (новая версия)</li><li>Largus с ГБО</li></ul></div></div>
+
+<h2 id="установка-маршрутного-компьютера-в-дорестайлинговые-версии">Установка маршрутного компьютера в дорестайлинговые версии</h2>
+
+<p>Владельцы автомобилей выпуска до 2020 года часто сталкиваются с необходимостью модернизации салона. Установка <strong>маршрутного компьютера</strong> (МК) в Ладу Ларгус с простой панелью приборов — одна из самых популярных процедур тюнинга. Процесс не требует сверления отверстий или сложного вмешательства в проводку, так как все необходимые разъемы уже присутствуют в жгуте.</p>
+
+<p>Для реализации этой задачи вам потребуется приобрести совместимую панель приборов (обычно от версии с кондиционером или от Renault Logan аналогичных лет) и соответствующий подрулевой переключатель. В некоторых случаях достаточно заменить только дисплей и кнопки управления, если конструкция вашей панели это позволяет. Ключевым моментом является наличие линии связи <em>K-Line</em> или <strong>CAN-шины</strong>, по которой передаются данные.</p>
+
+<p>Процесс монтажа выглядит следующим образом:</p>
+<ol>
+<li>Аккуратно снимите пластиковый кожух рулевой колонки и саму панель приборов, открутив крепежные винты.</li>
+<li>Проверьте наличие свободного разъема для подключения кнопок МК на обратной стороне панели.</li>
+<li>Установите новый подрулевой переключатель с кнопками и подключите его к штатной проводке.</li>
+<li>Подключите панель приборов и проведите процедуру инициализации через диагностический разъем <code>OBD-II</code>.</li>
+</ol>
+
+<p>После физической установки необходимо программно активировать функции компьютера. Это делается с помощью специализированного ПО, такого как <em>DDT4All</em> или <em>PyRen</em>, подключив ноутбук к диагностическому разъему. В конфигурации блока <em>UCS</em> (блок комфорта) и панели приборов нужно изменить статус установки с "без МК" на "с МК".</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист для установки МК</h4><label class="check-item"><input type="checkbox"><span>Наличие совместимой панели приборов</span></label><label class="check-item"><input type="checkbox"><span>Подрулевой переключатель с кнопками</span></label><label class="check-item"><input type="checkbox"><span>Диагностический адаптер ELM327</span></label><label class="check-item"><input type="checkbox"><span>Ноутбук с ПО DDT4All</span></label><label class="check-item"><input type="checkbox"><span>Набор отверток и съемников</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<h2 id="функционал-и-меню-бортового-компьютера">Функционал и меню бортового компьютера</h2>
+
+<p>Интерфейс штатного <strong>бортового компьютера</strong> на Лада Ларгус спроектирован с учетом эргономики и безопасности. Управление осуществляется через кнопки на торце подрулевого рычага или через меню мультимедийной системы, в зависимости от года выпуска. Навигация по меню интуитивно понятна, однако скрывает в себе несколько уровней вложенности.</p>
+
+<p>Основной экран отображает наиболее важные данные: время, температуру за бортом и текущий пробег. Переключение между режимами просмотра (<em>Trip A</em>, <em>Trip B</em>, общий пробег) происходит коротким нажатием кнопки. Для входа в меню настроек или просмотра детальной статистики необходимо использовать длительное нажатие или комбинации клавиш.</p>
+
+<p>В меню доступны следующие разделы:</p>
+<ul>
+<li>⚙️ <strong>Настройки</strong>: регулировка яркости подсветки, выбор единиц измерения (км/мили), настройка напоминания о ТО.</li>
+<li>📊 <strong>Статистика</strong>: данные о средней скорости, времени в пути и среднем расходе за последнюю поездку.</li>
+<li>🔧 <strong>Диагностика</strong>: отображение кодов неисправностей, если они зафиксированы <em>ECU</em>.</li>
+<li>🌡 <strong>Климат</strong>: (на версиях с климат-контролем) настройка температуры и распределения потоков воздуха.</li>
+</ul>
+
+<p>Особого внимания заслуживает функция напоминания о техническом обслуживании. Система автоматически рассчитывает интервал до следующего ТО, основываясь на пробеге. Вы можете самостоятельно сбросить этот счетчик после посещения сервиса через меню <code>Сервис → Сброс межсервисного интервала</code>.</p>
+
+<details class="faq-item"><summary>Секретное меню инженера</summary><div class="faq-answer"><p>В некоторых версиях панелей приборов доступно скрытое меню, куда можно попасть, зажав кнопку переключения режимов при включении зажигания. Там отображаются raw-данные с датчиков, напряжение бортсети и версия прошивки панели. Будьте осторожны: изменение параметров в этом меню может привести к некорректной работе приборов.</p></div></details>
+
+<h2 id="диагностика-и-коды-ошибок-через-бк">Диагностика и коды ошибок через БК</h2>
+
+<p>Одной из важнейших функций современного <strong>бортового компьютера</strong> является возможность самодиагностики. При возникновении неисправности в системе управления двигателем, ABS или подушках безопасности, на дисплее загорается соответствующий индикатор (Check Engine, ABS и т.д.). Однако, зная определенные комбинации, можно вывести текстовое описание ошибки прямо на экран.</p>
+
+<p>Для перехода в режим самодиагностики на дорестайлинговых моделях часто используется метод "девяток": при выключенном зажигании зажмите кнопку сброса суточного пробега, включите зажигание, не отпуская кнопку, подождите несколько секунд. На дисплее начнут попеременно отображаться коды ошибок в формате <code>Pxxxx</code> или <code>Uxxxx</code>.</p>
+
+<p>Расшифровка основных кодов, которые может показать система:</p>
+
+<table>
+<thead>
+<tr>
+<th>Код ошибки</th>
+<th>Описание неисправности</th>
+<th>Возможная причина</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>P0300</code></td>
+<td>Пропуски воспламенения в цилиндрах</td>
+<td>Свечи, катушки, низкое качество топлива</td>
+</tr>
+<tr>
+<td><code>P0133</code></td>
+<td>Медленный отклик датчика кислорода</td>
+<td>Неисправность лямбда-зонда, подсос воздуха</td>
+</tr>
+<tr>
+<td><code>P0171</code></td>
+<td>Слишком бедная смесь</td>
+<td>Подсос воздуха, низкое давление топлива</td>
+</tr>
+<tr>
+<td><code>U1000</code></td>
+<td>Ошибка связи по CAN-шине</td>
+<td>Обрыв проводки, проблемы с блоком ABS/ESP</td>
+</tr>
+</tbody>
+</table>
+
+<p>Стоит понимать, что бортовой компьютер показывает только код, зарегистрированный в памяти. Для полной картины и сброса ошибки после ремонта все же рекомендуется использовать профессиональный <strong>OBD-II сканер</strong>. Самодиагностика панели приборов — это экспресс-метод для первичной оценки ситуации в пути.</p>
+
+<blockquote>⚠️ Внимание: Если горит лампа <code>Check Engine</code> и двигатель перешел в аварийный режим (потеря мощности), дальнейшее движение на высоких скоростях может привести к серьезным повреждениям катализатора или двигателя. Обратитесь в сервис.</blockquote>
+
+<h2 id="тюнинг-и-альтернативные-варианты-бк">Тюнинг и альтернативные варианты БК</h2>
+
+<p>Штатного функционала не всегда хватает энтузиастам или профессиональным водителям, использующим Ларгус для коммерческих перевозок. В таких случаях на помощь приходит установка универсальных <strong>маршрутных компьютеров</strong> сторонних производителей, таких как <em>Multitronics</em>, <em>Orion</em> или <em>State</em>. Эти устройства подключаются к диагностическому разъему <code>OBD-II</code> и предоставляют расширенную телеметрию.</p>
+
+<p>Преимущества сторонних решений очевидны: голосовое сопровождение (озвучка напряжения, скорости, перегрева), более детальный анализ работы двигателя, возможность подключения дополнительных датчиков (например, температуры в салоне или второго бака). Некоторые модели умеют считывать и отображать <strong>коды ошибок</strong> с расшифровкой на русском языке без необходимости подключения ноутбука.</p>
+
+<p>Популярностью пользуется установка планшетов на Android в штатное место или на кронштейны. С помощью приложений вроде <em>HobDrive</em> или <em>Torque</em>, подключенных через Bluetooth-адаптер ELM327, обычный планшет превращается в мощнейший <strong>бортовой компьютер</strong> с графиками в реальном времени, картами и мультимедиа.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При установке универсального БК в салон Ларгуса выбирайте место монтажа carefully. Избегайте зон, куда попадают прямые солнечные лучи — это может привести к перегреву устройства и искажению показаний датчиков температуры.</p></div>
+
+<h2 id="частые-проблемы-и-их-решение">Частые проблемы и их решение</h2>
+
+<p>Несмотря на надежность электроники Renault-Nissan, владельцы Лада Ларгус периодически сталкиваются с сбоями в работе <strong>бортового компьютера</strong>. Наиболее распространенная проблема — самопроизвольный сброс времени и настроек. Чаще всего это указывает на разрядившуюся аккумуляторную батарею или плохой контакт в цепи питания панели приборов.</p>
+
+<p>Еще одна частая жалоба — некорректный показ остатка топлива или "плавающий" уровень. Это лечится калибровкой датчика уровня топлива (ДУТ) через диагностическое ПО или, в худшем случае, заменой самого датчика в баке. Также возможно окисление контактов в разъеме бензонасоса.</p>
+
+<p>Если дисплей панели приборов гаснет или начинает "глючить" (артефакты, пропадающие сегменты):</p>
+<ul>
+<li>🔌 Проверьте надежность подключения разъемов с обратной стороны панели (контакты могли отойти от вибрации).</li>
+<li>🔋 Замерьте напряжение в бортовой сети — скачки выше 14.5В могут повреждать электронику.</li>
+<li>🛠 Попробуйте выполнить полный сброс (<em>Hard Reset</em>) снятием клеммы аккумулятора на 10-15 минут.</li>
+</ul>
+
+<p>В случаях, когда программный сброс не помогает, вероятно, потребуется ремонт самой печатной платы приборной панели или замена шлейфов, которые со временем могли пересохнуть и потерять контакт.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Большинство проблем с отображением информации на Ларгусе носят программный характер или связаны с плохим контактом. Не спешите покупать новую панель — часто помогает чистка контактов и перепрошивка.</p></div>
+
+<details>
+<summary>Почему бортовой компьютер показывает неверный расход топлива?</summary>
+<p>Погрешность в показаниях расхода часто связана с некалиброванными форсунками, использованием топлива низкого качества или изменением диаметра колес (если не внесены правки в калибровку). Также влияние оказывает стиль вождения и работа кондиционера.</p>
+</details>
+
+<details>
+<summary>Можно ли установить БК от Логана 2 на Ладу Ларгус?</summary>
+<p>Да, это возможно, так как платформы идентичны. Однако могут потребоваться доработки проводки и обязательная прошивка блока комфорта (<em>UCS</em>) и самой панели под конкретную комплектацию вашего Ларгуса через программу DDT4All.</p>
+</details>
+
+<details>
+<summary>Как сбросить ошибку "Сервис" на приборной панели?</summary>
+<p>Зажмите кнопку сброса суточного пробега на панели приборов. Не отпуская кнопку, включите зажигание. На дисплее появится обратный отсчет (обычно 10 секунд). Держите кнопку до тех пор, пока надпись не исчезнет или не мигнет.</p>
+</details>
+
+<details>
+<summary>Влияет ли установка ГБО на работу штатного БК?</summary>
+<p>На работу самого компьютера установка ГБО не влияет, он продолжит показывать параметры бензинового цикла. Однако показания расхода станут некорректными, так как БК не "видит" расход газа. Для полноценного контроля на газе нужны специальные индикаотры уровня газа в баллоне.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#эволюция-приборных-панелей-и-штатные-решения">Эволюция приборных панелей и штатные решения</a></li><li><a href="#установка-маршрутного-компьютера-в-дорестайлинговые-версии">Установка маршрутного компьютера в дорестайлинговые версии</a></li><li><a href="#функционал-и-меню-бортового-компьютера">Функционал и меню бортового компьютера</a></li><li><a href="#диагностика-и-коды-ошибок-через-бк">Диагностика и коды ошибок через БК</a></li><li><a href="#тюнинг-и-альтернативные-варианты-бк">Тюнинг и альтернативные варианты БК</a></li><li><a href="#частые-проблемы-и-их-решение">Частые проблемы и их решение</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/g/gd/gde-najti-kod-radio-na-lada-largus.html" class="related-card">Где найти код радио Лада Ларгус: шифр защиты и сброс</a></li><li><a href="/articles/v/vm/vmestimost-baka-lada-largus.html" class="related-card">Вместимость бака Лада Ларгус: реальный объем и расход</a></li><li><a href="/articles/k/ka/kakoe-davlenie-v-shinakh-dolzhno-byt-na-lada-largus.html" class="related-card">Давление в шинах Лада Ларгус: нормы, таблица и советы</a></li><li><a href="/articles/m/mo/moment-zatyazhki-svechej-lada-largus.html" class="related-card">Момент затяжки свечей Лада Ларгус: Таблица и инструкция</a></li><li><a href="/articles/o/ob/obem-toplivnogo-baka-lada-largus-16.html" class="related-card">Объем топливного бака Лада Ларгус 1.6: реальные цифры и нюансы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/g/gd/gde-najti-kod-radio-na-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">Где найти код радио Лада Ларгус: шифр защиты и сброс</span><span class="related-bottom-desc">Узнайте, где расположен код радио Лада Ларгус. Инструкция по поиску шифра на наклейке, в документах </span></a><a href="/articles/v/vm/vmestimost-baka-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">Вместимость бака Лада Ларгус: реальный объем и расход</span><span class="related-bottom-desc">Узнайте точную вместимость бака Лада Ларгус. Разбираем паспортные данные, реальный объем, расход топ</span></a><a href="/articles/k/ka/kakoe-davlenie-v-shinakh-dolzhno-byt-na-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">Давление в шинах Лада Ларгус: нормы, таблица и советы</span><span class="related-bottom-desc">Какое давление должно быть в шинах Лада Ларгус? Полная таблица размеров, нормы для R14-R16, влияние </span></a><a href="/articles/m/mo/moment-zatyazhki-svechej-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">Момент затяжки свечей Лада Ларгус: Таблица и инструкция</span><span class="related-bottom-desc">Правильный момент затяжки свечей Лада Ларгус (8 и 16 клапанов). Таблица Ньютон-метров, пошаговая инс</span></a><a href="/articles/o/ob/obem-toplivnogo-baka-lada-largus-16.html" class="related-bottom-card"><span class="related-bottom-title">Объем топливного бака Лада Ларгус 1.6: реальные цифры и нюансы</span><span class="related-bottom-desc">Узнайте точный объем топливного бака Лада Ларгус 1.6. Разбор паспортных данных, реальных показателей</span></a><a href="/articles/s/sk/skolko-litrov-bak-v-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">Объём бака Лада Ларгус: сколько литров топлива вмещает</span><span class="related-bottom-desc">Точные данные об объёме топливного бака Lada Largus всех модификаций (2012–2026). Сравнение с конкур</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

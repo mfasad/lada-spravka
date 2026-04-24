@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Установка круиз-контроля на Лада Гранта FL: пошаговая инструкция — Лада Справка</title>
+    <meta name="description" content="Подробное руководство по подключению круиз-контроля на Лада Гранта FL. Выбор кнопки, схемы распиновки, активация через Openport и настройка ECU.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/po/podklyuchenie-kruiz-kontrolya-lada-granta-fl.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Установка круиз-контроля на Лада Гранта FL: пошаговая инструкция">
+    <meta property="og:description" content="Подробное руководство по подключению круиз-контроля на Лада Гранта FL. Выбор кнопки, схемы распиновки, активация через Openport и настройка ECU.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Установка круиз-контроля на Лада Гранта FL: пошаговая инструкция</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Установка и активация круиз-контроля на Лада Гранта FL</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#анализ-совместимости-и-выбор-компонентов">Анализ совместимости и выбор компонентов</a></li><li><a href="#подготовка-к-монтажу-и-разборка-салона">Подготовка к монтажу и разборка салона</a></li><li><a href="#электрическое-подключение-и-схемы">Электрическое подключение и схемы</a></li><li><a href="#программная-активация-через-openport">Программная активация через Openport</a></li><li><a href="#проверка-работоспособности-системы">Проверка работоспособности системы</a></li><li><a href="#типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный автомобильный комфорт складывается из множества мелочей, и одной из самых желанных опций для владельцев бюджетных моделей является система поддержания постоянной скорости. Для трассовых перегонов и монотонного движения по загородным шоссе <strong>круиз-контроль</strong> становится не просто игрушкой, а реальным помощником, снижающим утомляемость водителя. Владельцы <em>Лада Гранта FL</em> (рестайлинг) часто сталкиваются с тем, что даже в комплектациях с электронным дросселем эта функция может быть физически не реализована или программно отключена.</p>
+<p>Процесс внедрения данной опции варьируется от простой замены кнопки до сложной работы с проводкой и блоком управления двигателем. Все зависит от года выпуска вашего автомобиля и типа установленной <strong>педали акселератора</strong>. Если у вас более новая модель с электронной педалью, задача упрощается, так как контроллер уже имеет необходимый потенциал. Владельцам машин с тросиковым приводом газа потребуется установка дополнительного сервопривода, что значительно сложнее.</p>
+<p>В этой статье мы детально разберем алгоритм действий для подключения системы на автомобилях с электронной педалью газа, так как этот вариант наиболее распространен среди желающих доработать свой <em>Lada Granta FL</em>. Мы коснемся вопросов совместимости деталей, нюансов электрической схемы и обязательной программной активации через диагностический интерфейс. Грамотный подход позволит избежать ошибок, которые могут привести к некорректной работе <strong>двигателя</strong>.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Любые вмешательства в электрическую цепь автомобиля должны производиться при отключенной аккумуляторной батарее. Неосторожное замыкание контактов может вывести из строя блок управления двигателем (ECU) или блок комфорта.</p>
+</blockquote>
+
+<h2 id="анализ-совместимости-и-выбор-компонентов">Анализ совместимости и выбор компонентов</h2>
+
+<p>Прежде чем приступать к закупке деталей, необходимо четко определить модификацию вашего автомобиля. Ключевым фактором здесь выступает тип управления дроссельной заслонкой. На <em>Грантах</em> с механической педалью газа (тросик) штатная установка круиз-контроля невозможна без сложного и дорогого оборудования, изменяющего физическое положение заслонки. Поэтому весь дальнейший материал ориентирован на версии с <strong>электронной педалью</strong>, где сигнал о положении педали передается по проводам.</p>
+<p>Для реализации проекта вам потребуется приобрести специализированную кнопку включения. Она может быть оригинальной, от <em>Vesta</em> или <em>XRAY</em>, либо универсальной с подходящим разъемом. Важно, чтобы кнопка имела правильную распиновку контактов для взаимодействия с блоком управления кузовом (<strong>BCM</strong>). Часто энтузиасты используют кнопки от более дорогих моделей АвтоВАЗа, так как они идеально встают в штатные места или требуют минимальной доработки панели.</p>
+
+<ul>
+<li>🔌 Оригинальная кнопка круиз-контроля с разъемом и проводкой (часто идет в сборе с жгутом).</li>
+<li>🧵 Дополнительный провод для соединения кнопки с блоком управления или педалью.</li>
+<li>🛠️ Инструмент для снятия пластиковых панелей и обшивки салона.</li>
+<li>💻 Адаптер Openport 2.0 или ELM327 (качественный) для прошивки ЭБУ.</li>
+</ul>
+
+<p>Стоит отметить, что на некоторых версиях <em>Granta FL</em> с моторами 1.6 (98 и 106 л.с.) проводка в салоне уже может быть заложена заводом, даже если кнопка отсутствует. Проверка наличия сигнального провода в разъеме подрулевого переключателя или в зоне установки кнопки сэкономит вам время. Если провода нет, его придется тянуть самостоятельно, что требует аккуратности при разборке торпедо.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какая у вас педаль газа?</strong><ul><li>Электронная (E-Gas)</li><li>Механическая (Тросик)</li><li>Не знаю/Нужно проверить</li><li>Планирую покупку с E-Gas</li></ul></div></div>
+
+<h2 id="подготовка-к-монтажу-и-разборка-салона">Подготовка к монтажу и разборка салона</h2>
+
+<p>Работа начинается с демонтажа элементов интерьера, скрывающих необходимые узлы. В первую очередь снимается декоративная накладка рулевой колонки и нижняя панель торпедо со стороны водителя. Это обеспечит доступ к блоку предохранителей и жгутам проводов, идущим к педальному узлу. Будьте осторожны с пластиковыми защелками — на морозе или от времени они становятся хрупкими и легко ломаются.</p>
+<p>Следующим этапом становится снятие самой кнопки, если на её месте стоит заглушка, или демонтаж подрулевого переключателя. В зависимости от года выпуска <em>Лада Гранта</em>, процедура может отличаться. В некоторых случаях требуется частичная разборка центральной консоли для прокладки провода от кнопки к блоку управления. Используйте пластиковые лопатки, чтобы не оставить царапин на мягких пластиках салона.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к установке</h4><label class="check-item"><input type="checkbox"><span>Отключить клемму АКБ</span></label><label class="check-item"><input type="checkbox"><span>Снять пластиковую накладку руля</span></label><label class="check-item"><input type="checkbox"><span>Подготовить мультиметр</span></label><label class="check-item"><input type="checkbox"><span>Найти схему распиновки разъема</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>Особое внимание уделите организации рабочего места. Провода не должны валяться на полу, где их можно случайно повредить ногой или механизмами регулировки сидений. Заранее подготовьте изоленту, гофру и стяжки для фиксации новой проводки. <strong>Качество изоляции</strong> соединений напрямую влияет на надежность работы системы в условиях вибрации и перепадов температур, характерных для российского климата.</p>
+
+<h2 id="электрическое-подключение-и-схемы">Электрическое подключение и схемы</h2>
+
+<p>Самый ответственный этап — соединение кнопки с электроникой автомобиля. Суть метода заключается в подаче сигнала на определенный контакт разъема педали газа или напрямую в блок управления. На автомобилях с системой <em>E-Gas</em> (электронный газ) сигнал от кнопки круиз-контроля обычно обрабатывается блоком управления двигателем. Вам нужно найти соответствующий пин в разъеме, идущем к педали акселератора.</p>
+<p>Часто используется метод подключения через дополнительный провод, который одним концом соединяется с контактом кнопки, а другим — с конкретным пином в разъеме педали или блоке предохранителей. Точная точка подключения зависит от версии прошивки ЭБУ (I414, I441, M74 и т.д.). Ошибка в выборе контакта может привести к тому, что система не заработает или, хуже того, возникнет конфликт сигналов, и автомобиль перейдет в аварийный режим.</p>
+
+<table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Цвет провода (примерный)</th>
+<th>Функция</th>
+<th>Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Кнопка ВКЛ/ВЫКЛ</td>
+<td>Серый/Красный</td>
+<td>Подача сигнала активации</td>
+<td>Зависит от донора</td>
+</tr>
+<tr>
+<td>Педаль газа (Сигнал)</td>
+<td>Зеленый/Желтый</td>
+<td>Передача данных о скорости</td>
+<td>Точка врезки</td>
+</tr>
+<tr>
+<td>Масса (GND)</td>
+<td>Черный</td>
+<td>Заземление цепи</td>
+<td>Обязательно</td>
+</tr>
+<tr>
+<td>Питание (+12В)</td>
+<td>Красный/Оранжевый</td>
+<td>Запитка подсветки кнопки</td>
+<td>По желанию</td>
+</tr>
+</tbody>
+</table>
+
+<p>После физического соединения всех контактов необходимо тщательно проверить мультиметром отсутствие коротких замыканий. Прозвоните цепь от кнопки до точки подключения. Убедитесь, что сопротивление соответствует норме и нет "соплей" припоя, которые могут замкнуть соседние дороки в разъеме. Только после двойной проверки можно приступать к сборке пластика и подключению аккумулятора.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Никогда не полагайтесь только на цвет проводов в мануалах. Цветовая маркировка на разных заводах-поставщиках проводки для <em>ВАЗ</em> может отличаться. Всегда проверяйте сигнал мультиметром.</p>
+</blockquote>
+
+<h2 id="программная-активация-через-openport">Программная активация через Openport</h2>
+
+<p>Физическое подключение — это лишь половина дела. Завод-изготовитель часто программно отключает функцию круиз-контроля в блоке управления двигателем, даже если "железо" позволяет её использовать. Для активации необходим ноутбук, специальный кабель (чаще всего <strong>Openport 2.0</strong>) и программное обеспечение для работы с ЭБУ, например, OpenBox или CheckEngine.</p>
+<p>Процесс выглядит следующим образом: вы подключаете кабель к диагностическому разъему OBD-II (находится под рулем слева), запускаете программу и считываете текущую прошивку (флеш-файл) из блока управления. Затем в редакторе прошивок необходимо найти соответствующие калибровки и изменить значения, разрешающие работу круиз-контроля. После этого модифицированный файл записывается обратно в ЭБУ.</p>
+
+<details class="faq-item"><summary>Риски чип-тюнинга</summary><div class="faq-answer"><p>Неправильная запись прошивки может "заблокировать" блок управления, и тогда потребуется дорогостоящее восстановление на специальном оборудовании в сервисе. Если вы не уверены в своих силах, лучше обратиться к профессионалам.</p></div></details>
+
+<p>Важно использовать только проверенные версии прошивок и калибровок, адаптированные именно под ваш тип двигателя и блок управления. Универсальных решений "для всех" не существует. Попытка залить прошивку от <em>Vesta</em> на <em>Granta</em> без учета различий может привести к нестабной работе холостого хода или повышенному расходу топлива. После успешной записи обязательно сделайте сброс адаптаций ЭБУ.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Без программной активации в ЭБУ нажатие кнопки круиз-контроля не даст никакого результата, даже если электрика собрана идеально верно.</p></div>
+
+<h2 id="проверка-работоспособности-системы">Проверка работоспособности системы</h2>
+
+<p>После сборки салона и активации функции настало время тестов. Запустите двигатель и убедитесь, что на приборной панели нет ошибок <strong>Check Engine</strong>. Нажмите кнопку включения круиз-контроля. На дисплее бортового компьютера должен появиться соответствующий индикатор (обычно зеленый значок спидометра со стрелкой). Если индикатор загорелся мигающим или не появился вовсе — ищите ошибку в подключении или прошивке.</p>
+<p>Для проверки выберите ровный участок дороги с минимальным трафиком. Разгонитесь до скорости выше 40 км/ч (минимальный порог срабатывания системы на ВАЗ). Нажмите кнопку фиксации скорости (SET/-). Автомобиль должен самостоятельно поддерживать заданный темп движения без участия водителя в управлении педалью газа. Попробуйте нажать на тормоз или сцепление — система должна мгновенно отключиться.</p>
+
+<ul>
+<li>✅ Индикатор на панели горит ровным светом.</li>
+<li>✅ Автомобиль держит скорость на ровной дороге.</li>
+<li>✅ При нажатии тормоза система отключается.</li>
+<li>✅ Нет рывков и дерганий при работе.</li>
+</ul>
+
+<p>Обратите внимание на поведение машины на подъемах и спусках. Штатный круиз-контроль на <em>Гранте</em> не является адаптивным, он не тормозит сам. На спуске скорость может расти, и вам придется вмешиваться. На подъеме двигатель должен сам добавить тяги, но если не хватает мощности, скорость упадет, и система не сможет её восстановить без вашего вмешательства (кнопка RES/+).</p>
+
+<h2 id="типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</h2>
+
+<p>В процессе самостоятельной установки энтузиасты часто сталкиваются с рядом проблем. Одна из самых распространенных — "плавающая" скорость. Машина то ускоряется, то замедляется. Это часто указывает на некорректную работу датчика положения педали или проблемы с программным обеспечением ЭБУ. Также причиной может быть подсос воздуха или неисправность свечей, которые мешают двигателю работать ровно.</p>
+<p>Другая частая проблема — система включается, но сразу выключается или не держит скорость на малых оборотах. Это может быть связано с тем, что в прошивке задан слишком высокий порог минимальной скорости для активации. Решается корректировкой калибровок в ПО. Также стоит проверить контакты кнопки: если они окислились или плохо прижаты, сигнал будет пропадать.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если после установки круиз-контроля вырос расход топлива, проверьте угол опережения зажигания и лямбда-коррекции. Возможно, в новой прошивке сбиты базовые настройки смесеобразования.</p></div>
+
+<p>Не забывайте, что вмешательство в электронику автомобиля может повлиять на гарантию, если она еще действует. Все изменения вносятся на ваш страх и риск. Однако для владельцев подержанных <em>Лада Гранта FL</em> это отличный способ повысить комфорт без покупки нового автомобиля. Главное — соблюдать аккуратность и последовательность действий.</p>
+
+<details>
+<summary>Можно ли установить круиз-контроль на механическую педаль газа?</summary>
+<p>Теоретически можно, но это потребует установки отдельного сервопривода, который будет физически тянуть тросик газа. Такие комплекты стоят дорого, сложны в монтаже и менее надежны, чем штатная система для электронной педали. Для <em>Гранты</em> с тросом это считается экономически нецелесообразным.</p>
+</details>
+
+<details>
+<summary>Какой минимальной скорости достаточно для включения?</summary>
+<p>В штатных прошивках для <em>Лада Гранта</em> порог обычно составляет 40 км/ч. Однако при перепрошивке ЭБУ этот параметр можно изменить программно, снизив порог до 20-30 км/ч, что удобно для движения в плотном потоке.</p>
+</details>
+
+<details>
+<summary>Нужно ли менять блок управления?</summary>
+<p>Нет, в большинстве случаев достаточно изменить программное обеспечение (прошивку) в штатном блоке управления двигателем. Замена самого "железа" (ECU) не требуется, если у вас уже установлена электронная педаль газа.</p>
+</details>
+
+<details>
+<summary>Влияет ли круиз-контроль на ресурс двигателя?</summary>
+<p>При исправном двигателе и правильной настройке негативного влияния нет. Напротив, равномерное движение без резких разгонов и торможений может даже положительно сказаться на расходе топлива и общем состоянии мотора при долгой езде по трассе.</p>
+</details>
+
+<details>
+<summary>Где взять прошивку для активации?</summary>
+<p>Прошивки с активированным круизом можно найти на специализированных форумах (например, ChipTuner), в клубах владельцев Lada или заказать индивидуальную настройку у профессиональных тюнеров, которые учтут особенности именно вашего мотора.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#анализ-совместимости-и-выбор-компонентов">Анализ совместимости и выбор компонентов</a></li><li><a href="#подготовка-к-монтажу-и-разборка-салона">Подготовка к монтажу и разборка салона</a></li><li><a href="#электрическое-подключение-и-схемы">Электрическое подключение и схемы</a></li><li><a href="#программная-активация-через-openport">Программная активация через Openport</a></li><li><a href="#проверка-работоспособности-системы">Проверка работоспособности системы</a></li><li><a href="#типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/d/da/datchik-pedali-gaza-lada-granta.html" class="related-card">Датчик педали газа Лада Гранта: признаки неисправности и замена</a></li><li><a href="/articles/t/to/toplivnyj-filtr-lada-granta-16.html" class="related-card">Топливный фильтр Лада Гранта: выбор, замена, артикулы</a></li><li><a href="/articles/z/za/zamena-perednego-stupichnogo-podshipnika-lada-granta-svoimi-rukami.html" class="related-card">Замена переднего ступичного подшипника Лада Гранта своими руками</a></li><li><a href="/articles/p/pe/peretyazhka-dvernykh-kart-lada-granta.html" class="related-card">Перетяжка дверных карт Лада Гранта своими руками: материалы и этапы</a></li><li><a href="/articles/s/sn/snyat-ruchku-zadnej-dveri-lada-granta.html" class="related-card">Снять ручку задней двери Лада Гранта: пошаговая инструкция</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/d/da/datchik-pedali-gaza-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Датчик педали газа Лада Гранта: признаки неисправности и замена</span><span class="related-bottom-desc">Подробный разбор датчика педали акселератора Лада Гранта. Признаки поломки, коды ошибок, проверка му</span></a><a href="/articles/t/to/toplivnyj-filtr-lada-granta-16.html" class="related-bottom-card"><span class="related-bottom-title">Топливный фильтр Лада Гранта: выбор, замена, артикулы</span><span class="related-bottom-desc">Как заменить топливный фильтр Лада Гранта 16 клапанов? Артикулы оригиналов и аналогов, пошаговая инс</span></a><a href="/articles/z/za/zamena-perednego-stupichnogo-podshipnika-lada-granta-svoimi-rukami.html" class="related-bottom-card"><span class="related-bottom-title">Замена переднего ступичного подшипника Лада Гранта своими руками</span><span class="related-bottom-desc">Пошаговая инструкция по замене переднего ступичного подшипника на Lada Granta: инструменты, нюансы, </span></a><a href="/articles/p/pe/peretyazhka-dvernykh-kart-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Перетяжка дверных карт Лада Гранта своими руками: материалы и этапы</span><span class="related-bottom-desc">Как выполнить перетяжку дверных карт Лада Гранта? Выбор материалов, пошаговая инструкция, цены и сов</span></a><a href="/articles/s/sn/snyat-ruchku-zadnej-dveri-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Снять ручку задней двери Лада Гранта: пошаговая инструкция</span><span class="related-bottom-desc">Подробный гид: как снять ручку задней двери Лада Гранта лифтбек. Замена механизма, регулировка тросо</span></a><a href="/articles/l/la/lada-granta-inzhektor.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта инжектор: устройство, диагностика и ремонт</span><span class="related-bottom-desc">Полный обзор системы впрыска Лада Гранта. Схема работы, датчики, ошибки ЭБУ и особенности диагностик</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

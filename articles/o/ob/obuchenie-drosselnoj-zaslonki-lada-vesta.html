@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Обучение дроссельной заслонки Лада Веста: адаптация ELM327 и без сканера — Лада Справка</title>
+    <meta name="description" content="Полная инструкция по адаптации дроссельной заслонки Лада Веста. Как обучить дроссель на 8 и 16 клапанных моторах без компьютера и через OpenDiag.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/o/ob/obuchenie-drosselnoj-zaslonki-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Обучение дроссельной заслонки Лада Веста: адаптация ELM327 и без сканера">
+    <meta property="og:description" content="Полная инструкция по адаптации дроссельной заслонки Лада Веста. Как обучить дроссель на 8 и 16 клапанных моторах без компьютера и через OpenDiag.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Обучение дроссельной заслонки Лада Веста: адаптация ELM327 и без сканера</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Обучение дроссельной заслонки Лада Веста</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#симптомы-и-причины-необходимости-адаптации">Симптомы и причины необходимости адаптации</a></li><li><a href="#подготовка-автомобиля-к-процедуре-обучения">Подготовка автомобиля к процедуре обучения</a></li><li><a href="#метод-ручного-обучения-без-диагностического-сканера">Метод ручного обучения без диагностического сканера</a></li><li><a href="#адаптация-с-помощью-диагностического-сканера">Адаптация с помощью диагностического сканера</a></li><li><a href="#особенности-обучения-на-разных-двигателях-весты">Особенности обучения на разных двигателях Весты</a></li><li><a href="#типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</a></li><li><a href="#профилактика-и-уход-за-дроссельным-узлом">Профилактика и уход за дроссельным узлом</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+<p>Современные автомобили, такие как <em>Лада Веста</em>, оснащены электронными системами управления двигателем, где каждый узел требует точной настройки. Одним из критически важных элементов является дроссельная заслонка, которая регулирует подачу воздуха в двигатель. Со временем или после замены аккумулятора, чистки узла или самого дросселя, электроника может сбиться, что приводит к нестабильной работе силового агрегата. Владельцы часто замечают плавающие обороты холостого хода, провалы при нажатии на педаль газа или даже повышенный расход топлива.</p>
+<p>Процесс восстановления правильных параметров работы называется адаптацией или обучением. Это не просто сброс ошибок, а сложная процедура, в ходе которой контроллер ЭСУД запоминает крайние положения заслонки и текущее проходное сечение. Игнорирование этой процедуры может привести к тому, что двигатель будет работать в аварийном режиме. В этой статье мы подробно разберем, как провести обучение дроссельной заслонки Лада Веста различными способами.</p>
+<p>Необходимость в проведении данной процедуры возникает не только при установке новой детали. Даже плановое техническое обслуживание, включающее очистку нагара, требует последующей калибровки. Электронный блок управления (ЭБУ) должен заново определить нулевое положение заслонки, так как после чистки механический зазор может незначительно измениться. Понимание принципов работы <strong>электронной дроссельной заслонки</strong> поможет вам избежать лишних визитов в сервисный центр.</p>
+
+<h2 id="симптомы-и-причины-необходимости-адаптации">Симптомы и причины необходимости адаптации</h2>
+<p>Понять, что вашему автомобилю требуется срочное вмешательство, можно по характерным признакам. Часто водители путают эти симптомы с неисправностями свечей или топливной системы. Однако, если после запуска двигателя стрелка тахометра «плавает» в диапазоне от 600 до 1200 оборотов в минуту, это первый сигнал о рассинхронизации. Также может наблюдаться задержка реакции автомобиля на нажатие педали акселератора.</p>
+<p>Основной причиной сбоя параметров является отключение питания бортовой сети. Если вы снимали клеммы аккумулятора для зарядки или замены, ЭБУ мог потерять накопленные данные о положении дросселя. Кроме того, загрязнение канала и самой заслонки продуктами сгорания топлива приводит к изменению пропускной способности, которую штатная программа не всегда успевает корректировать автоматически.</p>
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Если после чистки дросселя не выполнить процедуру адаптации, двигатель может начать глохнуть при сбросе газа или держать постоянно высокие обороты холостого хода (около 1500 об/мин), что опасно при движении в пробках.</p>
+</blockquote>
+<p>Среди других причин можно выделить программные сбои самого контроллера или установку неоригинальных запчастей с отличающимися характеристиками. В последнем случае обучение является обязательным этапом установки. Без этого шага <strong>электронная педаль газа</strong> будет работать некорректно, передавая искаженные сигналы на блок управления.</p>
+
+<h2 id="подготовка-автомобиля-к-процедуре-обучения">Подготовка автомобиля к процедуре обучения</h2>
+<p>Перед началом любых манипуляций с электроникой двигателя необходимо обеспечить стабильные условия. В первую очередь, убедитесь, что аккумуляторная батарея полностью заряжена. Падение напряжения в процессе калибровки может привести к прерыванию записи данных в память контроллера, что вызовет новые ошибки.</p>
+<p>Температура двигателя также играет важную роль. Процедура адаптации наиболее точно проходит на прогретом моторе, когда все температурные датчики вышли на рабочий режим. Дайте автомобилю поработать на холостом ходу до тех пор, пока не включится вентилятор радиатора или температура антифриза не достигнет 90 градусов Цельсия.</p>
+<ul>
+<li>🔧 Проверьте уровень заряда аккумулятора и при необходимости подзарядите его.</li>
+<li>🌡️ Прогрейте двигатель до рабочей температуры (не менее 90°C).</li>
+<li>🚫 Выключите все потребители энергии: фары, кондиционер, музыку, обогревы.</li>
+<li>📉 Убедитесь, что педали газа и тормоза исправны и не заедают.</li>
+</ul>
+<p>Важно также проверить состояние воздушного фильтра и герметичность впускного тракта. Если в систему после дросселя попадает неучтенный воздух, никакое обучение не поможет стабилизировать обороты. <strong>Подсос воздуха</strong> является частой причиной плавающих оборотов, которую нельзя устранить программно.</p>
+
+<h2 id="метод-ручного-обучения-без-диагностического-сканера">Метод ручного обучения без диагностического сканера</h2>
+<p>Существует методика, позволяющая провести базовую адаптацию дроссельной заслонки Лада Веста без использования дорогостоящего оборудования. Этот способ часто называют «танцем с бубном» из-за необходимости точно соблюдать временные интервалы. Он подходит для сброса адаптаций после кратковременного отключения питания или чистки.</p>
+<p>Для начала включите зажигание, но не запускайте двигатель. Подождите около 10-15 секунд, пока в салоне не стихнут щелчки реле и не прекратится гул бензонасоса. В этот момент ЭБУ опрашивает все системы. После этого выключите зажигание и повторите цикл включения-выключения еще два раза.</p>
+<details class="faq-item"><summary>Что происходит в памяти ЭБУ?</summary><div class="faq-answer"><p>При включении зажигания без запуска двигателя контроллер переходит в режим диагностики и считывает текущее положение заслонки. Многократное повторение цикла помогает сбросить временные коэффициенты коррекции.>
+<p>После последнего выключения зажигания выдержите паузу в 30 секунд. Затем запустите двигатель и дайте ему поработать на холостом ходу в течение 10-15 минут. В это время запрещено нажимать на педаль газа, включать свет или открывать двери. Блок управления самостоятельно определит положение заслонки в состоянии покоя.</p>
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Данный метод не является официальной инструкцией АвтоВАЗ и может не сработать на автомобилях с последними версиями прошивок. Если обороты не стабилизировались, требуется использование диагностического сканера.</p>
+</blockquote>
+<p>Эффективность ручного метода зависит от версии программного обеспечения ЭБУ. На старых прошивках (до 2016-2017 года) он помогал в 70% случаев. На современных моторах <em>ВАЗ-21129</em> или <em>ВАЗ-11189</em> с контроллерами М86 или М74 часто требуется принудительный сброс адаптаций через OBDII разъем.</p>
+
+<h2 id="адаптация-с-помощью-диагностического-сканера">Адаптация с помощью диагностического сканера</h2>
+<p>Наиболее надежным и правильным способом является использование специализированного программного обеспечения. Для Лада Веста отлично подходят программы <em>OpenDiag</em>, <em>Scanmatik</em> или <em>Motordata</em> в связке с адаптером ELM327 (версии 1.5 или оригинал). Это позволяет принудительно запустить процедуру обучения.</p>
+<p>Подключите адаптер к диагностическому разъему, который на Лада Веста находится под декоративной заглушкой слева от руля (или в бардачке на некоторых комплектациях). Запустите приложение на смартфоне или ноутбуке и установите соединение с блоком управления двигателем. Выберите ваш тип двигателя из списка.</p>
+
+<p>В меню специальных функций найдите пункт «Адаптация дроссельной заслонки» или «Сброс адаптаций». Программа предложит выполнить условия: прогретый двигатель, выключенные потребители, нейтральное положение педали газа. Нажмите «Выполнить» и следуйте инструкциям на экране. Процесс занимает около 1-2 минут.</p>
+<p>В ходе автоматической процедуры ЭБУ несколько раз откроет и закроет заслонку до упора, записывая положения датчика положения дроссельной заслонки (ДПДЗ). Если процедура прошла успешно, вы увидите сообщение «Адаптация завершена успешно». После этого двигатель может немного изменить характер работы, обороты должны выровняться.</p>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Нормальное значение</th>
+<th>Критическое значение</th>
+<th>Единица измерения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Положение ДПДЗ 1</td>
+<td>10-15%</td>
+<td>&lt; 5% или &gt; 90%</td>
+<td>%</td>
+</tr>
+<tr>
+<td>Положение ДПДЗ 2</td>
+<td>85-90%</td>
+<td>Равно ДПДЗ 1</td>
+<td>%</td>
+</tr>
+<tr>
+<td>Обороты ХХ</td>
+<td>800-850</td>
+<td>&gt; 1200 или &lt; 600</td>
+<td>об/мин</td>
+</tr>
+<tr>
+<td>Коэффициент топливоподачи</td>
+<td>1.00 - 1.05</td>
+<td>&lt; 0.90 или &gt; 1.10</td>
+<td>ед.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="особенности-обучения-на-разных-двигателях-весты">Особенности обучения на разных двигателях Весты</h2>
+<p>Лада Веста оснащалась различными силовыми агрегатами, и каждый имеет свои нюансы. Моторы объемом 1.6 литра (ВАЗ-21129) и 1.8 литра (ВАЗ-21179) имеют дроссельные узлы схожей конструкции, но разные прошивки. На 1.8 литровом двигателе процедура адаптации проходит чуть дольше из-за большей инерционности впускной системы.</p>
+<p>Автомобили с французским мотором <em>H4M</em> (1.6 литра), который устанавливался на кросс-версии и седаны в определенные периоды, требуют особого подхода. Для них характерно использование дросельных заслонок производства <em>Magnet Marelli</em>. Обучение на этих двигателях часто требует более точного соблюдения температурного режима.</p>
+
+<p>На версиях с механической коробкой передач адаптация проходит стандартно. Однако на автомобилях с <strong>роботизированной коробкой АМТ</strong> (АМТ 1.0 или АМТ 2.0) после обучения дросселя может потребоваться дополнительная адаптация сцепления, так как изменение характера работы двигателя влияет на логику переключения передач.</p>
+<p>Владельцам автомобилей с ГБО (газобаллонным оборудованием) следует знать, что установка газового оборудования также влияет на работу дросселя. После настройки ГБО рекомендуется заново провести адаптацию дроссельной заслонки на бензине, чтобы ЭБУ корректно работал в обоих режимах.</p>
+
+<h2 id="типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</h2>
+<p>Даже при соблюдении всех инструкций могут возникнуть проблемы. Часто пользователи сталкиваются с ошибкой «Не выполнено условие» при попытке адаптации через сканер. Это значит, что один из параметров (температура, напряжение, положение педали) вышел за допустимые пределы в момент начала процедуры.</p>
+<p>Если после обучения двигатель глохнет при отпускании педали газа, возможно, впускной коллектор негерметичен. Проверьте все патрубки, гофру воздуховода и уплотнительное кольцо дросселя. Также причиной может быть неисправность самого регулятора холостого хода, если он конструктивно вынесен отдельно (на старых моделях), но на Весте РХХ встроен в дроссель.</p>
+<div class="checklist-block"><h4>☑️ Чек-лист при неудачной адаптации</h4><label class="check-item"><input type="checkbox"><span>Проверить напряжение АКБ (не менее 12.5В)</span></label><label class="check-item"><input type="checkbox"><span>Убедиться в прогреве двигателя</span></label><label class="check-item"><input type="checkbox"><span>Выключить все фары и музыку</span></label><label class="check-item"><input type="checkbox"><span>Проверить целостность проводки дросселя</span></label><label class="check-item"><input type="checkbox"><span>Повторить процедуру</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+<p>В редких случаях проблема кроется в программном обеспечении самого ЭБУ. Если дроссель новый, а обучить его не удается, возможно, требуется обновление прошивки контроллера до последней версии. Это можно сделать у официальных дилеров или в специализированных тюнинг-ателье.</p>
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Не пытайтесь mechanically двигать заслонку пальцем при включенном зажигании. Это может повредить шестерни моторчика дросселя или сбить настройки датчиков, что приведет к дорогостоящему ремонту.</p>
+</blockquote>
+
+<h2 id="профилактика-и-уход-за-дроссельным-узлом">Профилактика и уход за дроссельным узлом</h2>
+<p>Чтобы как можно реже сталкиваться с необходимостью сложной адаптации, следует регулярно обслуживать дроссельный узел. Рекомендуется проводить визуальный осмотр и, при необходимости, чистку каждые 30-40 тысяч километров пробега. Использование качественного топлива снижает скорость образования нагара.</p>
+<p>При чистке используйте специальные аэрозоли для очистки карбюраторов и дроселей. Не применяйте агрессивные растворители, которые могут повредить пластиковое покрытие внутренней части корпуса или смазку подшипников скольжения заслонки. После чистки всегда продувайте узел сжатым воздухом.</p>
+
+<p>Следите за состоянием воздушного фильтра. Если фильтр изношен и пропускает пыль, абразивные частицы оседают на стенках и заслонке, образуя твердый налет, который трудно удалить. Своевременная замена фильтрующих элементов — залог долгой жизни <strong>системы впуска</strong>.</p>
+
+<details>
+<summary>Можно ли ездить на автомобиле, если дроссель не обучен?</summary>
+<p>Ездить можно, но не рекомендуется. Двигатель будет работать в аварийном режиме, обороты могут быть нестабильными, а реакция на педаль газа — запоздалой. Это снижает безопасность вождения, особенно при обгонах или маневрах в городском потоке. Кроме того, увеличивается расход топлива и токсичность выхлопа.</p>
+</details>
+
+<details>
+<summary>Сколько стоит адаптация дросселя на СТО?</summary>
+<p>Стоимость услуги на станциях технического обслуживания варьируется от 500 до 1500 рублей, в зависимости от региона и ценовой политики сервиса. Однако, учитывая простоту процедуры с помощью недорогого адаптера ELM327, многие владельцы выполняют эту работу самостоятельно.</p>
+</details>
+
+<details>
+<summary>Нужно ли обучать дроссель после замены аккумулятора?</summary>
+<p>Не всегда. Если автомобиль простоял с отключенной батареей менее 15-20 минут, ЭБУ может сохранить данные благодаря конденсаторам. Если же питание отсутствовало долго, сброс настроек вероятен. Если после замены АКБ обороты холостого хода стабильны, обучение не требуется.</p>
+</details>
+
+<details>
+<summary>Почему после чистки дросселя обороты стали выше?</summary>
+<p>После чистки проходное сечение увеличивается, и если не сделать адаптацию, ЭБУ продолжает подавать сигнал, соответствующий загрязненному состоянию, но воздуха поступает больше. Также возможно, что при чистке был сбит механический упор или поврежден датчик положения.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#симптомы-и-причины-необходимости-адаптации">Симптомы и причины необходимости адаптации</a></li><li><a href="#подготовка-автомобиля-к-процедуре-обучения">Подготовка автомобиля к процедуре обучения</a></li><li><a href="#метод-ручного-обучения-без-диагностического-сканера">Метод ручного обучения без диагностического сканера</a></li><li><a href="#адаптация-с-помощью-диагностического-сканера">Адаптация с помощью диагностического сканера</a></li><li><a href="#особенности-обучения-на-разных-двигателях-весты">Особенности обучения на разных двигателях Весты</a></li><li><a href="#типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</a></li><li><a href="#профилактика-и-уход-за-дроссельным-узлом">Профилактика и уход за дроссельным узлом</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/c/ch/chernaya-krysha-lada-vesta.html" class="related-card">Черная крыша Лада Веста: покраска, пленка или оклейка</a></li><li><a href="/articles/z/za/zamena-salonnogo-filtra-na-lada-vesta.html" class="related-card">Замена салонного фильтра Лада Веста: инструкция с фото и видео</a></li><li><a href="/articles/l/la/lada-vesta-lajn.html" class="related-card">Лада Веста Лайн: Обзор, комплектации и технические детали</a></li><li><a href="/articles/t/to/tormoznye-kolodki-lada-vesta-artikul.html" class="related-card">Тормозные колодки Лада Веста: артикулы, замена и выбор</a></li><li><a href="/articles/k/kr/kryshka-na-dvigatel-lada-vesta.html" class="related-card">Крышка на двигатель Лада Веста: выбор, замена, артикулы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/c/ch/chernaya-krysha-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Черная крыша Лада Веста: покраска, пленка или оклейка</span><span class="related-bottom-desc">Черная крыша Лада Веста: подробный гид по покраске, оклейке пленкой и установке панорамы. Сравнение </span></a><a href="/articles/z/za/zamena-salonnogo-filtra-na-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Замена салонного фильтра Лада Веста: инструкция с фото и видео</span><span class="related-bottom-desc">Пошаговая инструкция по замене салонного фильтра на Lada Vesta своими руками. Когда менять, какой фи</span></a><a href="/articles/l/la/lada-vesta-lajn.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста Лайн: Обзор, комплектации и технические детали</span><span class="related-bottom-desc">Подробный разбор Лада Веста Лайн: что входит в пакет Line, сравнение с Comfort и Luxe, технические х</span></a><a href="/articles/t/to/tormoznye-kolodki-lada-vesta-artikul.html" class="related-bottom-card"><span class="related-bottom-title">Тормозные колодки Лада Веста: артикулы, замена и выбор</span><span class="related-bottom-desc">Полный каталог артикулов тормозных колодок для Лада Веста. Таблица совместимости передних и задних т</span></a><a href="/articles/k/kr/kryshka-na-dvigatel-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Крышка на двигатель Лада Веста: выбор, замена, артикулы</span><span class="related-bottom-desc">Все о крышке ГБЦ для Лада Веста. Артикулы, признаки пробоя прокладки, замена клапана вентиляции и со</span></a><a href="/articles/f/fa/fara-lada-vesta-artikul.html" class="related-bottom-card"><span class="related-bottom-title">Артикулы фар Лада Веста: оригинал, аналоги, подбор по VIN</span><span class="related-bottom-desc">Полный каталог артикулов фар для Lada Vesta (2015-2026): оригинальные, неоригинальные, LED-варианты.</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

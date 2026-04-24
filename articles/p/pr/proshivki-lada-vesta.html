@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Прошивки Лада Веста: обновление ЭБУ своими руками и тюнинг — Лада Справка</title>
+    <meta name="description" content="Подробный гид по прошивкам Лада Веста: как обновить ПО, убрать ошибки и улучшить динамику. Сравнение версий, чип-тюнинг и FAQ для владельцев.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/pr/proshivki-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Прошивки Лада Веста: обновление ЭБУ своими руками и тюнинг">
+    <meta property="og:description" content="Подробный гид по прошивкам Лада Веста: как обновить ПО, убрать ошибки и улучшить динамику. Сравнение версий, чип-тюнинг и FAQ для владельцев.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Прошивки Лада Веста: обновление ЭБУ своими руками и тюнинг</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Прошивки Лада Веста: обновление, тюнинг и устранение ошибок</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#зачем-нужно-обновлять-по-на-лада-веста">Зачем нужно обновлять ПО на Лада Веста</a></li><li><a href="#различия-между-стоковой-прошивкой-и-чип-тюнингом">Различия между стоковой прошивкой и чип-тюнингом</a></li><li><a href="#необходимое-оборудование-и-подготовка">Необходимое оборудование и подготовка</a></li><li><a href="#процесс-обновления-через-диагностический-разъем">Процесс обновления через диагностический разъем</a></li><li><a href="#сравнение-версий-прошивок-и-совместимость">Сравнение версий прошивок и совместимость</a></li><li><a href="#типичные-ошибки-и-методы-их-решения">Типичные ошибки и методы их решения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы автомобилей <em>Lada Vesta</em> часто сталкиваются с необходимостью обновления программного обеспечения электронного блока управления. Это может быть связано с появлением новых версий ПО от завода, желанием улучшить отзывчивость педали газа или устранением программных ошибок. Современный автомобиль — это сложный компьютер, где <strong>калибровки двигателя</strong> играют решающую роль в поведении машины на дороге.</p>
+
+<p>Многие водители даже не подозревают, что их <em>Веста</em> способна ехать динамичнее и ровнее работать на холостых оборотах. Заводские настройки часто консервативны и усреднены под различные климатические условия и качество топлива. <mark>Официальные дилерские прошивки часто содержат ошибки, которые исправляются только в более поздних ревизиях, недоступных при плановом ТО.</mark> Понимание процесса обновления открывает возможности для самостоятельного обслуживания.</p>
+
+<p>В этой статье мы детально разберем, какие существуют версии прошивок, чем отличается чип-тюнинг от обычного обновления и как провести процедуру безопасно. Не обязательно быть профессиональным диагностом, чтобы разобраться в базовых принципах работы <strong>ECU</strong> (Engine Control Unit). Главное — следовать инструкциям и использовать проверенное оборудование.</p>
+
+<h2 id="зачем-нужно-обновлять-по-на-лада-веста">Зачем нужно обновлять ПО на Лада Веста</h2>
+
+<p>Основная причина, по которой АвтоВАЗ выпускает новые версии ПО — это исправление выявленных багов. Например, в ранних версиях прошивок для двигателей <em>ВАЗ-21129</em> и <em>ВАЗ-21179</em> встречались проблемы с нестабильным холостым ходом или ошибочным отображением температуры охлаждающей жидкости. Обновление <strong>firmware</strong> устраняет эти программные конфликты.</p>
+
+<p>Кроме исправления ошибок, новые версии часто оптимизируют работу системы управления двигателем. Это может выражаться в более плавной работе коробки передач (особенно актуально для <em>AMT</em> и <em>Вариатора</em>), улучшении холодного пуска или снижении расхода топлива. Заводские инженеры постоянно работают над улучшением <strong>экологических показателей</strong>, что также требует внесения правок в алгоритмы.</p>
+
+<p>Отдельно стоит упомянуть адаптацию под новое топливо или изменения в законодательстве. Иногда требуется перепрошивка для корректной работы с новым типом катализатора или датчиков. Если вы заметили, что машина ведет себя не так, как после покупки, возможно, пришло время проверить актуальность версии <strong>софта</strong>.</p>
+
+<ul>
+<li>🚗 Устранение заводских багов и программных ошибок в работе двигателя.</li>
+<li>⚙️ Улучшение адаптации трансмиссии и плавности переключения передач.</li>
+<li>📉 Оптимизация расхода топлива и снижение токсичности выхлопа.</li>
+<li>🔧 Поддержка нового навесного оборудования или датчиков.</li>
+</ul>
+
+<blockquote>
+<p>⚠️ Внимание: Перед любым вмешательством в программное обеспечение автомобиля убедитесь, что аккумуляторная батарея полностью заряжена. Скачок напряжения или разряд АКБ в процессе записи может привести к необратимому повреждению блока управления.</p>
+</blockquote>
+
+<h2 id="различия-между-стоковой-прошивкой-и-чип-тюнингом">Различия между стоковой прошивкой и чип-тюнингом</h2>
+
+<p>Многие путают обычное обновление ПО и чип-тюнинг, но это принципиально разные процедуры. Стоковая прошивка — это заводская версия, которая соответствует всем регламентам и стандартам. Чип-тюнинг же представляет собой внесение изменений в <strong>топливные карты</strong> и углы опережения зажигания для повышения мощности или изменения характера автомобиля.</p>
+
+<p>Заводское ПО часто имеет "душегубящие" эко-нормы, которые ограничивают крутящий момент на низких оборотах. В тюнингованных версиях эти ограничения снимаются, что делает разгон более уверенным. Однако стоит помнить, что агрессивный <strong>чип-тюнинг</strong> может сократить ресурс двигателя, если выполнен неграмотно.</p>
+
+<p>Существует также понятие "Stage 1", которое подразумевает программное увеличение мощности без механических доработок. Для <em>Lada Vesta Sport</em> или версий с турбодвигателями это дает ощутимый прирост. На атмосферных 1.6 и 1.8 эффект будет менее выражен, но отзывчивость педали газа улучшится значительно.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какая цель обновления ПО для вас?</strong><ul><li>Устранение ошибок</li><li>Повышение мощности</li><li>Снижение расхода</li><li>Просто интересно</li></ul></div></div>
+
+<p>Если вы не гонитесь за рекордами, а хотите просто стабильной работы, лучше ограничиться последними официальными версиями. Они проверены на ресурс и надежность. Эксперименты с <strong>альтернативными калибровками</strong> стоит проводить только на исправном двигателе с пониманием последствий.</p>
+
+<h2 id="необходимое-оборудование-и-подготовка">Необходимое оборудование и подготовка</h2>
+
+<p>Для проведения работ по обновлению или диагностике вам потребуется специализированный интерфейс. Наиболее популярным и универсальным решением для автомобилей ВАЗ является адаптер <em>OpenPort 2.0</em> (или его качественные китайские аналоги). Также часто используют <em>Scanmatik 2 PRO</em> или <em>J7T</em> для более глубокой работы.</p>
+
+<p>Помимо железа, необходим ноутбук с операционной системой <em>Windows</em>. Мобильные приложения пока не обладают достаточным функционалом для безопасной перезаписи блоков. Установите драйверы для вашего адаптера и необходимое программное обеспечение, например, <strong>ChipLoader</strong>, <em>OpenBox</em> или дилерский сканер <em>Scanmatik</em>.</p>
+
+<p>Критически важно обеспечить стабильное питание. В идеале нужно подключить зарядное устройство в режиме "пуск-заряд" или хотя бы мощный блок питания на 12-14 Вольт. Напряжение в бортовой сети не должно падать ниже 11.5 Вольт в процессе записи, иначе блок может "окирпичиться".</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к прошивке</h4><label class="check-item"><input type="checkbox"><span>Зарядить аккумулятор до 100%</span></label><label class="check-item"><input type="checkbox"><span>Подключить внешний источник питания 12В</span></label><label class="check-item"><input type="checkbox"><span>Установить драйверы адаптера на ПК</span></label><label class="check-item"><input type="checkbox"><span>Найти и проверить файл прошивки</span></label><label class="check-item"><input type="checkbox"><span>Отключить все энергопотребители в авто</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<h2 id="процесс-обновления-через-диагностический-разъем">Процесс обновления через диагностический разъем</h2>
+
+<p>Сам процесс обновления выглядит пугающе только для новичков. На деле алгоритм прост: подключение, чтение, запись, проверка. Сначала подключите адаптер к разъему OBD-II, который на Лада Веста находится под торпедой справа от руля (иногда закрыт пластиковой заглушкой).</p>
+
+<p>Включите зажигание, но не запускайте двигатель. Запустите программу на компьютере и дождитесь соединения с блоком управления. Программа считает текущую идентификационную информацию. Если вы делаете обновление до стоковой версии, выберите соответствующий файл калибровок.</p>
+
+<pre><code>Процесс записи:
+<p>1. Считать текущую прошивку (Backup)</p>
+<p>2. Очистить память Flash</p>
+<p>3. Записать новый файл</p>
+<p>4. Проверить контрольную сумму (Checksum)</p>
+<p>5. Сбросить адаптации</code></pre></p>
+
+<p>После успешной записи обязательно выполните сброс адаптаций. Это можно сделать через меню программы или просто disconnect-ом аккумулятора на 10-15 минут (хотя программный сброс надежнее). Дайте двигателю поработать на холостых оборотах около 10 минут для обучения <strong>регулятора холостого хода</strong>.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Никогда не прерывайте процесс записи принудительно. Если программа зависла, не выключайте зажигание сразу, попробуйте программно разорвать соединение. Принудительное отключение питания в 90% случаев выводит ЭБУ из строя.</p>
+</blockquote>
+
+<h2 id="сравнение-версий-прошивок-и-совместимость">Сравнение версий прошивок и совместимость</h2>
+
+<p>На Лада Веста устанавливались различные блоки управления, в основном производства <em>Itelma</em> и <em>Avtoel</em>. Версии прошивок имеют сложную маркировку, например, B36GK02 или B46GK01. Важно понимать, какую версию поддерживает ваш "железный" блок. Прошивка от более нового блока может не встать на старый и наоборот.</p>
+
+<p>Ниже приведена таблица совместимости основных версий ПО для двигателей 1.6 и 1.8:</p>
+
+<table>
+<thead>
+<tr>
+<th>Двигатель</th>
+<th>Блок управления</th>
+<th>Типичная версия ПО</th>
+<th>Особенности</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ВАЗ-21129 (1.6)</td>
+<td>Itelma M86</td>
+<td>B36GK02 / B37GK01</td>
+<td>Базовая, часто требует обновления</td>
+</tr>
+<tr>
+<td>ВАЗ-21179 (1.8)</td>
+<td>Itelma M86</td>
+<td>B36GK03 / B38GK01</td>
+<td>Проблемы с расходом в ранних версиях</td>
+</tr>
+<tr>
+<td>ВАЗ-11189 (1.6 8кл)</td>
+<td>Avtoel M74</td>
+<td>I484GB04</td>
+<td>Стабильная, редкие обновления</td>
+</tr>
+<tr>
+<td>ВАЗ-21129 (1.6)</td>
+<td>Itelma M86</td>
+<td>B46GK01 (New)</td>
+<td>Улучшена работа на газу и холостых</td>
+</tr>
+</tbody>
+</table>
+
+<details class="faq-item"><summary>Как узнать свою версию прошивки?</summary><div class="faq-answer"><p>Для просмотра версии не обязательно лезть в сложные программы. Подключите простой ELM327 адаптер и приложение Torque или OpenDiag Mobile. В разделе "Информация об ЭБУ" будет строка с идентификатором калибровок (Calibration ID).</p></div></details>
+
+<p>При выборе файла для прошивки всегда сверяйтесь с каталогами идентификаторов. Использование неподходящего софта может привести к некорректной работе датчиков или даже повреждению катализатора из-за неправильного смесеобразования. <strong>Идентификаторы</strong> — это ключ к безопасности.</p>
+
+<h2 id="типичные-ошибки-и-методы-их-решения">Типичные ошибки и методы их решения</h2>
+
+<p>В процессе работы пользователи часто сталкиваются с ошибкой "Нет связи с ЭБУ" или "Ошибка контрольной суммы". Первая чаще всего решается проверкой контактов в разъеме OBD-II. На Вестах иногда отгнивают или окисляются контакты, особенно если разъем расположен низко.</p>
+
+<p>Ошибка контрольной суммы (Checksum error) говорит о том, что записанный файл поврежден или не подходит к данному блоку. В этом случае нужно найти оригинальный дамп (сток) именно для вашего блока, считать его, сравнить с имеющимся файлом и только потом пытаться записать. Использование <strong>универсальных дампов</strong> из интернета — рискованная затея.</p>
+
+<p>Если после прошивки двигатель не заводится или работает некорректно, попробуйте сделать полный сброс адаптаций. В некоторых случаях требуется "обнуление" обучений дроссельной заслонки и регулятора холостого хода через диагностическую программу. Это стандартная процедура после замены ПО.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Сохраняйте резервную копию (сток) вашей прошивки навсегда. Если в будущем возникнут проблемы с новой версией или вы решите продать машину, возможность откатиться на заводские настройки greatly повысит ликвидность авто.</p></div>
+
+<p>Не игнорируйте логи ошибок. Если после обновления загорелся "Check Engine", считайте код ошибки. Часто это просто недогретый катализатор или необходимость проезда нескольких километров для адаптации лямбда-зонда. Но может быть и признак некорректной прошивки.</p>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Слетит ли гарантия при обновлении прошивки?</summary>
+<p>Официальные дилеры могут увидеть факт перепрограммирования в логах блока. Если вы меняете ПО на неоригинальное (тюнинг), гарантия на двигатель и связанные системы может быть снята. Обновление на последнюю официальную версию через дилера гарантию сохраняет.</p>
+</details>
+
+<details>
+<summary>Можно ли прошить Ладу Веста через телефон?</summary>
+<p>Полноценно "залить" прошивку через телефон с высокой долей вероятности не получится из-за риска обрыва связи. Телефон можно использовать только для диагностики и чтения ошибок через Bluetooth OBDII сканер.</p>
+</details>
+
+<details>
+<summary>Сколько времени занимает процесс прошивки?</summary>
+<p>Сам процесс записи занимает от 15 до 40 минут в зависимости от скорости адаптера и объема файла. Однако с учетом подготовки, подключения и последующей адаптации двигателем, заложите на процедуру около 1 часа.</p>
+</details>
+
+<details>
+<summary>Увеличится ли расход после чип-тюнинга?</summary>
+<p>При грамотной настройке (Stage 1) расход остается на уровне стока или слегка снижается за счет более оптимальных углов зажигания. Если же вы постоянно используете возросшую мощность ("давите в пол"), расход неизбежно вырастет.</p>
+</details>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Безопасное обновление прошивки требует стабильного напряжения в сети и проверенного файла калибровок. Не экономьте на оборудовании и источнике питания.</p></div></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#зачем-нужно-обновлять-по-на-лада-веста">Зачем нужно обновлять ПО на Лада Веста</a></li><li><a href="#различия-между-стоковой-прошивкой-и-чип-тюнингом">Различия между стоковой прошивкой и чип-тюнингом</a></li><li><a href="#необходимое-оборудование-и-подготовка">Необходимое оборудование и подготовка</a></li><li><a href="#процесс-обновления-через-диагностический-разъем">Процесс обновления через диагностический разъем</a></li><li><a href="#сравнение-версий-прошивок-и-совместимость">Сравнение версий прошивок и совместимость</a></li><li><a href="#типичные-ошибки-и-методы-их-решения">Типичные ошибки и методы их решения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/p/p2/p2105-oshibka-lada-vesta.html" class="related-card">Ошибка P2105 Лада Веста: причины, диагностика и ремонт</a></li><li><a href="/articles/l/la/lada-vesta-sv-kross-universal.html" class="related-card">Лада Веста SW Кросс: обзор универсала, характеристики и особенности</a></li><li><a href="/articles/g/gr/gruzopodemnost-lada-vesta-universal.html" class="related-card">Грузоподъемность Lada Vesta SW: нормы, советы, ограничения 2026</a></li><li><a href="/articles/l/la/lada-vesta-ne-zavoditsya-s-knopki-start-stop.html" class="related-card">Лада Веста не заводится с кнопки: причины и решения</a></li><li><a href="/articles/s/st/stabilizator-perednej-podveski-lada-vesta.html" class="related-card">Стабилизатор передней подвески Lada Vesta: выбор, замена, советы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/p/p2/p2105-oshibka-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Ошибка P2105 Лада Веста: причины, диагностика и ремонт</span><span class="related-bottom-desc">Полный разбор ошибки P2105 на Лада Веста. Причины неисправности дроссельной заслонки, пошаговая диаг</span></a><a href="/articles/l/la/lada-vesta-sv-kross-universal.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста SW Кросс: обзор универсала, характеристики и особенности</span><span class="related-bottom-desc">Полный обзор Лада Веста SW Кросс. Технические данные, реальный расход, плюсы и минусы кузова универс</span></a><a href="/articles/g/gr/gruzopodemnost-lada-vesta-universal.html" class="related-bottom-card"><span class="related-bottom-title">Грузоподъемность Lada Vesta SW: нормы, советы, ограничения 2026</span><span class="related-bottom-desc">Сколько можно перевозить в Лада Веста универсал? Официальные данные, расчет нагрузки, советы по эксп</span></a><a href="/articles/l/la/lada-vesta-ne-zavoditsya-s-knopki-start-stop.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста не заводится с кнопки: причины и решения</span><span class="related-bottom-desc">Lada Vesta не заводится с кнопки старт-стоп? Разбираем причины: севший аккумулятор, иммобилайзер, не</span></a><a href="/articles/s/st/stabilizator-perednej-podveski-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Стабилизатор передней подвески Lada Vesta: выбор, замена, советы</span><span class="related-bottom-desc">Как выбрать и заменить стабилизатор передней подвески на Лада Веста? Признаки неисправности, лучшие </span></a><a href="/articles/l/la/lada-vesta-kakie-dvorniki.html" class="related-bottom-card"><span class="related-bottom-title">Какие дворники на Лада Веста: размеры, виды и лучшие аналоги</span><span class="related-bottom-desc">Подробный разбор размеров щеток стеклоочистителя Лада Веста. Таблица артикулов, обзоры аналогов и со</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

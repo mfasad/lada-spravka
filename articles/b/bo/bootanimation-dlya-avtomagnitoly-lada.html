@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Bootanimation для Lada: установка анимации на Android — Лада Справка</title>
+    <meta name="description" content="Подробная инструкция, как установить bootanimation на магнитолу Lada. Замена логотипа при загрузке, смена картинки Android, совместимость версий.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/b/bo/bootanimation-dlya-avtomagnitoly-lada.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Bootanimation для Lada: установка анимации на Android">
+    <meta property="og:description" content="Подробная инструкция, как установить bootanimation на магнитолу Lada. Замена логотипа при загрузке, смена картинки Android, совместимость версий.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Bootanimation для Lada: установка анимации на Android</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Замена Bootanimation на магнитолах Lada: Полное руководство</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#что-такое-bootanimation-и-зачем-его-менять">Что такое bootanimation и зачем его менять</a></li><li><a href="#необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</a></li><li><a href="#поиск-и-подготовка-файла-анимации">Поиск и подготовка файла анимации</a></li><li><a href="#инструкция-по-установке-на-магнитолу">Инструкция по установке на магнитолу</a></li><li><a href="#решение-распространенных-проблем">Решение распространенных проблем</a></li><li><a href="#оптимизация-и-альтернативные-методы">Оптимизация и альтернативные методы</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Смена стартового изображения на головном устройстве — это не просто баловство, а способ персонализировать интерьер вашего автомобиля. Владелец <em>Lada</em> часто сталкивается с необходимостью убрать стандартный логотип завода или скучную заставку <em>Android</em>, которая появляется при каждом включении магнитолы. Процесс замены <strong>bootanimation</strong> позволяет сделать загрузку системы более стильной и быстрой, скрывая долгие этапы инициализации.</p>
+
+<p>В этой статье мы разберем технические нюансы работы с системными файлами мультимедийных систем, установленных в автомобили <em>Vesta</em>, <em>Granta</em> и других моделей <em>АвтоВАЗ</em>. Вам потребуется точность и понимание структуры файловой системы, так как любые ошибки могут привести к тому, что экран останется черным. <mark>Критически важно иметь резервную копию оригинального файла перед внесением любых изменений в системный раздел.</mark></p>
+
+<p>Многие энтузиасты тюнинга считают, что стандартная анимация слишком тяжелая и тормозит запуск приложений. Заменив её на оптимизированную версию или статичное изображение, можно выиграть несколько драгоценных секунд до появления рабочего стола. Это особенно актуально для бюджетных процессоров, которые часто стоят в штатных магнитолах.</p>
+
+<h2 id="что-такое-bootanimation-и-зачем-его-менять">Что такое bootanimation и зачем его менять</h2>
+
+<p>Файл <strong>bootanimation.zip</strong> представляет собой архив, содержащий последовательность кадров, которые воспроизводятся системой во время загрузки ядра. В отличие от логотипа производителя (splash screen), который «зашит» в память дисплея, бутанимация контролируется программно операционной системой <em>Android</em>. Именно её мы видим после того, как погаснет логотип <em>Lada</em> или <em>Renault</em>, но до появления рабочего стола.</p>
+
+<p>Зачем владельцам автомобилей <em>Kalina</em> или <em>Niva</em> менять этот файл? Во-первых, стандартная анимация может быть просто раздражающей или не соответствовать настроению водителя. Во-вторых, кастомные анимации часто весят меньше, что теоретически ускоряет процесс загрузки, хотя на современных накопителях разница минимальна. Главное — эстетическое удовольствие от уникального интерфейса.</p>
+
+<p>Стоит отметить, что процесс замены требует наличия <strong>root-прав</strong> (прав суперпользователя). Без них доступ к системной папке <code>/system/media</code> будет закрыт. Если ваша магнитола не имеет встроенной функции получения рут-доступа, возможно, потребуется перепрошивка устройства или использование специальных утилит для активации режима отладки.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой логотип вы хотите видеть при загрузке?</strong><ul><li>Оригинальный Lada</li><li>Логотип Android</li><li>Кастомная анимация</li><li>Статичная картинка</li><li>Мне всё равно</li></ul></div></div>
+
+<h2 id="необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</h2>
+
+<p>Прежде чем приступать к модификации системы, необходимо подготовить рабочее место и программное обеспечение. Вам не потребуются сложные паяльные станции, достаточно ноутбука и качественного USB-кабеля. Убедитесь, что аккумулятор автомобиля заряжен или двигатель работает, чтобы избежать внезапного отключения питания в критический момент.</p>
+
+<p>Для работы с файлами потребуется файловый менеджер с поддержкой прав суперпользователя, например, <em>Root Explorer</em> или <em>MT Manager</em>. Эти приложения позволяют видеть скрытые системные директории и редактировать файлы, защищенные от записи. Также может понадобиться архиватор, способный создавать zip-архивы без добавления лишних метаданных.</p>
+
+<ul>
+<li>📱 Смартфон или планшет на Android для установки менеджеров файлов.</li>
+<li>💻 Ноутбук с ОС Windows для предварительной подготовки архивов.</li>
+<li>🔌 USB-кабель типа Male-to-Male или флеш-карта для передачи файлов.</li>
+<li>📁 Оригинальный файл bootanimation.zip (сохраните его обязательно!).</li>
+</ul>
+
+<blockquote>
+<p>⚠️ Внимание: Перед началом любых операций скопируйте оригинальный файл bootanimation.zip в безопасное место на внутренней памяти или SD-карте. Это ваш единственный шанс восстановить работоспособность системы в случае ошибки.</p>
+</blockquote>
+
+<p>Проверьте версию вашей операционной системы. Магнитолы для <em>Largus</em> или <em>XRAY</em> могут работать на разных версиях <em>Android</em> (от 4.4 до 10.0 и выше). Структура папок может незначительно отличаться, но основной путь чаще всего остается стандартным: <code>/system/media/</code> или <code>/oem/media/</code>.</p>
+
+<h2 id="поиск-и-подготовка-файла-анимации">Поиск и подготовка файла анимации</h2>
+
+<p>Готовые файлы <strong>bootanimation</strong> можно найти на специализированных форумах или создать самостоятельно. Если вы хотите поставить логотип <em>Priora</em> или <em>Iskra</em>, убедитесь, что разрешение кадров соответствует разрешению экрана вашей магнитолы. Чаще всего это <code>1024×600</code> или <code>800×480</code> для старых моделей, и <code>1280×720</code> для новых.</p>
+
+<p>Создание собственной анимации — процесс трудоемкий. Вам понадобится набор PNG-изображений, которые будут сменять друг друга. Эти изображения упаковываются в zip-архив, но с одним важным условием: метод сжатия должен быть «Store» (без сжатия). Если использовать стандартное сжатие Deflate, магнитола не сможет прочитать файл и загрузка зависнет.</p>
+
+<p>Структура архива должна содержать папку <code>anim</code> (или название, указанное в конфиге) и файл <code>desc.txt</code>. В текстовом файле прописывается разрешение, частота кадров и количество повторений. Например, строка <code>800 480 60</code> означает разрешение 800 на 480 пикселей и 60 кадров в секунду.</p>
+
+<details class="faq-item"><summary>Структура desc.txt</summary><div class="faq-answer"><p>Файл desc.txt должен находиться в корне архива или в папке anim. Пример содержимого:
+<p>800 480 30</p>
+<p>p 1 0 part1</p>
+<p>p 0 0 part2</p>
+<p>Где 'p' обозначает часть, '1' или '0' — количество повторений (0 означает бесконечно), и имя папки с кадрами.</p></div></details></p>
+
+<p>Проверьте вес итогового файла. Слишком тяжелые анимации (более 10-15 Мб) могут долго загружаться в память, создавая эффект «бутылочного горлышка» при старте. Оптимальный размер для плавной работы — от 2 до 5 Мб.</p>
+
+<h2 id="инструкция-по-установке-на-магнитолу">Инструкция по установке на магнитолу</h2>
+
+<p>Процесс установки требует внимательности. Сначала скопируйте подготовленный файл <strong>bootanimation.zip</strong> во внутреннюю память головного устройства. Затем откройте файловый менеджер с правами root и перейдите по пути <code>/system/media/</code>. В некоторых прошивках для <em>Niva Legend</em> или <em>Niva Travel</em> путь может быть <code>/oem/media/</code>.</p>
+
+<p>Найдите оригинальный файл, переименуйте его (например, в <code>bootanimation_orig.zip</code>) и скопируйте свой новый файл на его место. После переименования необходимо изменить права доступа (Permissions) для нового файла. Они должны совпадать с правами остальных файлов в этой папке, обычно это <code>rw-r--r--</code> (644).</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист перед перезагрузкой</h4><label class="check-item"><input type="checkbox"><span>Сделана копия оригинала</span></label><label class="check-item"><input type="checkbox"><span>Новый файл переименован в bootanimation.zip</span></label><label class="check-item"><input type="checkbox"><span>Права доступа установлены 644</span></label><label class="check-item"><input type="checkbox"><span>Файл находится в /system/media/</span></label><label class="check-item"><input type="checkbox"><span>Архив создан методом Store</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>После всех манипуляций перезагрузите магнитолу. Если экран остался черным или появилась стандартная заставка, значит, файл поврежден или права доступа установлены неверно. В таком случае потребуется повторное вмешательство через файловый менеджер и возврат оригинального файла.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Значение для старых магнитол</th>
+<th>Значение для новых магнитол</th>
+<th>Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Разрешение</td>
+<td>800×480</td>
+<td>1024×600 / 1280×720</td>
+<td>Зависит от модели авто</td>
+</tr>
+<tr>
+<td>Путь к файлу</td>
+<td>/system/media/</td>
+<td>/system/media/ или /oem/media/</td>
+<td>Требуются root-права</td>
+</tr>
+<tr>
+<td>Права доступа</td>
+<td>rw-r--r-- (644)</td>
+<td>rw-r--r-- (644)</td>
+<td>Критично для загрузки</td>
+</tr>
+<tr>
+<td>Формат архива</td>
+<td>ZIP (Store)</td>
+<td>ZIP (Store)</td>
+<td>Без сжатия</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="решение-распространенных-проблем">Решение распространенных проблем</h2>
+
+<p>Наиболее частая проблема — черный экран после логотипа производителя. Это означает, что система не может декодировать файл анимации. Проверьте, не сжат ли архив. Также убедитесь, что внутри архива нет лишних системных файлов, таких как <code>__MACOSX</code>, которые часто создаются на компьютерах под управлением macOS.</p>
+
+<p>Если магнитола зависает на логотипе <em>Android</em>, возможно, анимация слишком тяжелая для процессора. Попробуйте уменьшить количество кадров или снизить разрешение. Для автомобилей <em>Samara</em> или более старых версий <em>Жигули</em> с установленными Android-головными устройствами лучше использовать статичные изображения или очень короткие циклы.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Если после замены bootanimation магнитола перестала включаться полностью (циклическая перезагрузка), вам потребуется доступ к recovery mode для удаления проблемного файла. Без этого устройство может превратиться в «кирпич».</p>
+</blockquote>
+
+<p>Иногда пользователи забывают про permissions. Файл должен быть исполняемым или доступным для чтения системой. Проверьте права доступа еще раз, даже если визуально все кажется правильным. В некоторых случаях помогает полное удаление оригинального файла перед копированием нового, но только если у вас есть точная копия на случай отката.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте приложение BootAnimation Creator на ПК для быстрой проверки вашего архива перед загрузкой в магнитолу. Оно покажет, как будет выглядеть анимация и с какой скоростью.</p></div>
+
+<h2 id="оптимизация-и-альтернативные-методы">Оптимизация и альтернативные методы</h2>
+
+<p>Вместо ручной замены файлов можно использовать специализированные приложения из магазина <em>Google Play</em>, такие как <em>Boot Animation Changer</em>. Они автоматически подменяют файл, если у устройства есть root-права. Однако на штатных магнитолах <em>Lada</em> магазины приложений часто отсутствуют или урезаны, поэтому ручной метод остается самым надежным.</p>
+
+<p>Существует также метод замены через ADB (Android Debug Bridge). Если на магнитоле включена отладка по USB, можно подключиться к ней с компьютера и отправить команду замены. Это быстрее и безопаснее, так как позволяет видеть логи ошибок в реальном времени.</p>
+
+<p>Для продвинутых пользователей доступна модификация самого процесса загрузки через редактирование скриптов init. Это позволяет, например, показать логотип <em>Vesta</em> на более раннем этапе или полностью отключить анимацию для ускорения запуска навигатора. Однако такие вмешательства требуют глубоких знаний Linux.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Самый безопасный способ установки — ручная замена файла с предварительным бэкапом оригинала и проверкой прав доступа 644.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли поставить видео в качестве заставки при загрузке?</summary>
+<p>Технически bootanimation — это последовательность кадров, а не видеофайл. Вы можете конвертировать видео в набор PNG-изображений и упаковать их, но это сильно увеличит размер файла и может замедлить загрузку. Форматы mp4 или avi напрямую не поддерживаются системой на этом этапе.</p>
+</details>
+
+<details>
+<summary>Сбросится ли моя анимация после обновления прошивки?</summary>
+<p>Да, при обновлении системного ПО (OTA или вручную) системный раздел <code>/system/</code> обычно перезаписывается, и ваш кастомный файл будет заменен на заводской. Вам придется повторить процедуру установки после каждого обновления.</p>
+</details>
+
+<details>
+<summary>Где найти оригинальный bootanimation для моей Lada?</summary>
+<p>Оригинальный файл можно извлечь из самой магнитолы перед заменой (просто переименовав его и скопировав на флешку) или найти на форумах, посвященных конкретным моделям головных устройств (например, Teyes, RedPower или штатные ММС).</p>
+</details>
+
+<details>
+<summary>Влияет ли bootanimation на скорость работы магнитолы?</summary>
+<p>Сама анимация не влияет на скорость работы уже запущенной системы. Однако тяжелая анимация может задержать появление рабочего стола на несколько секунд. Оптимизированный файл может незначительно ускорить субъективное ощущение скорости загрузки.</p>
+</details>
+
+<details>
+<summary>Что делать, если после замены пропал звук при загрузке?</summary>
+<p>Bootanimation отвечает только за изображение. Звук при загрузке (boot sound) настраивается отдельно, часто через другие системные файлы или настройки эквалайзера. Замена картинки не должна влиять на аудио,除非 вы случайно повредили другие файлы в папке media.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#что-такое-bootanimation-и-зачем-его-менять">Что такое bootanimation и зачем его менять</a></li><li><a href="#необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</a></li><li><a href="#поиск-и-подготовка-файла-анимации">Поиск и подготовка файла анимации</a></li><li><a href="#инструкция-по-установке-на-магнитолу">Инструкция по установке на магнитолу</a></li><li><a href="#решение-распространенных-проблем">Решение распространенных проблем</a></li><li><a href="#оптимизация-и-альтернативные-методы">Оптимизация и альтернативные методы</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/p/pa/panel-priborov-lada-kalina-universal.html" class="related-card">Панель приборов Лада Калина универсал: устройство, разборка, доработка</a></li><li><a href="/articles/c/ch/chto-luchshe-uaz-ili-lada.html" class="related-card">Что лучше: УАЗ или Лада? Детальное сравнение авто</a></li><li><a href="/articles/l/la/lada-vesta-kross-universal-otzyvy-vladeltsev.html" class="related-card">Лада Веста Кросс универсал: честные отзывы владельцев</a></li><li><a href="/articles/r/ra/raskhod-benzina-lada-kalina-na-100-km.html" class="related-card">Расход бензина Лада Калина на 100 км: паспортный и реальный</a></li><li><a href="/articles/r/re/remen-generatora-lada-granta-8-klapanov-s-konditsionerom-artikul.html" class="related-card">Ремень генератора Лада Гранта 8 клапанов с кондиционером: артикулы и замена</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/p/pa/panel-priborov-lada-kalina-universal.html" class="related-bottom-card"><span class="related-bottom-title">Панель приборов Лада Калина универсал: устройство, разборка, доработка</span><span class="related-bottom-desc">Полный обзор панели приборов Лада Калина универсал. Разборка, снятие щитка, расшифровка индикаторов,</span></a><a href="/articles/c/ch/chto-luchshe-uaz-ili-lada.html" class="related-bottom-card"><span class="related-bottom-title">Что лучше: УАЗ или Лада? Детальное сравнение авто</span><span class="related-bottom-desc">Полный разбор: УАЗ или Лада? Сравниваем внедорожники и легковые авто по надежности, проходимости и с</span></a><a href="/articles/l/la/lada-vesta-kross-universal-otzyvy-vladeltsev.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста Кросс универсал: честные отзывы владельцев</span><span class="related-bottom-desc">Анализ реальных отзывов о Lada Vesta SW Cross. Расход топлива, проблемы с вариатором, клиренс, надеж</span></a><a href="/articles/r/ra/raskhod-benzina-lada-kalina-na-100-km.html" class="related-bottom-card"><span class="related-bottom-title">Расход бензина Лада Калина на 100 км: паспортный и реальный</span><span class="related-bottom-desc">Подробный анализ расхода топлива Лада Калина. Паспортные данные, реальный расход по городу и трассе,</span></a><a href="/articles/r/re/remen-generatora-lada-granta-8-klapanov-s-konditsionerom-artikul.html" class="related-bottom-card"><span class="related-bottom-title">Ремень генератора Лада Гранта 8 клапанов с кондиционером: артикулы и замена</span><span class="related-bottom-desc">Какой ремень генератора нужен на Лада Гранта 8 клапанов с кондиционером? Точные артикулы, таблица ра</span></a><a href="/articles/l/la/lada-detal-krasnoyarsk-sudostroitelnaya.html" class="related-bottom-card"><span class="related-bottom-title">Лада Деталь Красноярск: склад на Судостроительной, каталог</span><span class="related-bottom-desc">Официальный дилер Лада Деталь на улице Судостроительной в Красноярске. Оригинальные запчасти, складс</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

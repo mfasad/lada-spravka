@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Lada XRAY: проверка подлинности ключа и диагностика — Лада Справка</title>
+    <meta name="description" content="Как проверить подлинность ключа Lada XRAY? Методы диагностики, коды ошибок и работа с иммобилайзером.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-kh-rej-klyuch-proverki-podlinnosti.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Lada XRAY: проверка подлинности ключа и диагностика">
+    <meta property="og:description" content="Как проверить подлинность ключа Lada XRAY? Методы диагностики, коды ошибок и работа с иммобилайзером.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/xray/">Xray</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Lada XRAY: проверка подлинности ключа и диагностика</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Lada XRAY: проверка подлинности ключа и диагностика</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#принцип-работы-штатного-иммобилайзера">Принцип работы штатного иммобилайзера</a></li><li><a href="#симптомы-потери-связи-с-ключом">Симптомы потери связи с ключом</a></li><li><a href="#диагностика-с-помощью-сканера-elm327">Диагностика с помощью сканера ELM327</a></li><li><a href="#таблица-кодов-ошибок-иммобилайзера">Таблица кодов ошибок иммобилайзера</a></li><li><a href="#проверка-физической-целостности-ключа">Проверка физической целостности ключа</a></li><li><a href="#процедура-перепрограммирования-ключей">Процедура перепрограммирования ключей</a></li><li><a href="#частые-вопросы-и-ответы-faq">Частые вопросы и ответы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы кроссоверов <em>Lada XRAY</em> часто сталкиваются с ситуацией, когда автомобиль перестает реагировать на команды брелока или система безопасности блокирует запуск двигателя. В таких случаях первым делом возникает подозрение на необходимость проверки подлинности ключа. Это сложный процесс, требующий понимания работы штатного иммобилайзера и электронных систем защиты.</p>
+
+<p>Современные автомобили АвтоВАЗа, включая модель <em>XRAY</em>, оснащаются продвинутыми системами шифрования сигнала. Если электронный блок управления (ЭБУ) не распознает чип внутри рукоятки, двигатель не запустится, даже если механическая часть ключа идеально подходит к замку. Важно различать программный сбой, разряд батареи и реальную проблему с идентификацией устройства.</p>
+
+<p>Проверка подлинности — это не просто нажатие кнопок, а целый комплекс диагностических мероприятий. Они позволяют выявить, является ли ключ оригинальным, был ли он правильно прописан в память автомобиля или же в системе произошел критический сбой. Игнорирование симптомов может привести к полной блокировке транспортного средства.</p>
+
+<h2 id="принцип-работы-штатного-иммобилайзера">Принцип работы штатного иммобилайзера</h2>
+
+<p>Штатный иммобилайзер в <em>Lada XRAY</em> работает по принципу радиочастотной идентификации. Внутри рукоятки ключа находится транспондер, который не требует собственного источника питания для передачи кода. Когда вы вставляете ключ в замок или подносите его к считывателю, антенна в замке зажигания генерирует электромагнитное поле.</p>
+
+<p>Это поле активирует чип, который отправляет уникальный цифровой код в блок комфорта или непосредственно в ЭБУ двигателя. Если коды совпадают, система разрешает запуск. <strong>Криптографический алгоритм</strong> постоянно меняется, что делает простую копию механической части бесполезной для угона. Без правильной электронной "привязки" автомобиль останется недвижимым.</p>
+
+<blockquote>⚠️ Внимание: Попытки вскрытия корпуса ключа без специальных навыков часто приводят к повреждению микросхемы транспондера, после чего восстановление данных становится невозможным.</blockquote>
+
+<p>Система также контролирует целостность связи. Если сигнал прерывается или искажается внешними помехами, ЭБУ может расценить это как атаку или неисправность. В таких случаях на приборной панели загорается индикатор безопасности, а двигатель глохнет или не запускается.</p>
+
+<details class="faq-item"><summary>Технические детали протокола связи</summary><div class="faq-answer"><p>В автомобилях Lada XRAY используется защищенный протокол обмена данными, который предотвращает перехват сигнала код-грабберами. Частота обновления кодов доступа высока, что требует использования только сертифицированного оборудования для программирования новых ключей.</p></div></details>
+
+<h2 id="симптомы-потери-связи-с-ключом">Симптомы потери связи с ключом</h2>
+
+<p>Понять, что система проверки подлинности ключа <em>Lada XRAY</em> дает сбой, можно по ряду характерных признаков. Они могут проявляться внезапно или нарастать постепенно. Первым тревожным звоночком часто становится необходимость подносить брелок ближе к замку зажигания, чем обычно.</p>
+
+<p>Если автомобиль начал игнорировать команды центрального замка с расстояния 5-10 метров, это может указывать на ослабление сигнала или проблемы с антенным модулем. Однако, если двери открываются, но двигатель не заводится и мигает лампа иммобилайзера, проблема кроется глубже — в самом чипе или его считывании.</p>
+
+<ul>
+<li>🚫 Двигатель заводится и сразу глохнет через 1-2 секунды работы.</li>
+<li>🔑 Кнопки на брелоке работают только при непосредственном прижатии к личинке замка.</li>
+<li>💡 Индикатор безопасности на панели приборов мигает в аварийном режиме или горит постоянно.</li>
+<li>📉 Резкое сокращение радиуса действия штатного пульта управления.</li>
+</ul>
+
+<p>Иногда симптомы маскируются под другие неисправности. Например, окисление контактов в замке зажигания может давать схожую картину. Поэтому прежде чем грешить на "неподлинность" или поломку ключа, необходимо исключить механические повреждения и окислы в цепи питания считывателя.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Сталкивались ли вы с проблемами ключа на Lada XRAY?</strong><ul><li>Да, ключ перестал видеться</li><li>Были сбои в работе ЦЗ</li><li>Нет, проблем не было</li><li>Ключ работает, но батарея села</li></ul></div></div>
+
+<h2 id="диагностика-с-помощью-сканера-elm327">Диагностика с помощью сканера ELM327</h2>
+
+<p>Для глубокого анализа ситуации владельцу <em>Lada XRAY</em> потребуется диагностический адаптер, совместимый с протоколами OBD-II. Наиболее доступным вариантом является адаптер <em>ELM327</em> в связке со смартфоном и специализированным приложением, например, <em>OpenDiag</em> или <em>Motordata</em>. Это позволяет считать коды ошибок, которые хранятся в памяти ЭБУ.</p>
+
+<p>Подключите адаптер к диагностическому разъему, который в <em>Lada XRAY</em> обычно расположен под панелью приборов слева от рулевой колонки. После сопряжения со смартфоном необходимо запустить сканирование системы иммобилайзера и системы управления двигателем. Ошибки, связанные с ключом, часто имеют специфические коды.</p>
+
+<p>В процессе диагностики обратите внимание на параметры "Статус ключа" или "Идентификация транспондера". Если сканер показывает отсутствие связи или неверный статус, это подтверждает проблему. <strong>Программный сбой</strong> может быть исправлен перезаписью конфигурации, в то время как физическая поломка чипа потребует замены.</p>
+
+<div class="checklist-block"><h4>☑️ Алгоритм первичной диагностики</h4><label class="check-item"><input type="checkbox"><span>Подключить сканер OBD-II:Парное сопряжение со смартфоном:Считать коды ошибок иммобилайзера:Проверить напряжение бортовой сети</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 1</div></div>
+
+<p> Для точной диагностики лучше использовать лицензионное ПО и проверенные адаптеры, поддерживающие протокол <em>K-Line</em> или <em>CAN</em> в зависимости от года выпуска автомобиля.</p>
+
+<h2 id="таблица-кодов-ошибок-иммобилайзера">Таблица кодов ошибок иммобилайзера</h2>
+
+<p>При проведении компьютерной диагностики вы можете столкнуться с числовыми кодами, которые указывают на конкретную неисправность. Ниже приведена расшифровка наиболее частых ошибок, связанных с системой доступа и ключами зажигания для платформы <em>XRAY</em>.</p>
+
+<table>
+<thead>
+<tr>
+<th>Код ошибки</th>
+<th>Описание проблемы</th>
+<th>Вероятная причина</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0512</td>
+<td>Ошибка цепи кнопки сброса</td>
+<td>Неисправность проводки или кнопки</td>
+</tr>
+<tr>
+<td>P1602</td>
+<td>Пропадание напряжения бортовой сети</td>
+<td>Разряженный аккумулятор или плохой контакт</td>
+</tr>
+<tr>
+<td>P1612</td>
+<td>Ошибка процессора иммобилайзера</td>
+<td>Сбой ПО блока управления</td>
+</tr>
+<tr>
+<td>P1613</td>
+<td>Неверный сигнал иммобилайзера</td>
+<td>Ключ не распознан или поврежден чип</td>
+</tr>
+<tr>
+<td>P1614</td>
+<td>Неверный пароль иммобилайзера</td>
+<td>Несовпадение кодов в ЭБУ и ключе</td>
+</tr>
+</tbody>
+</table>
+
+<p>Наличие ошибки <code>P1613</code> или <code>P1614</code> чаще всего указывает на то, что автомобиль "забыл" ключ или в системе произошел рассинхрон. В редких случаях это может свидетельствовать о попытке несанкционированного доступа, если автомобиль стоял на охраняемой стоянке.</p>
+
+<p>Если сканер показывает множественные ошибки по питанию, в первую очередь проверьте клеммы аккумулятора и массу двигателя. Нестабильное напряжение часто приводит к ложным срабатываниям системы защиты и появлению "фантомных" ошибок иммобилайзера.</p>
+
+<h2 id="проверка-физической-целостности-ключа">Проверка физической целостности ключа</h2>
+
+<p>Прежде чем искать программные решения, необходимо исключить физические повреждения. Ключ <em>Lada XRAY</em> — это сложное устройство, содержащее плату, батарейку и антенный контур. Падения, попадание влаги или сильное давление могут нарушить его работу.</p>
+
+<p>Аккуратно вскройте корпус ключа, используя тонкую отвертку или пластиковую карту. Обратите внимание на состояние контактов батарейки. Окисление или смещение пружинного контакта — частая причина потери сигнала. Замените элемент питания на новый, даже если старый кажется рабочим.</p>
+
+<blockquote>⚠️ Внимание: При вскрытии ключа будьте крайне осторожны с хрупким кварцевым резонатором и микросхемой. Любое механическое повреждение платы сделает ключ непригодным для восстановления.</blockquote>
+
+<p>Осмотрите печатную плату под увеличением. Трещины в пайке элементов, особенно в месте крепления кнопок или антенной катушки, могут прерывать цепь. Если вы обнаружили следы коррозии, аккуратно почистите плату спиртом и мягкой щеткой, но не трите сами чипы.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте мультиметр для проверки напряжения на контактах новой батарейки перед установкой. Номинал должен составлять ровно 3 вольта. Если напряжение ниже 2.8В, батарейка бракованная или лежалая.</p></div>
+
+<h2 id="процедура-перепрограммирования-ключей">Процедура перепрограммирования ключей</h2>
+
+<p>Если физическая проверка не выявила дефектов, а диагностика указывает на рассинхронизацию, может потребоваться перепрограммирование. Для <em>Lada XRAY</em> эта процедура выполняется с помощью диагностического оборудования, такого как <em>DiagLab</em> или дилерский сканер <em>E-LeX</em>.</p>
+
+<p>Процесс заключается в записи новых идентификаторов ключей в память иммобилайзера. Автомобль должен находиться в режиме обучения. Обычно это делается через меню диагностического прибора: выбирается пункт "Привязка ключей", после чего система переходит в режим ожидания.</p>
+
+<p>В течение ограниченного времени (обычно 10-15 секунд) необходимо включить зажигание обучаемым ключом. Система считает код и подтвердит запись звуковым сигналом или индикацией на приборной панели. <strong>Количество ключей</strong>, которые можно прописать одновременно, ограничено, поэтому часто требуется наличие всех ключей при процедуре.</p>
+
+<ul>
+<li>🔧 Подключите профессиональный сканер к разъему OBD-II.</li>
+<li>📱 Выберите в меню соответствующую модель автомобиля и год выпуска.</li>
+<li>🔑 Следуйте инструкциям на экране прибора для входа в режим обучения.</li>
+<li>✅ Дождитесь подтверждения успешной записи кода каждого ключа.</li>
+</ul>
+
+<p>Самостоятельно, без специального оборудования, перепрограммировать ключ на <em>XRAY</em> практически невозможно, в отличие от некоторых старых моделей ВАЗ. Попытки сделать это "танцами с бубном" (нажатием педалей и поворотом ключа) на современных системах с шифрованием не работают и могут заблокировать иммобилайзер.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Программирование ключей Lada XRAY требует наличия лицензионного оборудования и пин-кода доступа к системе безопасности автомобиля.</p></div>
+
+<h2 id="частые-вопросы-и-ответы-faq">Частые вопросы и ответы (FAQ)</h2>
+
+<details>
+<summary>Можно ли завести Lada XRAY, если ключ полностью разрядился?</summary>
+<p>Если в ключе села батарейка, радиосигнал для центрального замка пропадет, но транспондер для запуска двигателя работает пассивно. Если чип исправен, автомобиль должен завестись. Если не заводится — проблема не в батарейке, а в рассинхронизации или поломке чипа.</p>
+</details>
+
+<details>
+<summary>Сколько ключей можно прописать на один автомобиль XRAY?</summary>
+<p>Система иммобилайзера <em>Lada XRAY</em> обычно позволяет хранить в памяти до 4-х уникальных ключей. При перепрограммировании старые коды часто стираются, поэтому рекомендуется иметь при себе все ключи, которые планируется использовать в будущем.</p>
+</details>
+
+<details>
+<summary>Почему горит лампа иммобилайзера после успешного запуска?</summary>
+<p>Кратковременное загорание лампы при запуске — это норма (проверка системы). Если лампа горит постоянно или часто мигает уже на работающем двигателе, это сигнал о неисправности цепи антенны или ошибке считывания кода ключа.</p>
+</details>
+
+<details>
+<summary>Можно ли сделать копию ключа XRAY в обычном сервисе?</summary>
+<p>Изготовить механическую копию лезвия можно в любой мастерской. Однако для работы автомобиля необходимо клонирование или прописка электронного чипа. Для этого требуется оборудование, способное работать с криптографией АвтоВАЗ, что есть не в каждом сервисе.</p>
+</details>
+
+<p>В заключение стоит отметить, что система проверки подлинности ключа в <em>Lada XRAY</em> — это надежный, но чувствительный механизм. Своевременная диагностика и использование оригинальных комплектующих помогут избежать ситуаций, когда автомобиль внезапно откажется заводиться. Берегите свои ключи и следите за состоянием элементов питания.</p></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#принцип-работы-штатного-иммобилайзера">Принцип работы штатного иммобилайзера</a></li><li><a href="#симптомы-потери-связи-с-ключом">Симптомы потери связи с ключом</a></li><li><a href="#диагностика-с-помощью-сканера-elm327">Диагностика с помощью сканера ELM327</a></li><li><a href="#таблица-кодов-ошибок-иммобилайзера">Таблица кодов ошибок иммобилайзера</a></li><li><a href="#проверка-физической-целостности-ключа">Проверка физической целостности ключа</a></li><li><a href="#процедура-перепрограммирования-ключей">Процедура перепрограммирования ключей</a></li><li><a href="#частые-вопросы-и-ответы-faq">Частые вопросы и ответы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/m/ma/massa-lada-kh-rej.html" class="related-card">Масса Лада Х Рей: точные данные и влияние на динамику</a></li><li><a href="/articles/k/ka/kakoj-akkumulyator-na-lada-kh-rej-16.html" class="related-card">Какой аккумулятор выбрать для Lada XRAY 1.6: параметры и советы</a></li><li><a href="/articles/k/ka/kak-uznat-kod-magnitoly-lada-kh-rej.html" class="related-card">Как узнать код магнитолы Лада XRAY: все способы разблокировки</a></li><li><a href="/articles/l/la/lada-kh-rej-stojki-stabilizatora.html" class="related-card">Стойки стабилизатора Лада XRAY: выбор, замена и диагностика</a></li><li><a href="/articles/n/ne/ne-rabotaet-omyvatel-lobovogo-stekla-lada-kh-rej-prichina.html" class="related-card">Не работает омыватель Lada XRAY: 5 главных причин и ремонт</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/m/ma/massa-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Масса Лада Х Рей: точные данные и влияние на динамику</span><span class="related-bottom-desc">Подробный разбор массы Лада Х Рей. Снаряженная и полная масса, влияние веса на расход топлива и разг</span></a><a href="/articles/k/ka/kakoj-akkumulyator-na-lada-kh-rej-16.html" class="related-bottom-card"><span class="related-bottom-title">Какой аккумулятор выбрать для Lada XRAY 1.6: параметры и советы</span><span class="related-bottom-desc">Подробный гайд по выбору АКБ для Лада Х Рей 1.6: размеры, ёмкость, бренды и нюансы установки. Сравне</span></a><a href="/articles/k/ka/kak-uznat-kod-magnitoly-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Как узнать код магнитолы Лада XRAY: все способы разблокировки</span><span class="related-bottom-desc">Узнайте, как найти и ввести код магнитолы Лада XRAY. Подробная инструкция по разблокировке штатного </span></a><a href="/articles/l/la/lada-kh-rej-stojki-stabilizatora.html" class="related-bottom-card"><span class="related-bottom-title">Стойки стабилизатора Лада XRAY: выбор, замена и диагностика</span><span class="related-bottom-desc">Полный гид по стойкам стабилизатора Лада Х Рей. Как выбрать, симптомы износа, пошаговая инструкция з</span></a><a href="/articles/n/ne/ne-rabotaet-omyvatel-lobovogo-stekla-lada-kh-rej-prichina.html" class="related-bottom-card"><span class="related-bottom-title">Не работает омыватель Lada XRAY: 5 главных причин и ремонт</span><span class="related-bottom-desc">Почему не льет жидкость омывателя на Lada XRAY? Разбор причин: от перегоревшего предохранителя до за</span></a><a href="/articles/o/ob/obem-baka-lada-iks-rej-kross.html" class="related-bottom-card"><span class="related-bottom-title">Объем бака Lada XRAY Cross: официальные данные и реальный запас хода</span><span class="related-bottom-desc">Сколько литров топлива вмещает бак Лада Икс Рей Кросс? Реальный расход, запас хода на бензине и газу</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

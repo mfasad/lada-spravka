@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Программа диагностики Лада Гранта: выбор софта и OBD адаптера — Лада Справка</title>
+    <meta name="description" content="Лучшая программа для диагностики Лада Гранта. Обзор OpenBox, Scanmatik и ddt4all. Как подключить OBD2 сканер, считать ошибки и адаптировать ЭБУ своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/pr/programma-diagnostiki-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Программа диагностики Лада Гранта: выбор софта и OBD адаптера">
+    <meta property="og:description" content="Лучшая программа для диагностики Лада Гранта. Обзор OpenBox, Scanmatik и ddt4all. Как подключить OBD2 сканер, считать ошибки и адаптировать ЭБУ своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Программа диагностики Лада Гранта: выбор софта и OBD адаптера</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Профессиональная программа диагностики Лада Гранта: полный гид по софту</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#интерфейсы-подключения-и-протоколы-обмена-данными">Интерфейсы подключения и протоколы обмена данными</a></li><li><a href="#профессиональный-софт-для-пк-openbox-и-scanmatik">Профессиональный софт для ПК: OpenBox и Scanmatik</a></li><li><a href="#мобильная-диагностика-приложения-для-android-и-ios">Мобильная диагностика: приложения для Android и iOS</a></li><li><a href="#универсальные-сканеры-ddt4all-и-pycar">Универсальные сканеры: ddt4all и PyCar</a></li><li><a href="#анализ-параметров-и-расшифровка-ошибок">Анализ параметров и расшифровка ошибок</a></li><li><a href="#адаптация-и-сброс-настроек-эбу">Адаптация и сброс настроек ЭБУ</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный автомобиль, даже бюджетный сегмент, представляет собой сложный электронный комплекс, где <strong>Электронный Блок Управления</strong> (ЭБУ) контролирует работу двигателя, трансмиссии и систем безопасности. Для владельца <em>Лада Гранта</em> наличие доступа к этим данным означает возможность самостоятельно отслеживать состояние машины, не дожидаясь планового визита в сервис. Программная диагностика позволяет выявить скрытые неисправности, которые еще не проявились в виде горящей лампы Check Engine на приборной панели.</p>
+
+<p>Основная сложность для новичка заключается в огромном количестве программного обеспечения, доступного на рынке. Одни утилиты заточены под дилерское обслуживание, другие созданы энтузиастами для тюнинга, а третьи являются универсальными сканерами. <mark>Для ЭБУ М74 и М74К, которые массово устанавливаются на Гранты, критически важен выбор софта, поддерживающего протокол K-Line или CAN в зависимости от года выпуска.</mark> Неправильный выбор инструмента может привести к невозможности считать конкретные параметры или, в худшем случае, к программному сбою.</p>
+
+<p>В этой статье мы детально разберем, какая программа диагностики Лада Гранта подойдет именно вам. Мы рассмотрим функционал популярных приложений, способы подключения через OBD2 разъем и нюансы работы с различными версиями бортовых компьютеров. Грамотный подход к выбору софта сэкономит вам деньги на услугах СТО и даст полное понимание процессов, происходящих под капотом вашего автомобиля.</p>
+
+<h2 id="интерфейсы-подключения-и-протоколы-обмена-данными">Интерфейсы подключения и протоколы обмена данными</h2>
+
+<p>Прежде чем запускать любой софт на ноутбуке или смартфоне, необходимо обеспечить физическую связь с автомобилем. В <em>Lada Granta</em> диагностический разъем OBD-II обычно расположен под панелью приборов справа от рулевой колонки или под заглушкой в нижней части торпеды. Для связи используется интерфейс <strong>K-Line</strong> на ранних моделях и <strong>CAN-шина</strong> на рестайлинговых версиях с Евро-4 и выше. Понимание этой разницы диктует выбор адаптера.</p>
+
+<p>Самым распространенным и доступным решением является адаптер <em>ELM327</em>. Однако не все версии одинаково полезны. Дешевые китайские clones версии 2.1 часто работают нестабильно с отечественным софтом. Для серьезной работы лучше искать устройства на версии 1.5 с чипом PIC18F25K80. Более профессиональный уровень — это адаптеры <strong>Scanmatik 2</strong> или <strong>OpenBox</strong>, которые обеспечивают стабильную связь и поддержку заводских протоколов АвтоВАЗ.</p>
+
+<blockquote>
+<p>⚠️ Внимание: При подключении адаптера всегда сначала вставляйте устройство в разъем автомобиля, и только затем подключайте его к смартфону или ноутбуку. Обратная последовательность может привести к скачку напряжения и повреждению порта.</p>
+</blockquote>
+
+<p>Драйверы для адаптеров также играют важную роль. Для ELM327 часто требуются драйверы FT232 или CH340, в зависимости от распайки платы. Если программа не видит адаптер, в первую очередь проверьте диспетчер устройств на компьютере и убедитесь, что COM-порт определен корректно. На Android устройствах часто требуется вручную разрешить приложению доступ к USB-порту при подключении.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой адаптер вы планируете использовать?</strong><ul><li>ELM327 (Bluetooth)</li><li>ELM327 (Wi-Fi)</li><li>Scanmatik 2</li><li>OpenBox</li><li>Свой вариант</li></ul></div></div>
+
+<h2 id="профессиональный-софт-для-пк-openbox-и-scanmatik">Профессиональный софт для ПК: OpenBox и Scanmatik</h2>
+
+<p>Если вы настроены на серьезную работу с электроникой <em>Гранты</em>, то настольные версии программ предоставляют максимально глубокий доступ к параметрам. Лидером в этом сегменте является программа <strong>OpenBox Manager</strong>. Это бесплатное решение, которое изначально создавалось для чип-тюнинга, но обладает мощнейшим функционалом диагноста. Она позволяет не только считывать ошибки, но и смотреть осциллограммы датчиков в реальном времени.</p>
+
+<p>Вторым столпом диагностики является пакет <em>Scanmatik</em>. Официальная программа платная, но она обеспечивает эталонную работу с адаптерами своей марки. Функционал включает в себя построение графиков, запись логов поездки и детальную расшифровку параметров, которые не видны в дешевых сканерах. Для владельцев Грант с ЭБУ <strong>Итэлма М74</strong> это один из лучших выборов.</p>
+
+<ul>
+<li>🔹 <strong>OpenBox Manager:</strong> Идеален для работы с М74, поддерживает онлайн-карты и имеет встроенный редактор калибровок.</li>
+<li>🔹 <strong>Scanmatik 2 Pro:</strong> Отличная визуализация данных, поддержка мультиметра и возможность обновления прошивки самого адаптера.</li>
+<li>🔹 <strong>ВАЗ-Диагностика:</strong> Специализированный софт, заточенный именно под протоколы АвтоВАЗ, простой интерфейс для быстрого считывания ошибок.</li>
+</ul>
+
+<p>Установка драйверов для этих программ может потребовать отключения проверки подписи драйверов в Windows 10/11, особенно для старых версий софта. Это стандартная процедура для диагностического оборудования. После установки рекомендуется запускать программы от имени администратора, чтобы обеспечить стабильный доступ к портам связи.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте USB-удлинитель длиной не более 1.5 метра при подключении ноутбука. Длинные кабели создают помехи в линии K-Line, что приводит к обрывам связи во время диагностики.</p></div>
+
+<h2 id="мобильная-диагностика-приложения-для-android-и-ios">Мобильная диагностика: приложения для Android и iOS</h2>
+
+<p>Для экспресс-проверки в пути или быстрой оценки состояния автомобиля владельцы <em>Лада Гранта</em> все чаще используют смартфоны. Мобильные приложения удобны тем, что всегда под рукой. Одним из самых функциональных решений является <strong>OpenBox Diagnostic</strong>. Это мобильная версия настольной программы, позволяющая через Bluetooth-адаптер получать доступ к тем же параметрам, что и на ПК.</p>
+
+<p>Популярное приложение <em>Torque Pro</em> также широко используется, но его возможности с отечественными авто ограничены базовым набором OBD2. Оно хорошо показывает температуру, обороты и скорость, но специфические ошибки ВАЗа может не распознать или показать в виде общих кодов <strong>P0xxx</strong>. Более продвинутым вариантом для Android является <strong>ВАЗ-Диагностика</strong> (мобильная версия), которая умеет работать с протоколами Bosch и Итэлма.</p>
+
+<p>Важным аспектом является настройка профиля автомобиля в приложении. Необходимо вручную выбрать тип ЭБУ (например, Bosch M7.9.7 или Itelma M74) и тип соединения. Если выбрать неверный профиль, программа может подключиться, но данные будут отображаться некорректно или отсутствовать вовсе.</p>
+
+<table>
+<thead>
+<tr>
+<th>Приложение</th>
+<th>Платформа</th>
+<th>Стоимость</th>
+<th>Поддержка ЭБУ ВАЗ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenBox Diagnostic</td>
+<td>Android</td>
+<td>Бесплатно</td>
+<td>Полная (М74, М75, М78)</td>
+</tr>
+<tr>
+<td>Torque Pro</td>
+<td>Android</td>
+<td>Платно / Lite</td>
+<td>Базовая (OBD2)</td>
+</tr>
+<tr>
+<td>CarScanner ELM OBD2</td>
+<td>iOS / Android</td>
+<td>Freemium</td>
+<td>Хорошая (есть профили ВАЗ)</td>
+</tr>
+<tr>
+<td>ВАЗ-Диагностика</td>
+<td>Android</td>
+<td>Платно</td>
+<td>Профессиональная</td>
+</tr>
+</tbody>
+</table>
+
+<details class="faq-item"><summary>Почему на iPhone меньше выбора программ?</summary><div class="faq-answer"><p>Экосистема iOS ограничивает доступ приложений к Bluetooth-порту в режиме, необходимом для диагностических адаптеров. Поэтому большинство профессиональных решений доступны только на Android или требуют использования Wi-Fi адаптеров ELM327, которые создают локальную сеть для передачи данных.</p></div></details>
+
+<h2 id="универсальные-сканеры-ddt4all-и-pycar">Универсальные сканеры: ddt4all и PyCar</h2>
+
+<p>Отдельного внимания заслуживают универсальные инструменты, такие как <strong>ddt4all</strong>. Изначально созданный для автомобилей альянса Renault-Nissan, этот софт благодаря усилиям сообщества научился работать и с некоторыми моделями <em>АвтоВАЗ</em>, особенно теми, где используется архитектура, близкая к французской (например, некоторые версии с контроллерами Renault). Это мощный инструмент для продвинутых пользователей, позволяющий вмешиваться в работу блоков комфорта.</p>
+
+<p>Проект <strong>PyCar</strong> (или EcuTuning) представляет собой попытку создать кроссплатформенное решение на Python. Он интересен тем, что позволяет не только диагностировать, но и проводить базовый чип-тюнинг. Интерфейс может показаться сложным новичку, но функциональность перекрывает неудобства. Здесь доступны тесты исполнительных механизмов: можно программно включить бензонасос, форсунки или вентилятор охлаждения для проверки их работоспособности.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Использование функций "Тест исполнительных механизмов" на прогретом двигателе может привести к перегреву свечей или повреждению катализатора. Проводите тесты только при необходимости и кратковременно.</p>
+</blockquote>
+
+<p>Для работы с такими программами часто требуется создание собственного репозитория данных или загрузка готовых профилей (databases) с форумов. Без актуальной базы данных программа просто не поймет, какие байты за что отвечают в потоке информации от ЭБУ вашей Гранты.</p>
+
+<h2 id="анализ-параметров-и-расшифровка-ошибок">Анализ параметров и расшифровка ошибок</h2>
+
+<p>После подключения к ЭБУ перед вами откроется список параметров. Самые важные из них для диагностики <em>Лада Гранта</em> — это <strong>LTFT</strong> (краткосрочная коррекция) и <strong>STFT</strong> (долгосрочная коррекция) топливной смеси. В норме эти значения должны колебаться в пределах ±5-10%. Если вы видите стабильное значение +20% или -20%, это указывает на проблему с датчиком кислорода, подсос воздуха или неисправность форсунок.</p>
+
+<p>Также следует обратить внимание на напряжение бортовой сети. При работающем двигателе оно должно быть в диапазоне 13.5–14.5 Вольт. Скачки напряжения могут вызывать хаотичные ошибки в разных системах. Параметр "Положение дроссельной заслонки" должен плавно меняться от 0% до 100% при нажатии педали, без провалов.</p>
+
+<ul>
+<li>🔸 <strong>Датчик кислорода:</strong> Проверяйте скорость отклика. Лямбда-зонд должен менять показания от 0.1 до 0.8 Вольт несколько раз в секунду на прогретом двигателе.</li>
+<li>🔸 <strong>Угол опережения зажигания:</strong> На холостом ходу обычно составляет 8-12 градусов. Сильное отклонение говорит о детонации или проблемах с бензином.</li>
+<li>🔸 <strong>Ошибки пропусков зажигания:</strong> Коды P0300-P0304 указывают на конкретный цилиндр. Требуют немедленного внимания во избежание прогара клапанов.</li>
+</ul>
+
+<div class="checklist-block"><h4>☑️ Чек-лист перед сбросом ошибок</h4><label class="check-item"><input type="checkbox"><span>Прогреть двигатель до рабочей температуры</span></label><label class="check-item"><input type="checkbox"><span>Проверить уровень топлива в баке</span></label><label class="check-item"><input type="checkbox"><span>Убедиться в отсутствии открытых ошибок по электрике</span></label><label class="check-item"><input type="checkbox"><span>Записать текущие параметры коррекции смеси</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="адаптация-и-сброс-настроек-эбу">Адаптация и сброс настроек ЭБУ</h2>
+
+<p>После замены датчиков, чистки дроссельной заслонки или перепрошивки необходимо выполнить процедуру адаптации. На <em>Гранте</em> с ЭБУ <strong>М74</strong> это делается через меню "Сервисные функции" в диагностической программе. Сброс адаптаций возвращает блок управления к заводским настройкам, заставляя его заново обучаться работе с установленными компонентами.</p>
+
+<p>Процесс обучения обычно занимает от 10 до 50 километров пробега в различных режимах работы двигателя. В это время возможны нестабильные обороты холостого хода или повышенный расход топлива. Это нормальная ситуация, система собирает статистику. Принудительная адаптация через программу ускоряет первичный этап, но полный цикл все равно требует поездки.</p>
+
+<p>Существует также метод адаптации без сканера, так называемый "метод педальки", но он работает не на всех версиях прошивок и менее надежен. Программный сброс через <code>OpenBox</code> или <code>Scanmatik</code> гарантирует полный очист всех ячеек памяти адаптивных таблиц.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Сброс ошибок без устранения физической неисправности — временное решение. Лампа Check Engine загорится снова через несколько циклов прогрева двигателя, если проблема в hardware не решена.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли диагностировать Лада Гранта через Bluetooth без интернета?</summary>
+<p>Да, для первичного подключения и считывания ошибок интернет не нужен. Однако для загрузки расшифровок кодов, графиков и профилей автомобиля в первый раз интернет-соединение на смартфоне потребуется. После кэширования данных работа возможна офлайн.</p>
+</details>
+
+<details>
+<summary>Почему программа видит адаптер, но не соединяется с ЭБУ?</summary>
+<p>Чаще всего проблема в неправильном выборе протокола или COM-порта. Попробуйте сменить тип соединения с "Автоматически" на "K-Line" или "CAN". Также проверьте, не занято ли приложение другим устройством и есть ли доступ к геолокации (на Android это требование для работы Bluetooth).</p>
+</details>
+
+<details>
+<summary>Безопасно ли сбрасывать ошибки во время работы двигателя?</summary>
+<p>Сбрасывать ошибки (очистка памяти неисправностей) безопасно в любой момент. Однако проводить тесты исполнительных механизмов или изменять калибровки рекомендуется при заглушенном двигателе или на холостых оборотах с осторожностью.</p>
+</details>
+
+<details>
+<summary>Какая лучшая программа для новичка на Андроид?</summary>
+<p>Для начала лучше всего подойдет <strong>CarScanner ELM OBD2</strong> или бесплатная версия <strong>OpenBox Diagnostic</strong>. Они имеют понятный интерфейс, русификацию и автоматический подбор профиля для автомобилей ВАЗ, что минимизирует риск ошибки пользователя.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#интерфейсы-подключения-и-протоколы-обмена-данными">Интерфейсы подключения и протоколы обмена данными</a></li><li><a href="#профессиональный-софт-для-пк-openbox-и-scanmatik">Профессиональный софт для ПК: OpenBox и Scanmatik</a></li><li><a href="#мобильная-диагностика-приложения-для-android-и-ios">Мобильная диагностика: приложения для Android и iOS</a></li><li><a href="#универсальные-сканеры-ddt4all-и-pycar">Универсальные сканеры: ddt4all и PyCar</a></li><li><a href="#анализ-параметров-и-расшифровка-ошибок">Анализ параметров и расшифровка ошибок</a></li><li><a href="#адаптация-и-сброс-настроек-эбу">Адаптация и сброс настроек ЭБУ</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/r/re/rele-dvornikov-lada-granta-fl.html" class="related-card">Реле дворников Лада Гранта ФЛ: неисправности, замена, схема подключения</a></li><li><a href="/articles/z/za/zamena-zamka-zazhiganiya-lada-granta.html" class="related-card">Замена замка зажигания Лада Гранта: пошаговая инструкция 2026</a></li><li><a href="/articles/l/la/lada-granta-zadnie-tormoznye-kolodki.html" class="related-card">Задние тормозные колодки Лада Гранта: выбор, замена и размеры</a></li><li><a href="/articles/l/la/lada-granta-yury-volkova.html" class="related-card">Лада Гранта Юры Волкова: тюнинг, особенности и секреты владельца</a></li><li><a href="/articles/k/ko/komplektatsiya-klab-lada-granta.html" class="related-card">Комплектация Клаб Лада Гранта: обзор версий и опций</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/r/re/rele-dvornikov-lada-granta-fl.html" class="related-bottom-card"><span class="related-bottom-title">Реле дворников Лада Гранта ФЛ: неисправности, замена, схема подключения</span><span class="related-bottom-desc">Подробный гайд по реле дворников Lada Granta FL: где находится, как проверить, заменить и устранить </span></a><a href="/articles/z/za/zamena-zamka-zazhiganiya-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Замена замка зажигания Лада Гранта: пошаговая инструкция 2026</span><span class="related-bottom-desc">Как самостоятельно поменять замок зажигания на Lada Granta: причины поломки, выбор запчасти, инструм</span></a><a href="/articles/l/la/lada-granta-zadnie-tormoznye-kolodki.html" class="related-bottom-card"><span class="related-bottom-title">Задние тормозные колодки Лада Гранта: выбор, замена и размеры</span><span class="related-bottom-desc">Полный гид по задним тормозным колодкам Lada Granta. Артикулы, отличия для барабанных и дисковых тор</span></a><a href="/articles/l/la/lada-granta-yury-volkova.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта Юры Волкова: тюнинг, особенности и секреты владельца</span><span class="related-bottom-desc">Разбираем Ладу Гранту от Юры Волкова: модификации, технические нюансы, советы по тюнингу и эксплуата</span></a><a href="/articles/k/ko/komplektatsiya-klab-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Комплектация Клаб Лада Гранта: обзор версий и опций</span><span class="related-bottom-desc">Полный разбор комплектаций Lada Granta Club: отличия, технические характеристики, опции и реальные в</span></a><a href="/articles/d/dv/dvigatel-21127-na-lada-granta-106-l-s.html" class="related-bottom-card"><span class="related-bottom-title">Двигатель 21127 на Лада Гранта 106 л с: характеристики и отзывы</span><span class="related-bottom-desc">Полный обзор мотора ВАЗ 21127 (106 л.с.) для Лада Гранта. Ресурс, типичные поломки, масло, ГРМ и отл</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

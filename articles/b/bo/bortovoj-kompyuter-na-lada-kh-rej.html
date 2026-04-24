@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Бортовой компьютер на Lada XRAY: функции, настройка, прошивка — Лада Справка</title>
+    <meta name="description" content="Как работает бортовой компьютер на Лада Х Рей: инструкция по настройке, сброс ошибок, обновление ПО и выбор лучших моделей. Полное руководство для владельцев.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/b/bo/bortovoj-kompyuter-na-lada-kh-rej.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Бортовой компьютер на Lada XRAY: функции, настройка, прошивка">
+    <meta property="og:description" content="Как работает бортовой компьютер на Лада Х Рей: инструкция по настройке, сброс ошибок, обновление ПО и выбор лучших моделей. Полное руководство для владельцев.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/xray/">Xray</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Бортовой компьютер на Lada XRAY: функции, настройка, прошивка</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Бортовой компьютер на Lada XRAY: возможности, настройка и секреты использования</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#какие-бортовой-компьютеры-устанавливаются-на-lada-xray-с-завода">Какие бортовой компьютеры устанавливаются на Lada XRAY с завода</a></li><li><a href="#скрытые-функции-штатного-бортового-компьютера-lada-xray">Скрытые функции штатного бортового компьютера Lada XRAY</a></li><li><a href="#как-обновить-прошивку-бортового-компьютера-на-lada-xray">Как обновить прошивку бортового компьютера на Lada XRAY</a></li><li><a href="#лучшие-внешние-бортовой-компьютеры-для-lada-xray">Лучшие внешние бортовой компьютеры для Lada XRAY</a></li><li><a href="#типичные-ошибки-бортового-компьютера-и-как-их-исправить">Типичные ошибки бортового компьютера и как их исправить</a></li><li><a href="#как-сбросить-ошибки-бортового-компьютера-без-сканера">Как сбросить ошибки бортового компьютера без сканера</a></li><li><a href="#частые-вопросы-о-бортовом-компьютере-lada-xray">Частые вопросы о бортовом компьютере Lada XRAY</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Бортовой компьютер (БК) в <em>Lada XRAY</em> — это не просто цифровой спидометр, а полноценный помощник водителя, способный отображать критические параметры работы двигателя, расход топлива и даже диагностировать неисправности. В зависимости от комплектации автомобиля, функционал БК может варьироваться от базового (показ времени и пробега) до расширенного (мониторинг температуры масла, давления в шинах, адаптивные подсказки). Однако многие владельцы <em>XRAY</em> используют лишь 20-30% возможностей устройства, не подозревая о скрытых функциях.</p>
+
+<p>В этой статье мы разберём не только стандартные возможности штатного бортового компьютера, но и расскажем, как активировать скрытые опции, обновить прошивку без обращения в сервис, а также какие внешние БК (например, <em>Multitronics</em> или <em>Штат</em>) лучше подходят для <em>Lada XRAY</em> с двигателями <code>1.6</code> и <code>1.8</code>. Особое внимание уделим типичным ошибкам (например, <code>P0100</code> или <code>P0300</code>), которые БК может показывать некорректно, и способам их самостоятельной диагностики.</p>
+
+<h2 id="какие-бортовой-компьютеры-устанавливаются-на-lada-xray-с-завода">Какие бортовой компьютеры устанавливаются на Lada XRAY с завода</h2>
+
+<p>Стандартная комплектация <em>Lada XRAY</em> (2016–2026 гг.) включает два типа бортового компьютера:</p>
+
+<ul>
+  <li>🔹 <strong>Базовый БК</strong> (на приборной панели с монохромным дисплеем) — устанавливается на версии <em>Standard</em> и <em>Comfort</em>. Отображает пробег, время, температуру воздуха, средний расход топлива и текущую скорость. <em>Не поддерживает диагностику ошибок</em>.</li>
+  <li>🔹 <strong>Мультифункциональный БК</strong> (цветной TFT-дисплей, интегрирован в комбинацию приборов) — доступен в комплектациях <em>Lux</em> и <em>Prestige</em>. Помимо стандартных функций, показывает давление масла, напряжение бортовой сети, поддерживает вывод ошибок <code>OBD-II</code> и имеет режим эко-вождения.</li>
+</ul>
+
+<p>Важно понимать, что даже в топовых версиях <em>XRAY</em> штатный БК не заменяет полноценный диагностический сканер. Например, он не считывает <strong>расширенные параметры</strong> (как угол опережения зажигания или состояние лямбда-зонда), а некоторые ошибки (например, <code>P0420</code> — низкая эффективность катализатора) может отображать с задержкой. Для глубокой диагностики требуется внешнее устройство, подключаемое к разъёму <code>OBD-II</code>.</p>
+
+<p>С 2020 года на <em>Lada XRAY Cross</em> устанавливается обновлённая версия БК с поддержкой <em>Android Auto</em> и <em>Apple CarPlay</em> (через мультимедийную систему). Однако это не влияет на функционал самого бортового компьютера — он остаётся тем же, что и в дорестайлинговых моделях.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой бортовой компьютер установлен в вашем XRAY?</strong><ul><li>Стандартный монохромный</li><li>Цветной мультифункциональный</li><li>Установлен внешний БК (Multitronics/Штат)</li><li>Не знаю</li></ul></div></div>
+
+<h2 id="скрытые-функции-штатного-бортового-компьютера-lada-xray">Скрытые функции штатного бортового компьютера Lada XRAY</h2>
+
+<p>Многие владельцы <em>XRAY</em> не подозревают, что штатный БК скрывает дополнительные опции, которые можно активировать через <strong>сервисное меню</strong>. Для входа в него:</p>
+
+<ol>
+  <li>Выключите зажигание.</li>
+  <li>Зажмите кнопку <code>RESET</code> (сброс суточного пробега) на приборной панели.</li>
+  <li>Включите зажигание (не запуская двигатель).</li>
+  <li>Отпустите кнопку <code>RESET</code> — на дисплее появится сервисное меню.</li>
+</ol>
+
+<p>В этом меню доступны следующие опции (переключение между ними осуществляется кнопкой <code>RESET</code>):</p>
+
+<ul>
+  <li>🔧 <strong>Тест приборов</strong> — проверка всех индикаторов на панели (полезно при диагностике неисправностей подсветки).</li>
+  <li>📊 <strong>Параметры двигателя</strong> — отображение оборотов в реальном времени (<code>RPM</code>), температуры охлаждающей жидкости, напряжения бортовой сети.</li>
+  <li>⚠️ <strong>Коды ошибок</strong> — вывод сохранённых <code>DTC</code>-ошибок (только для мультифункционального БК).</li>
+  <li>🔄 <strong>Сброс адаптаций</strong> — сброс обученных параметров дроссельной заслонки (полезно после чистки или замены).</li>
+</ul>
+
+<p><mark>Внимание: сброс адаптаций дроссельной заслонки через сервисное меню приводит к временному увеличению расхода топлива (на 5-10%) до тех пор, пока ЭБУ не переобучится (обычно требуется 50-100 км пробега).</mark></p>
+
+<details class="faq-item"><summary>Как сбросить ошибку Check Engine через БК?</summary><div class="faq-answer"><p>В сервисном меню выберите пункт "Коды ошибок" → найдите активную ошибку (например, P0171) → удерживайте кнопку RESET 3 секунды для сброса. Однако если ошибка вызвана реальной неисправностью (например, негерметичность впускного коллектора), она появится снова после 2-3 запусков двигателя.</p></div></details>
+
+<h2 id="как-обновить-прошивку-бортового-компьютера-на-lada-xray">Как обновить прошивку бортового компьютера на Lada XRAY</h2>
+
+<p>Обновление прошивки БК на <em>XRAY</em> может потребоваться в трёх случаях:</p>
+
+<ol>
+  <li>Исправление багов (например, некорректный расчёт среднего расхода топлива).</li>
+  <li>Добавление новых функций (например, поддержка отображения давления в шинах для моделей с <em>TPMS</em>).</li>
+  <li>Адаптация под новые версии ЭБУ (актуально после чип-тюнинга).</li>
+</ol>
+
+<p>Официальные прошивки выпускает <em>АвтоВАЗ</em>, но их установка возможна только в дилерских центрах. Однако существуют <strong>неофициальные прошивки</strong> от энтузиастов (например, от сообщества <em>XRAY Club</em>), которые добавляют:</p>
+
+<ul>
+  <li>📈 Графики разгона и торможения.</li>
+  <li>🔋 Отображение уровня заряда АКБ в вольтах (а не только индикатор "низкое напряжение").</li>
+  <li>🚗 Поддержку дополнительных датчиков (например, температуры масла в коробке для версий с <em>АМТ</em>).</li>
+</ul>
+
+<p>Для самостоятельного обновления потребуется:</p>
+
+
+<p>Скачать прошивку с проверенного источника (например, форум XRAY Club)</p>
+<p>Подготовить USB-накопитель формата FAT32 (объём до 8 ГБ)</p>
+<p>Отключить все потребители (фары, кондиционер, магнитолу)</p>
+<p>Иметь резервный источник питания (например, Power Bank с 12V выходом) на случай разряда АКБ</p>
+<p>--></p>
+
+<p><strong>Инструкция по прошивке:</strong></p>
+
+<ol>
+  <li>Скопируйте файл прошивки (например, <code>XRAY_BC_v2.1.bin</code>) в корень USB-накопителя.</li>
+  <li>Вставьте флешку в разъём мультимедийной системы (не в <code>OBD-II</code>!).</li>
+  <li>Включите зажигание (двигатель не запускать).</li>
+  <li>Нажмите и удерживайте кнопку <code>MODE</code> на рулевом переключателе 10 секунд — начнётся процесс обновления.</li>
+  <li>Дождитесь завершения (около 5-7 минут). <strong>Не выключайте зажигание!</strong></li>
+</ol>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Если во время прошивки произойдёт сбой питания, БК может перестать включаться. В этом случае потребуется перепрошивка через <code>OBD-II</code> с помощью адаптера <em>K-Line</em> (например, <em>OpenPort 2.0</em>).</blockquote>
+
+<h2 id="лучшие-внешние-бортовой-компьютеры-для-lada-xray">Лучшие внешние бортовой компьютеры для Lada XRAY</h2>
+
+<p>Если функций штатного БК недостаточно, владельцы <em>XRAY</em> устанавливают внешние устройства. Они подключаются к разъёму <code>OBD-II</code> (расположен под рулём, слева от педалей) и предлагают расширенную диагностику. Лучшие модели для <em>Lada XRAY</em>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Модель</th>
+      <th>Цена, ₽</th>
+      <th>Особенности</th>
+      <th>Подходит для двигателей</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>Multitronics VC731</em></td>
+      <td>8 500–9 500</td>
+      <td>Цветной экран, поддержка <code>ELM327</code>, графики параметров в реальном времени, голосовые оповещения</td>
+      <td><code>1.6 (111 л.с.)</code>, <code>1.8 (122 л.с.)</code></td>
+    </tr>
+    <tr>
+      <td><em>Штат X1 MR</em></td>
+      <td>6 000–7 000</td>
+      <td>Компактный, отображение ошибок с расшифровкой, экономичный режим</td>
+      <td>Все бензиновые</td>
+    </tr>
+    <tr>
+      <td><em>OBDLink MX+</em></td>
+      <td>12 000–14 000</td>
+      <td>Подключение по Bluetooth/Wi-Fi, совместимость с <em>Torque Pro</em>, <em>DashCommand</em></td>
+      <td>Все, включая <em>CNG</em> (газ)</td>
+    </tr>
+    <tr>
+      <td><em>ScanTool 427201</em></td>
+      <td>4 500–5 500</td>
+      <td>Бюджетный вариант, считывает и сбрасывает ошибки, показывает основные параметры</td>
+      <td><code>1.6</code> (не всегда корректно работает с <code>1.8</code>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>При выборе внешнего БК обратите внимание на <strong>совместимость с протоколом</strong> вашего ЭБУ. Например, для <em>Lada XRAY</em> с двигателем <code>1.8</code> (ЭБУ <em>Bosch ME17.9.7</em>) подойдёт любая модель, а для <code>1.6</code> (ЭБУ <em>Итэлма М86</em>) лучше выбрать устройство с поддержкой протокола <code>ISO 9141-2</code>.</p>
+
+<p><strong>Где лучше устанавливать внешний БК?</strong> Оптимальные места:</p>
+
+<ul>
+  <li>📍 На торпедо над магнитолой (с помощью двухстороннего скотча или крепления на присосках).</li>
+  <li>📍 В нише под ручником (если модель компактная, например, <em>Штат X1</em>).</li>
+  <li>📍 На кронштейне возле рычага КПП (для устройств с проводным подключением).</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если внешний БК показывает ошибку "No Data" при подключении к OBD-II, проверьте предохранитель F3 (10A) в блоке салона — он отвечает за питание диагностического разъёма.</p></div>
+
+<h2 id="типичные-ошибки-бортового-компьютера-и-как-их-исправить">Типичные ошибки бортового компьютера и как их исправить</h2>
+
+<p>Бортовой компьютер <em>Lada XRAY</em> может выдавать ложные ошибки или некорректно отображать параметры. Рассмотрим наиболее частые проблемы и способы их устранения:</p>
+
+<h3>1. Некорректный расход топлива</h3>
+<p>Если БК показывает завышенный расход (например, <code>12-14 л/100 км</code> при реальных <code>8-9 л/100 км</code>), причины могут быть следующими:</p>
+<ul>
+  <li>🔋 Разряженный аккумулятор (напряжение ниже <code>12.2V</code>) — БК считывает данные с датчиков некорректно.</li>
+  <li>🛢️ Неисправный датчик уровня топлива (частая проблема на <em>XRAY</em> 2016–2018 гг.).</li>
+  <li>🔧 Сброс адаптаций после чистки дроссельной заслонки (требуется 100–200 км для обучения ЭБУ).</li>
+</ul>
+<p>Решение: проверьте напряжение АКБ, обнулите данные о расходе в меню БК (удерживайте <code>RESET</code> 5 секунд в разделе "Топливо").</p>
+
+<h3>2. Ошибка "Check Engine" без причин</h3>
+<p>Если индикатор <code>Check Engine</code> загорается периодически, но диагностика не показывает активных ошибок, виноваты:</p>
+<ul>
+  <li>🔌 Плохой контакт в разъёме <code>OBD-II</code> (окисление или загрязнение).</li>
+  <li>🔥 Проблемы с "массой" двигателя (проверьте крепление минусового провода к кузову).</li>
+  <li>🛑 Ложное срабатывание датчика кислорода (лямбда-зонда) при использовании топлива низкого качества.</li>
+</ul>
+<p>Решение: сбросьте ошибки через сервисное меню, заправьтесь на другой АЗС и проверьте контакты.</p>
+
+<h3>3. Не работает подсветка дисплея БК</h3>
+<p>Если экран БК стал тусклым или совсем не подсвечивается:</p>
+<ul>
+  <li>💡 Перегорел светодиод подсветки (требуется разбор панели).</li>
+  <li>🔄 Сбой в настройках яркости (сбросьте через сервисное меню).</li>
+  <li>🔌 Проблемы с блоком управления подсветкой (частая проблема на рестайлинговых <em>XRAY</em> 2020+).</li>
+</ul>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Если после обновления прошивки БК перестал отображать температуру двигателя, проверьте версию ПО. На некоторых прошивках (например, <code>v1.9</code>) есть баг с датчиком температуры — требуется откат на <code>v1.7</code>.</blockquote>
+
+<h2 id="как-сбросить-ошибки-бортового-компьютера-без-сканера">Как сбросить ошибки бортового компьютера без сканера</h2>
+
+<p>Сбросить ошибки <code>Check Engine</code> на <em>Lada XRAY</em> можно без диагностического оборудования, используя штатный БК или простой алгоритм действий. Способы:</p>
+
+<h3>Способ 1: Через сервисное меню (для мультифункционального БК)</h3>
+<ol>
+  <li>Войдите в сервисное меню (как описано выше).</li>
+  <li>Выберите пункт <code>DTC Errors</code>.</li>
+  <li>Найдите активную ошибку (например, <code>P0172</code> — богатая смесь).</li>
+  <li>Удерживайте <code>RESET</code> 3 секунды — ошибка будет сброшена.</li>
+</ol>
+
+<h3>Способ 2: Метод "сброса адаптаций"</h3>
+<p>Подходит для ошибок, связанных с топливной системой (<code>P0171</code>, <code>P0172</code>, <code>P0300</code>):</p>
+<ol>
+  <li>Отключите минусовую клемму АКБ на 10 минут.</li>
+  <li>Подключите её обратно.</li>
+  <li>Включите зажигание, но не запускайте двигатель.</li>
+  <li>Нажмите педаль газа до упора и удерживайте 10 секунд.</li>
+  <li>Выключите зажигание, затем запустите двигатель и дайте ему поработать 5 минут на холостых.</li>
+</ol>
+<p>Этот метод сбрасывает адаптивные параметры ЭБУ, что часто помогает устранить ложные ошибки.</p>
+
+<h3>Способ 3: "Трёхкратный запуск"</h3>
+<p>Для сброса ошибок, связанных с пропусками зажигания (<code>P0300-P0304</code>):</p>
+<ol>
+  <li>Запустите двигатель и дайте ему прогреться до рабочей температуры.</li>
+  <li>Выключите двигатель.</li>
+  <li>Повторите запуск и прогрев ещё 2 раза (всего 3 цикла).</li>
+</ol>
+<p>После этого ЭБУ перезапишет ошибки, если они были временными.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если ошибка появляется снова после сброса, это указывает на реальную неисправность. В этом случае требуется диагностика сканером (например, <em>Launch CReader</em>) или обращение в сервис.</p></div>
+
+<h2 id="частые-вопросы-о-бортовом-компьютере-lada-xray">Частые вопросы о бортовом компьютере Lada XRAY</h2>
+
+<details>
+  <summary>Можно ли установить бортовой компьютер от Lada Vesta на XRAY?</summary>
+  <p>Нет, напрямую установить БК от <em>Vesta</em> на <em>XRAY</em> нельзя из-за разных разъёмов и протоколов обмена данными. Однако можно использовать внешние БК (например, <em>Multitronics</em>), которые подходят для обеих моделей. Штатные приборные панели не взаимозаменяемы.</p>
+</details>
+
+<details>
+  <summary>Почему бортовой компьютер показывает температуру двигателя 0°C при прогретом моторе?</summary>
+  <p>Это указывает на неисправность датчика температуры охлаждающей жидкости (ДТОЖ) или обрыв цепи. Проверьте:</p>
+  <ul>
+    <li>Состояние разъёма датчика (расположен на термостате).</li>
+    <li>Целостность проводки от ДТОЖ до ЭБУ.</li>
+    <li>Сам датчик (сопротивление должно быть ~2.5 кОм при 20°C).</li>
+  </ul>
+  <p>Если датчик исправен, требуется диагностика ЭБУ — возможен сбой прошивки.</p>
+</details>
+
+<details>
+  <summary>Как откалибровать бортовой компьютер после замены колёс на нештатный размер?</summary>
+  <p>Для корректного отображения скорости и пробега после установки колёс другого диаметра:</p>
+  <ol>
+    <li>Войдите в сервисное меню БК.</li>
+    <li>Выберите пункт <code>Wheel Calibration</code>.</li>
+    <li>Введите новый диаметр колеса (например, <code>R17</code> вместо <code>R16</code>).</li>
+    <li>Сохраните настройки (удерживайте <code>RESET</code> 5 секунд).</li>
+  </ol>
+  <p>Если такой опции нет, калибровка возможна только через диагностический сканер (например, <em>Launch X431</em>).</p>
+</details>
+
+<details>
+  <summary>Что делать, если бортовой компьютер перестал включаться?</summary>
+  <p>Причины и решения:</p>
+  <ul>
+    <li>🔋 <strong>Разряд АКБ</strong> — зарядите аккумулятор или "прикурите" от другого автомобиля.</li>
+    <li>🔌 <strong>Перегорел предохранитель</strong> — проверьте <code>F10</code> (10A) в блоке предохранителей салона.</li>
+    <li>🔧 <strong>Сбой прошивки</strong> — требуется перепрошивка через <code>OBD-II</code> (лучше в сервисе).</li>
+    <li>💥 <strong>Короткое замыкание</strong> — если БК искрит или пахнет гарью, необходима замена модуля.</li>
+  </ul>
+</details>
+
+<details>
+  <summary>Можно ли подключить смартфон к бортовому компьютеру XRAY?</summary>
+  <p>Штатный БК <em>Lada XRAY</em> не поддерживает прямое подключение к смартфону. Однако:</p>
+  <ul>
+    <li>Внешние БК (например, <em>OBDLink MX+</em>) могут передавать данные на телефон по Bluetooth/Wi-Fi через приложения <em>Torque Pro</em> или <em>DashCommand</em>.</li>
+    <li>На рестайлинговых моделях (2020+) с мультимедийной системой <em>Lada Online</em> можно выводить часть данных БК на экран через <em>Android Auto</em>.</li>
+  </ul>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#какие-бортовой-компьютеры-устанавливаются-на-lada-xray-с-завода">Какие бортовой компьютеры устанавливаются на Lada XRAY с завода</a></li><li><a href="#скрытые-функции-штатного-бортового-компьютера-lada-xray">Скрытые функции штатного бортового компьютера Lada XRAY</a></li><li><a href="#как-обновить-прошивку-бортового-компьютера-на-lada-xray">Как обновить прошивку бортового компьютера на Lada XRAY</a></li><li><a href="#лучшие-внешние-бортовой-компьютеры-для-lada-xray">Лучшие внешние бортовой компьютеры для Lada XRAY</a></li><li><a href="#типичные-ошибки-бортового-компьютера-и-как-их-исправить">Типичные ошибки бортового компьютера и как их исправить</a></li><li><a href="#как-сбросить-ошибки-бортового-компьютера-без-сканера">Как сбросить ошибки бортового компьютера без сканера</a></li><li><a href="#частые-вопросы-о-бортовом-компьютере-lada-xray">Частые вопросы о бортовом компьютере Lada XRAY</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-iks-rej-akkumulyator.html" class="related-card">Аккумулятор Лада Икс Рей: выбор, замена и зарядка</a></li><li><a href="/articles/o/og/ogranichitel-dveri-lada-kh-rej.html" class="related-card">Ограничитель двери Лада Х Рей: выбор, замена и регулировка</a></li><li><a href="/articles/l/la/lada-kh-7-kross.html" class="related-card">Лада XRAY Кросс: Полный обзор, характеристики и особенности модели</a></li><li><a href="/articles/d/di/diski-na-lada-xray.html" class="related-card">Диски на Лада XRAY: размеры, выбор, установка и отзывы владельцев</a></li><li><a href="/articles/n/na/nakonechnik-rulevoj-lada-kh-rej-artikul.html" class="related-card">Наконечник рулевой тяги Lada XRAY: артикул, выбор, замена</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-iks-rej-akkumulyator.html" class="related-bottom-card"><span class="related-bottom-title">Аккумулятор Лада Икс Рей: выбор, замена и зарядка</span><span class="related-bottom-desc">Все про аккумулятор Lada XRAY: параметры штатной батареи, нюансы замены, советы по зарядке и диагнос</span></a><a href="/articles/o/og/ogranichitel-dveri-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Ограничитель двери Лада Х Рей: выбор, замена и регулировка</span><span class="related-bottom-desc">Как заменить ограничитель открытия двери на Lada XRAY? Разбор артикулов, сравнение материалов и поша</span></a><a href="/articles/l/la/lada-kh-7-kross.html" class="related-bottom-card"><span class="related-bottom-title">Лада XRAY Кросс: Полный обзор, характеристики и особенности модели</span><span class="related-bottom-desc">Детальный анализ Лада XRAY Кросс: технические данные, расход топлива, комплектации, плюсы и минусы к</span></a><a href="/articles/d/di/diski-na-lada-xray.html" class="related-bottom-card"><span class="related-bottom-title">Диски на Лада XRAY: размеры, выбор, установка и отзывы владельцев</span><span class="related-bottom-desc">Какие диски подходят на Лада XRAY: штатные размеры, допустимые параметры, лучшие бренды, инструкция </span></a><a href="/articles/n/na/nakonechnik-rulevoj-lada-kh-rej-artikul.html" class="related-bottom-card"><span class="related-bottom-title">Наконечник рулевой тяги Lada XRAY: артикул, выбор, замена</span><span class="related-bottom-desc">Подробный гайд по подбору наконечника рулевой тяги для Лада Х Рей: оригинальные и аналогичные артику</span></a><a href="/articles/s/sa/salonnyj-filtr-lada-xray.html" class="related-bottom-card"><span class="related-bottom-title">Салонный фильтр Lada XRay: выбор, замена и артикулы</span><span class="related-bottom-desc">Как выбрать и заменить салонный фильтр Lada XRay? Артикулы оригиналов, аналоги, пошаговая инструкция</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

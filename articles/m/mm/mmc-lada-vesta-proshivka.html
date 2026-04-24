@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Прошивка MMC Lada Vesta: обновление, ошибки и установка — Лада Справка</title>
+    <meta name="description" content="Полный гид по прошивке мультимедиа Lada Vesta. Как обновить MMC через USB, исправить зависания, вернуть навигацию и установить стороннее ПО.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/m/mm/mmc-lada-vesta-proshivka.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Прошивка MMC Lada Vesta: обновление, ошибки и установка">
+    <meta property="og:description" content="Полный гид по прошивке мультимедиа Lada Vesta. Как обновить MMC через USB, исправить зависания, вернуть навигацию и установить стороннее ПО.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Прошивка MMC Lada Vesta: обновление, ошибки и установка</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Прошивка MMC Lada Vesta: полное руководство</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#определение-версии-текущего-по-и-совместимость">Определение версии текущего ПО и совместимость</a></li><li><a href="#подготовка-инструментов-и-файлов-для-обновления">Подготовка инструментов и файлов для обновления</a></li><li><a href="#официальное-обновление-через-usb-накопитель">Официальное обновление через USB-накопитель</a></li><li><a href="#установка-кастомных-прошивок-и-модификации">Установка кастомных прошивок и модификации</a></li><li><a href="#восстановление-системы-после-сбоя-unbrick">Восстановление системы после сбоя (Unbrick)</a></li><li><a href="#частые-ошибки-и-способы-их-устранения">Частые ошибки и способы их устранения</a></li><li><a href="#вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы автомобилей <em>Lada Vesta</em> часто сталкиваются с необходимостью обновления или восстановления программного обеспечения штатной мультимедийной системы. Головное устройство (ГУ) или, как его часто называют, <strong>MMC</strong> (Multimedia Controller), играет ключевую роль в комфорте водителя, обеспечивая навигацию, управление климатом и мультимедиа. Однако со временем программное обеспечение устаревает, появляются баги, или же возникает желание расширить функционал стандартной системы.</p>
+
+<p>Процесс перепрошивки может показаться сложным только на первый взгляд. На самом деле, при наличии исправной флеш-карты и правильной последовательности действий, <strong>обновление ПО</strong> занимает не более 15-20 минут. Важно понимать, что существует два основных пути: официальное обновление от АвтоВАЗа и установка кастомных прошивок, которые открывают доступ к скрытым функциям и сторонним приложениям.</p>
+
+<p>Прежде чем приступать к любым манипуляциям, необходимо четко осознавать риски. Неправильно записанный файл или прерывание процесса могут привести к тому, что экран погаснет навсегда, потребоя профессионального ремонта в сервисе. Поэтому <mark>точная версия вашей текущей прошивки</mark> и совместимость выбранного файла — это критические параметры, которые нельзя игнорировать ни при каких обстоятельствах.</p>
+
+<h2 id="определение-версии-текущего-по-и-совместимость">Определение версии текущего ПО и совместимость</h2>
+
+<p>Первым шагом всегда должна стать диагностика текущего состояния системы. На автомобилях <em>Vesta</em> разных годов выпуска устанавливались различные версии головных устройств, и прошивка от одной модели может не подойти к другой или даже "заблокировать" устройство. Чтобы узнать актуальную версию, необходимо войти в инженерное меню.</p>
+
+<p>Для этого на большинстве версий MMC следует зажать одновременно кнопки <code>Menu</code> и <code>Nav</code> (или <code>Phone</code>) на несколько секунд. В открывшемся меню нужно найти раздел <code>System Information</code> или <code>Версия ПО</code>. Там будет указан номер версии, например, <code>21070_79001.00.001.23.00.00</code>. Именно эти цифры определят, какой файл вам нужен.</p>
+
+<blockquote>⚠️ Внимание: Не пытайтесь "наугад" ставить прошивку от более новой или старой модели ГУ. Это может привести к несовместимости драйверов тачскрина или аудиомодуля, в результате чего перестанет работать звук или сенсор.</blockquote>
+
+<p>Также стоит проверить тип процессора и объем оперативной памяти, если вы планируете установку тяжелых сторонних приложений. Стандартные системы часто имеют ограниченные ресурсы, и установка "тяжелой" навигации может привести к постоянным зависаниям интерфейса.</p>
+
+<ul>
+<li>🔍 Зайдите в настройки системы и найдите раздел "О системе".</li>
+<li>📝 Запишите полный номер версии ПО и дату сборки.</li>
+<li>💿 Определите тип вашего ГУ (L90, L210, L211 и т.д.) по наклейке на корпусе или в меню.</li>
+<li>📡 Проверьте наличие встроенного 4G модема, так как для некоторых прошивок это критично.</li>
+</ul>
+
+<h2 id="подготовка-инструментов-и-файлов-для-обновления">Подготовка инструментов и файлов для обновления</h2>
+
+<p>Успех операции на 90% зависит от качества подготовки. Вам потребуется USB-накопитель (флешка) объемом не более 32 Гб. Использование карт памяти большого объема (64 Гб и выше) часто приводит к ошибкам чтения, так как файловая система старых версий Android в ГУ может не поддерживать форматирование exFAT или большие кластеры.</p>
+
+<p>Флешку необходимо отформатировать в файловую систему <strong>FAT32</strong>. Это обязательное требование. Если вы используете Windows 10 или 11, система может по умолчанию предлагать NTFS, что не подойдет для загрузчика MMC. Размер кластера при форматировании лучше выбирать "По умолчанию" или 4096 байт.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к прошивке</h4><label class="check-item"><input type="checkbox"><span>Флешка до 32 Гб</span></label><label class="check-item"><input type="checkbox"><span>Файловая система FAT32</span></label><label class="check-item"><input type="checkbox"><span>Скачанный файл прошивки</span></label><label class="check-item"><input type="checkbox"><span>Заряженный аккумулятор авто</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>Скачивать прошивку следует только из проверенных источников: официальных форумов владельцев или специализированных ресурсов. Файл обычно имеет расширение <code>.bin</code>, <code>.img</code> или представляет собой архив с набором файлов в корне. После скачивания архив нужно распаковать, и все файлы должны лежать в корне флешки, не в папках.</p>
+
+<p>Перед началом процедуры убедитесь, что аккумулятор автомобиля полностью заряжен. Процесс записи данных в энергонезависимую память устройства потребляет энергию, и хотя ГУ питается от бортовой сети, скачки напряжения при работающем двигателе могут быть опасны. Лучше завести двигатель или подключить зарядное устройство.</p>
+
+<h2 id="официальное-обновление-через-usb-накопитель">Официальное обновление через USB-накопитель</h2>
+
+<p>Самый безопасный и рекомендуемый производителем способ — это обновление официальным файлом. Этот метод позволяет исправить известные ошибки, улучшить стабильность работы Bluetooth и GPS, а также обновить карты навигации, если они идут в комплекте с обновлением.</p>
+
+<p>После того как файл прошивки скопирован в корень флешки, вставьте накопитель в USB-порт головного устройства. Обычно используется порт, помеченный значком телефона или находящийся в удобном доступе. Система должна автоматически определить наличие обновлений.</p>
+
+<p>Если автоматический старт не произошел, необходимо вручную инициировать процесс. Для этого перейдите в меню <code>Настройки</code> → <code>Система</code> → <code>Обновление ПО</code> (или <code>System Update</code>). Выберите источник обновления "USB". Система проведет проверку целостности файла.</p>
+
+<table>
+<thead>
+<tr>
+<th>Этап</th>
+<th>Действие пользователя</th>
+<th>Реакция системы</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Старт</td>
+<td>Выбор файла в меню</td>
+<td>Проверка хеш-суммы файла</td>
+</tr>
+<tr>
+<td>2. Подготовка</td>
+<td>Подтверждение начала</td>
+<td>Копирование данных в буфер</td>
+</tr>
+<tr>
+<td>3. Запись</td>
+<td>Ожидание (не трогать)</td>
+<td>Прогресс-бар загрузки (0-100%)</td>
+</tr>
+<tr>
+<td>4. Перезагрузка</td>
+<td>Автоматически</td>
+<td>Логотип Lada, затем рабочий стол</td>
+</tr>
+</tbody>
+</table>
+
+<p>Во время процесса записи, который может длиться от 5 до 15 минут, экран может гаснуть и загораться вновь. <strong>Категорически запрещено</strong> вынимать флешку или глушить автомобиль в этот момент. После завершения система сама предложит перезагрузиться.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>После обновления официальной прошивкой рекомендуется выполнить полный сброс настроек (Hard Reset) через меню восстановления, чтобы избежать конфликтов старых конфигурационных файлов.</p></div>
+
+<h2 id="установка-кастомных-прошивок-и-модификации">Установка кастомных прошивок и модификации</h2>
+
+<p>Для продвинутых пользователей, которых не устраивает функционал стоковой системы, существуют модифицированные прошивки. Они позволяют устанавливать сторонние приложения из Google Play, менять темы оформления, выводить показания датчиков двигателя в реальном времени и многое другое.</p>
+
+<p>Процесс установки кастомного ПО часто требует получения <strong>Root-прав</strong> (прав суперпользователя). Это дает полный доступ к файловой системе Android. Однако это действие автоматически аннулирует гарантию на мультимедийную систему, а в некоторых случаях и на автомобиль, если будет доказано, что поломка электроники вызвана вмешательством в ПО.</p>
+
+<p>Установка производится либо через специальное меню восстановления (Recovery Mode), либо с помощью ADB-команд с компьютера. Для входа в режим восстановления часто требуется нажать скрытую кнопку на корпусе ГУ или использовать комбинацию клавиш на руле при включении зажигания.</p>
+
+<blockquote>⚠️ Внимание: Установка сторонних лаунчеров и тяжелых навигационных систем (например, Яндекс.Навигатор в полной версии) может привести к сильному нагреву процессора и лагам интерфейса из-за нехватки оператив2ной памяти.</blockquote>
+
+<p>Популярные модификации включают в себя удаление системного мусора, разблокировку видео в движении и изменение логотипа при загрузке. Перед установкой обязательно прочитайте инструкцию конкретно к той версии прошивки, которую вы выбрали, так как методы могут отличаться.</p>
+
+<ul>
+<li>🚀 Получение Root-прав открывает доступ к системным файлам.</li>
+<li>📱 Возможность установки APK-файлов любых приложений.</li>
+<li>🎨 Глубокая кастомизация интерфейса и звуков.</li>
+<li>⚙️ Тонкая настройка параметров экрана и аудио.</li>
+</ul>
+
+<h2 id="восстановление-системы-после-сбоя-unbrick">Восстановление системы после сбоя (Unbrick)</h2>
+
+<p>Ситуация, когда головное устройство перестает реагировать на команды, висит на логотипе или постоянно перезагружается, называется "бутлуп" или "кирпич". Чаще всего это происходит из-за прерванного обновления или повреждения системных файлов.</p>
+
+<p>Первым шагом всегда должен быть <strong>Hard Reset</strong>. На корпусе многих ГУ Lada Vesta есть маленькое отверстие с кнопкой <code>Reset</code>. Нажатие на нее (обычно требуется скрепка) при выключенном питании, followed by включением зажигания, может вернуть систему к заводским настройкам.</p>
+
+<details class="faq-item"><summary>Метод восстановления через UART</summary><div class="faq-answer"><p>Если стандартный сброс не помогает, некоторые модели ГУ (особенно на базе Linux) можно восстановить через UART-кабель, подключившись напрямую к плате устройства и подав команду загрузки. Это сложный метод, требующий навыков пайки и работы с терминалом.</p></div></details>
+
+<p>Если мягкий сброс не помогает, потребуется перепрошивка через режим <code>Recovery</code>. Для этого файл прошивки переименовывается в строго определенное имя (например, <code>update.bin</code> или <code>auto_inst.cfg</code>), кладется в корень флешки, и устройство включается с зажатой комбинацией кнопок (часто это <code>Power</code> + <code>Reset</code> или <code>Menu</code> + <code>Vol-</code>).</p>
+
+<p>В самых тяжелых случаях, когда экран не загорается вообще, может потребоваться разборка ГУ и прошивка чипа памяти программатором. Это задача для сервисных центров, так как требует снятия задней крышки и наличия специального оборудования.</p>
+
+<p>Важно различать программный сбой и аппаратную неисправность. Если устройство не включается даже после подключения к другому автомобилю или после проверки предохранителей, проблема может быть в сгоревшем блоке питания внутри самой магнитолы.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Сталкивались ли вы с проблемами при обновлении MMC?</strong><ul><li>Все прошло успешно</li><li>Были ошибки записи</li><li>Устройство зависло</li><li>Не могу найти прошивку</li></ul></div></div>
+
+<h2 id="частые-ошибки-и-способы-их-устранения">Частые ошибки и способы их устранения</h2>
+
+<p>В процессе прошивки пользователи часто сталкиваются с типовыми проблемами. Одна из самых распространенных — ошибка "Файл не найден" или "Неверная версия". Это почти всегда означает, что флешка отформатирована в NTFS, имеет объем более 32 Гб, или файл прошивки лежит в папке, а не в корне.</p>
+
+<p>Другая частая проблема — бесконечная перезагрузка после обновления. Это может свидетельствовать о том, что прошивка предназначена для другой ревизии "железа". В таком случае помогает только поиск правильной версии ПО или откат на заводскую версию через Recovery.</p>
+
+<p>Также пользователи жалуются на пропавший звук или неработающий микрофон после обновления. Это решается сбросом настроек до заводских (<code>Factory Reset</code>) через меню системы. Иногда требуется перепрошивка не только основного ПО, но и микрокода контроллера (MCU), если такое обновление доступно.</p>
+
+<blockquote>⚠️ Внимание: Если после прошивки перестал работать GPS-навигатор, проверьте настройки в инженерном меню. Возможно, сбились пути к исполняемым файлам навигации или драйверы антенны.</blockquote>
+
+<p>Для диагностики ошибок можно использовать логи системы. В инженерном меню часто есть функция <code>Save Log</code>, которая сохранит отчет о работе системы на флешку. Анализ этого файла может помочь опытным пользователям на форумах понять причину сбоя.</p>
+
+<ul>
+<li>❌ Ошибка чтения USB: замените флешку на другую, менее объемную.</li>
+<li>🔄 Циклическая перезагрузка: попробуйте сброс кнопкой Reset.</li>
+<li>🔇 Нет звука: выполните полный сброс настроек.</li>
+<li>📡 Не ловит GPS: проверьте целостность антенны и настройки портов.</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>90% проблем при прошивке MMC Lada Vesta связаны с неправильной подготовкой USB-накопителя. Используйте только FAT32 и флешки до 32 Гб.</p></div>
+
+<h2 id="вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</h2>
+
+<details>
+<summary>Можно ли обновить карты навигации отдельно от прошивки?</summary>
+<p>Да, в большинстве случаев карты навигации (например, Навител или Яндекс) являются отдельным приложением или набором данных. Их можно обновить, просто заменив файлы карт на флешке или через меню самого навигатора, без перепрошивки всей системы.</p>
+</details>
+
+<details>
+<summary>Слетит ли гарантия на автомобиль после прошивки MMC?</summary>
+<p>Официально любое вмешательство в программное обеспечение может стать причиной отказа в гарантии на электронные компоненты. Если вы планируете продавать автомобиль или обращаться по гарантии на электрику, лучше вернуть стоковую прошивку.</p>
+</details>
+
+<details>
+<summary>Где найти официальную прошивку для моей версии Vesta?</summary>
+<p>Официальные файлы часто можно найти на форуме 4PDA в ветке Lada Vesta, на специализированных сайтах клубов владельцев или запросить у дилера, хотя дилеры редко предоставляют файлы для самостоятельного обновления.</p>
+</details>
+
+<details>
+<summary>Что делать, если прогресс-бар застыл на 99%?</summary>
+<p>Не паникуйте и ждите. Иногда процесс записи последних секторов занимает длительное время (до 10-15 минут). Если через 20 минут ничего не изменилось, возможно, файл битый или флешка неисправна.</p>
+</details>
+
+<details>
+<summary>Поддерживает ли штатная MMC установку YouTube или онлайн-кинотеатров?</summary>
+<p>Штатная прошивка не имеет таких приложений. Для их установки требуется установка кастомной прошивки с поддержкой Google Play Services или установка APK-файлов через файловый менеджер, если система позволяет установку из неизвестных источников.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#определение-версии-текущего-по-и-совместимость">Определение версии текущего ПО и совместимость</a></li><li><a href="#подготовка-инструментов-и-файлов-для-обновления">Подготовка инструментов и файлов для обновления</a></li><li><a href="#официальное-обновление-через-usb-накопитель">Официальное обновление через USB-накопитель</a></li><li><a href="#установка-кастомных-прошивок-и-модификации">Установка кастомных прошивок и модификации</a></li><li><a href="#восстановление-системы-после-сбоя-unbrick">Восстановление системы после сбоя (Unbrick)</a></li><li><a href="#частые-ошибки-и-способы-их-устранения">Частые ошибки и способы их устранения</a></li><li><a href="#вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/d/do/dovodchik-steklopodemnikov-lada-vesta.html" class="related-card">Доводчик стеклоподъемников Лада Веста: выбор, установка, настройка</a></li><li><a href="/articles/l/la/lada-vesta-dvigatel-nissan.html" class="related-card">Лада Веста и двигатель Nissan: всё о ресурсе, проблемах и замене</a></li><li><a href="/articles/p/pe/pereklyuchatel-podrulevoj-lada-vesta.html" class="related-card">Замена подрулевого переключателя Лада Веста: выбор и установка</a></li><li><a href="/articles/k/ka/kakie-lampy-lada-vesta.html" class="related-card">Лампы Лада Веста: типы, замена, выбор лучших 2026</a></li><li><a href="/articles/v/vy/vykhlop-lada-vesta-16.html" class="related-card">Выхлопная система Lada Vesta 1.6: устройство, тюнинг и ремонт</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/d/do/dovodchik-steklopodemnikov-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Доводчик стеклоподъемников Лада Веста: выбор, установка, настройка</span><span class="related-bottom-desc">Полный гид по доводчикам стекол для Лада Веста. Сравнение моделей, пошаговая установка, программиров</span></a><a href="/articles/l/la/lada-vesta-dvigatel-nissan.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста и двигатель Nissan: всё о ресурсе, проблемах и замене</span><span class="related-bottom-desc">Подробный разбор двигателя Nissan H4M на Лада Веста. Ресурс, реальные отзывы, список проблем, коды о</span></a><a href="/articles/p/pe/pereklyuchatel-podrulevoj-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Замена подрулевого переключателя Лада Веста: выбор и установка</span><span class="related-bottom-desc">Полный гид по выбору, диагностике и замене подрулевого переключателя на Лада Веста. Артикулы, призна</span></a><a href="/articles/k/ka/kakie-lampy-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Лампы Лада Веста: типы, замена, выбор лучших 2026</span><span class="related-bottom-desc">Какие лампы стоят в фарах, габаритах и салоне Lada Vesta? Сравнение LED, галогена и ксенона, инструк</span></a><a href="/articles/v/vy/vykhlop-lada-vesta-16.html" class="related-bottom-card"><span class="related-bottom-title">Выхлопная система Lada Vesta 1.6: устройство, тюнинг и ремонт</span><span class="related-bottom-desc">Подробный разбор выхлопной системы Лада Веста 1.6: схемы, неисправности, тюнинг и советы по ремонту.</span></a><a href="/articles/s/sn/snyatie-zhabo-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Снятие жабо Лада Веста: пошаговая инструкция и нюансы</span><span class="related-bottom-desc">Как снять жабо на Лада Веста для замены дворников и доступа к ЭБУ. Подробная инструкция, список инст</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

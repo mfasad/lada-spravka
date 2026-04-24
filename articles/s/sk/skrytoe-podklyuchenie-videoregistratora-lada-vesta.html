@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Скрытое подключение видеорегистратора Лада Веста: схема и инструкция — Лада Справка</title>
+    <meta name="description" content="Экспертная инструкция по скрытому монтажу видеорегистратора в Лада Веста. Схемы питания от предохранителей, разбор плафона и нюансы работы CAN-шины.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/s/sk/skrytoe-podklyuchenie-videoregistratora-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Скрытое подключение видеорегистратора Лада Веста: схема и инструкция">
+    <meta property="og:description" content="Экспертная инструкция по скрытому монтажу видеорегистратора в Лада Веста. Схемы питания от предохранителей, разбор плафона и нюансы работы CAN-шины.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Скрытое подключение видеорегистратора Лада Веста: схема и инструкция</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Скрытое подключение видеорегистратора Лада Веста: полная инструкция</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#выбор-места-установки-и-подготовка-оборудования">Выбор места установки и подготовка оборудования</a></li><li><a href="#демонтаж-верхнего-плафона-и-доступ-к-проводке">Демонтаж верхнего плафона и доступ к проводке</a></li><li><a href="#схема-подключения-к-блоку-предохранителей">Схема подключения к блоку предохранителей</a></li><li><a href="#прокладка-кабеля-и-установка-камеры">Прокладка кабеля и установка камеры</a></li><li><a href="#настройка-и-тестирование-системы">Настройка и тестирование системы</a></li><li><a href="#типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</a></li><li><a href="#вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы автомобилей <em>Лада Веста</em> часто сталкиваются с эстетической проблемой: стандартные места крепления видеорегистратора оставляют на виду висящие провода, которые портят интерьер и могут мешать обзору. <strong>Скрытый монтаж</strong> — это не просто вопрос красоты, но и безопасности, так как исключает риск запутывания проводов в элементах управления. Процесс интеграции устройства в бортовую сеть требует понимания электрической схемы автомобиля и аккуратности при разборке пластиковых элементов салона.</p>
+
+<p>Основная сложность заключается в том, чтобы найти источник постоянного питания, который не зависел бы от положения ключа в замке зажигания, если вы хотите режим парковки, или, наоборот, запитать устройство только при работающем двигателе. В современных модификациях <em>Vesta</em> с CAN-шиной управление питанием может быть программным, что требует установки специального контроллера или использования адаптеров. Однако для большинства моделей с механическим зажиганием или классической электрикой задача решается грамотным подключением к блоку предохранителей.</p>
+
+<p>В этом руководстве мы разберем все этапы: от выбора места установки камеры до финальной проверки системы. Вы узнаете, как правильно снять плафон освещения, где искать «плюс» и «минус», и почему нельзя просто прикрутить провода к первому попавшемуся контакту. <strong>Безопасность</strong> электропроводки автомобиля — приоритет, поэтому игнорирование правил изоляции может привести к короткому замыканию.</p>
+
+<h2 id="выбор-места-установки-и-подготовка-оборудования">Выбор места установки и подготовка оборудования</h2>
+
+<p>Первым шагом является определение оптимальной точки крепления. В <em>Лада Веста</em> наиболее распространенным и эффективным решением является установка за зеркалом заднего вида. Это место обеспечивает широкий угол обзора и минимизирует слепые зоны. Для реализации скрытого монтажа вам потребуется сам видеорегистратор, желательно с выносной камерой или компактным моноблоком, а также набор инструментов: пластиковые лопатки для снятия обшивки, изолента, гофра и кабель длиной не менее 3-4 метров.</p>
+
+<p>Важно выбрать устройство, которое поддерживает работу при низких температурах, так как лобовое стекло зимой сильно охлаждается. <strong>Литий-полимерные аккумуляторы</strong> внутри регистраторов могут вздуваться на морозе, поэтому предпочтительнее модели с суперконденсаторами. Если вы планируете подключать регистратор к системе ГЛОНАСС/GPS, убедитесь, что антенна будет размещена в зоне прямой видимости неба, что в случае Весты обычно означает зону верхнего плафона.</p>
+
+<p>Для прокладки кабеля потребуется демонтировать часть обшивки стойки и потолка. Действовать нужно осторожно, так как пластиковые клипсы на <em>Vesta</em> могут быть хрупкими, особенно на морозе. Заранее подготовьте место для укладки лишней длины провода, чтобы он не болтался внутри конструкции потолка.</p>
+
+<ul>
+<li>📹 Компактный видеорегистратор с поддержкой Full HD и G-сенсором</li>
+<li>🔌 Кабель питания с возможностью удлинения или готовый удлинитель 12В</li>
+<li>🛠️ Набор пластиковых лопаток и отверток для снятия плафона</li>
+<li>🔋 Адаптер питания (преобразователь 12В в 5В) с защитой от скачков напряжения</li>
+</ul>
+
+<blockquote>
+<p>⚠️ Внимание: Перед началом любых работ с электрикой автомобиля обязательно снимите минусовую клемму с аккумуляторной батареи. Это исключит риск случайного короткого замыкания при контакте инструмента с металлическими элементами кузова.</p>
+</blockquote>
+
+<h2 id="демонтаж-верхнего-плафона-и-доступ-к-проводке">Демонтаж верхнего плафона и доступ к проводке</h2>
+
+<p>Для скрытой прокладки кабеля необходимо получить доступ к пространству между потолком и обшивкой крыши. В <em>Лада Веста</em> верхний плафон освещения (консоль) крепится достаточно надежно, но снимается без особых сложностей при правильном подходе. Сначала аккуратно извлеките плафонные лампы, если они мешают доступу к винтам, хотя в большинстве комплектаций достаточно поддеть сам корпус консоли.</p>
+
+<p>Используйте пластиковую лопатку, чтобы отщелкнуть защелки по периметру плафона. Движения должны быть уверенными, но плавными, чтобы не повредить текстуру пластика. После снятия защелок консоль опустится на проводах — не дергайте её резко, так как к ней могут подходить контакты для датчиков или кнопок управления светом.</p>
+
+<p>Отсоедините разъем питания плафона, чтобы полностью снять его. Теперь у вас есть доступ к основной проводке, идущей вдоль крыши к передней стойке. Именно через этот канал мы будем протягивать кабель питания для видеорегистратора. В некоторых комплектациях здесь же проходит антенна, поэтому соблюдайте осторожность.</p>
+
+<details class="faq-item"><summary>Нюансы снятия плафона в люксовых версиях</summary><div class="faq-answer"><p>В версиях с датчиками дождя и света конструкция плафона может быть объединена с блоком датчиков. В этом случае отсоединять разъем нужно особенно аккуратно, фиксируя пальцами сам блок датчиков, чтобы не повредить его крепления к лобовому стеклу.</p></div></details>
+
+<h2 id="схема-подключения-к-блоку-предохранителей">Схема подключения к блоку предохранителей</h2>
+
+<p>Самый надежный способ запитать видеорегистратор — использовать штатный блок предохранителей. В <em>Лада Веста</em> основной монтажный блок расположен в салоне, слева от руля, за пластиковой крышкой. Для доступа к нему необходимо открыть дверь водителя и снять защитную панель, которая держится на защелках.</p>
+
+<p>Вам нужно найти свободный предохранитель или использовать существующий, работающий только при включенном зажигании (для записи в движении) или постоянно (для парковочного режима). <strong>Поиск нужного контакта</strong> лучше всего осуществлять с помощью мультиметра или контрольной лампы. Прозвоните контакты, чтобы найти тот, где напряжение появляется только после поворота ключа в положение «Зажигание».</p>
+
+<p>Для подключения используйте специальный переходник <code>Add-a-fuse</code> (разветвитель предохранителей). Это позволит вам не нарушать целостность штатной проводки и в любой момент вернуть всё в исходное состояние. Вставьте переходник в гнездо выбранного предохранителя, а в свободное гнездо переходника установите предохранитель самого видеорегистратора (обычно 1А или 2А).</p>
+
+<table>
+<thead>
+<tr>
+<th>Обозначение на схеме</th>
+<th>Функция</th>
+<th>Тип питания</th>
+<th>Номинал предохранителя</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F36</td>
+<td>Прикуриватель</td>
+<td>Постоянное (зависит от года)</td>
+<td>15 А</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Звуковой сигнал</td>
+<td>Постоянное</td>
+<td>15 А</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Стеклоочиститель</td>
+<td>При зажигании</td>
+<td>30 А</td>
+</tr>
+<tr>
+<td>F45</td>
+<td>Блок управления кузовом</td>
+<td>При зажигании</td>
+<td>10 А</td>
+</tr>
+</tbody>
+</table>
+
+<p>После установки переходника проверьте напряжение на выходе. Оно должно составлять около 12-14 вольт при работающем двигателе. Провод от переходника аккуратно протягивается вдоль жгутов проводов к потолку. Не оставляйте проводов в натяг — всегда оставляйте небольшой запас длины.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Как вы планируете использовать видеорегистратор?</strong><ul><li>Только запись в движении:Парковочный режим 24/7:Только при ударах на стоянке:Нужен онлайн-мониторинг</li></ul></div></div>
+
+<h2 id="прокладка-кабеля-и-установка-камеры">Прокладка кабеля и установка камеры</h2>
+
+<p>Следующий этап — физическая прокладка кабеля от блока предохранителей к месту установки камеры. Кабель проводится по левой стойке лобового стекла, затем заводится под обшивку потолка к центральному плафону. В <em>Лада Веста</em> зазоры между стойкой и обшивкой достаточно широкие, чтобы провести провод толщиной до 3-4 мм без снятия самой пластиковой накладки стойки.</p>
+
+<p>Проталкивайте кабель аккуратно, избегая острых кромок металла. Если проводка проходит рядом с подушками безопасности, убедитесь, что кабель не перекрывает траекторию их раскрытия и не закреплен жестко на самой шторке. Лучше всего уложить провод в существующие гофрированные каналы или закрепить его мягкими стяжками к штатным жгутам.</p>
+
+<p>В зоне плафона кабель выводится наружу, подключается к преобразователю напряжения (если он не встроен в разъем), а затем к самому видеорегистратору. <strong>Преобразователь напряжения</strong> лучше закрепить на двусторонний скотч к металлической части кузова за пластиком, чтобы он не грелся и не дребезжал.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка качества укладки</h4><label class="check-item"><input type="checkbox"><span>Кабель не провисает:Нет перегибов под острым углом:Провод не касается подвижных частей:Изоляция не повреждена:Разъемы зафиксированы</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 1</div></div>
+
+<p>Сам видеорегистратор крепится на лобовое стекло с помощью штатного крепления. Провод питания прячется за корпусом устройства или в кабель-канале, если он предусмотрен конструкцией. В идеале, снаружи не должно быть видно ни одного провода.</p>
+
+<blockquote>
+<p>⚠️ Внимание: При прокладке кабеля вдоль лобового стекла избегайте зоны работы дворников. Если кабель будет задет щеткой, это может привести к его обрыву или повреждению стекла.</p>
+</blockquote>
+
+<h2 id="настройка-и-тестирование-системы">Настройка и тестирование системы</h2>
+
+<p>После физического подключения необходимо проверить работоспособность системы. Подключите аккумуляторную батарею и включите зажигание. Видеорегистратор должен автоматически включиться и начать запись. Проверьте, отображается ли текущее время и дата — для корректной работы G-сенсора и штампа времени эти данные должны быть точными.</p>
+
+<p>В настройках устройства выберите разрешение записи <code>1920×1080</code> или выше, если позволяет карта памяти, и установите циклическую запись отрезками по 1, 3 или 5 минут. <strong>Циклическая запись</strong> гарантирует, что память карты не переполнится, так как старые файлы будут автоматически перезаписываться новыми.</p>
+
+<p>Обязательно проверьте работу датчика удара. Легко постучите по корпусу автомобиля — файл должен сохраниться в защищенную папку и не подлежать удалению. Также проверьте угол обзора: при необходимости подкорректируйте наклон камеры, чтобы в кадре был виден капот вашего автомобиля и дорожная разметка.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте карты памяти класса U3 или V30 от проверенных брендов. Дешевые карты часто выходят из строя из-за постоянной перезаписи и низких температур, что приводит к потере важных записей.</p></div>
+
+<h2 id="типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</h2>
+
+<p>При самостоятельной установке часто возникают проблемы, которые можно решить без обращения в сервис. Одна из частых ошибок — использование слишком тонкого провода для питания, что приводит к падению напряжения на конце кабеля и постоянным перезагрузкам регистратора. Для <em>Лада Веста</em> расстояние не велико, но сечение провода должно быть не менее 0.5-0.75 мм².</p>
+
+<p>Другая проблема — помехи на видео в виде ряби или полос. Это часто случается, если кабель питания проложен рядом с высоковольтными проводами или антенной без должной экранировки. В таких случаях помогает дополнительная изоляция провода питания или изменение трассы его прокладки.</p>
+
+<p>Если регистратор не включается, проверьте целостность предохранителя в разветвителе <code>Add-a-fuse</code>. Иногда контакт в гнезде предохранителя может быть слабым, и его необходимо поджать или заменить сам разветвитель на более качественный.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Качество видео и стабильность работы на 90% зависят от качества используемого кабеля питания и надежности контакта в точке подключения к бортовой сети.</p></div>
+
+<h2 id="вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</h2>
+
+<details>
+<summary>Можно ли подключить видеорегистратор к проводке плафона освещения?</summary>
+<p>Технически это возможно, если в плафоне есть постоянное напряжение. Однако в <em>Лада Веста</em> проводка в плафоне часто рассчитана только на малые токи ламп. Подключение мощного регистратора может привести к перегреву штатных проводов. Безопаснее использовать блок предохранителей.</p>
+</details>
+
+<details>
+<summary>Нужно ли ставить отдельный предохранитель для видеорегистратора?</summary>
+<p>Да, обязательно. Даже если вы используете разветвитель <code>Add-a-fuse</code>, в него должен быть установлен предохранитель номиналом 1А или 2А. Это защитит проводку автомобиля в случае короткого замыкания в самом регистраторе или кабеле.</p>
+</details>
+
+<details>
+<summary>Почему видеорегистратор сбрасывает время после запуска двигателя?</summary>
+<p>Это происходит, если устройство запитано от цепи, которая обесточивается при выключении зажигания, и в самом регистраторе села внутренняя батарейка. Для сохранения времени и настроек либо замените батарею в регистраторе, либо подключите его к постоянному источнику питания.</p>
+</details>
+
+<details>
+<summary>Влияет ли скрытая установка на гарантию автомобиля?</summary>
+<p>Если подключение выполнено через разветвитель предохранителей без скруток и повреждения штатной изоляции, формально гарантия не нарушается. Однако при возникновении проблем с электрикой дилер может потребовать восстановить исходное состояние проводки.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#выбор-места-установки-и-подготовка-оборудования">Выбор места установки и подготовка оборудования</a></li><li><a href="#демонтаж-верхнего-плафона-и-доступ-к-проводке">Демонтаж верхнего плафона и доступ к проводке</a></li><li><a href="#схема-подключения-к-блоку-предохранителей">Схема подключения к блоку предохранителей</a></li><li><a href="#прокладка-кабеля-и-установка-камеры">Прокладка кабеля и установка камеры</a></li><li><a href="#настройка-и-тестирование-системы">Настройка и тестирование системы</a></li><li><a href="#типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</a></li><li><a href="#вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/a/ak/akkumulyator-akom-lada.html" class="related-card">Аккумулятор АКОМ на Ладу: выбор, установка, зарядка и ресурс</a></li><li><a href="/articles/z/za/zavodskaya-magnitola-lada-vesta.html" class="related-card">Заводская магнитола Лада Веста: функции, настройка и прошивка</a></li><li><a href="/articles/l/la/lada-vesta-v-joshkar-ole.html" class="related-card">Лада Веста в Йошкар-Оле: цены, дилеры и отзывы</a></li><li><a href="/articles/l/la/lada-vesta-diagnosticheskij-razem-gde-nakhoditsya.html" class="related-card">Где находится диагностический разъем Лада Веста: фото и схема</a></li><li><a href="/articles/l/la/lada-vesta-kross-komplektatsii-i-tseny.html" class="related-card">Лада Веста Кросс: комплектации и цены 2026</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/a/ak/akkumulyator-akom-lada.html" class="related-bottom-card"><span class="related-bottom-title">Аккумулятор АКОМ на Ладу: выбор, установка, зарядка и ресурс</span><span class="related-bottom-desc">Какой аккумулятор АКОМ лучше для Лады? Обзор моделей, параметры, установка, зарядка AGM и ответы на </span></a><a href="/articles/z/za/zavodskaya-magnitola-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Заводская магнитола Лада Веста: функции, настройка и прошивка</span><span class="related-bottom-desc">Полный обзор штатной мультимедиа Лада Веста. Как включить скрытые функции, обновить прошивку, подклю</span></a><a href="/articles/l/la/lada-vesta-v-joshkar-ole.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста в Йошкар-Оле: цены, дилеры и отзывы</span><span class="related-bottom-desc">Полный гид по покупке Лада Веста в Йошкар-Оле. Актуальные цены у дилеров, наличие комплектаций, усло</span></a><a href="/articles/l/la/lada-vesta-diagnosticheskij-razem-gde-nakhoditsya.html" class="related-bottom-card"><span class="related-bottom-title">Где находится диагностический разъем Лада Веста: фото и схема</span><span class="related-bottom-desc">Подробная инструкция, где расположен диагностический разъем Лада Веста. Фото, схемы подключения скан</span></a><a href="/articles/l/la/lada-vesta-kross-komplektatsii-i-tseny.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста Кросс: комплектации и цены 2026</span><span class="related-bottom-desc">Полный обзор Лада Веста Кросс: комплектации, цены, технические характеристики и сравнение версий SW </span></a><a href="/articles/s/sn/snyatie-aktuatora-vybora-peredach-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Снятие актуатора выбора передач Лада Веста: полная инструкция</span><span class="related-bottom-desc">Подробный гид по замене актуатора КПП на Лада Веста. Диагностика, демонтаж, настройка и коды ошибок.</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

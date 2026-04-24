@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Иммобилайзер Лада Гранта: отключение, перепрошивка и ошибки — Лада Справка</title>
+    <meta name="description" content="Полный гид по иммобилайзеру Лада Гранта. Как отключить АПС-6, что делать при сбое, особенности ЭБУ Itelma и Bosch. Решение проблем с ключами.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/i/im/immobilajzer-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Иммобилайзер Лада Гранта: отключение, перепрошивка и ошибки">
+    <meta property="og:description" content="Полный гид по иммобилайзеру Лада Гранта. Как отключить АПС-6, что делать при сбое, особенности ЭБУ Itelma и Bosch. Решение проблем с ключами.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Иммобилайзер Лада Гранта: отключение, перепрошивка и ошибки</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Иммобилайзер Лада Гранта: устройство, отключение и устранение неисправностей</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#принцип-работы-и-архитектура-системы-апс-6">Принцип работы и архитектура системы АПС-6</a></li><li><a href="#диагностика-неисправностей-и-типичные-симптомы">Диагностика неисправностей и типичные симптомы</a></li><li><a href="#методы-отключения-иммобилайзера-на-лада-гранта">Методы отключения иммобилайзера на Лада Гранта</a></li><li><a href="#процедура-перепрошивки-эбу-своими-руками">Процедура перепрошивки ЭБУ своими руками</a></li><li><a href="#проблемы-с-ключами-и-их-программирование">Проблемы с ключами и их программирование</a></li><li><a href="#советы-по-эксплуатации-и-безопасности">Советы по эксплуатации и безопасности</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>```</p>
+
+
+<p>Современный автомобильный транспорт невозможно представить без надежных систем безопасности, и Лада Гранта здесь не исключение. Владельцы этой популярной модели часто сталкиваются с ситуацией, когда штатный электронный модуль блокирует запуск двигателя, создавая серьезные проблемы. Понимание принципов работы этого устройства необходимо каждому автолюбителю, чтобы избежать простоя машины в самый неподходящий момент.</p>
+
+<p>Основная задача системы заключается в предотвращении угона путем блокировки цепей зажигания и топливного насоса при отсутствии авторизованного ключа. <strong>Иммобилайзер Лада Гранта</strong> представляет собой сложный программно-аппаратный комплекс, который взаимодействует с блоком управления двигателем. Сбой в работе одного из компонентов может привести к полной неработоспособности транспортного средства, что требует немедленного вмешательства специалиста или глубоких знаний со стороны владельца.</p>
+
+<p>В этой статье мы детально разберем архитектуру защиты, методы ее деактивации и способы восстановления работоспособности при различных ошибках. Вы узнаете, как правильно проводить диагностику и почему самостоятельные эксперименты с прошивкой могут привести к дорогостоящему ремонту. <em>Внимание к деталям</em> позволит вам сэкономить время и деньги на услугах сервисных центров.</p>
+
+<blockquote>⚠️ Внимание: Любые манипуляции с программным обеспечением блока управления двигателем проводятся на ваш страх и риск. Некорректное вмешательство может привести к необратимому повреждению электроники автомобиля.</blockquote>
+
+<h2 id="принцип-работы-и-архитектура-системы-апс-6">Принцип работы и архитектура системы АПС-6</h2>
+
+<p>На автомобилях семейства ВАЗ, включая Гранту, чаще всего применяется система АПС-6 (АПС-6.1). Её работа базируется на постоянном обмене данными между транспондером, встроенным в ключ зажигания, и блоком управления двигателем (ЭБУ). При повороте ключа в положение «Зажигание» считыватель посылает запрос, и только при получении корректного криптографического ответа разрешается запуск мотора. Если код не совпадает или отсутствует, <strong>ЭБУ блокирует</strong> работу форсунок и катушки зажигания.</p>
+
+<p>Важно понимать, что физически отдельного блока «иммобилайзера» в Гранте может не существовать. Часто его функции программно вшиты непосредственно в контроллер двигателя (например, Itelma или Bosch). В таких случаях отключение защиты требует перепрошивки самого «мозга» автомобиля. Более старые версии могли использовать отдельный модуль, подключенный к диагностической линии <code>K-Line</code>.</p>
+
+<p>Связь между ключом и считывателем осуществляется посредством радиоканала на частоте, безопасной для человека, но чувствительной к сильным электромагнитным помехам. Именно поэтому разряженная батарейка в ключе или proximity-карте может стать причиной отказа системы. <strong>Транспондер</strong> не требует питания от батареи, он активируется энергией поля считывателя, однако активная часть ключа с кнопками ЦЗ нуждается в регулярной замене элемента питания.</p>
+
+<details class="faq-item"><summary>Технические детали протокола обмена</summary><div class="faq-answer"><p>Протокол обмена данными между ЭБУ и ключом использует алгоритм шифрования, который меняется в зависимости от года выпуска автомобиля. На новых моделях используется более сложная криптография, чем на первых версиях Гранты, что делает простое «перемыкание» контактов невозможным.</p></div></details>
+
+<h2 id="диагностика-неисправностей-и-типичные-симптомы">Диагностика неисправностей и типичные симптомы</h2>
+
+<p>Определить неисправность иммобилайзера на Лада Гранта можно по ряду характерных признаков, которые проявляются при попытке запуска двигателя. Самым очевидным симптомом является мигающий индикатор на панели приборов, часто изображающий автомобиль с ключом или замок. Если этот светодиод горит постоянно или часто моргает после выключения зажигания, система сигнализирует об ошибке связи с ключом.</p>
+
+<p>Двигатель может запускаться и сразу глохнуть через 1-2 секунды. Это классическое поведение, когда ЭБУ получает разрешение на старт, но через короткий промежуток времени повторно опрашивает систему безопасности и, не получив ответа,切断ает подачу топлива. Также возможны ситуации, когда стартер крутит вяло или не крутит вовсе, хотя аккумулятор полностью заряжен.</p>
+
+<ul>
+    <li>🔑 Индикатор на панели приборов мигает с высокой частотой или горит постоянно.</li>
+    <li>🚗 Двигатель заводится и сразу глохнет, не реагируя на повторные попытки.</li>
+    <li>⛽ Отсутствует характерный звук работы бензонасоса при включении зажигания.</li>
+    <li>📡 Система центрального замка перестает реагировать на кнопки штатного брелока.</li>
+</ul>
+
+<p>Для точной диагностики необходимо подключиться к автомобилю через диагностический разъем <code>OBD-II</code>. Использование специализированного сканера позволит считать коды ошибок, хранящиеся в памяти ЭБУ. Ошибки вида <code>P0601</code> (неисправность контрольной суммы) или специфические коды иммобилайзера укажут на программный сбой или повреждение памяти.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Сталкивались ли вы с блокировкой запуска?</strong><ul><li>Да, ключ перестал видеться</li><li>Были сбои после разряда АКБ</li><li>Проблем с иммобилайзером не было</li><li>Глохнет сразу после запуска</li></ul></div></div>
+
+<h2 id="методы-отключения-иммобилайзера-на-лада-гранта">Методы отключения иммобилайзера на Лада Гранта</h2>
+
+<p>Полное отключение системы защиты требуется в случаях утери всех ключей, выхода из строя ЭБУ или установки нештатного оборудования. Существует два основных пути решения задачи: программное и физическое. Программный метод является наиболее цивилизованным и предполагает внесение изменений в прошивку блока управления двигателем. Физический метод (эмуляция) применяется реже и зависит от конкретной версии «мозгов».</p>
+
+<p>Для программного отключения вам понадобится ноутбук, интерфейс <code>K-Line</code> или <code>J2534</code> (OpenPort), а также специализированное ПО, такое как OpenBox или ChipLoader. Процесс involves чтение заводской прошивки, её модификацию (удаление блока иммобилайзера) и запись обратно. Важно использовать только проверенные калибровки, соответствующие вашему типу ЭБУ (Bosch ME17.9.7, Itelma M74 и т.д.).</p>
+
+<blockquote>⚠️ Внимание: Перед записью новой прошивки обязательно сохраните оригинальный файл (сток). Это единственная возможность вернуть автомобиль в заводское состояние в случае неудачи.</blockquote>
+
+<p>Физическое отключение возможно только на моделях, где иммобилайзер реализован как отдельный блок или имеет возможность отключения через изменение конфигурации контактов. В современных Грантах с интегрированной защитой «вырезание» проводов не поможет, так как опрос ключа идет по цифровой шине. Попытка разорвать цепь может привести к ошибкам других систем автомобиля, таких как ABS или ESP.</p>
+
+<div class="checklist-block"><h4>☑️ Алгоритм программного отключения</h4><label class="check-item"><input type="checkbox"><span>Подготовить стабильный источник питания 12В</span></label><label class="check-item"><input type="checkbox"><span>Подключить диагностический адаптер к OBD-II</span></label><label class="check-item"><input type="checkbox"><span>Считать оригинальную прошивку ЭБУ</span></label><label class="check-item"><input type="checkbox"><span>Загрузить модифицированную прошивку без АПС</span></label><label class="check-item"><input type="checkbox"><span>Проверить запуск двигателя</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<h2 id="процедура-перепрошивки-эбу-своими-руками">Процедура перепрошивки ЭБУ своими руками</h2>
+
+<p>Процесс перепрошивки требует аккуратности и соблюдения технологии. Первым шагом является обеспечение стабильного напряжения в бортовой сети. Подключите зарядное устройство в режиме поддержки (около 12-13 вольт), так как скачки напряжения во время записи могут «окирпичить» блок управления. Затем необходимо правильно подключить адаптер к разъему диагностики и запустить программное обеспечение на компьютере.</p>
+
+<p>После соединения с ЭБУ программа покажет текущую версию прошивки и калибровок. Необходимо выбрать файл-загрузчик (Bootloader), если работа идет через J2534, или использовать стандартный протокол KWP для K-Line. Процесс стирания старой памяти и записи новой может занять от 5 до 15 минут. В это время категорически запрещено касаться проводов или выключать питание.</p>
+
+<p>После успешной записи новой прошивки (часто называемой «евро-2» или «безimmob») необходимо выполнить процедуру адаптации. Для этого включите зажигание на 10 секунд, затем выключите. Повторите цикл 2-3 раза. Запустите двигатель и дайте ему поработать на холостых оборотах несколько минут для корректного обучения регулятора холостого хода и дроссельной заслонки.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Успешная перепрошивка делает автомобиль невосприимчивым к блокировке по ключу, но лишает штатной защиты от угона, поэтому рекомендуется установить дополнительный охранный комплекс.</p></div>
+
+<h2 id="проблемы-с-ключами-и-их-программирование">Проблемы с ключами и их программирование</h2>
+
+<p>Штатный ключ Лада Гранта оснащен чипом RFID, который не требует батарейки для работы иммобилайзера, но нуждается в ней для пультов центрального замка. Если автомобиль перестал реагировать на кнопки, но заводится, значит, села батарейка в брелоке. Если же машина не видит ключ вообще, возможно, рассинхронизировался код или поврежден чип.</p>
+
+<p>Программирование нового ключа возможно только при наличии хотя бы одного работающего «мастер-ключа» или с использованием специального оборудования в сервисе. Процедура обучения обычно занимает несколько минут и выполняется через меню бортового компьютера или диагностический сканер. Без мастер-ключа привязка нового ключа невозможна без вмешательства в ПО блока управления.</p>
+
+<p>Существует список совместимых ключей и чипов для разных годов выпуска. Использование дешевых аналогов может привести к нестабильной работе. Рекомендуется использовать оригинальные комплектующие или проверенные бренды, такие как <em>Valtek</em> или <em>Autopag</em>, специально предназначенные для автомобилей ВАЗ.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Тип ЭБУ</th>
+            <th>Год выпуска</th>
+            <th>Тип ключа</th>
+            <th>Метод отключения</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Bosch ME17.9.7</td>
+            <td>2011-2015</td>
+            <td>Ключ с кнопками</td>
+            <td>Перепрошивка</td>
+        </tr>
+        <tr>
+            <td>Itelma M74</td>
+            <td>2015-2018</td>
+            <td>Ключ с кнопками</td>
+            <td>Перепрошивка</td>
+        </tr>
+        <tr>
+            <td>Bosch ME17.9.7 CAN</td>
+            <td>2018-2021</td>
+            <td>Ключ с кнопками</td>
+            <td>Перепрошивка</td>
+        </tr>
+        <tr>
+            <td>Itelma M86</td>
+            <td>2021-н.в.</td>
+            <td>Заготовка/Ключ</td>
+            <td>Сложная перепрошивка</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="советы-по-эксплуатации-и-безопасности">Советы по эксплуатации и безопасности</h2>
+
+<p>Чтобы избежать проблем с иммобилайзером, старайтесь не допускать глубокого разряда аккумулятора. Резкое падение напряжения в момент опроса ключа может привести к сбою в памяти ЭБУ. Также не рекомендуется хранить ключи рядом с мощными источниками электромагнитного излучения, такими как трансформаторные будки или мощные радиопередатчики.</p>
+
+<p>Если вы планируете установку сигнализации с автозапуском, обязательно предусмотрите обходчик иммобилайзера. Современные системы позволяют реализовать бесключевой обход, копируя сигнал штатного ключа в память модуля обхода. Это сохраняет функционал штатной защиты и позволяет реализовать дистанционный запуск двигателя.</p>
+
+<ul>
+    <li>🔋 Регулярно проверяйте состояние клемм аккумулятора и зачищайте их от окислов.</li>
+    <li>💧 Избегайте попадания влаги на блок управления и считыватель ключа в замке.</li>
+    <li>🛠 При замене ЭБУ всегда согласовывайте его номер с VIN-кодом автомобиля.</li>
+</ul>
+
+<p>Помните, что штатная система защиты — это лишь первый рубеж обороны. Для серьезной безопасности автомобиля необходимо комплексное подход, включающий механические блокираторы и GSM-трекеры. Иммобилайзер Лада Гранта надежен, но не является непреодолимым препятствием для опытных угонщиков, поэтому дополнительные меры никогда не будут лишними.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При покупке б/у Гранты всегда проверяйте работу всех ключей. Если вам дают только один ключ, требуйте скидку на изготовление дубликата, так как потеря последнего ключа потребует дорогостоящей перепрошивки ЭБУ.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+    <summary>Можно ли полностью удалить иммобилайзер физически, вырезав провода?</summary>
+    <p>На современных Лада Гранта это невозможно, так как функции иммобилайзера встроены в программное обеспечение блока управления двигателем. Физическое разрывание проводов приведет лишь к ошибкам в работе двигателя и появлению «Check Engine». Требуется программное отключение.</p>
+</details>
+
+<details>
+    <summary>Сколько стоит перепрошивка ЭБУ у официалов?</summary>
+    <p>Официальные дилеры часто отказываются проводить процедуру удаления иммобилайзера, так как это противоречит политике безопасности производителя. В специализированных сервисах стоимость такой услуги варьируется от 2000 до 5000 рублей в зависимости от типа ЭБУ.</p>
+</details>
+
+<details>
+    <summary>Что делать, если после замены аккумулятора машина не заводится?</summary>
+    <p>Попробуйте использовать запасной ключ. Если он работает, значит, в основном ключе села батарейка или сбилась синхронизация. Попробуйте несколько раз быстро нажать на кнопку закрытия/открытия, находясь рядом с машиной, чтобы восстановить синхронизацию.</p>
+</details>
+
+<details>
+    <summary>Влияет ли отключение иммобилайзера на расход топлива?</summary>
+    <p>Сам по себе процесс удаления кода защиты не влияет на расход. Однако, если при перепрошивке были изменены топливные карты (калибровки) на более производительные, расход может измениться. При корректной работе «евро-2» расход остается в пределах заводских норм.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#принцип-работы-и-архитектура-системы-апс-6">Принцип работы и архитектура системы АПС-6</a></li><li><a href="#диагностика-неисправностей-и-типичные-симптомы">Диагностика неисправностей и типичные симптомы</a></li><li><a href="#методы-отключения-иммобилайзера-на-лада-гранта">Методы отключения иммобилайзера на Лада Гранта</a></li><li><a href="#процедура-перепрошивки-эбу-своими-руками">Процедура перепрошивки ЭБУ своими руками</a></li><li><a href="#проблемы-с-ключами-и-их-программирование">Проблемы с ключами и их программирование</a></li><li><a href="#советы-по-эксплуатации-и-безопасности">Советы по эксплуатации и безопасности</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-vid-sverkhu.html" class="related-card">Лада Гранта вид сверху: габариты, дизайн и сравнение с конкурентами</a></li><li><a href="/articles/u/us/ustanovka-zashchity-dvigatelya-lada-granta.html" class="related-card">Установка защиты двигателя Лада Гранта: пошаговая инструкция</a></li><li><a href="/articles/o/ob/obem-toplivnogo-baka-lada-granta-sedan.html" class="related-card">Объем топливного бака Лада Гранта седан: литры, запас хода и нюансы</a></li><li><a href="/articles/l/la/lada-granta-zamena-ebu.html" class="related-card">Замена ЭБУ Лада Гранта: пошаговая инструкция и адаптация</a></li><li><a href="/articles/n/no/nomer-dvigatelya-lada-granta-16-klapanov.html" class="related-card">Где номер двигателя Лада Гранта 16 клапанов: фото и расшифровка</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-vid-sverkhu.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта вид сверху: габариты, дизайн и сравнение с конкурентами</span><span class="related-bottom-desc">Подробный анализ модели Лада Гранта вид сверху. Реальные габариты, аэродинамика кузова, отличия лифт</span></a><a href="/articles/u/us/ustanovka-zashchity-dvigatelya-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Установка защиты двигателя Лада Гранта: пошаговая инструкция</span><span class="related-bottom-desc">Правильная установка защиты картера Лада Гранта своими руками. Сравнение материалов, выбор крепежа и</span></a><a href="/articles/o/ob/obem-toplivnogo-baka-lada-granta-sedan.html" class="related-bottom-card"><span class="related-bottom-title">Объем топливного бака Лада Гранта седан: литры, запас хода и нюансы</span><span class="related-bottom-desc">Узнайте реальный объем бака Лада Гранта седан. Технические характеристики, расчет запаса хода, особе</span></a><a href="/articles/l/la/lada-granta-zamena-ebu.html" class="related-bottom-card"><span class="related-bottom-title">Замена ЭБУ Лада Гранта: пошаговая инструкция и адаптация</span><span class="related-bottom-desc">Полный гид по замене ЭБУ Лада Гранта. Диагностика, снятие, установка нового блока, прошивка и адапта</span></a><a href="/articles/n/no/nomer-dvigatelya-lada-granta-16-klapanov.html" class="related-bottom-card"><span class="related-bottom-title">Где номер двигателя Лада Гранта 16 клапанов: фото и расшифровка</span><span class="related-bottom-desc">Подробный гид по поиску номера двигателя Лада Гранта 16 клапанов. Фото расположения, расшифровка код</span></a><a href="/articles/k/ka/kamera-zadnego-vida-lada-granta-kross.html" class="related-bottom-card"><span class="related-bottom-title">Камера заднего вида Лада Гранта Кросс: выбор и установка</span><span class="related-bottom-desc">Как выбрать и установить камеру заднего вида на Лада Гранта Кросс? Схемы подключения, обзор моделей </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Скрытые функции Лада Веста: активация меню и настройка ЭБУ — Лада Справка</title>
+    <meta name="description" content="Узнайте все скрытые функции Лада Веста. Инструкция по активации инженерного меню, настройке автозапирания, чувствительности датчиков и тесту приборной панели.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/s/sk/skrytye-funktsii-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Скрытые функции Лада Веста: активация меню и настройка ЭБУ">
+    <meta property="og:description" content="Узнайте все скрытые функции Лада Веста. Инструкция по активации инженерного меню, настройке автозапирания, чувствительности датчиков и тесту приборной панели.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Скрытые функции Лада Веста: активация меню и настройка ЭБУ</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Скрытые функции Лада Веста: полный гайд по активации и настройке</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#вход-в-инженерное-меню-мультимедийной-системы">Вход в инженерное меню мультимедийной системы</a></li><li><a href="#настройка-комфорта-автозапирание-и-свет">Настройка комфорта: автозапирание и свет</a></li><li><a href="#работа-с-блоком-bccm-и-кузовной-электроникой">Работа с блоком BCCM и кузовной электроникой</a></li><li><a href="#диагностика-и-тесты-приборной-панели">Диагностика и тесты приборной панели</a></li><li><a href="#активация-скрытых-опций-через-дилерское-по">Активация скрытых опций через дилерское ПО</a></li><li><a href="#типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный автомобиль — это сложный программно-аппаратный комплекс, и <em>Лада Веста</em> здесь не исключение. Многие владельцы даже не подозревают, что штатная мультимедийная система (ЭМУ) и блок управления кузовной электроникой (BCCM) обладают огромным потенциалом, скрытым от глаз обычного пользователя. Инженеры АвтоВАЗа оставили доступ к расширенному меню для сервисного обслуживания, но эти возможности вполне можно использовать для персонализации машины под себя.</p>
+
+<p>В этой статье мы разберем, как получить доступ к <strong>инженерному меню</strong> без пайки микросхем и сложного оборудования. Вы научитесь настраивать автозапирание дверей при старте, изменять логику работы дневных ходовых огней и даже активировать функции, которые формально должны быть платными или недоступными в вашей комплектации. Это не просто «игрушки», а реальные инструменты для повышения комфорта эксплуатации.</p>
+
+<p>Прежде чем приступать к изменениям, стоит понимать, что вмешательство в программный код несет определенные риски. Однако, если действовать строго по инструкции и не менять значения параметров, в которых вы не уверены, вероятность ошибки сводится к минимуму. Большинство настроек можно вернуть в исходное состояние простым сбросом или повторным изменением значения.</p>
+
+<h2 id="вход-в-инженерное-меню-мультимедийной-системы">Вход в инженерное меню мультимедийной системы</h2>
+
+<p>Доступ к скрытым настройкам головного устройства (ГУ) осуществляется через специальное сервисное меню. Для этого не нужны сторонние программы, достаточно знать правильную последовательность касаний по экрану. Процесс входа зависит от версии программного обеспечения и типа установленной системы: <em>Lada EnjoY Pro</em>, <em>Lada EnjoY</em> или более старые версии на базе <em>Android</em>.</p>
+
+<p>В большинстве актуальных версий ПО вход осуществляется через раздел «Настройки». Вам необходимо найти пункт «Об устройстве» или «Версия ПО». После этого следует быстро нажать 10 раз подряд на поле с номером версии программного обеспечения. На экране появится запрос пароля. Стандартный код для доступа — <code>1234</code> или <code>123456</code>, однако на новых прошивках код может генерироваться динамически или быть равен текущему времени.</p>
+
+<blockquote>⚠️ Внимание: Не изменяйте значения в разделах, помеченных как «Factory» или «Production», если не уверены в их назначении. Это может привести к некорректной работе мультимедиа или потере связи с CAN-шиной.</blockquote>
+
+<p>После успешного ввода пароля откроется меню с вкладками <strong>Debug</strong>, <strong>Factory</strong>, <strong>Car Config</strong>. Именно вкладка <code>Car Config</code> представляет наибольший интерес для владельца, так как там находятся настройки, связанные с кузовом и комфортом. Здесь можно активировать отображение напряжения бортовой сети, изменить язык интерфейса на дополнительные или включить отладку по USB.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Перед внесением любых изменений сфотографируйте экран с текущими значениями всех параметров. Это позволит вам быстро вернуть все как было в случае непредвиденных ошибок.</p></div>
+
+<h2 id="настройка-комфорта-автозапирание-и-свет">Настройка комфорта: автозапирание и свет</h2>
+
+<p>Одной из самых востребованных скрытых функций является настройка автоматического запирания дверей при начале движения. Штатно эта опция может быть неактивна или работать не так, как хочется водителю. Через инженерное меню можно задать скорость, при которой центральный замок сработает автоматически, а также настроить автозапирание при отъезде от машины (если установлен модуль телематики).</p>
+
+<p>Также доступна тонкая настройка светового оборудования. Вы можете изменить логику работы <strong>дневных ходовых огней</strong> (ДХО). Например, сделать так, чтобы при включении «ручника» или переводе селектора в «Паркинг» яркость ДХО снижалась, а габариты загорались ярче, имитируя работу американского стандарта света. Это повышает заметность автомобиля в сумерках.</p>
+
+<ul>
+<li>🚗 <strong>Автозапирание:</strong> активация функции блокировки дверей при достижении скорости 20 км/ч.</li>
+<li>💡 <strong>Световой сценарий:</strong> настройка поведения ДХО и габаритных огней в зависимости от положения селектора КПП.</li>
+<li>🔊 <strong>Звуковое сопровождение:</strong> включение или отключение звукового сигнала при запирании/отпирании автомобиля.</li>
+<li>🌧️ <strong>Датчик дождя:</strong> калибровка чувствительности и порога срабатывания «дворников».</li>
+</ul>
+
+<p>Для доступа к этим параметрам в меню <code>Car Config</code> необходимо найти соответствующие строки. Значение <code>0</code> обычно означает «Выключено», а <code>1</code> — «Включено». В некоторых случаях доступны промежуточные значения для настройки задержек или пороговых значений скорости. Изменения вступают в силу сразу же, но для надежности лучше перезагрузить головное устройство.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какая функция Лада Веста для вас наиболее важна?</strong><ul><li>Автозапирание дверей</li><li>Настройка ДХО</li><li>Калибровка датчика дождя</li><li>Отображение напряжения сети</li></ul></div></div>
+
+<h2 id="работа-с-блоком-bccm-и-кузовной-электроникой">Работа с блоком BCCM и кузовной электроникой</h2>
+
+<p>Блок управления кузовной электроникой (<em>BCCM</em>) — это «мозг», отвечающий за свет, стеклоподъемники, центральный замок и омыватель. Доступ к его настройкам осуществляется через диагностический разъем <code>OBD-II</code> с помощью адаптера <em>ELM327</em> и специализированного ПО, такого как <strong>OpenPort</strong> или <em>Scanmatik</em>. Однако, некоторые параметры дублируются или доступны через мультимедиа в расширенном меню.</p>
+
+<p>Через конфигурацию BCCM можно активировать функцию «Вежливой подсветки», когда фары горят еще некоторое время после постановки автомобиля на охрану, освещая путь до двери дома. Также доступна настройка количества миганий поворотников при перестроении (функция <strong>One Touch Turn Signal</strong>). Штатно часто установлено 3 или 5 миганий, но через инженерное меню можно увеличить это число или, наоборот, отключить.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Значение по умолчанию</th>
+<th>Доступные варианты</th>
+<th>Влияние на авто</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One Touch</td>
+<td>3 мигания</td>
+<td>1-9 миганий</td>
+<td>Комфорт при перестроении</td>
+</tr>
+<tr>
+<td>Свет в салоне</td>
+<td>Гаснет сразу</td>
+<td>Задержка 30 сек</td>
+<td>Плавное гашение плафонов</td>
+</tr>
+<tr>
+<td>Омыватель фар</td>
+<td>Активен</td>
+<td>Отключен</td>
+<td>Экономия жидкости</td>
+</tr>
+<tr>
+<td>Звук кнопок</td>
+<td>Включен</td>
+<td>Вкл/Выкл</td>
+<td>Акустический комфорт</td>
+</tr>
+</tbody>
+</table>
+
+<p>Важно отметить, что изменение конфигурации BCCM требует большей осторожности, чем настройка мультимедиа. <mark>Некорректная запись данных в память блока может привести к его «окирпичиванию»</mark>, после чего потребуется профессиональное восстановление на дилерском оборудовании. Всегда проверяйте совместимость версий ПО блока и конфигурационного файла.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка перед записью в BCCM</h4><label class="check-item"><input type="checkbox"><span>Подключен стабильный источник питания</span></label><label class="check-item"><input type="checkbox"><span>Установлен исправный адаптер ELM327</span></label><label class="check-item"><input type="checkbox"><span>Закрыты все двери и выключен свет</span></label><label class="check-item"><input type="checkbox"><span>Сделана резервная копия конфигурации</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="диагностика-и-тесты-приборной-панели">Диагностика и тесты приборной панели</h2>
+
+<p>Комбинация приборов (КП) в <em>Лада Веста</em> также имеет скрытый сервисный режим. Он позволяет проверить исправность всех сегментов дисплея, стрелок и контрольных ламп. Это особенно полезно при покупке подержанного автомобиля или при появлении «глюков» в отображении информации.</p>
+
+<p>Для входа в режим диагностики обычно требуется зажать кнопку переключения режимов отображения данных на «приборке» (на подрулевом переключателе) и включить зажигание. Удерживая кнопку несколько секунд, вы увидите, как загорятся все индикаторы. Последующие нажатия будут переключать режимы теста: проверка памяти, версия ПО, тест стрелок.</p>
+
+<p>В этом режиме можно увидеть реальный пробег автомобиля, который может отличаться от отображаемого на одометре, если вносились изменения в память. Также доступны данные о температуре воздуха, напряжении аккумулятора в реальном времени и даже VIN-номер автомобиля. Это <strong>диагностическое меню</strong> не требует паролей и безопасно для использования.</p>
+
+<blockquote>⚠️ Внимание: Нахождение в режиме диагностики приборной панели более 10-15 минут может привести к разряду аккумуляторной батареи, так как система не переходит в спящий режим.</blockquote>
+
+<h2 id="активация-скрытых-опций-через-дилерское-по">Активация скрытых опций через дилерское ПО</h2>
+
+<p>Не все скрытые функции можно активировать через экран мультимедиа. Ряд опций, таких как <strong>круиз-контроль</strong> (на машинах без штатной кнопки), подогрев сидений (если физически установлены, но не подключены программно) или изменение алгоритма работы коробки передач <em>AMT</em>, требуют подключения к дилерскому сканеру <em>DiagRA</em> или <em>EolScan</em>.</p>
+
+<p>Владельцы часто обращаются к специалистам для активации «второй сигнальной» (мигание поворотниками при торможении) или изменения порога включения вентилятора охлаждения. Эти настройки хранятся в глубине конфигурационных файлов блоков <em>ECU</em> и <em>TCU</em>. Самостоятельно, без лицензионного софта и знаний структуры баз данных, лезть туда не стоит.</p>
+
+<p>Тем не менее, знание о существовании таких возможностей расширяет понимание того, на что способна ваша <em>Веста</em>. Например, на некоторых версиях прошивок можно активировать отображение мгновенного расхода топлива в режиме реального времени, даже если эта функция была скрыта в базовой комплектации.</p>
+
+<details class="faq-item"><summary>Можно ли активировать круиз-контроль кнопкой?</summary><div class="faq-answer"><p>Физическая активация круиз-контроля возможна только при наличии подрулевого переключателя с соответствующими контактами. Если у вас обычная «кочерка», потребуется замена подрулевого, установка кнопки на торпедо (с «колхозингом») или использование электронного модуля круиза, эмулирующего сигналы. Программная активация без «железа» невозможна.:</p></div></details>
+
+<h2 id="типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</h2>
+
+<p>В процессе «копания» в настройках пользователи часто сталкиваются с проблемами. Самая распространенная — «слет» конфигурации после обновления ПО. Мультимедийная система может сбросить пользовательские настройки к заводским, и процедуру придется повторять. Это не является поломкой, а лишь особенностью работы программного обеспечения.</p>
+
+<p>Другая ошибка — попытка активировать функции, которые физически не поддерживаются блоком. Например, включение в меню опции «Климат-контроль» на машине с обычным кондиционером не заставит последний работать автоматически. Электроника просто проигнорирует команду или выдаст ошибку, так как нет необходимых датчиков и исполнительных механизмов.</p>
+
+<ul>
+<li>📉 <strong>Скачки напряжения:</strong> при работе с электроникой используйте зарядное устройство, чтобы避免因 разряда АКБ не прервать запись данных.</li>
+<li>🔌 <strong>Плохой контакт:</strong> дешевые адаптеры ELM327 часто обрывают связь посередине процесса, что может быть критично.</li>
+<li>💾 <strong>Несоответствие версий:</strong> попытка залить конфиг от другой версии ПО часто приводит к отказу системы.</li>
+</ul>
+
+<p>Если после ваших действий автомобиль начал вести себя неадекватно (не горит свет, не работают стеклоподъемники), первым делом попробуйте сбросить настройки мультимедиа к заводским через меню <code>Reset</code>. Если это не помогло, потребуется повторное подключение диагностического оборудования для восстановления оригинальной конфигурации блоков.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Главное правило тюнинга электроники: «Семь раз отмерь (прочитай форумы), один раз отрежь (запиши данные). Всегда имейте возможность откатиться назад.</p></div>
+
+<details>
+<summary>Безопасно ли активировать скрытые функции на гарантийном автомобиле?</summary>
+<p>Формально, любое вмешательство в программное обеспечение может стать поводом для отказа в гарантии на электрику. Однако, если вы меняете только пользовательские настройки (автозапирание, свет) через штатное меню, дилер об этом не узнает, если не произойдет критического сбоя. Изменение конфигурационных файлов блоков (BCCM, ECU) оставляет следы в логах, которые дилер может увидеть при плановом ТО. Делайте это на свой страх и риск.</p>
+</details>
+
+<details>
+<summary>Сбрасываются ли настройки после отключения аккумулятора?</summary>
+<p>Настройки, записанные в энергонезависимую память (EEPROM) блоков управления, сохраняются после снятия клеммы аккумулятора. Однако, настройки мультимедийной системы (время, радио, некоторые параметры меню) могут сброситься, если в системе есть программный баг или если ГУ уйдет в глубокий сон без питания. Параметры BCCM сохраняются гарантированно.</p>
+</details>
+
+<details>
+<summary>Где взять пароль для инженерного меню, если 1234 не подходит?</summary>
+<p>На новых версиях ПО (особенно для Lada EnjoY Pro) пароли могут быть индивидуальными или зависеть от даты. Попробуйте ввести текущее время в формате ЧЧММ (например, 1430 для 14:30). Также существуют онлайн-калькуляторы паролей для конкретных версий прошивок, которые можно найти в сообществах владельцев. Иногда помогает сброс ГУ к заводским настройкам перед входом.</p>
+</details>
+
+<details>
+<summary>Можно ли через скрытое меню увеличить мощность двигателя?</summary>
+<p>Нет. Скрытое меню мультимедиа и BCCM не имеет доступа к картам зажигания и топливоподачи двигателя (ECU). Для увеличения мощности требуется чип-тюнинг — перепрошивка самого блока управления двигателем с использованием другого оборудования и программного обеспечения. Попытки сделать это через меню ГУ бесполезны.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#вход-в-инженерное-меню-мультимедийной-системы">Вход в инженерное меню мультимедийной системы</a></li><li><a href="#настройка-комфорта-автозапирание-и-свет">Настройка комфорта: автозапирание и свет</a></li><li><a href="#работа-с-блоком-bccm-и-кузовной-электроникой">Работа с блоком BCCM и кузовной электроникой</a></li><li><a href="#диагностика-и-тесты-приборной-панели">Диагностика и тесты приборной панели</a></li><li><a href="#активация-скрытых-опций-через-дилерское-по">Активация скрытых опций через дилерское ПО</a></li><li><a href="#типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/k/ka/kak-snyat-sidene-lada-vesta.html" class="related-card">Как снять сиденье Лада Веста: пошаговая инструкция</a></li><li><a href="/articles/f/fi/filtr-vozdushnyj-lada-vesta-16-106.html" class="related-card">Фильтр воздушный Лада Веста 1.6 106 л.с.: выбор, артикулы, замена</a></li><li><a href="/articles/s/sk/skolko-tormoznoj-zhidkosti-nuzhno-dlya-zameny-lada-vesta.html" class="related-card">Сколько тормозной жидкости нужно для Лада Веста: нормы и замена</a></li><li><a href="/articles/k/ka/kak-vklyuchit-blyutuz-na-magnitole-lada-vesta.html" class="related-card">Как включить Bluetooth на Лада Веста: пошаговая инструкция</a></li><li><a href="/articles/s/sh/shtatnaya-magnitola-lada-vesta-raspinovka.html" class="related-card">Распиновка штатной магнитолы Lada Vesta: схема, подключение, нюансы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/k/ka/kak-snyat-sidene-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Как снять сиденье Лада Веста: пошаговая инструкция</span><span class="related-bottom-desc">Подробная инструкция по демонтажу передних и задних сидений Лада Веста. Узнайте, как правильно снять</span></a><a href="/articles/f/fi/filtr-vozdushnyj-lada-vesta-16-106.html" class="related-bottom-card"><span class="related-bottom-title">Фильтр воздушный Лада Веста 1.6 106 л.с.: выбор, артикулы, замена</span><span class="related-bottom-desc">Полный гид по выбору воздушного фильтра для Лада Веста 1.6 (106 л.с.). Артикулы оригинала, список лу</span></a><a href="/articles/s/sk/skolko-tormoznoj-zhidkosti-nuzhno-dlya-zameny-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Сколько тормозной жидкости нужно для Лада Веста: нормы и замена</span><span class="related-bottom-desc">Узнайте точно, сколько тормозной жидкости нужно для Лада Веста. Полный объем системы, периодичность </span></a><a href="/articles/k/ka/kak-vklyuchit-blyutuz-na-magnitole-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Как включить Bluetooth на Лада Веста: пошаговая инструкция</span><span class="related-bottom-desc">Узнайте, как включить Блютуз на магнитоле Лада Веста. Инструкция для разных мультимедиа, настройка с</span></a><a href="/articles/s/sh/shtatnaya-magnitola-lada-vesta-raspinovka.html" class="related-bottom-card"><span class="related-bottom-title">Распиновка штатной магнитолы Lada Vesta: схема, подключение, нюансы</span><span class="related-bottom-desc">Подробная распиновка разъёмов штатной магнитолы Лада Веста (2015–2026). Схемы ISO, CAN-шины, питания</span></a><a href="/articles/z/za/zamok-kryshki-bagazhnika-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Замок крышки багажника Лада Веста: ремонт, регулировка, замена</span><span class="related-bottom-desc">Как починить замок багажника на Lada Vesta: причины неисправностей, пошаговые инструкции по ремонту </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

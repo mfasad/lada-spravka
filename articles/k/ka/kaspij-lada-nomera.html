@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Каспий Лада: поиск и проверка номеров в базе данных — Лада Справка</title>
+    <meta name="description" content="Полный гид по поиску автомобилей Лада Каспий. Как узнать владельца по номеру, проверить историю и найти контакты через базу данных.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/k/ka/kaspij-lada-nomera.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Каспий Лада: поиск и проверка номеров в базе данных">
+    <meta property="og:description" content="Полный гид по поиску автомобилей Лада Каспий. Как узнать владельца по номеру, проверить историю и найти контакты через базу данных.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Каспий Лада: поиск и проверка номеров в базе данных</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Каспий Лада: поиск номеров и проверка истории авто</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#особенности-модели-лада-каспий">Особенности модели Лада Каспий</a></li><li><a href="#где-и-как-искать-информацию-по-номеру">Где и как искать информацию по номеру</a></li><li><a href="#проверка-истории-через-онлайн-сервисы">Проверка истории через онлайн-сервисы</a></li><li><a href="#технические-нюансы-и-vin-код">Технические нюансы и VIN-код</a></li><li><a href="#юридические-аспекты-и-ограничения">Юридические аспекты и ограничения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Поиск информации об автомобиле по его регистрационному знаку — это процедура, с которой сталкиваются многие водители и покупатели подержанных машин. Особенно актуален вопрос, когда речь идет о популярных моделях, таких как <em>Лада Каспий</em>, которая в последнее время все чаще мелькает на дорогах. Владельцы и потенциальные покупатели часто ищут способы узнать больше о конкретном транспортном средстве, используя только <strong>номерной знак</strong>.</p>
+
+<p>Существует множество причин, побуждающих людей искать данные о машине: от проверки юридической чистоты сделки до необходимости связаться с водителем, припарковавшимся у вашего подъезда. Важно понимать, что официальные базы данных защищены законом о персональных данных, однако существуют легальные способы получения <strong>технической информации</strong> и истории эксплуатации. В этой статье мы разберем все доступные методы поиска и проверки.</p>
+
+<p>Мы детально рассмотрим, какие данные можно получить бесплатно, а за что придется заплатить, и почему <em>Каспий</em> требует особого внимания при покупке из-за специфики своей сборки и комплектующих.</p>
+
+<h2 id="особенности-модели-лада-каспий">Особенности модели Лада Каспий</h2>
+
+<p>Модель <em>Лада Каспий</em> представляет собой современный лифтбек, который фактически является глубокой модернизацией седана <em>Vesta</em>. Автомобиль выпускается с несколькими вариантами двигателей, включая атмосферные и турбированные версии, что делает проверку технического состояния перед покупкой критически важной.</p>
+
+<p>При поиске информации по номеру важно учитывать, что эта модель оснащается вариатором <em>CVT</em> или механической коробкой передач, и история обслуживания этих узлов часто скрыта от глаз обычного покупателя. Знание точной комплектации и года выпуска помогает избежать покупки экземпляра с "детскими болезнями" ранних партий.</p>
+
+<ul>
+<li>🚗 Современный дизайн кузова типа лифтбек с улучшенной аэродинамикой.</li>
+<li>⚙️ Наличие турбированных двигателей серии <em>VAZ-11198</em> с повышенными требованиями к качеству топлива.</li>
+<li>🛡️ Усиленная система безопасности с боковыми подушками и системой стабилизации.</li>
+</ul>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой двигатель у вашего Каспия?</strong><ul><li>1.6 Атмосферник</li><li>1.6 Турбо</li><li>Пока выбираю модель</li><li>Другой вариант</li></ul></div></div>
+
+<p>Стоит отметить, что <strong>идентификация</strong> конкретной модификации по внешнему виду может быть затруднена, так как визуально разные комплектации отличаются минимально. Именно поэтому проверка по VIN-коду, который часто можно восстановить через номерные знаки в специализированных сервисах, становится незаменимым инструментом.</p>
+
+<h2 id="где-и-как-искать-информацию-по-номеру">Где и как искать информацию по номеру</h2>
+
+<p>Поиск автомобиля <em>Лада Каспий</strong> по номерному знаку можно вести через различные источники, каждый из которых предоставляет разный уровень детализации. Официальные государственные ресурсы дают базовую информацию о статусах ограничений, в то время как коммерческие агрегаторы собирают данные из множества источников, включая страховые компании и сервисные центры.</p>
+
+<p>Для начала поиска вам потребуется сам номерной знак и, в идеале, VIN-код автомобиля. Если VIN неизвестен, его иногда можно пробить через номер, используя специализированные онлайн-сервисы, которые индексируют объявления о продаже и данные о ДТП.</p>
+
+<div class="checklist-block"><h4>☑️ Алгоритм проверки автомобиля</h4><label class="check-item"><input type="checkbox"><span>Ввести номерной знак в поиск</span></label><label class="check-item"><input type="checkbox"><span>Проверить наличие штрафов</span></label><label class="check-item"><input type="checkbox"><span>Запросить отчет о ДТП</span></label><label class="check-item"><input type="checkbox"><span>Сверить VIN-код с документами</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p> Для получения полной <strong>истории владения</strong> и данных о ремонтах обычно требуется оплата услуги, что является нормальной практикой для коммерческих баз данных.</p>
+
+<blockquote>⚠️ Внимание: Никогда не используйте сомнительные сайты, обещающие "пробить" адрес и телефон владельца по номеру бесплатно. Такие ресурсы часто являются фишинговыми и созданы для кражи ваших личных данных или денег.</blockquote>
+
+<h2 id="проверка-истории-через-онлайн-сервисы">Проверка истории через онлайн-сервисы</h2>
+
+<p>Современные онлайн-сервисы позволяют получить детальную справку об автомобиле <em>Лада Каспий</em> за считанные минуты. Эти системы агрегируют данные из ГИБДД, страховых компаний, банков и даже сервисов каршеринга, формируя единую картину жизни автомобиля.</p>
+
+<p>В отчете обычно содержится информация о количестве владельцев, пробеге (и фактах его скручивания), участии в дорожно-транспортных происшествиях и использовании в качестве такси или в лизинге. Для <em>Каспия</em>, который часто приобретается для работы в такси или каршеринге, этот пункт является критическим.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр проверки</th>
+<th>Где проверяется</th>
+<th>Важность для Каспия</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Участие в ДТП</td>
+<td>ГИБДД / Страховые</td>
+<td>Высокая (риск скрытых повреждений кузова)</td>
+</tr>
+<tr>
+<td>Залоги и кредиты</td>
+<td>Реестр залогов</td>
+<td>Критическая (риск потери авто)</td>
+</tr>
+<tr>
+<td>Работа в такси</td>
+<td>Коммерческие базы</td>
+<td>Высокая (износ двигателя и салона)</td>
+</tr>
+<tr>
+<td>Таможенная история</td>
+<td>ФТС</td>
+<td>Средняя (актуально для редких случаев импорта)</td>
+</tr>
+</tbody>
+</table>
+
+<p>При анализе отчетов обращайте особое внимание на даты записей. Если <em>Лада Каспий</strong> сменила трех владельцев за один год, это явный сигнал о可能存在щих скрытых проблемах с автомобилем, которые не видны при внешнем осмотре.</p>
+
+<details class="faq-item"><summary>Почему важна проверка на работу в такси?</summary><div class="faq-answer"><p>Автомобили, работавшие в такси или каршеринге, имеют значительно меньший ресурс двигателя и трансмиссии. Пробег таких машин часто скручивают, а обслуживание проводят по минимальному тарифу, что для турбированных версий Каспия может быть фатальным.</p></div></details>
+
+<h2 id="технические-нюансы-и-vin-код">Технические нюансы и VIN-код</h2>
+
+<p>Основным идентификатором любого автомобиля, включая <em>Лада Каспий</strong>, является VIN-код (Vehicle Identification Number). Это 17-значный код, который содержит информацию о заводе-изготовителе, году выпуска, типе кузова и двигателе. Зная номер машины, можно попытаться найти этот код в открытых источниках, чтобы начать глубокую проверку.</p>
+
+<p>У модели <em>Каспий</strong> VIN-код обычно располагается на передней панели кузова под лобовым стеклом, а также на стойке кузова в дверном проеме. При покупке обязательно сверьте номера на кузове с данными в документах — любые расхождения или следы вмешательства являются поводом для отказа от сделки.</p>
+
+<ul>
+<li>🔍 Первые три символа обозначают всемирный индекс изготовителя (WMI).</li>
+<li>🏭 Следующие 6 символов описывают характеристики модели и комплектации.</li>
+<li>📅 Последние 8 символов содержат информацию о годе выпуска и заводском номере.</li>
+</ul>
+
+<p>Для <strong>диагностики</em> технического состояния по VIN-коду можно обратиться к официальным дилерам <em>Lada</em>. Они могут предоставить информацию о том, когда автомобиль последний раз посещал сервис, и какие работы проводились, если обслуживание велось у "официалов".</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Сохраняйте фото VIN-кода и номерных знаков при осмотре авто. Это поможет вам позже спокойно проверить историю машины в разных базах, не выезжая на место осмотра повторно.</p></div>
+
+<h2 id="юридические-аспекты-и-ограничения">Юридические аспекты и ограничения</h2>
+
+<p>При поиске информации по номерам автомобилей <em>Лада Каспий</strong> важно соблюдать законодательство. Персональные данные владельцев (ФИО, адрес, телефон) защищены законом и не находятся в свободном доступе. Попытки получить их нелегальным путем могут повлечь за собой ответственность.</p>
+
+<p>Официально запросить данные владельца можно только через правоохранительные органы в рамках возбужденного дела или через нотариуса для оформления наследства. Для обычных граждан доступной остается только <strong>техническая информация</strong> и история эксплуатации транспортного средства.</p>
+
+<blockquote>⚠️ Внимание: Использование баз данных "пробива" для поиска личных контактов владельца с целью harassment или запугивания является незаконным и преследуется по закону.</blockquote>
+
+<p>Если вы стали жертвой ДТП, и виновник скрылся, или вам заблокировали выезд, правильным алгоритмом действий будет вызов полиции или эвакуатора, а не самостоятельный поиск нарушителя по номеру через сомнительные каналы.</p>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли бесплатно узнать владельца Лада Каспий по номеру?</summary>
+<p>Официально и легально — нет. Бесплатно можно узнать только технические характеристики, год выпуска, цвет и наличие ограничений на регистрацию через сервисы ГИБДД. Персональные данные защищены законом.</p>
+</details>
+
+<details>
+<summary>Где найти VIN-код если он не виден через стекло?</summary>
+<p>На <em>Лада Каспий</em> дубликат VIN-кода выбит на металлической табличке на центральной стойке кузова (со стороны водителя) и на кузове под полом в багажном отделении или под ковриком переднего пассажира, в зависимости от года сборки.</p>
+</details>
+
+<details>
+<summary>Правда ли, что Каспий часто угоняют?</summary>
+<p>Статистика угонов зависит от региона, но массовые модели <em>Vesta</em> и <em>Каспий</strong> находятся в поле зрения угонщиков из-за ликвидности запчастей. Наличие штатного иммобилайзера и сигнализации с обратной связью обязательно.</p>
+</details>
+
+<details>
+<summary>Как проверить, не была ли машина в такси?</summary>
+<p>Точнее всего это показывают платные отчеты коммерческих сервисов, которые имеют доступ к базам страховых компаний и агрегаторов такси. Визуально это можно определить по износу салона и следам установки таксометра.</p>
+</details>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Единственный надежный способ узнать полную историю автомобиля — это комплексная проверка по VIN-коду через официальные и авторизованные коммерческие сервисы.</p></div>
+
+<p>В заключение, поиск информации по номерам <em>Лада Каспий</strong> — это процесс, требующий внимательности и использования правильных инструментов. Не полагайтесь на один источник данных, а перепроверяйте информацию через несколько сервисов.</p>
+
+<p>Помните, что <strong>прозрачная история</em> автомобиля — залог безопасной и беспроблемной эксплуатации. Если продавец отказывается предоставить VIN-код или скрывает документы, это самый верный признак того, что от покупки лучше воздержаться.</p></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#особенности-модели-лада-каспий">Особенности модели Лада Каспий</a></li><li><a href="#где-и-как-искать-информацию-по-номеру">Где и как искать информацию по номеру</a></li><li><a href="#проверка-истории-через-онлайн-сервисы">Проверка истории через онлайн-сервисы</a></li><li><a href="#технические-нюансы-и-vin-код">Технические нюансы и VIN-код</a></li><li><a href="#юридические-аспекты-и-ограничения">Юридические аспекты и ограничения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/n/no/novaya-lada-tolyatti-denis-sajt.html" class="related-card">Новая Лада Тольятти: Денис Мантуров и планы АвтоВАЗ</a></li><li><a href="/articles/k/ko/korobka-robot-lada-granta.html" class="related-card">Робот на Лада Гранта: устройство, ресурс и типичные неисправности</a></li><li><a href="/articles/l/la/lada-v-breste.html" class="related-card">Лада в Бресте: купить, цены, автосалоны и отзывы</a></li><li><a href="/articles/p/po/podgonka-priklada-okhotnichego-ruzhya.html" class="related-card">Подгонка приклада охотничьего ружья: размеры, инструкция</a></li><li><a href="/articles/l/la/lada-revolyushn-2.html" class="related-card">Лада Революшн 2: Обзор концепта, характеристики и дизайн</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/n/no/novaya-lada-tolyatti-denis-sajt.html" class="related-bottom-card"><span class="related-bottom-title">Новая Лада Тольятти: Денис Мантуров и планы АвтоВАЗ</span><span class="related-bottom-desc">Обзор перспектив завода в Тольятти. Денис Мантуров о новых моделях Lada, локализации и технологическ</span></a><a href="/articles/k/ko/korobka-robot-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Робот на Лада Гранта: устройство, ресурс и типичные неисправности</span><span class="related-bottom-desc">Полный обзор роботизированной коробки передач Лада Гранта. Ресурс сцепления, типичные поломки, особе</span></a><a href="/articles/l/la/lada-v-breste.html" class="related-bottom-card"><span class="related-bottom-title">Лада в Бресте: купить, цены, автосалоны и отзывы</span><span class="related-bottom-desc">Полный гид по покупке Лады в Бресте. Сравнение цен, список дилеров, особенности регистрации и обслуж</span></a><a href="/articles/p/po/podgonka-priklada-okhotnichego-ruzhya.html" class="related-bottom-card"><span class="related-bottom-title">Подгонка приклада охотничьего ружья: размеры, инструкция</span><span class="related-bottom-desc">Профессиональная подгонка приклада охотничьего ружья своими руками. Гребень, затыльник, питч, длина </span></a><a href="/articles/l/la/lada-revolyushn-2.html" class="related-bottom-card"><span class="related-bottom-title">Лада Революшн 2: Обзор концепта, характеристики и дизайн</span><span class="related-bottom-desc">Полный разбор Лада Революшн 2. Технические детали, футуристичный дизайн и влияние проекта на развити</span></a><a href="/articles/l/la/lada-connect-chto-eto.html" class="related-bottom-card"><span class="related-bottom-title">Lada Connect: что это и как работает мультимедиа Лада</span><span class="related-bottom-desc">Узнайте, что такое Lada Connect, как работает мультимедиа EnjoY Pro и Enjoy. Настройка, функции, тар</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

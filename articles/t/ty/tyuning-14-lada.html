@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Тюнинг Лада 14: руководство по доработке ВАЗ 2114 — Лада Справка</title>
+    <meta name="description" content="Полный гид по тюнингу Лада 14. Чип-тюнинг, доработка двигателя, подвески и салона. Как превратить ВАЗ 2114 в стильный и быстрый автомобиль своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/t/ty/tyuning-14-lada.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Тюнинг Лада 14: руководство по доработке ВАЗ 2114">
+    <meta property="og:description" content="Полный гид по тюнингу Лада 14. Чип-тюнинг, доработка двигателя, подвески и салона. Как превратить ВАЗ 2114 в стильный и быстрый автомобиль своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/samara/">Samara</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Тюнинг Лада 14: руководство по доработке ВАЗ 2114</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Глубокий тюнинг Лада 14: от стока до проекта</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#доработка-силовой-установки-и-выхлопной-системы">Доработка силовой установки и выхлопной системы</a></li><li><a href="#модернизация-трансмиссии-и-сцепления">Модернизация трансмиссии и сцепления</a></li><li><a href="#тюнинг-подвески-и-тормозной-системы">Тюнинг подвески и тормозной системы</a></li><li><a href="#внешний-тюнинг-и-аэродинамика">Внешний тюнинг и аэродинамика</a></li><li><a href="#интерьер-и-мультимедиа">Интерьер и мультимедиа</a></li><li><a href="#сравнение-популярных-вариантов-тюнинга">Сравнение популярных вариантов тюнинга</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы <strong>ВАЗ 2114</strong> часто сталкиваются с желанием улучшить характеристики своего автомобиля, выходящего с завода в базовой комплектации. Этот автомобиль, созданный на платформе <em>Самара-2</em>, обладает огромным потенциалом для доработок, что сделало его одним из самых популярных объектов для тюнинга в СНГ. Грамотный подход позволяет не только улучшить внешний вид, но и существенно повысить динамику и управляемость машины.</p>
+
+<p>Прежде чем приступить к активным действиям, необходимо четко определить цели модернизации и бюджет. Вы хотите построить трековый болид, шоу-кар для выставок или просто комфортный автомобиль для ежедневной езды? От ответа на этот вопрос зависит выбор направления работ и перечень необходимых запчастей. В этой статье мы разберем ключевые этапы трансформации стандартной "четырнадцатой".</p>
+
+<h2 id="доработка-силовой-установки-и-выхлопной-системы">Доработка силовой установки и выхлопной системы</h2>
+
+<p>Начинать тюнинг любого автомобиля, включая <strong>ВАЗ 2114</strong>, следует с анализа состояния двигателя. Стандартный 8-клапанный мотор объемом 1.5 или 1.6 литра имеет свои пределы, но даже его можно сделать резвее. Первым шагом часто становится установка <strong>фильтра нулевого сопротивления</strong> и перепрошивка электронного блока управления (ЭБУ). Это дает прирост мощности на высоких оборотах и более отзывчивую педаль газа.</p>
+
+<p>Для более серьезного подхода многие энтузиасты переходят на 16-клапанные головки блока цилиндров (ГБЦ) от <em>ВАЗ 2112</em>. Такая замена требует расточки каналов, установки более производительных форсунок и, возможно, кованой поршневой группы с уменьшенной высотой сжатия для работы на турбине или компрессоре. <mark>Критическим моментом при форсировке двигателя является установка надежной системы охлаждения, так как стоковый радиатор может не справиться с возросшими тепловыми нагрузками.</mark></p>
+
+<p>Не стоит забывать и о выхлопной системе. Установка "паука" 4-2-1 или 4-1 вместо штатного коллектора улучшает продувку цилиндров. В сочетании с прямоточным глушителем это добавляет мощности и меняет звук работы мотора на более спортивный. Однако </p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При установке "паука" обязательно замените гофру глушителя на усиленную, так как штатная быстро прогорит из-за возросшей температуры выхлопных газов.</p></div>
+
+<p>Процесс доработки мотора требует точности и понимания физических процессов. Если вы не обладаете достаточными знаниями в механике, лучше доверить сборку силового агрегата профессионалам. Ошибки при установке фаз газораспределения или настройке смеси могут привести к прогару клапанов или даже разрушению поршневой группы.</p>
+
+<h2 id="модернизация-трансмиссии-и-сцепления">Модернизация трансмиссии и сцепления</h2>
+
+<p>Увеличение мощности двигателя неизбежно ставит вопрос о надежности трансмиссии. Штатное <strong>сцепление</strong> на Лада 14 часто не выдерживает возросшего крутящего момента и начинает буксовать, особенно при резких стартах. Замена диска сцепления на усиленный вариант или установка готовых комплектов от <em>Val-Racing</em> или <em>Pilux</em> решает эту проблему, обеспечивая уверенную передачу тяги на колеса.</p>
+
+<p>Для улучшения динамики разгона многие владельцы меняют главную пару в коробке передач. Установка ГП с большим передаточным числом (например, 4.1 или 4.3 вместо стоковых 3.7 или 3.9) делает автомобиль более "рывучим" на низах, хотя максимальная скорость при этом немного снижается. Это идеальное решение для городской езды и дрифта.</p>
+
+<p>Также стоит обратить внимание на кулису КПП. Установка короткоходной кулисы или тросикового привода от <em>ВАЗ 2110-12</em> делает переключение передач более четким и быстрым. Это не добавляет лошадиных сил, но значительно повышает комфорт управления и снижает утомляемость водителя в пробках.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка трансмиссии</h4><label class="check-item"><input type="checkbox"><span>Диагностика выжимного подшипника</span></label><label class="check-item"><input type="checkbox"><span>Замена масла в КПП</span></label><label class="check-item"><input type="checkbox"><span>Проверка тросов привода</span></label><label class="check-item"><input type="checkbox"><span>Осмотр сальников на предмет течей</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>Важно понимать, что после изменения передаточных чисел КПП спидометр начнет показывать неверную скорость. Для корректных показаний потребуется замена привода спидометра или перепрошивка приборной панели, если используется электронный датчик скорости.</p>
+
+<h2 id="тюнинг-подвески-и-тормозной-системы">Тюнинг подвески и тормозной системы</h2>
+
+<p>Штатная подвеска <strong>ВАЗ 2114</strong> мягкая и комфортная, но в поворотах склонна к сильным кренам. Для улучшения управляемости необходимо установить более жесткие пружины и амортизаторы. Оптимальным решением считаются комплекты занижения или спортивные стойки <em>SS20</em> и <em>Plaza Sport</em>. Они уменьшают центр тяжести и делают автомобиль более собранным на дороге.</p>
+
+<p>Не обойтись и без усиления кузова. Установка растяжек стоек (top mounts) и подрамника значительно повышает жесткость кузова на скручивание. Это позволяет подвеске работать эффективнее, так как энергия ударов не расходуется на деформацию кузова. <strong>Полиуретановые сайлентблоки</strong> вместо резиновых улучшат отзывчивость рулевого управления, хотя и добавят немного жесткости на неровностях.</p>
+
+<p>Тормозная система — это элемент, экономить на котором нельзя. Стоковые тормоза с 13-дюймовыми дисками часто перегреваются при активной езде. Установка 14-дюймовых вентилируемых дисков и 4-поршневых суппортов от <em>ВАЗ 2112</em> или <em>ВАЗ 2110</em> кардинально меняет ситуацию. Эффективность торможения возрастает, а риск "ватных" тормозов после нескольких интенсивных остановок сводится к минимуму.</p>
+
+<details class="faq-item"><summary>Нужно ли резать пружины?</summary><div class="faq-answer"><p>Резка витков пружины — это варварский метод, который приводит к быстрому выходу из строя амортизаторов и нарушению геометрии подвески. Используйте только специально подобранные пружины с нужной высотой и жесткостью.</p></div></details>
+
+<p>После любого вмешательства в геометрию подвески (занижение, изменение вылета колес) обязательна процедура развал-схождения. Пренебрежение этим этапом приведет к неравномерному износу резины и уводу автомобиля в сторону при движении по прямой.</p>
+
+<h2 id="внешний-тюнинг-и-аэродинамика">Внешний тюнинг и аэродинамика</h2>
+
+<p>Визуальная часть тюнинга Лада 14 может быть как минималистичной, так и радикальной. Установка обвесов меняет восприятие автомобиля. Бамперы <em>STM</em>, <em>AG</em> или <em>Семь Я</em> придают машине более агрессивный вид. Однако стоит помнить, что массивные обвесы увеличивают вес и могут ухудшить аэродинамику, если не рассчитаны инженерами.</p>
+
+<p>Осветительные приборы играют важную роль в стилистике. Замена штатных фар на альтернативную оптику с линзами или ангельскими глазками не только красивее, но и функциональнее. Ксенон или LED-лампы обеспечивают лучшую освещенность дороги, но их необходимо правильно настроить, чтобы не слепить встречных водителей.</p>
+
+<p>Диски — это "обувь" автомобиля, которая задает тон всему внешнему виду. Кованые диски легче штампованных, что положительно сказывается на динамике разгона и работе подвески. Литые диски разнообразных дизайнов позволяют подобрать вариант под любой стиль, от классики до рейсинга.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой стиль обвеса для 14-й вам ближе?</strong><ul><li>Агрессивный спорт (STM, AG)</li><li>Классика (АвтоВАЗ стиль)</li><li>Без обвесов, только чистота</li><li>Оригинальный кастом</li></ul></div></div>
+
+<p>При установке широких дисков и резины может потребоваться расширение арок. Это делается методом вальцовки или установки пластиковых расширителей. Важно соблюдать баланс: слишком широкая колея без соответствующей настройки подвески может ухудшить устойчивость автомобиля на трассе.</p>
+
+<h2 id="интерьер-и-мультимедиа">Интерьер и мультимедиа</h2>
+
+<p>Салон <strong>ВАЗ 2114</strong> спартанский, поэтому его доработка — вопрос комфорта. Установка европанели от <em>ВАЗ 2110</em> или более современных аналогов решает проблему скрипов и добавляет места для мультимедиа. Замена рулевого колеса на спортивный вариант меньшего диаметра улучшает обзор приборной панели и удобство управления.</p>
+
+<p>Шумоизоляция — обязательный этап для любого проекта. Проклейка дверей, пола, потолка и моторного щита вибро- и шумопоглощающими материалами творит чудеса. В салоне становится тише, исчезают сверчки, а музыка играет чище. Для качественного звука стоит рассмотреть установку компонентной акустики в передние двери и сабвуфера в багажник.</p>
+
+<p>Сиденья — это то, с чем контактирует водитель. Штатные кресла часто не обеспечивают боковой поддержки. Установка спортивных сидений с развитыми валиками или перетяжка штатных с заменой наполнителя на более жесткий пенополиуретан значительно повысят комфорт в дальних поездках.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Качественная шумоизоляция снижает общий уровень шума в салоне на 3-5 дБ, что субъективно воспринимается как двукратное снижение громкости посторонних звуков.</p></div>
+
+<p>Не стоит забывать о климате. Установка кондиционера или более производительного отопителя салона сделает эксплуатацию автомобиля приятной в любую погоду. На <em>Лада 14</em> часто меняют радиатор печки на медный и устанавливают дополнительный насос отопителя для лучшего теплообмена.</p>
+
+<h2 id="сравнение-популярных-вариантов-тюнинга">Сравнение популярных вариантов тюнинга</h2>
+
+<p>Выбор пути развития проекта часто зависит от бюджета и желаемого результата. В таблице ниже приведено сравнение основных направлений доработки, чтобы вам было проще сориентироваться в приоритетах.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Stage 1 (Лайт)</th>
+<th>Stage 2 (Средний)</th>
+<th>Stage 3 (Турбо/Компрессор)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Двигатель</td>
+<td>Фильтр, выхлоп, прошивка</td>
+<td>ГБЦ 16кл, валы, ресивер</td>
+<td>Турбина, кованая поршневая</td>
+</tr>
+<tr>
+<td>Подвеска</td>
+<td>Пружины -30мм</td>
+<td>Стойки SS20, растяжки</td>
+<td>Койловеры, полный полиуретан</td>
+</tr>
+<tr>
+<td>Тормоза</td>
+<td>Колодки Ferodo</td>
+<td>Диски 14" вентилируемые</td>
+<td>Суппорта 4 поршня, жидкость DOT 5.1</td>
+</tr>
+<tr>
+<td>Бюджет</td>
+<td>Низкий</td>
+<td>Средний</td>
+<td>Высокий</td>
+</tr>
+</tbody>
+</table>
+
+<p>Как видно из таблицы, даже начальный уровень доработок способен заметно изменить характер автомобиля. Главное — выполнять работы последовательно и качественно. Не пытайтесь объять необъятное сразу, лучше двигаться поэтапно, оценивая результат каждого шага.</p>
+
+<p>Финальным аккордом любого тюнинга становится общая сборка и настройка. Автомобиль должен быть не только быстрым, но и безопасным. Проверьте все соединения, протяните болты и гайки, убедитесь в отсутствии течей технических жидкостей. Только после тщательной проверки можно выезжать на дороги общего пользования или трек.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Внесение изменений в конструкцию транспортного средства, влияющих на безопасность (двигатель, тормоза, подвеска, свет), согласно законодательству РФ, требует регистрации в ГИБДД и получения свидетельства о соответствии конструкции (СКТС). Эксплуатация незарегистрированных изменений может повлечь штрафы и запрет на эксплуатацию.</p>
+</blockquote>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Сколько стоит полный тюнинг Лада 14?</summary>
+<p>Стоимость сильно варьируется. Бюджетный вариант "для себя" может обойтись в 50-100 тысяч рублей (колеса, свет, звук, легкий стайлинг). Серьезный проект с доработкой двигателя и подвески легко уходит в 300-500 тысяч рублей и выше. Все зависит от используемых компонентов и объема работ.</p>
+</details>
+
+<details>
+<summary>Какой ресурс у двигателя после чип-тюнинга?</summary>
+<p>При грамотной настройке (не на пределе) и качественном топливе ресурс двигателя практически не меняется или снижается незначительно (на 5-10%). Агрессивные прошивки "под трек" требуют более частой замены масла и свечей, а также контроля за температурным режимом.</p>
+</details>
+
+<details>
+<summary>Стоит ли ставить турбину на 8-клапанный мотор?</summary>
+<p>Технически возможно, но экономически и технически нецелесообразно. Штатная поршневая 8-клапанника слабая для наддува. Проще и надежнее swapped-нуть 16-клапанный мотор (21120/21124/21126) и строить проект на его базе, либо сразу ставить кованый 8-клапанный блок с Т-образными клапанами.</p>
+</details>
+
+<details>
+<summary>Где лучше делать тюнинг: самому или в сервисе?</summary>
+<p>Мелкие доработки (свет, музыка, обвесы) можно сделать самому в гараже. Работы с двигателем, сваркой кузова и настройкой подвески лучше доверить профильным сервисам с опытом работы с ВАЗ. Ошибки в сборке мотора могут стоить очень дорого.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#доработка-силовой-установки-и-выхлопной-системы">Доработка силовой установки и выхлопной системы</a></li><li><a href="#модернизация-трансмиссии-и-сцепления">Модернизация трансмиссии и сцепления</a></li><li><a href="#тюнинг-подвески-и-тормозной-системы">Тюнинг подвески и тормозной системы</a></li><li><a href="#внешний-тюнинг-и-аэродинамика">Внешний тюнинг и аэродинамика</a></li><li><a href="#интерьер-и-мультимедиа">Интерьер и мультимедиа</a></li><li><a href="#сравнение-популярных-вариантов-тюнинга">Сравнение популярных вариантов тюнинга</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-8ka-kabriolet.html" class="related-card">Лада 8ка Кабриолет: история, цена и тюнинг ВАЗ-2108</a></li><li><a href="/articles/1/13/13-mashina-lada.html" class="related-card">13 машина лада: обзор, характеристики и отличия модификаций</a></li><li><a href="/articles/l/la/lada-2109-eksport.html" class="related-card">Лада 2109 экспорт: особенности, история и технические нюансы</a></li><li><a href="/articles/l/lo/lobovoe-steklo-na-lada-2114.html" class="related-card">Лобовое стекло Лада 2114: замена, размеры и выбор</a></li><li><a href="/articles/l/la/lada-vaz-2108.html" class="related-card">ВАЗ 2108 (Лада Самара): характеристики, неисправности, тюнинг</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-8ka-kabriolet.html" class="related-bottom-card"><span class="related-bottom-title">Лада 8ка Кабриолет: история, цена и тюнинг ВАЗ-2108</span><span class="related-bottom-desc">Всё о Лада 8ка кабриолет: история создания, технические особенности, тюнинг своими руками, цены на р</span></a><a href="/articles/1/13/13-mashina-lada.html" class="related-bottom-card"><span class="related-bottom-title">13 машина лада: обзор, характеристики и отличия модификаций</span><span class="related-bottom-desc">Подробный разбор популярной модели Лада 13. Технические данные, расход топлива, проблемы с двигателе</span></a><a href="/articles/l/la/lada-2109-eksport.html" class="related-bottom-card"><span class="related-bottom-title">Лада 2109 экспорт: особенности, история и технические нюансы</span><span class="related-bottom-desc">Подробный разбор экспортной версии ВАЗ 2109: отличия от отечественных моделей, рынки сбыта, техничес</span></a><a href="/articles/l/lo/lobovoe-steklo-na-lada-2114.html" class="related-bottom-card"><span class="related-bottom-title">Лобовое стекло Лада 2114: замена, размеры и выбор</span><span class="related-bottom-desc">Полный гид по лобовому стеклу ВАЗ 2114: размеры, артикулы, пошаговая инструкция замены своими руками</span></a><a href="/articles/l/la/lada-vaz-2108.html" class="related-bottom-card"><span class="related-bottom-title">ВАЗ 2108 (Лада Самара): характеристики, неисправности, тюнинг</span><span class="related-bottom-desc">Подробный обзор ВАЗ 2108: технические данные, слабые места, ремонт, тюнинг и советы по эксплуатации.</span></a><a href="/articles/v/va/vaz-lada-2114.html" class="related-bottom-card"><span class="related-bottom-title">ВАЗ Лада 2114: Полный обзор, технические характеристики и тюнинг</span><span class="related-bottom-desc">Подробный разбор ВАЗ 2114: двигатель, расход топлива, типичные поломки и советы по модернизации. Сто</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

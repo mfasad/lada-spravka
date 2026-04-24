@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Прошивка АМТ 4.0 Лада Веста: обновление и настройка — Лада Справка</title>
+    <meta name="description" content="Полный гид по прошивке АМТ 4.0 Лада Веста. Узнайте, как обновить ПО коробки передач, исправить пинки и настроить режимы работы трансмиссии.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/pr/proshivka-amt-40-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Прошивка АМТ 4.0 Лада Веста: обновление и настройка">
+    <meta property="og:description" content="Полный гид по прошивке АМТ 4.0 Лада Веста. Узнайте, как обновить ПО коробки передач, исправить пинки и настроить режимы работы трансмиссии.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Прошивка АМТ 4.0 Лада Веста: обновление и настройка</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Прошивка АМТ 4.0 Лада Веста: руководство по обновлению и настройке</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#что-изменилось-в-версии-40-по-сравнению-с-предшественниками">Что изменилось в версии 4.0 по сравнению с предшественниками</a></li><li><a href="#необходимое-оборудование-и-подготовка-автомобиля">Необходимое оборудование и подготовка автомобиля</a></li><li><a href="#пошаговая-инструкция-по-установке-по">Пошаговая инструкция по установке ПО</a></li><li><a href="#процедура-адаптации-и-калибровки-после-прошивки">Процедура адаптации и калибровки после прошивки</a></li><li><a href="#типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</a></li><li><a href="#стоит-ли-делать-чип-тюнинг-двигателя-вместе-с-амт">Стоит ли делать чип-тюнинг двигателя вместе с АМТ</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы автомобилей <em>Лада Веста</em>, оснащенных роботизированной трансмиссией АМТ, часто сталкиваются с необходимостью обновления программного обеспечения. Завод-изготовитель периодически выпускает новые версии прошивок, направленные на улучшение алгоритмов переключения передач и повышение комфорта вождения. <strong>Прошивка АМТ 4.0</strong> стала одним из наиболее значимых обновлений, которое существенно изменило поведение коробки передач по сравнению с ранними версиями.</p>
+
+<p>Актуальность процедуры обусловлена тем, что ранние версии ПО часто грешили дерганными переключениями и долгим раздумьем при выборе передачи. Многие водители ошибочно полагают, что роботизированная коробка не требует внимания, однако своевременное обновление <em>ECU</em> (блока управления двигателем) и <em>TCU</em> (блока управления трансмиссией) способно кардинально изменить впечатления от эксплуатации автомобиля. В этой статье мы подробно разберем процесс, риски и результаты установки новой версии ПО.</p>
+
+<p>Стоит отметить, что вмешательство в программное обеспечение автомобиля — это не просто копирование файлов, а сложная техническая процедура. <mark>Процедура требует использования специализированного оборудования и точного соблюдения протоколов связи с блоком управления.</mark> Неправильные действия могут привести к некорректной работе трансмиссии или даже выходу из строя электронных компонентов, поэтому к вопросу нужно подходить с полной ответственностью и пониманием процессов.</p>
+
+<h2 id="что-изменилось-в-версии-40-по-сравнению-с-предшественниками">Что изменилось в версии 4.0 по сравнению с предшественниками</h2>
+
+<p>Версия программного обеспечения 4.0 для <strong>роботизированной коробки передач</strong> была разработана инженерами с учетом тысяч жалоб и отзывов владельцев. Основным вектором изменений стало улучшение логики работы сцепления. Если ранее переключения могли сопровождаться ощутимыми рывками, то новая версия сглаживает этот процесс, делая его более плавным и предсказуемым для водителя.</p>
+
+<p>Кроме того, была переработана работа в ручном режиме <code>Manual</code>. Теперь отклик на команды селектора стал быстрее, а задержки при понижении передачи практически исчезли. Это особенно важно при обгонах на трассе или движении в горной местности, где требуется мгновенная реакция трансмиссии на действия пилота.</p>
+
+<p>Изменения коснулись и алгоритмов прогрева сцепления. В холодное время года новая прошивка быстрее адаптируется к условиям эксплуатации, снижая износ фрикционных накладок. <strong>Адаптация</strong> происходит мягче, что положительно сказывается на ресурсе всего узла в целом.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Ощущаете ли вы пинки при переключении передач на вашей Весте?</strong><ul><li>Да, очень сильно/Нет, все плавно/Есть небольшие рывки/Не знаю, не обращал внимания</li></ul></div></div>
+
+<p>Особого внимания заслуживает работа системы <em>Hill Hold</em> (помощь при трогании в гору). В версии 4.0 улучшена логика удержания автомобиля, что минимизирует откат назад при старте на уклонах. Это делает вождение в городских условиях с частыми светофорами и парковками гораздо более комфортным.</p>
+
+<h2 id="необходимое-оборудование-и-подготовка-автомобиля">Необходимое оборудование и подготовка автомобиля</h2>
+
+<p>Для проведения качественной прошивки вам потребуется не только ноутбук, но и специализированный диагностический адаптер. Чаще всего для работы с блоками <em>ВАЗ</em> используется оборудование, поддерживающее протокол <strong>J2534</strong> или специфические решения от <em>OpenPort 2.0</em>. Без качественного "железа" связь с блоком управления может быть нестабильной.</p>
+
+<p>Перед началом работ критически важно обеспечить стабильное питание бортовой сети. Подключение зарядного устройства или блока питания с током не менее 10 ампер является обязательным условием. Скачки напряжения в процессе записи данных могут привести к "окирпичиванию" блока управления, после чего восстановление будет возможно только на профессиональном оборудовании.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к прошивке</h4><label class="check-item"><input type="checkbox"><span>Проверить заряд АКБ</span></label><label class="check-item"><input type="checkbox"><span>Подключить стабильное питание</span></label><label class="check-item"><input type="checkbox"><span>Установить драйверы адаптера</span></label><label class="check-item"><input type="checkbox"><span>Скачать файл прошивки 4.0</span></label><label class="check-item"><input type="checkbox"><span>Закрыть лишние программы на ПК</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Также необходимо проверить целостность проводки и разъемов. Окисленные контакты могут прервать сеанс связи в самый неподходящий момент. Убедитесь, что ноутбук полностью заряжен или подключен к сети, чтобы избежать внезапного отключения компьютера посередине процесса.</p>
+
+<h2 id="пошаговая-инструкция-по-установке-по">Пошаговая инструкция по установке ПО</h2>
+
+<p>Процесс обновления начинается с подключения диагностического адаптера к разъему <code>OBD-II</code>, расположенному под рулевой колонкой. После включения зажигания необходимо запустить специализированное программное обеспечение на компьютере и установить соединение с блоком управления трансмиссией.</p>
+
+<p>Выберите в меню программы опцию "Перепрограммирование" или "Update". Система считает текущую версию ПО и предложит загрузить новый файл. После подтверждения начнется процесс стирания старой памяти и записи новых данных. В это время на экране будет отображаться прогресс-бар.</p>
+
+<blockquote>⚠️ Внимание: Категорически запрещено прерывать процесс записи или выключать зажигание до появления сообщения об успешном завершении. Это может привести к необратимому повреждению программного обеспечения блока.</blockquote>
+
+<p>После успешной записи файлов необходимо выполнить процедуру <strong>адаптации</strong>. Она включает в себя сброс старых параметров и обучение коробки передач новым алгоритмам работы. Без этого этапа трансмиссия может работать некорректно, так как будет использовать старые калибровки вместе с новым кодом.</p>
+
+<details class="faq-item"><summary>Что делать, если процесс завис?</summary><div class="faq-answer"><p>Если прогресс-бар замер на месте более чем на 5 минут, попробуйте аккуратно переподключить разъем адаптера, не выключая зажигание. В некоторых случаях помогает перезапуск программы-загрузчика, но делать это нужно с осторожностью.</p></div></details>
+
+<h2 id="процедура-адаптации-и-калибровки-после-прошивки">Процедура адаптации и калибровки после прошивки</h2>
+
+<p>Сразу после установки новой версии ПО коробка передач не будет работать идеально. Блоку управления необходимо время и определенные условия для обучения. Первичная адаптация обычно проводится статическим методом через диагностический сканер, следуя инструкциям на экране.</p>
+
+<p>После статической адаптации требуется динамическая обкатка. Владельцу необходимо проехать определенное расстояние в различных режимах: разгон, торможение, движение в пробках. В этот период <em>TCU</em> собирает данные о стиле вождения и корректирует моменты переключения передач.</p>
+
+<p>Важно понимать, что первые 50-100 километров поведение автомобиля может отличаться от ожидаемого. Это нормальный процесс накопления статистики. Не стоит пытаться "обучать" коробку агрессивной ездой, лучше придерживаться спокойного ритма.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>До прошивки 4.0</th>
+<th>После прошивки 4.0</th>
+<th>Улучшение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Скорость переключения</td>
+<td>0.8 - 1.2 сек</td>
+<td>0.4 - 0.6 сек</td>
+<td>Быстрее на 40%</td>
+</tr>
+<tr>
+<td>Плавность хода</td>
+<td>Рывки при 1-2 передаче</td>
+<td>Мягкий старт</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>Режим Manual</td>
+<td>Задержка отклика</td>
+<td>Мгновенная реакция</td>
+<td>Заметно</td>
+</tr>
+<tr>
+<td>Шумность</td>
+<td>Высокая при разгоне</td>
+<td>Средняя</td>
+<td>Снижена</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</h2>
+
+<p>В процессе обновления могут возникать различные ошибки, связанные как с оборудованием, так и с программным обеспечением. Одной из самых частых проблем является ошибка связи <code>U0100</code> или таймаут ответа от блока. Это часто указывает на плохой контакт в разъеме <code>OBD</code> или недостаточное напряжение в бортовой сети.</p>
+
+<p>Еще одной распространенной проблемой является несовместимость версии загрузчика с версией прошивки. Убедитесь, что вы используете актуальное ПО для программирования. Старые версии загрузчиков могут некорректно интерпретировать структуру новых файлов данных.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте порты USB 2.0 на материнской плате компьютера, а не хабы или передние панели корпуса, чтобы обеспечить стабильность передачи данных.</p></div>
+
+<p>Если после прошивки горит индикатор неисправности на приборной панели, необходимо считать коды ошибок. Часто помогает простой сброс ошибок и повторное проведение адаптации. В редких случаях может потребоваться откат к предыдущей версии ПО, если новая оказалась бракованной.</p>
+
+<h2 id="стоит-ли-делать-чип-тюнинг-двигателя-вместе-с-амт">Стоит ли делать чип-тюнинг двигателя вместе с АМТ</h2>
+
+<p>Многие владельцы <em>Лада Веста</em> задаются вопросом о комплексном подходе к модернизации. Действительно, обновление прошивки двигателя (<strong>ECU</strong>) в связке с обновлением коробки дает синергетический эффект. Двигатель начинает работать эластичнее, а коробка точнее подбирает передачи под крутящий момент.</p>
+
+<p>Однако стоит помнить, что заводская прошивка АМТ 4.0 уже является оптимизированным компромиссом между динамикой и ресурсом. Сторонние тюнинг-прошивки могут предлагать более агрессивные алгоритмы, но они не всегда гарантируют долговечность сцепления. Заводское обновление безопасно и сохраняет гарантию (если она еще актуальна).</p>
+
+<blockquote>⚠️ Внимание: Установка нелицензионных тюнинг-прошивок может привести к потере гарантийных обязательств со стороны официального дилера. Взвесь все риски перед принятием решения.</blockquote>
+
+<p>Если ваша цель — максимальный комфорт в городе, то штатной версии 4.0 вполне достаточно. Если же вы планируете использовать автомобиль в спортивном стиле или для буксировки грузов, тогда имеет смысл рассмотреть варианты индивидуальной настройки калибровок у профессионалов.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Комплексное обновление ПО двигателя и трансмиссии дает лучший результат, но требует высокой квалификации исполнителя.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли прошить АМТ 4.0 самостоятельно без опыта?</summary>
+<p>Теоретически возможно, если есть оборудование и файлы, но риски велики. Отсутствие опыта может привести к ошибке на этапе адаптации, что потребует поездки к специалистам для исправления. Новичкам лучше обратиться в профильный сервис.</p>
+</details>
+
+<details>
+<summary>Сколько времени занимает вся процедура?</summary>
+<p>Непосредственная запись файлов занимает около 15-20 минут. Однако вместе с диагностикой, подключением, адаптацией и тестовым прогоном整个过程 может занять от 1 до 2 часов.</p>
+</details>
+
+<details>
+<summary>Увеличится ли расход топлива после прошивки?</summary>
+<p>Прошивка 4.0 оптимизирована для эффективности. В большинстве случаев расход топлива остается на прежнем уровне или незначительно снижается за счет более быстрых переключений и меньшего времени работы двигателя на высоких оборотах.</p>
+</details>
+
+<details>
+<summary>Нужно ли менять масло в коробке перед прошивкой?</summary>
+<p>Программное обновление не требует замены технических жидкостей. Однако, если пробег автомобиля велик и масло в КПП давно не менялось, комплексное обслуживание будет разумным решением, хотя и не обязательным для самой процедуры прошивки.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#что-изменилось-в-версии-40-по-сравнению-с-предшественниками">Что изменилось в версии 4.0 по сравнению с предшественниками</a></li><li><a href="#необходимое-оборудование-и-подготовка-автомобиля">Необходимое оборудование и подготовка автомобиля</a></li><li><a href="#пошаговая-инструкция-по-установке-по">Пошаговая инструкция по установке ПО</a></li><li><a href="#процедура-адаптации-и-калибровки-после-прошивки">Процедура адаптации и калибровки после прошивки</a></li><li><a href="#типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</a></li><li><a href="#стоит-ли-делать-чип-тюнинг-двигателя-вместе-с-амт">Стоит ли делать чип-тюнинг двигателя вместе с АМТ</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/o/ot/otzyvy-lada-vesta-16-mekhanika-universal.html" class="related-card">Лада Веста 1.6 механика универсал: честные отзывы владельцев</a></li><li><a href="/articles/k/ka/kakoe-maslo-lyut-v-lada-vesta.html" class="related-card">Какое масло лить в Лада Веста: допуски, вязкость и объемы</a></li><li><a href="/articles/l/la/lada-vesta-troit.html" class="related-card">Лада Веста троит двигатель: причины и решения (2026)</a></li><li><a href="/articles/p/pr/predokhranitel-na-pechku-lada-vesta.html" class="related-card">Предохранитель на печку Лада Веста: схема и замена</a></li><li><a href="/articles/s/sh/shtatnoe-golovnoe-ustrojstvo-lada-vesta-ng.html" class="related-card">Штатное ГУ Лада Веста NG: функции, настройки и обновления</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/o/ot/otzyvy-lada-vesta-16-mekhanika-universal.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста 1.6 механика универсал: честные отзывы владельцев</span><span class="related-bottom-desc">Полный анализ отзывов о Lada Vesta SW 1.6 МКПП. Реальный расход, динамика разгона, проблемы с сцепле</span></a><a href="/articles/k/ka/kakoe-maslo-lyut-v-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Какое масло лить в Лада Веста: допуски, вязкость и объемы</span><span class="related-bottom-desc">Полный гид по моторным маслам для Лада Веста. Разбор допусков Renault, вязкости 5W-40/5W-30, лучших </span></a><a href="/articles/l/la/lada-vesta-troit.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста троит двигатель: причины и решения (2026)</span><span class="related-bottom-desc">Почему троит Лада Веста 1.6/1.8? Диагностика, ремонт и советы по устранению вибраций и пропусков заж</span></a><a href="/articles/p/pr/predokhranitel-na-pechku-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Предохранитель на печку Лада Веста: схема и замена</span><span class="related-bottom-desc">Где находится предохранитель печки Лада Веста? Схема блока, замена резистора, причины поломки вентил</span></a><a href="/articles/s/sh/shtatnoe-golovnoe-ustrojstvo-lada-vesta-ng.html" class="related-bottom-card"><span class="related-bottom-title">Штатное ГУ Лада Веста NG: функции, настройки и обновления</span><span class="related-bottom-desc">Подробный обзор штатного головного устройства Лада Веста NG: возможности, инструкции по настройке, п</span></a><a href="/articles/l/la/lada-vesta-sport-kartinka.html" class="related-bottom-card"><span class="related-bottom-title">Фото Lada Vesta Sport: где скачать и как использовать</span><span class="related-bottom-desc">Ищем качественные картинки Lada Vesta Sport: официальные фото, обои для рабочего стола, технические </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

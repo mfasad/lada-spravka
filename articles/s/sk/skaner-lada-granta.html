@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Сканер Лада Гранта: выбор, диагностика своими руками, ошибки — Лада Справка</title>
+    <meta name="description" content="Полный гид по диагностике Лада Гранта. Какой выбрать сканер ELM327 или DDT4ALL? Расшифровка кодов ошибок, пошаговая инструкция подключения и настройки.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/s/sk/skaner-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Сканер Лада Гранта: выбор, диагностика своими руками, ошибки">
+    <meta property="og:description" content="Полный гид по диагностике Лада Гранта. Какой выбрать сканер ELM327 или DDT4ALL? Расшифровка кодов ошибок, пошаговая инструкция подключения и настройки.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Сканер Лада Гранта: выбор, диагностика своими руками, ошибки</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Сканер Лада Гранта: профессиональная диагностика своими руками</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#зачем-нужна-диагностика-лада-гранта-и-что-она-показывает">Зачем нужна диагностика Лада Гранта и что она показывает</a></li><li><a href="#виды-сканеров-для-автомобилей-ваз">Виды сканеров для автомобилей ВАЗ</a></li><li><a href="#выбор-оборудования-elm327-или-специализированный-сканер">Выбор оборудования: ELM327 или специализированный сканер</a></li><li><a href="#программное-обеспечение-для-диагностики">Программное обеспечение для диагностики</a></li><li><a href="#инструкция-как-подключить-сканер-и-считать-ошибки">Инструкция: как подключить сканер и считать ошибки</a></li><li><a href="#расшифровка-основных-кодов-ошибок-и-неисправностей">Расшифровка основных кодов ошибок и неисправностей</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владение автомобилем семейства <em>АвтоВАЗ</em> требует от собственника не только умения управлять, но и базовых навыков технического обслуживания. Современный автомобиль представляет собой сложный комплекс электронных систем, управляемых контроллерами, и <strong>Лада Гранта</strong> здесь не исключение. Периодическая проверка состояния узлов помогает избежать дорогостоящего ремонта в будущем и гарантирует безопасность на дороге.</p>
+
+<p>Для проведения качественного анализа работы двигателя и других систем вам понадобится специализированный <strong>диагностический сканер</strong>. Это устройство позволяет считать информацию, записанную в памяти <em>ЭБУ</em> (Электронного Блока Управления), и интерпретировать её в понятном для человека виде. Использование такого оборудования превращает гадание "на кофейной гуще" в точную инженерную процедуру.</p>
+
+<p>Владельцы часто недооценивают важность раннего выявления неисправностей, пока "Check Engine" не загорится постоянным светом. Однако современные инструменты позволяют увидеть отклонения в параметрах работы двигателя задолго до появления видимых симптомов. Грамотно подобранный <strong>OBD-сканер</strong> станет вашим личным автосервисом в кармане, экономя время и деньги на визитах к специалистам.</p>
+
+<h2 id="зачем-нужна-диагностика-лада-гранта-и-что-она-показывает">Зачем нужна диагностика Лада Гранта и что она показывает</h2>
+
+<p>Основная задача диагностического оборудования — получение объективных данных о работе <strong>электронной системы управления</strong> двигателем. В отличие от механических неисправностей, которые часто можно услышать или почувствовать, сбои в электронике могут быть скрытыми. Сканер считывает параметры с датчиков в реальном времени, позволяя оценить эффективность сгорания топлива, качество смеси и работу системы зажигания.</p>
+
+<p>При подключении устройства к разъему <em>OBD-II</em> вы получаете доступ к логам ошибок, которые сохраняются даже после выключения зажигания. Это критически важно для поиска плавающих неисправностей, когда лампа индикатора может то загораться, то гаснуть. Без специального оборудования найти причину таких сбоев практически невозможно, так как они не оставляют видимых следов.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Игнорирование горящего индикатора <code>Check Engine</code> может привести к выходу из строя катализатора или лямбда-зонда, стоимость замены которых значительно превышает цену простого сканера.</p>
+</blockquote>
+
+<p>Кроме того, диагностика позволяет проводить адаптацию <strong>дроссельной заслонки</strong> и сбрасывать сервисные интервалы. После чистки节气門ного узла или замены аккумулятора часто требуется программная инициализация, которую без сканера выполнить нельзя. Это обеспечивает стабильный холостой ход и правильную реакцию педали газа.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Как часто вы проводите компьютерную диагностику автомобиля?</strong><ul><li>Только когда горит Check Engine:Раз в год для профилактики:Никогда, отдаю в сервис:Вообще не знаю, что это</li></ul></div></div>
+
+<h2 id="виды-сканеров-для-автомобилей-ваз">Виды сканеров для автомобилей ВАЗ</h2>
+
+<p>Рынок диагностического оборудования предлагает широкий спектр решений, от простых считывателей кодов до профессиональных мультимарочных комплексов. Для владельцев <em>Лада Гранта</em> наиболее актуальны устройства, работающие через протокол <strong>OBD-II</strong> и специфические протоколы <em>ВАЗ</em>. Понимание различий между ними поможет избежать покупки бесполезного гаджета.</p>
+
+<p>Самыми популярными являются адаптеры на базе чипа <strong>ELM327</strong>. Они универсальны, дешевы и совместимы с большинством смартфонов. Однако для глубокой диагностики именно автомобилей <em>АвтоВАЗ</em> часто требуются специализированные решения, такие как <em>ВАЗ-Диагност</em> или <em>Scanmatik</em>, которые умеют работать с конкретными блоками управления <em>Itelma</em> и <em>AvtoVAZ</em>.</p>
+
+<p>Профессиональные сканеры обладают расширенным функционалом, включая тестирование исполнительных механизмов и кодирование. Они позволяют не просто читать ошибки, но и управлять узлами автомобиля принудительно. Это необходимо для сложных случаев, когда стандартные методы диагностики не дают результата.</p>
+
+<ul>
+<li> 📱 <strong>Бюджетные Bluetooth-адаптеры</strong>: идеальны для быстрой проверки ошибок и мониторинга основных параметров на смартфоне.</li>
+<li> 💻 <strong>USB-сканеры для ПК</strong>: обеспечивают более стабильное соединение и часто используются со специализированным софтом вроде <em>OpenDiag</em>.</li>
+<li> 🛠️ <strong>Профессиональные мультимарочники</strong>: дорогие комплексы, способные диагностировать не только двигатель, но и ABS, подушки безопасности и другие системы.</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Для большинства владельцев Гранты оптимальным выбором станет качественный адаптер ELM327 версии 1.5 в связке с приложением OpenDiag Mobile.</p></div>
+
+<h2 id="выбор-оборудования-elm327-или-специализированный-сканер">Выбор оборудования: ELM327 или специализированный сканер</h2>
+
+<p>При выборе устройства首要во встает вопрос совместимости и функциональности. Адаптеры <strong>ELM327</strong> версии 1.5 (на чипе PIC18F25K80) являются "золотым стандартом" для любительской диагностики. Они поддерживают все необходимые протоколы и работают с популярными приложениями. Однако важно отличать их от дешевых китайских копий версии 2.1, которые часто некорректно работают с отечественными ЭБУ.</p>
+
+<p>Специализированные сканеры, такие как <em>ВАЗ-Диагност</em> или <em>ДСТ-14Н</em>, разработаны с учетом специфики автомобилей <em>Lada</em>. Они могут считывать Manufacturer Specific PID, недоступные для универсальных сканеров. Если вы планируете заниматься диагностикой профессионально или владеете несколькими автомобилями ВАЗ, инвестиции в специализированный инструмент будут оправданы.</p>
+
+<p>Важным аспектом является тип подключения. Bluetooth-модули удобны для использования со смартфоном в дороге, но могут терять соединение при сильных помехах. <strong>Wi-Fi адаптеры</strong> стабильнее, но быстрее сажают батарею телефона. USB-кабели обеспечивают максимальную надежность, но привязывают вас к ноутбуку, что не всегда удобно в гаражных условиях.</p>
+
+<table>
+<thead>
+<tr>
+<th>Тип адаптера</th>
+<th>Совместимость</th>
+<th>Цена</th>
+<th>Функционал</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ELM327 v1.5</td>
+<td>Универсальная</td>
+<td>Низкая</td>
+<td>Базовый + некоторые спец. команды</td>
+</tr>
+<tr>
+<td>ВАЗ-Диагност</td>
+<td>Только ВАЗ</td>
+<td>Средняя</td>
+<td>Полный доступ ко всем блокам</td>
+</tr>
+<tr>
+<td>Scanmatik 2</td>
+<td>Мультимарочный</td>
+<td>Высокая</td>
+<td>Профессиональный уровень</td>
+</tr>
+<tr>
+<td>ДСТ-14Н</td>
+<td>ВАЗ/ГАЗ/УАЗ</td>
+<td>Высокая</td>
+<td>Глубокая диагностика и кодирование</td>
+</tr>
+</tbody>
+</table>
+
+<details class="faq-item"><summary>Почему версия ELM327 2.1 часто не работает с Грантой?</summary><div class="faq-answer"><p>Многие дешевые адаптеры с маркировкой 2.1 используют упрощенную прошивку, которая некорректно обрабатывает запросы к специфическим блокам управления ВАЗ. Они могут подключаться, но не считывать ошибки или показывать неверные данные. Рекомендуется искать адаптеры именно на чипе PIC18F25K80 с версией прошивки 1.5.</p></div></details>
+
+<h2 id="программное-обеспечение-для-диагностики">Программное обеспечение для диагностики</h2>
+
+<p>Железо — это только половина успеха; ключевую роль играет программное обеспечение. Для адаптеров <strong>ELM327</strong> на Android наиболее популярным и функциональным является приложение <em>OpenDiag Mobile</em>. Оно разработано энтузиастами специально для автомобилей <em>АвтоВАЗ</em> и позволяет проводить глубокую диагностику, доступную ранее только дилерам.</p>
+
+<p>Для пользователей iOS существует приложение <em>CarScanner</em> или <em>Motordata OBD</em>, которые также имеют профили для <em>Lada Granta</em>. На компьютерах под управлением Windows часто используют <em>OpenDiag Pro</em> или <em>ВАЗ-Диагност</em>. Эти программы предоставляют расширенные графики, возможность записи логов и тестирования исполнительных механизмов.</p>
+
+<p>При выборе софта обращайте внимание на поддержку вашей версии ЭБУ. Блоки управления <em>Itelma M74</em>, <em>M75</em> или <em>AvtoVAZ CAN</em> могут требовать разных протоколов подключения. В настройках приложения необходимо правильно выбрать тип двигателя и версию прошивки для корректного отображения параметров.</p>
+
+<ul>
+<li> 📲 <strong>OpenDiag Mobile</strong>: лучшая программа для Android, поддерживает чтение и сброс ошибок, графики в реальном времени.</li>
+<li> 🍏 <strong>CarScanner</strong>: отличный выбор для iPhone, удобный интерфейс и хорошая русификация.</li>
+<li> 💻 <strong>ВАЗ-Диагност (PC)</strong>: профессиональный инструмент для ноутбука с расширенными функциями настройки.</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Для работы с некоторыми функциями в платных версиях приложений может потребоваться активация через SMS или покупку лицензии. Бесплатные версии часто ограничены только чтением ошибок.</p></div>
+
+<h2 id="инструкция-как-подключить-сканер-и-считать-ошибки">Инструкция: как подключить сканер и считать ошибки</h2>
+
+<p>Процесс диагностики <strong>Лада Гранта</strong> начинается с поиска диагностического разъема. В зависимости от года выпуска и комплектации, он может находиться под рулевой колонкой, в бардачке или под декоративной заглушкой справа от водителя. Разъем <em>OBD-II</em> имеет стандартную трапециевидную форму с 16 контактами.</p>
+
+<p>После подключения адаптера к разъему и запуска двигателя (или включения зажигания) необходимо установить соединение с устройством через настройки Bluetooth или Wi-Fi вашего смартфона. Пароль для подключения обычно указан в инструкции к сканеру и часто равен <code>1234</code> или <code>0000</code>. Убедитесь, что индикатор на адаптере замигал, сигнализируя о готовности к работе.</p>
+
+<p>Запустите диагностическое приложение и выберите тип подключения. В меню настроек укажите модель вашего автомобиля и тип ЭБУ. Нажмите кнопку "Подключиться" или "Связь с ЭБУ". Если соединение установлено успешно, программа покажет текущие параметры работы двигателя и версию прошивки.</p>
+
+<div class="checklist-block"><h4>☑️ Алгоритм подключения сканера</h4><label class="check-item"><input type="checkbox"><span>Найти разъем OBD-II в салоне:Вставить адаптер до щелчка:Включить зажигание:Создать пару в Bluetooth смартфона:Запустить приложение и выбрать модель:Нажать кнопку подключения</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 1</div></div>
+
+<p>Для считывания ошибок перейдите в соответствующий раздел меню. Вы увидите список кодов неисправностей, например, <code>P0300</code> (пропуски зажигания) или <code>P0171</code> (бедная смесь). После записи кодов можно перейти к их расшифровке или сразу выполнить сброс, если причина неисправности устранена.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Перед сбросом ошибок обязательно запишите или сфотографируйте коды неисправностей. Это поможет в дальнейшем анализе, если проблема повторится, и вы забудете первоначальный код.</p>
+</blockquote>
+
+<h2 id="расшифровка-основных-кодов-ошибок-и-неисправностей">Расшифровка основных кодов ошибок и неисправностей</h2>
+
+<p>Коды ошибок стандарта <strong>OBD-II</strong> состоят из буквы и четырех цифр. Буква указывает на систему, где произошла ошибка: <code>P</code> — двигатель и трансмиссия, <code>B</code> — кузов, <code>C</code> — шасси, <code>U</code> — сеть. Для владельца <em>Гранты</em> наиболее важны коды, начинающиеся на <code>P</code>.</p>
+
+<p>Частой проблемой является ошибка <code>P0133</code> или <code>P0134</code>, указывающая на неисправность цепи датчика кислорода. Это может быть вызвано обрывом проводки, выходом из строя самого датчика или проблемами с подогревом. Игнорирование этой ошибки ведет к увеличению расхода топлива и ухудшению экологических показателей.</p>
+
+<p>Другая распространенная группа ошибок связана с системой зажигания: <code>P0300</code>–<code>P0304</code>. Они означают пропуски воспламенения в одном или нескольких цилиндрах. Причины могут быть в свечах, катушках зажигания, форсунках или низкой компрессии. Точную причину поможет определить анализ формы сигнала или поочередная замена элементов.</p>
+
+<ul>
+<li> 🔥 <strong>P0300-P0304</strong>: пропуски зажигания в цилиндрах (проверьте свечи и катушки).</li>
+<li> 🌬️ <strong>P0171/P0172</strong>: слишком бедная или богатая смесь (проверьте ДМРВ и подсос воздуха).</li>
+<li> 🛑 <strong>P0504</strong>: неверный сигнал датчика педали тормоза (часто требует регулировки "лягушки").</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Код ошибки — это не диагноз, а указание на зону поиска. Например, ошибка датчика кислорода не всегда означает, что менять нужно именно датчик, возможно, проблема в проводке.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли диагностировать Ладу Гранту без сканера?</summary>
+<p>Без сканера полноценная диагностика невозможна. Можно лишь визуально осмотреть провода или использовать метод "замыкания контактов" для получения кодов миганием лампы Check Engine, но этот метод работает не на всех версиях ЭБУ и дает очень ограниченную информацию.</p>
+</details>
+
+<details>
+<summary>Какой адаптер ELM327 лучше выбрать для Гранты?</summary>
+<p>Рекомендуется искать адаптеры на чипе <strong>PIC18F25K80</strong> с версией прошивки 1.5. Они стабильнее работают с отечественными блоками управления, чем популярные, но упрощенные версии 2.1 на чипе CK32F103.</p>
+</details>
+
+<details>
+<summary>Безопасно ли сбрасывать ошибки сканером на ходу?</summary>
+<p>Категорически не рекомендуется производить любые действия с диагностическим оборудованием во время движения. Сброс ошибок или изменение параметров может вызвать резкое изменение работы двигателя, что приведет к аварийной ситуации на дороге.</p>
+</details>
+
+<details>
+<summary>Почему сканер не видит ЭБУ Гранты?</summary>
+<p>Причин может быть несколько: неисправен сам адаптер, выключено зажигание, выбран неправильный тип соединения в приложении или несовместимость версии протокола. Также проверьте целостность предохранителя, отвечающего за диагностическую цепь.</p>
+</details>
+
+<details>
+<summary>Нужно ли платить за приложение OpenDiag?</summary>
+<p>Базовая версия приложения бесплатна и позволяет считывать и стирать ошибки. Однако для доступа к расширенным функциям, таким как тесты исполнительных механизмов или онлайн-графики в высоком разрешении, может потребоваться покупка полной версии или активация через SMS.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#зачем-нужна-диагностика-лада-гранта-и-что-она-показывает">Зачем нужна диагностика Лада Гранта и что она показывает</a></li><li><a href="#виды-сканеров-для-автомобилей-ваз">Виды сканеров для автомобилей ВАЗ</a></li><li><a href="#выбор-оборудования-elm327-или-специализированный-сканер">Выбор оборудования: ELM327 или специализированный сканер</a></li><li><a href="#программное-обеспечение-для-диагностики">Программное обеспечение для диагностики</a></li><li><a href="#инструкция-как-подключить-сканер-и-считать-ошибки">Инструкция: как подключить сканер и считать ошибки</a></li><li><a href="#расшифровка-основных-кодов-ошибок-и-неисправностей">Расшифровка основных кодов ошибок и неисправностей</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/p/pl/plastikovye-nakladki-na-kovrolin-lada-granta.html" class="related-card">Пластиковые накладки на ковролин Лада Гранта: выбор и монтаж</a></li><li><a href="/articles/k/ka/kakoe-maslo-zalit-v-korobku-lada-granta-mekhanika-s-trosovym-privodom.html" class="related-card">Какое масло заливать в МКПП Лада Гранта с тросовым приводом: выбор и рекомендации</a></li><li><a href="/articles/r/ra/raschet-kredita-lada-granta.html" class="related-card">Расчет кредита на Лада Гранта: ставки, условия и график платежей</a></li><li><a href="/articles/s/sa/salnik-akpp-lada-granta.html" class="related-card">Сальник АКПП Лада Гранта: замена, артикулы и нюансы ремонта</a></li><li><a href="/articles/l/la/lada-granta-fl-perednij-bamper.html" class="related-card">Лада Гранта ФЛ передний бампер: замена, покраска и тюнинг</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/p/pl/plastikovye-nakladki-na-kovrolin-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Пластиковые накладки на ковролин Лада Гранта: выбор и монтаж</span><span class="related-bottom-desc">Как выбрать и установить пластиковые накладки на ковролин Лада Гранта. Защита салона, материалы, инс</span></a><a href="/articles/k/ka/kakoe-maslo-zalit-v-korobku-lada-granta-mekhanika-s-trosovym-privodom.html" class="related-bottom-card"><span class="related-bottom-title">Какое масло заливать в МКПП Лада Гранта с тросовым приводом: выбор и рекомендации</span><span class="related-bottom-desc">Подробный гайд по выбору трансмиссионного масла для механической коробки Лада Гранта с тросовым прив</span></a><a href="/articles/r/ra/raschet-kredita-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Расчет кредита на Лада Гранта: ставки, условия и график платежей</span><span class="related-bottom-desc">Полный расчет кредита на Лада Гранта 2026. Реальные ставки банков, условия госпрограмм, калькуляция </span></a><a href="/articles/s/sa/salnik-akpp-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Сальник АКПП Лада Гранта: замена, артикулы и нюансы ремонта</span><span class="related-bottom-desc">Как заменить сальник АКПП на Лада Гранта? Выбор масла, артикулы уплотнителей Jatco JF414E, пошаговая</span></a><a href="/articles/l/la/lada-granta-fl-perednij-bamper.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта ФЛ передний бампер: замена, покраска и тюнинг</span><span class="related-bottom-desc">Полный гид по переднему бамперу Лада Гранта ФЛ. Выбор запчасти, артикулы, пошаговая инструкция сняти</span></a><a href="/articles/e/el/elektrousilitel-rulya-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Электроусилитель руля Лада Гранта: диагностика, ремонт, ошибки</span><span class="related-bottom-desc">Почему глючит ЭУР на Лада Гранта? Разбор кодов ошибок, регулировка чувствительности, замена датчика </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

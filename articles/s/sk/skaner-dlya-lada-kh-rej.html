@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Сканер для Лада Х Рей: выбор OBD2 адаптера и ПО — Лада Справка</title>
+    <meta name="description" content="Полный обзор сканеров для Lada XRAY: ELM327, DDT4ALL, диагностика ошибок, адаптация. Сравнение характеристик и руководство по подключению.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/s/sk/skaner-dlya-lada-kh-rej.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Сканер для Лада Х Рей: выбор OBD2 адаптера и ПО">
+    <meta property="og:description" content="Полный обзор сканеров для Lada XRAY: ELM327, DDT4ALL, диагностика ошибок, адаптация. Сравнение характеристик и руководство по подключению.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/xray/">Xray</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Сканер для Лада Х Рей: выбор OBD2 адаптера и ПО</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Профессиональный сканер для Лада Х Рей: выбор и диагностика</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#архитектура-бортовой-сети-lada-xray">Архитектура бортовой сети Lada XRAY</a></li><li><a href="#критерии-выбора-диагностического-адаптера">Критерии выбора диагностического адаптера</a></li><li><a href="#программное-обеспечение-для-диагностики">Программное обеспечение для диагностики</a></li><li><a href="#сравнительная-таблица-популярных-сканеров">Сравнительная таблица популярных сканеров</a></li><li><a href="#процесс-подключения-и-первичная-настройка">Процесс подключения и первичная настройка</a></li><li><a href="#диагностика-основных-систем-и-чтение-ошибок">Диагностика основных систем и чтение ошибок</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный автомобиль, такой как <em>Lada XRAY</em>, представляет собой сложный электронный комплекс, где механические узлы тесно связаны с программным обеспечением. Владение специализированным диагностическим оборудованием превращает владельца из простого наблюдателя в полноценного технического эксперта, способного мгновенно выявить неисправность. Сканер для Лада Х Рей — это не просто игрушка для энтузиастов, а необходимый инструмент для контроля состояния систем безопасности, двигателя и трансмиссии.</p>
+
+<p>Рынок автомобильной электроники предлагает широкий спектр устройств, от дешевых китайских адаптеров до профессиональных мультимарочных комплексов. Однако для корректной работы с отечественным автопромом, в частности с платформой <strong>B0</strong>, требуются определенные протоколы связи. Важно понимать, что универсальные решения не всегда могут раскрыть полный потенциал бортовой сети <em>ВАЗ</em>.</p>
+
+<p>В этой статье мы детально разберем, какой именно интерфейс необходим для глубокой диагностики, как избежать распространенных ошибок при выборе оборудования и какие программные связки работают стабильнее всего. Вы узнаете о нюансах подключения к блокам управления <strong>ECU</strong> и <strong>ABS</strong>, а также о том, как читать параметры в реальном времени без посещения сервисного центра.</p>
+
+<h2 id="архитектура-бортовой-сети-lada-xray">Архитектура бортовой сети Lada XRAY</h2>
+
+<p>Электронная архитектура кроссовера <em>XRAY</em> базируется на стандартах альянса <em>Renault-Nissan</em>, что накладывает свои особенности на процедуру диагностики. Основным протоколом обмена данными здесь выступает <strong>K-Line</strong> и <strong>CAN-bus</strong>, которые требуют от сканера поддержки соответствующих скоростей передачи и алгоритмов инициализации. Простые считыватели коов ошибок часто не видят специфические блоки, такие как система пассивной безопасности или климат-контроль.</p>
+
+<p>Центральным элементом системы является <strong>ECU</strong> (Engine Control Unit), который управляет работой двигателя. Для <em>Лада Х Рей</em> чаще всего используются контроллеры <em>M74</em> или <em>M74K</em> от <strong>Bosch</strong>. Эти блоки требуют специфической процедуры подключения, известной как "пробуждение линии", которую бюджетные сканеры могут игнорировать. Без правильной инициализации вы увидите лишь поверхностные данные.</p>
+
+<blockquote>⚠️ Внимание: Попытка подключения сканера во время работы двигателя на холостых оборотах может привести к кратковременным скачкам напряжения в бортовой сети, что чувствительно для старых аккумуляторных батарей.</blockquote>
+
+<p>Дополнительные системы, такие как <strong>ABS/ESP</strong> и <em>Airbag</em>, также подключены к диагностической шине. Для их полноценного тестирования требуется устройство, способное работать с разными скоростями baud rate. Стандартная скорость для двигателя составляет 10400 бод, тогда как некоторые блоки комфорта могут использовать другие значения. Игнорирование этого факта приведет к таймауту соединения.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При покупке адаптера убедитесь, что в описании заявлена поддержка протокола KWP2000, так как именно он часто используется для доступа к блокам кузова в автомобилях Лада.</p></div>
+
+<h2 id="критерии-выбора-диагностического-адаптера">Критерии выбора диагностического адаптера</h2>
+
+<p>Выбор подходящего сканера для <em>Lada XRAY</em> должен базироваться на чипсете устройства, так как именно от него зависит стабильность связи. Наиболее распространенным решением является микросхема <strong>ELM327</strong>, однако ее модификации могут кардинально отличаться по функционалу. Версии с индексом 1.5 часто работают стабильнее с отечественным софтом, чем более новые 2.1, которые могут не поддерживать некоторые команды <strong>K-Line</strong>.</p>
+
+<p>Вторым важным параметром является тип подключения. Проводные интерфейсы обеспечивают более надежную связь при наличии помех в бортовой сети, что актуально для автомобилей с большим пробегом. Беспроводные модели, работающие через <strong>Bluetooth</strong> или <strong>Wi-Fi</strong>, удобнее для постоянного мониторинга, но могут терять соединение при сильной вибрации или разряде аккумулятора.</p>
+
+<ul>
+<li>🔌 <strong>Совместимость ПО:</strong> Адаптер должен корректно работать с программами вроде <em>OpenDiag</em> или <em>DDT4ALL</em>.</li>
+<li>📡 <strong>Протоколы:</strong> Обязательна поддержка CAN и K-Line для доступа ко всем блокам <em>XRAY</em>.</li>
+<li>🛡️ <strong>Защита:</strong> Наличие встроенной защиты от переполюсовки и скачков напряжения спасет ноутбук или телефон.</li>
+</ul>
+
+<p>Также стоит обратить внимание на качество сборки корпуса и разъема. Дешевые копии часто имеют люфт в контактах, что приводит к прерывистой связи во время движения. Для профессиональной работы лучше выбирать устройства с металлическим экраном и качественной пайкой. Это гарантирует долговечность при активной эксплуатации в условиях сервиса или гаража.</p>
+
+<h2 id="программное-обеспечение-для-диагностики">Программное обеспечение для диагностики</h2>
+
+<p>Аппаратная часть — это лишь половина успеха; ключевую роль играет программное обеспечение. Для владельцев <em>Лада Х Рей</em> наиболее актуальны специализированные программы, заточенные под протоколы <strong>ВАЗ</strong>. Лидером в этом сегменте является комплекс <em>OpenDiag</em>, который позволяет проводить глубокую диагностику, адаптиацию и даже перепрошивку блоков управления.</p>
+
+<p>Для работы с блоками, унаследованными от <em>Renault</em> (например, система пассивной безопасности или климат), часто требуется софт <strong>DDT4ALL</strong> или <em>PyDiag</em>. Эти программы имеют более сложный интерфейс, но предоставляют доступ к параметрам, закрытым в стандартных сканерах. Здесь можно увидеть температуру катализатора, коррекцию впрыска по цилиндрам и статус работы лямбда-зондов в реальном времени.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой тип подключения сканера вы предпочитаете?</strong><ul><li>Bluetooth</li><li>Wi-Fi</li><li>Проводной USB</li><li>Не пользуюсь сканерами</li></ul></div></div>
+
+<p>Мобильные приложения для Android и iOS также получили широкое распространение. Программы вроде <strong>Torque</strong> или <em>HobDrive</em> удобны для вывода основных параметров на экран смартфона. Однако для серьезной диагностики они подходят меньше, так как не умеют проводить тесты исполнительных механизмов или сбрасывать адаптации после замены узлов.</p>
+
+<details class="faq-item"><summary>Секрет стабильной связи DDT4ALL</summary><div class="faq-answer"><p>Для стабильной работы DDT4ALL с адаптерами ELM327 часто требуется прописать команду инициализации AT SP 5, чтобы принудительно переключить адаптер в режим K-Line перед запуском диагностики блоков кузова.</p></div></details>
+
+<h2 id="сравнительная-таблица-популярных-сканеров">Сравнительная таблица популярных сканеров</h2>
+
+<p>Чтобы упростить выбор, мы подготовили сравнение наиболее популярных моделей адаптеров, доступных на рынке. Данные основаны на практическом опыте работы с автомобилями семейства <em>XRAY</em> и учитывают реальную скорость соединения и поддержку протоколов.</p>
+
+<table>
+<thead>
+<tr>
+<th>Модель адаптера</th>
+<th>Тип подключения</th>
+<th>Поддержка K-Line</th>
+<th>Совместимость с OpenDiag</th>
+<th>Цена (условно)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ELM327 v1.5 (Bluetooth)</td>
+<td>Беспроводное</td>
+<td>Полная</td>
+<td>Высокая</td>
+<td>Низкая</td>
+</tr>
+<tr>
+<td>Scanmatik 2 Pro</td>
+<td>Проводное/Bluetooth</td>
+<td>Полная</td>
+<td>Нативная</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>K-Line 409.1 (KKL)</td>
+<td>Проводное USB</td>
+<td>Только K-Line</td>
+<td>Средняя</td>
+<td>Средняя</td>
+</tr>
+<tr>
+<td>ELM327 v2.1 (Wi-Fi)</td>
+<td>Беспроводное</td>
+<td>Частичная</td>
+<td>Низкая</td>
+<td>Низкая</td>
+</tr>
+</tbody>
+</table>
+
+<p>Как видно из таблицы, универсальные китайские адаптеры могут быть полезны, но специализированные решения вроде <strong>Scanmatik</strong> обеспечивают лучшую совместимость. Версии <em>ELM327</em> с индексом 2.1 часто оказываются бесполезны для старых протоколов, несмотря на заявленную поддержку. Поэтому при покупке всегда уточняйте версию чипа у продавца.</p>
+
+<h2 id="процесс-подключения-и-первичная-настройка">Процесс подключения и первичная настройка</h2>
+
+<p>Процедура подключения сканера к <em>Lada XRAY</em> требует соблюдения определенного алгоритма действий для предотвращения ошибок связи. Сначала необходимо найти диагностический разъем <strong>OBD-II</strong>, который в этом автомобиле расположен под панелью приборов, слева от рулевой колонки, ближе к центральному тоннелю. Доступ к нему может быть затруднен ковриком или пластиковой накладкой.</p>
+
+<p>После физического подключения адаптера к разъему, необходимо включить зажигание, но не запускать двигатель. Это позволит блокам управления перейти в режим диагностики без нагрузки на генератор. Только после загорания индикаторов на адаптере можно запускать программное обеспечение на телефоне или ноутбуке.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка перед диагностикой</h4><label class="check-item"><input type="checkbox"><span>Уровень заряда АКБ выше 11.5В</span></label><label class="check-item"><input type="checkbox"><span>Зажигание включено, двигатель заглушен</span></label><label class="check-item"><input type="checkbox"><span>Адаптер плотно вставлен в разъем</span></label><label class="check-item"><input type="checkbox"><span>Приложение имеет доступ к Bluetooth/USB</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>В настройках программы важно правильно выбрать порт подключения и скорость. Для <strong>K-Line</strong> часто требуется вручную выставить протокол, если автоматическое определение не сработало. В приложении <em>OpenDiag</em> это делается через меню выбора типа подключения, где нужно указать "K-Line" или "CAN", в зависимости от того, какой блок вы планируете опрашивать.</p>
+
+<blockquote>⚠️ Внимание: Не пытайтесь извлекать адаптер из разъема OBD-II во время активной записи параметров или процесса прошивки — это может привести к повреждению файла конфигурации в блоке управления.</blockquote>
+
+<h2 id="диагностика-основных-систем-и-чтение-ошибок">Диагностика основных систем и чтение ошибок</h2>
+
+<p>Основная функция сканера — чтение и расшифровка диагностических кодов неисправностей (<strong>DTC</strong>). В случае с <em>XRAY</strong>, коды ошибок двигателя обычно начинаются с буквы P (Powertrain), например, <code>P0300</code> (пропуски зажигания). Сканер позволяет не только увидеть код, но и прочитать его описание, а также просмотреть стоп-кадр — параметры работы мотора в момент возникновения ошибки.</p>
+
+<p>Особое внимание стоит уделить системе <strong>ABS</strong> и подушкам безопасности. Ошибки в этих системах могут не гореть на панели приборов постоянно, но храниться в памяти. С помощью сканера можно проверить состояние датчиков вращения колес или целостность цепи пиропатрона. Это особенно актуально при покупке подержанного автомобиля или после ДТП.</p>
+
+<ul>
+<li>📊 <strong>Параметры в реальном времени:</strong> Мониторинг напряжения бортовой сети, положения дроссельной заслонки и угла опережения зажигания.</li>
+<li>🧹 <strong>Сброс ошибок:</strong> Возможность очистить память после ремонта, чтобы проверить, исчезла ли неисправность.</li>
+<li>🔧 <strong>Тесты исполнительных механизмов:</em> Принудительное включение вентилятора, форсунки или реле бензонасоса для проверки их работоспособности.</li>
+</ul>
+
+<p>Для двигателя <em>ВАЗ-21129</em>, который устанавливается на многие комплектации <em>XRAY</em>, критически важно следить за параметром "Долговременная коррекция топлива". Если значения выходят за пределы ±10%, это свидетельствует о проблемах с топливоподачей или подсосе воздуха, даже если лампа <strong>Check Engine</strong> еще не загорелась.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Регулярная проверка параметров лямбда-зонда и коррекции топлива позволяет выявить проблемы с двигателем на ранней стадии, до появления серьезных поломок и дорогостоящего ремонта.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли прошить ЭБУ Лада Х Рей через дешевый ELM327?</summary>
+<p>Теоретически это возможно, но крайне рискованно. Дешевые адаптеры не имеют буфера обмена данными достаточного размера и защиты от помех. Прерывание процесса прошивки из-за потери связи приведет к "кирпичу" блока управления, восстановление которого возможно только на профессиональном оборудовании в сервисе.</p>
+</details>
+
+<details>
+<summary>Почему сканер не видит блок ABS или Airbag?</summary>
+<p>Скорее всего, используемое программное обеспечение не поддерживает диагностику этих блоков через выбранный протокол, или адаптер не умеет переключаться на нужную скорость baud rate. Попробуйте использовать специализированный софт, например, <em>DDT4ALL</em> или <em>Scanmatik</em>.</p>
+</details>
+
+<details>
+<summary>Вредно ли держать адаптер подключенным постоянно?</summary>
+<p>Да, многие адаптеры не имеют функции засыпания и продолжают потреблять ток даже при выключенном зажигании. Это может привести к глубокому разряду аккумулятора за 3-5 дней простоя автомобиля. Рекомендуется отключать устройство после использования.</p>
+</details>
+
+<details>
+<summary>Какой адаптер лучше для Android: Bluetooth или Wi-Fi?</summary>
+<p>Для диагностики Bluetooth предпочтительнее, так как он позволяет одновременно иметь доступ в интернет (для карт или поиска информации) и связь с авто. Wi-Fi адаптеры создают собственную сеть, разрывая интернет-соединение телефона, что неудобно при поиске расшифровок ошибок на ходу.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#архитектура-бортовой-сети-lada-xray">Архитектура бортовой сети Lada XRAY</a></li><li><a href="#критерии-выбора-диагностического-адаптера">Критерии выбора диагностического адаптера</a></li><li><a href="#программное-обеспечение-для-диагностики">Программное обеспечение для диагностики</a></li><li><a href="#сравнительная-таблица-популярных-сканеров">Сравнительная таблица популярных сканеров</a></li><li><a href="#процесс-подключения-и-первичная-настройка">Процесс подключения и первичная настройка</a></li><li><a href="#диагностика-основных-систем-и-чтение-ошибок">Диагностика основных систем и чтение ошибок</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/r/ra/rasshiritelnyj-bachok-lada-kh-rej.html" class="related-card">Расширительный бачок Лада XRAY: замена, объём, выбор</a></li><li><a href="/articles/g/ga/gabaritnye-razmery-lada-iks-rej.html" class="related-card">Габаритные размеры Лада Икс Рей: точные замеры кузова и салона</a></li><li><a href="/articles/s/sh/shumoizolyatsiya-lada-kh-rej.html" class="related-card">Шумоизоляция Лада Х Рей: материалы, технология и этапы</a></li><li><a href="/articles/e/eg/egur-lada-kh-rej.html" class="related-card">ЭГУР Лада Х-Рей: расшифровка кода и проверка по VIN</a></li><li><a href="/articles/z/za/zamena-maslosemnykh-kolpachkov-lada-kh-rej.html" class="related-card">Замена маслосъемных колпачков Lada XRAY: пошаговая инструкция</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/r/ra/rasshiritelnyj-bachok-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Расширительный бачок Лада XRAY: замена, объём, выбор</span><span class="related-bottom-desc">Замена расширительного бачка Лада XRAY своими руками. Какой антифриз лить, объём системы, признаки н</span></a><a href="/articles/g/ga/gabaritnye-razmery-lada-iks-rej.html" class="related-bottom-card"><span class="related-bottom-title">Габаритные размеры Лада Икс Рей: точные замеры кузова и салона</span><span class="related-bottom-desc">Полный обзор габаритных размеров Лада Икс Рей. Длина, ширина, высота, клиренс, объем багажника и раз</span></a><a href="/articles/s/sh/shumoizolyatsiya-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Шумоизоляция Лада Х Рей: материалы, технология и этапы</span><span class="related-bottom-desc">Экспертная статья о полной шумоизоляции Lada XRAY. Разбор материалов, технология виброизоляции пола,</span></a><a href="/articles/e/eg/egur-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">ЭГУР Лада Х-Рей: расшифровка кода и проверка по VIN</span><span class="related-bottom-desc">Полная расшифровка ЭГУР Лада Х-Рей: как проверить комплектацию, узнать цвет кузова и историю автомоб</span></a><a href="/articles/z/za/zamena-maslosemnykh-kolpachkov-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Замена маслосъемных колпачков Lada XRAY: пошаговая инструкция</span><span class="related-bottom-desc">Как самостоятельно поменять маслосъемные колпачки на Лада Х Рей 1.6/1.8: признаки износа, инструмент</span></a><a href="/articles/d/da/datchik-zadnego-khoda-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Датчик заднего хода Лада Х Рей: замена, проверка и артикулы</span><span class="related-bottom-desc">Как проверить и заменить датчик заднего хода на Лада Х Рей. Артикулы, причины неисправности, пошагов</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

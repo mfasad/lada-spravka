@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Подключение фаркопа Лада Гранта: схемы, распиновка и установка — Лада Справка</title>
+    <meta name="description" content="Полная инструкция по подключению фаркопа Лада Гранта. Разбор схем Smart Connect, распиновки розетки 7 pin и нюансов работы с CAN-шиной.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-granta-podklyuchenie-farkopa.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Подключение фаркопа Лада Гранта: схемы, распиновка и установка">
+    <meta property="og:description" content="Полная инструкция по подключению фаркопа Лада Гранта. Разбор схем Smart Connect, распиновки розетки 7 pin и нюансов работы с CAN-шиной.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Подключение фаркопа Лада Гранта: схемы, распиновка и установка</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Подключение фаркопа Лада Гранта: схемы, распиновка и установка</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#выбор-типа-разъема-и-подготовка-к-работе">Выбор типа разъема и подготовка к работе</a></li><li><a href="#схемы-подключения-smart-connect-и-классическая-проводка">Схемы подключения: Smart Connect и классическая проводка</a></li><li><a href="#инструкция-по-монтажу-розетки-на-лада-гранта">Инструкция по монтажу розетки на Лада Гранта</a></li><li><a href="#подключение-через-блок-согласования-smart-connect">Подключение через блок согласования (Smart Connect)</a></li><li><a href="#активация-функции-фаркопа-через-мультимедиа">Активация функции фаркопа через мультимедиа</a></li><li><a href="#типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный российский автопром, в частности модельный ряд <em>Lada Granta</em>, все чаще рассматривается владельцами как база для активного отдыха и перевозки грузов. Установка <strong>тягово-сцепного устройства</strong> (ТСУ) становится не просто вопросом комфорта, а необходимостью для тех, кто использует автомобиль для работы или путешествий. Однако механический монтаж кронштейна — это лишь половина дела. Главная сложность, с которой сталкиваются автовладельцы, заключается в грамотной электрической коммутации.</p>
+
+<p>Неправильное подключение может привести к ошибкам в бортовой системе, перегоранию предохранителей или даже повреждению контроллера <strong>электрооборудования</strong>. В новых модификациях Гранты, особенно с 2018 года выпуска, применяется сложная электроника, где каждый контакт имеет значение. Простое скручивание проводов здесь уже не подходит, так как система управления светом может расценить подключение прицепа как неисправность ламп.</p>
+
+<p>В этой статье мы детально разберем все этапы работ, от выбора комплектующих до тонкостей настройки мультимедийной системы. Вы узнаете, почему в некоторых случаях требуется активация функции через диагностический сканер и как избежать типичных ошибок при монтаже розетки. <mark>На автомобилях с CAN-шиной обязательна установка блока согласования, прямое подключение приведет к сгоранию штатной проводки.</mark></p>
+
+<h2 id="выбор-типа-разъема-и-подготовка-к-работе">Выбор типа разъема и подготовка к работе</h2>
+
+<p>Первым шагом перед началом любых работ является определение типа электрической системы вашего автомобиля. Для <em>Лада Гранта</em> характерно использование стандартного европейского 7-контактного разъема, однако внутренняя структура проводки может отличаться в зависимости от года выпуска и комплектации. Важно сразу понять, какой тип <strong>схемы подключения</strong> будет актуален для вашего случая.</p>
+
+<p>Если у вас автомобиль ранних годов выпуска без сложной электроники управления светом, возможно использование простой врезки в штатную проводку. Однако для большинства современных версий, оснащенных системой <code>Smart Connect</code> или имеющих CAN-шину, потребуется более сложный подход. В таких случаях прямое соединение проводов фаркопа с проводами автомобиля недопустимо.</p>
+
+<ul>
+<li>🔌 <strong>7-pin разъем</strong> — стандарт для легковых прицепов, наиболее распространенный вариант для Гранты.</li>
+<li>🔌 <strong>13-pin разъем</strong> — используется для тяжелых прицепов с дополнительной электроникой, требует установки специального переходника.</li>
+<li>🔌 <strong>Блок согласования</strong> — обязательное устройство для автомобилей с мультиплексной проводкой, предотвращающее ошибки бортового компьютера.</li>
+</ul>
+
+<p>Перед началом работ необходимо подготовить инструмент. Вам потребуется набор отверток, пассатижи, изолента высокого качества или термоусадочные трубки, а также мультиметр для проверки напряжения. Не забудьте о стяжках для фиксации жгутов, чтобы исключить их провисание и повреждение в процессе эксплуатации.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой у вас тип Лада Гранта?</strong><ul><li>Седан (до 2018 года)</li><li>Лифтбек (после 2018 года)</li><li>Универсал (Cross)</li><li>Не знаю точно</li></ul></div></div>
+
+<h2 id="схемы-подключения-smart-connect-и-классическая-проводка">Схемы подключения: Smart Connect и классическая проводка</h2>
+
+<p>Понимание различий между типами электрических схем критически важно для сохранности автомобиля. Владельцы часто путают понятия, полагая, что разъем везде одинаковый. На самом деле, <strong>алгоритм работы</strong> сигналов в новых машинах кардинально отличается от старых аналоговых систем.</p>
+
+<p>Классическая схема подразумевает прямую передачу напряжения от педали тормоза или переключателя поворотов к лампам прицепа. В этом случае ток проходит через провода автомобиля, создавая дополнительную нагрузку. Если вы планируете использовать мощную оптику прицепа, это может привести к перегреву контактов и оплавлению изоляции в районе педального узла.</p>
+
+<p>Система <em>Smart Connect</em> или подключение через CAN-шину работает иначе. Здесь сигнал о включении поворота или тормоза передается в виде цифрового кода, а не просто напряжения. Блок управления кузовом (BCM) считывает этот код и самостоятельно управляет лампами. Попытка "забрать" сигнал напрямую с провода приведет к тому, что компьютер увидит изменение сопротивления цепи и выдаст ошибку "перегорела лампа", перестав подавать напряжение.</p>
+
+<details class="faq-item"><summary>Что такое CAN-шина в контексте фаркопа?</summary><div class="faq-answer"><p>CAN-шина — это цифровая сеть, по которой блоки управления обмениваются данными. В контексте фаркопа это означает, что сигналы поворотов и габаритов кодируются. Простое присоединение провода к линии CAN разрушит всю сеть связи автомобиля, поэтому использование декодера или блока согласования здесь не просто желательно, а жизненно необходимо.</p></div></details>
+
+<p>Для определения типа вашей проводки лучше всего воспользоваться мультиметром или обратиться к сервисной документации. Если при измерении напряжения на контактах вы видите стабильные 12 Вольт при включении света — у вас классика. Если показания скачут или прибор показывает странные значения — перед вами цифровая система, требующая <strong>блока согласования</strong>.</p>
+
+<h2 id="инструкция-по-монтажу-розетки-на-лада-гранта">Инструкция по монтажу розетки на Лада Гранта</h2>
+
+<p>Процесс установки розетки фаркопа на <em>Lada Granta</em> требует аккуратности, особенно при работе в зоне бампера. Начать следует с демонтажа пластиковых заглушек или самого бампера, если конструкция ТСУ этого требует. В некоторых моделях потребуется сделать аккуратный вырез в нижней части бампера под шар фаркопа и ответную часть розетки.</p>
+
+<p>Прокладка проводки осуществляется из салона или из подкапотного пространства, в зависимости от конструкции кузова. В седанах и лифтбеках доступ к задней части лонжерона может быть ограничен, поэтому часто проводку тянут через салон, снимая обшивку пола или боковые пластиковые накладки. Это более трудоемкий путь, но он гарантирует защиту проводов от влаги и реагентов.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист перед началом монтажа</h4><label class="check-item"><input type="checkbox"><span>Проверить комплектацию фаркопа</span></label><label class="check-item"><input type="checkbox"><span>Подготовить инструмент (дрель, сверла, пассатижи)</span></label><label class="check-item"><input type="checkbox"><span>Купить гофру для защиты проводов</span></label><label class="check-item"><input type="checkbox"><span>Проверить работу всех световых приборов авто</span></label><label class="check-item"><input type="checkbox"><span>Снять минусовую клемму с АКБ</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>При сверлении отверстий для крепления розетки обязательно обработайте края антикором, чтобы предотвратить появление ржавчины. Металл в этой зоне подвержен агрессивному воздействию дорожной соли. Крепление самой розетки должно быть жестким, исключающим вибрации, которые могут привести к окислению контактов.</p>
+
+<table>
+<thead>
+<tr>
+<th>Контакт</th>
+<th>Функция</th>
+<th>Цвет провода (Евро)</th>
+<th>Цвет провода (ГОСТ)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Левый поворот</td>
+<td>Желтый</td>
+<td>Желтый</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Противотуманный фонарь</td>
+<td>Синий</td>
+<td>Сине-черный</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Масса (Земля)</td>
+<td>Белый</td>
+<td>Белый</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Правый поворот</td>
+<td>Зеленый</td>
+<td>Зеленый</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Правый габарит</td>
+<td>Коричневый</td>
+<td>Красно-черный</td>
+</tr>
+</tbody>
+</table>
+
+<p>После физической установки розетки не спешите собирать все обратно. Необходимо провести первичную проверку целостности цепи. Убедитесь, что провод "массы" имеет надежный контакт с кузовом автомобиля. Плохая масса — самая частая причина нестабильной работы световых приборов прицепа.</p>
+
+<h2 id="подключение-через-блок-согласования-smart-connect">Подключение через блок согласования (Smart Connect)</h2>
+
+<p>Использование блока согласования (БС) — это наиболее безопасный и современный метод подключения фаркопа к <em>Лада Гранта</em>. Этот модуль берет на себя управление током, защищая штатную проводку от перегрузок. Блок согласования подключается к аккумулятору напрямую, получая питание независимо от бортовой сети, а сигналы управления считывает с помощью тонких проводов-щупов.</p>
+
+<p>Процесс установки БС начинается с размещения самого модуля. Его необходимо закрепить в сухом месте, желательно внутри салона или в защищенном отсеке багажника, так как электроника не любит прямого попадания воды. Подключение питания осуществляется через предохранитель, который идет в комплекте, непосредственно к клеммам АКБ.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Никогда не подключайте плюсовой провод блока согласования к плюсу аккумулятора без предохранителя. Это может привести к возгоранию проводки в случае короткого замыкания. Используйте только штатный предохранитель из комплекта или аналогичный по номиналу.</p>
+</blockquote>
+
+<p>Далее следует самый ответственный этап — снятие сигналов. Вам нужно найти провода, идущие к задним фонарям (повороты, стоп, габарит). С помощью специальных зажимов или аккуратной зачистки (с последующей изоляцией) подключите управляющие входы блока согласования. Важно не нарушить изоляцию основных проводов больше, чем это необходимо.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте вольтметр для поиска нужного провода. Включите левый поворот и ищите провод, где напряжение появляется и исчезает в ритме мигания. Это исключит ошибку подключения к постоянному плюсу габаритов.</p></div>
+
+<p>После соединения всех линий согласно схеме, идущей в комплекте с блоком, проверьте работу. При включении поворота на автомобиле должен загораться соответствующий индикатор на блоке согласования (если он есть) и загорать лампа на прицепе. <strong>Универсальность</strong> таких блоков позволяет использовать их на любых автомобилях, но правильность монтажа остается ключевым фактором.</p>
+
+<h2 id="активация-функции-фаркопа-через-мультимедиа">Активация функции фаркопа через мультимедиа</h2>
+
+<p>Владельцы Лада Гранта с современной мультимедийной системой (ММС) EnjoY Pro или аналогичными могут столкнуться с необходимостью программной активации. Без этого шага автомобиль может некорректно отображать информацию о состоянии световых приборов или не предупреждать о перегоревших лампах прицепа.</p>
+
+<p>Для активации часто требуется подключение диагностического сканера, поддерживающего протоколы <em>Autel</em>, <code>OpenPort</code> или специализированного софта для ВАЗ. В меню диагностики необходимо найти раздел, связанный с кузовной электроникой или системой комфорта. Там может присутствовать опция "Наличие прицепа" или "Тягово-сцепное устройство".</p>
+
+<p>Если у вас нет доступа к профессиональному оборудованию, эту процедуру лучше доверить специалистам на СТО. Самостоятельные эксперименты с прошивкой блоков управления могут привести к "окирпичиванию" электроники, восстановление которой обойдется гораздо дороже, чем установка фаркопа.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Программная активация не влияет на работу электрики напрямую, но позволяет корректно отображать ошибки и предупреждения на дисплее автомобиля, что важно для прохождения ТО и диагностики.</p></div>
+
+<h2 id="типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</h2>
+
+<p>Даже опытные мастера иногда допускают ошибки, которые приводят к нестабильной работе системы. Самая распространенная проблема — это "плавающая" масса. Если контакт провода заземления с кузовом ослабнет или окислится, ток пойдет по цепям других приборов. Это может привести к тому, что при включении поворота у прицепа будут загорать стоп-сигналы или габариты.</p>
+
+<p>Еще одна частая ошибка — недостаточная герметичность соединений. Влага, попадающая в розетку или скрутки, вызывает коррозию и увеличение сопротивления. В результате лампы на прицепе горят тускло, а система автомобиля может выдавать ошибки. Используйте качественную изоленту, термоусадку и диэлектрическую смазку для контактов.</p>
+
+<ul>
+<li>🔥 <strong>Перегрев проводов</strong> — возникает при использовании слишком тонкого сечения провода для питания мощных фонарей.</li>
+<li>🔥 <strong>Мигание с удвоенной частотой</strong> — сигнал о том, что сопротивление цепи изменилось (часто перегорела лампа на прицепе или плохой контакт).</li>
+<li>🔥 <strong>Отсутствие реакции</strong> — проверяйте предохранители, которые могли сгореть при коротком замыкании во время монтажа.</li>
+</ul>
+
+<blockquote>
+<p>⚠️ Внимание: Если после подключения фаркопа у вас перестал работать стеклоподъемник или центральный замок, немедленно отключите фаркоп. Вероятно, вы задели общую шину питания или управления в жгуте проводов двери или багажника.</p>
+</blockquote>
+
+<p>Регулярно проверяйте состояние розетки. Резиновая крышка должна плотно закрывать контакты, не пропуская воду. Периодически смазывайте контакты графитовой смазкой или спреем для электрических контактов, чтобы предотвратить окисление. Это продлит срок службы как самой розетки, так и электрики автомобиля.</p>
+
+<h2 id="faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</h2>
+
+<details>
+<summary>Нужно ли снимать аккумулятор перед подключением фаркопа?</summary>
+<p>Да, это обязательное требование безопасности. Отключение минусовой клеммы исключит риск короткого замыкания при работе с проводкой вблизи металлических частей кузова и предотвратит случайное повреждение электронных блоков.</p>
+</details>
+
+<details>
+<summary>Можно ли подключить фаркоп к Гранте без блока согласования?</summary>
+<p>Только если у вас очень старая версия автомобиля с простой электрической схемой. Для современных Грант с CAN-шиной это категорически запрещено, так как приведет к ошибкам бортового компьютера и возможным проблемам с гарантией.</p>
+</details>
+
+<details>
+<summary>Какой максимальный вес прицепа для Лада Гранта?</summary>
+<p>Согласно техническому паспорту, Лада Гранта может буксировать прицеп массой до 900 кг (без тормозов) или до 1200-1500 кг (с тормозами), в зависимости от типа двигателя и модификации. Точные данные указаны в свидетельстве о регистрации ТС (СТС) в графе "Разрешенная масса буксируемого прицепа".</p>
+</details>
+
+<details>
+<summary>Почему горит ошибка после установки фаркопа?</summary>
+<p>Скорее всего, блок управления видит изменение сопротивления в цепи (например, если лампы прицепа потребляют меньше тока) или произошло короткое замыкание. Проверьте правильность подключения через блок согласования и целостность предохранителей.</p>
+</details>
+
+<details>
+<summary>Нужно ли регистрировать фаркоп в ГИБДД?</summary>
+<p>Если фаркоп сертифицирован именно для вашей модели автомобиля (есть соответствующая отметка в документах на ТСУ и совпадает с VIN или модельным рядом в сертификате), и установлен согласно инструкции завода-изготовителя, то регистрация в ГИБДД не требуется. Достаточно возить с собой сертификат соответствия и акт установки.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#выбор-типа-разъема-и-подготовка-к-работе">Выбор типа разъема и подготовка к работе</a></li><li><a href="#схемы-подключения-smart-connect-и-классическая-проводка">Схемы подключения: Smart Connect и классическая проводка</a></li><li><a href="#инструкция-по-монтажу-розетки-на-лада-гранта">Инструкция по монтажу розетки на Лада Гранта</a></li><li><a href="#подключение-через-блок-согласования-smart-connect">Подключение через блок согласования (Smart Connect)</a></li><li><a href="#активация-функции-фаркопа-через-мультимедиа">Активация функции фаркопа через мультимедиа</a></li><li><a href="#типичные-ошибки-и-troubleshooting">Типичные ошибки и troubleshooting</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-elektrostal.html" class="related-card">Лада Гранта Электросталь: цены, комплектации, наличие</a></li><li><a href="/articles/b/be/benzonasos-lada-granta-8-klapanov.html" class="related-card">Бензонасос Лада Гранта 8 клапанов: признаки неисправности и замена</a></li><li><a href="/articles/s/sa/salon-lada-granta-liftbek.html" class="related-card">Салон Лада Гранта Лифтбек: обзор, доработки и тюнинг интерьера</a></li><li><a href="/articles/s/sk/skhema-predokhranitelej-lada-granta-2018.html" class="related-card">Схема предохранителей Лада Гранта 2018: фото, описание блоков</a></li><li><a href="/articles/l/la/lada-granta-universal-kross-otzyvy-realnykh-vladeltsev.html" class="related-card">Лада Гранта Универсал Кросс: реальные отзывы владельцев 2026</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-elektrostal.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта Электросталь: цены, комплектации, наличие</span><span class="related-bottom-desc">Полный обзор Лада Гранта Электросталь. Цены, комплектации, наличие на складе, технические характерис</span></a><a href="/articles/b/be/benzonasos-lada-granta-8-klapanov.html" class="related-bottom-card"><span class="related-bottom-title">Бензонасос Лада Гранта 8 клапанов: признаки неисправности и замена</span><span class="related-bottom-desc">Как определить поломку бензонасоса на Гранте 8кл? Признаки, диагностика, выбор запчасти и пошаговая </span></a><a href="/articles/s/sa/salon-lada-granta-liftbek.html" class="related-bottom-card"><span class="related-bottom-title">Салон Лада Гранта Лифтбек: обзор, доработки и тюнинг интерьера</span><span class="related-bottom-desc">Полный разбор салона Лада Гранта Лифтбек: материалы, эргономика, шумоизоляция и лучшие идеи для тюни</span></a><a href="/articles/s/sk/skhema-predokhranitelej-lada-granta-2018.html" class="related-bottom-card"><span class="related-bottom-title">Схема предохранителей Лада Гранта 2018: фото, описание блоков</span><span class="related-bottom-desc">Полная схема предохранителей и реле Лада Гранта 2018 года. Расположение монтажных блоков, расшифровк</span></a><a href="/articles/l/la/lada-granta-universal-kross-otzyvy-realnykh-vladeltsev.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта Универсал Кросс: реальные отзывы владельцев 2026</span><span class="related-bottom-desc">Честные отзывы о Lada Granta Cross Universal: плюсы и минусы, расход топлива, надежность, комфорт. М</span></a><a href="/articles/c/ch/chto-vkhodit-v-to-2-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Что входит в ТО-2 Lada Granta: полный чек-лист + цены 2026</span><span class="related-bottom-desc">Разбираем, какие работы и запчасти включены в второе ТО Гранты по регламенту АвтоВАЗа. Сроки, стоимо</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

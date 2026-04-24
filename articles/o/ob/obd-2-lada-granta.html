@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>OBD2 для Лада Гранта: как подключить и диагностировать ошибки — Лада Справка</title>
+    <meta name="description" content="Полное руководство по OBD2 для Лада Гранта: выбор адаптера, расшифровка ошибок, диагностика двигателя и коробки передач. Пошаговые инструкции и советы эксперта.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/o/ob/obd-2-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="OBD2 для Лада Гранта: как подключить и диагностировать ошибки">
+    <meta property="og:description" content="Полное руководство по OBD2 для Лада Гранта: выбор адаптера, расшифровка ошибок, диагностика двигателя и коробки передач. Пошаговые инструкции и советы эксперта.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">OBD2 для Лада Гранта: как подключить и диагностировать ошибки</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>OBD2 в Лада Гранта: как провести диагностику и сбросить ошибки самостоятельно</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#где-находится-разъём-obd2-в-лада-гранта">Где находится разъём OBD2 в Лада Гранта</a></li><li><a href="#какой-obd2-адаптер-выбрать-для-лада-гранта">Какой OBD2-адаптер выбрать для Лада Гранта</a></li><li><a href="#пошаговая-инструкция-как-подключиться-к-obd2-на-гранте">Пошаговая инструкция: как подключиться к OBD2 на Гранте</a></li><li><a href="#расшифровка-ошибок-obd2-на-лада-гранта">Расшифровка ошибок OBD2 на Лада Гранта</a></li><li><a href="#диагностика-коробки-передач-амт-и-мкпп-через-obd2">Диагностика коробки передач (АМТ и МКПП) через OBD2</a></li><li><a href="#как-сбросить-ошибки-obd2-на-гранте-без-сервиса">Как сбросить ошибки OBD2 на Гранте без сервиса</a></li><li><a href="#продвинутая-диагностика-параметры-двигателя-в-реальном-времени">Продвинутая диагностика: параметры двигателя в реальном времени</a></li><li><a href="#faq-частые-вопросы-по-obd2-на-лада-гранта">FAQ: Частые вопросы по OBD2 на Лада Гранта</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Современные автомобили, включая <em>Лада Гранта</em>, оснащены системой самодиагностики через стандартный разъём <strong>OBD2</strong>. Этот протокол позволяет владельцу оперативно выявлять неисправности, считывать параметры работы двигателя и даже программировать некоторые модули — без посещения сервисного центра. Но как правильно использовать <strong>OBD2 на Гранте</strong>, какой адаптер выбрать и какие ошибки встречаются чаще всего?</p>
+
+<p>В этой статье мы разберём всё: от расположения разъёма и совместимости адаптеров до расшифровки кодов ошибок и нюансов диагностики <em>8-клапанных</em> и <em>16-клапанных</em> версий. А ещё — поделимся лайфхаками, как сэкономить на ремонте, вовремя обнаружив проблему.</p>
+
+<h2 id="где-находится-разъём-obd2-в-лада-гранта">Где находится разъём OBD2 в Лада Гранта</h2>
+
+<p>В отличие от иномарок, где разъём может прятаться под панелью или в багажнике, в <em>Лада Гранта</em> (все поколения, включая <em>FL</em> и <em>Cross</em>) он расположен стандартно:</p>
+
+<ul>
+  <li>📍 <strong>Под рулевой колонкой</strong> — слева от педального узла, за пластиковой заглушкой (на моделях до 2018 года заглушка может отсутствовать).</li>
+  <li>🔧 <strong>Рядом с блоком предохранителей</strong> — если снять нижнюю часть торпедо, разъём виден сразу.</li>
+  <li>⚡ <strong>Подсветка</strong>: на некоторых комплектациях разъём подсвечивается зелёным светодиодом при включённом зажигании.</li>
+</ul>
+
+<p>На <em>Гранте Спорт</em> и версиях с <em>АМТ (робот)</em> расположение идентичное, но доступ может быть немного затруднён из-за дополнительных жгутов проводов. Если не можете найти разъём — проверьте, не закрыт ли он декоративной накладкой (часто встречается на машинах с подогревом руля).</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой у вас двигатель на Гранте?</strong><ul><li>8-клапанный</li><li>16-клапанный</li><li>Другой (уточните в комментариях)</li><li>Не знаю</li></ul></div></div>
+
+<h2 id="какой-obd2-адаптер-выбрать-для-лада-гранта">Какой OBD2-адаптер выбрать для Лада Гранта</h2>
+
+<p>Не все адаптеры одинаково хорошо работают с <em>ЭБУ (электронным блоком управления)</em> <em>Лада Гранта</em>. Дешёвые китайские устройства часто не читают расширенные параметры или выдают ошибки при подключении. Мы протестировали несколько моделей и составили рейтинг:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Модель адаптера</th>
+      <th>Протокол</th>
+      <th>Совместимость с Грантой</th>
+      <th>Цена (≈)</th>
+      <th>Плюсы/Минусы</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>ELM327 v1.5</em> (оригинал)</td>
+      <td>Wi-Fi/Bluetooth</td>
+      <td>Полная</td>
+      <td>1 500–2 500 ₽</td>
+      <td>✅ Чтение всех параметров<br>❌ Дорогой</td>
+    </tr>
+    <tr>
+      <td><em>VGate iCar2</em></td>
+      <td>Wi-Fi/Bluetooth</td>
+      <td>Полная</td>
+      <td>2 000–3 000 ₽</td>
+      <td>✅ Быстрое соединение<br>✅ Работает с <code>Torque Pro</code></td>
+    </tr>
+    <tr>
+      <td><em>OBDLink LX</em></td>
+      <td>Bluetooth</td>
+      <td>Частичная (нет поддержки <code>UDS</code>)</td>
+      <td>3 500–4 500 ₽</td>
+      <td>✅ Надёжный<br>❌ Дорогой для Гранты</td>
+    </tr>
+    <tr>
+      <td>Китайский <em>ELM327 v2.1</em> (клон)</td>
+      <td>Bluetooth</td>
+      <td>Ограниченная</td>
+      <td>300–800 ₽</td>
+      <td>✅ Дёшево<br>❌ Не читает <code>Freeze Frame</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Важно:</strong> Для <em>Лада Гранта</em> с <em>ЭБУ М74</em> или <em>Итэлма М75</em> нужен адаптер с поддержкой протокола <code>ISO 9141-2</code> или <code>KWP2000</code>. Дешёвые <em>ELM327</em> часто не распознают эти протоколы, поэтому лучше брать <em>VGate</em> или оригинальный <em>ELM</em>.</p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Если адаптер не подключается — проверьте, включено ли зажигание (не обязательно заводить двигатель). На <em>Гранте</em> с <em>иммобилайзером</em> иногда требуется вставить ключ в замок и повернуть его в положение <code>ACC</code>.</blockquote>
+
+<h2 id="пошаговая-инструкция-как-подключиться-к-obd2-на-гранте">Пошаговая инструкция: как подключиться к OBD2 на Гранте</h2>
+
+<p>Чтобы провести диагностику, вам понадобится:</p>
+<ul>
+  <li>📱 Смартфон/планшет на <em>Android</em> или <em>iOS</em> (для <em>Windows</em> нужен ноутбук).</li>
+  <li>🔌 OBD2-адаптер (см. таблицу выше).</li>
+  <li>📲 Приложение: <code>Torque Pro</code>, <code>OpenDiag</code> или <code>Car Scanner ELM OBD2</code>.</li>
+</ul>
+
+<p><strong>Шаг 1.</strong> Вставьте адаптер в разъём <strong>OBD2</strong> (он подключается только в одном положении — "ключом" вверх).</p>
+<p><strong>Шаг 2.</strong> Включите зажигание (двигатель заводить не обязательно).</p>
+<p><strong>Шаг 3.</strong> Активируйте <em>Bluetooth</em> на телефоне и подключитесь к адаптеру (обычно название начинается с <code>OBDII</code> или <code>VGate</code>).</p>
+<p><strong>Шаг 4.</strong> Запустите приложение и выберите протокол подключения. Для <em>Гранты</em> это:</p>
+<ul>
+  <li><code>ISO 9141-2</code> — для старых ЭБУ (<em>Январь 7.2</em>, <em>Бош М7.9.7</em>).</li>
+  <li><code>KWP2000 (Fast Init)</code> — для новых (<em>Итэлма М75</em>, <em>Бош ME17.9.7</em>).</li>
+</ul>
+
+<div class="checklist-block"><h4>☑️ Подготовка к диагностике</h4><label class="check-item"><input type="checkbox"><span>Проверьте, что зажигание включено</span></label><label class="check-item"><input type="checkbox"><span>Убедитесь, что адаптер плотно вставлен в разъём</span></label><label class="check-item"><input type="checkbox"><span>Отключите другие Bluetooth-устройства</span></label><label class="check-item"><input type="checkbox"><span>Закройте все фоновые приложения на телефоне</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p><strong>Шаг 5.</strong> Нажмите <code>Connect</code> в приложении. Если соединение установлено, на экране появятся параметры двигателя (обороты, температура, напряжение бортовой сети).</p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Если приложение выдаёт ошибку <code>No Data</code> — попробуйте перезагрузить адаптер (вытащите и вставьте обратно) или смените протокол на <code>Auto</code>.</blockquote>
+
+<h2 id="расшифровка-ошибок-obd2-на-лада-гранта">Расшифровка ошибок OBD2 на Лада Гранта</h2>
+
+<p>Коды ошибок на <em>Гранте</em> делятся на 4 категории:</p>
+<ul>
+  <li>🔴 <strong>P0xxx</strong> — проблемы с двигателем или трансмиссией.</li>
+  <li>🟡 <strong>P2xxx</strong> — неисправности топливной системы или выхлопа.</li>
+  <li>🔵 <strong>Cxxxx</strong> — ошибки шасси (ABS, подушки безопасности).</li>
+  <li>🟢 <strong>Uxxxx</strong> — проблемы с связью между блоками (CAN-шина).</li>
+</ul>
+
+<p>Самые частые ошибки на <em>Лада Гранта</em> и их причины:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Код ошибки</th>
+      <th>Описание</th>
+      <th>Возможная причина</th>
+      <th>Как устранить</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>P0171</code></td>
+      <td>Бедная смесь (банк 1)</td>
+      <td>Подсос воздуха, неисправный ДМРВ, забитые форсунки</td>
+      <td>Проверьте герметичность впускного коллектора, почистите ДМРВ</td>
+    </tr>
+    <tr>
+      <td><code>P0300</code></td>
+      <td>Мultiple Misfire (пропуски зажигания)</td>
+      <td>Изношенные свечи, бронепровода, катушка зажигания</td>
+      <td>Замените свечи, проверьте высоковольтные провода</td>
+    </tr>
+    <tr>
+      <td><code>P0420</code></td>
+      <td>Низкая эффективность катализатора</td>
+      <td>Забитый катализатор или лямбда-зонд</td>
+      <td>Проверьте лямбда-зонд мультиметром, при необходимости удалите катализатор</td>
+    </tr>
+    <tr>
+      <td><code>P0504</code></td>
+      <td>Неисправность тормозной системы (ABS)</td>
+      <td>Грязные датчики ABS или повреждённые провода</td>
+      <td>Очистите датчики, проверьте разъёмы</td>
+    </tr>
+    <tr>
+      <td><code>U0100</code></td>
+      <td>Потеря связи с ECM/PCM</td>
+      <td>Проблемы с CAN-шиной или ЭБУ</td>
+      <td>Проверьте предохранители, перезагрузите ЭБУ (снять клемму аккумулятора на 10 минут)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><mark>Ошибка P0300 на Гранте с 8-клапанным двигателем часто связана с износом маслосъёмных колпачков — при их замене пропуски зажигания исчезают.</mark></p>
+
+<details class="faq-item"><summary>Что делать, если ошибка появляется снова после сброса?</summary><div class="faq-answer"><p>Если код ошибки возвращается после сброса, это означает, что проблема не устранена. Например, ошибка <code>P0130</code> (неисправность лямбда-зонда) может указывать как на выход из строя самого датчика, так и на обрыв проводки или коррозию разъёма. В этом случае нужно проверить цепь мультиметром или осциллографом.</p></div></details>
+
+<h2 id="диагностика-коробки-передач-амт-и-мкпп-через-obd2">Диагностика коробки передач (АМТ и МКПП) через OBD2</h2>
+
+<p>На <em>Лада Гранта</em> с <em>роботом (АМТ)</em> или <em>механикой</em> через <strong>OBD2</strong> можно диагностировать:</p>
+<ul>
+  <li>🔧 Состояние сцепления (для АМТ).</li>
+  <li>📊 Температуру масла в коробке.</li>
+  <li>⚙️ Ошибки соленоидов (если коробка "пинается").</li>
+</ul>
+
+<p>Для чтения параметров коробки в <code>Torque Pro</code> нужно:</p>
+<ol>
+  <li>Перейти в <code>Realtime Information → Add Custom PID</code>.</li>
+  <li>Ввести коды для АМТ:
+    <pre><code>221901 — Состояние сцепления
+<p>221902 — Температура масла АМТ</p>
+<p>221903 — Давление в гидросистеме</code></pre></p>
+  </li>
+  <li>Сохранить и добавить на главный экран.</li>
+</ol>
+
+<p>Если коробка <em>АМТ</em> дергается или не переключает передачи, проверьте:</p>
+<ul>
+  <li>🔋 Уровень масла (должен быть между <code>MIN</code> и <code>MAX</code> на щупе).</li>
+  <li>🔌 Состояние разъёмов на блоке управления коробкой (находится под капотом, рядом с АКБ).</li>
+  <li>📉 Давление в гидросистеме (норма: 4–6 бар при работающем двигателе).</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если ваша Гранта с АМТ начала "тупить" при переключении передач, попробуйте сбросить адаптацию коробки: 1) Снять клемму аккумулятора на 15 минут; 2) Завести машину и дать поработать на холостых 5 минут; 3) Проехать 10–15 км без резких ускорений. В 60% случаев это решает проблему без посещения сервиса.</p></div>
+
+<h2 id="как-сбросить-ошибки-obd2-на-гранте-без-сервиса">Как сбросить ошибки OBD2 на Гранте без сервиса</h2>
+
+<p>Сбросить ошибки можно прямо через приложение (например, <code>Torque Pro</code>):</p>
+<ol>
+  <li>Подключитесь к адаптеру и дождитесь загрузки данных.</li>
+  <li>Перейдите в раздел <code>Fault Codes</code> (или <code>Ошибки</code>).</li>
+  <li>Нажмите <code>Clear Codes</code> (или <code>Сбросить</code>).</li>
+  <li>Подтвердите действие и выключите/включите зажигание.</li>
+</ol>
+
+<p><strong>Важно:</strong> Сброс ошибок не устраняет их причину! Если код появляется снова — проблема осталась. Например, ошибка <code>P0441</code> (неисправность системы улавливания паров бензина) часто возвращается из-за забитого <em>адсорбера</em> или неисправного <em>клапана продувки</em>.</p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> На <em>Гранте</em> с <em>ЭБУ Итэлма М75</em> после сброса ошибок может сбиться адаптация дроссельной заслонки. Если обороты на холостом ходу стали плавать — выполните процедуру обучения заслонки (инструкция в мануале или сервисной программе <code>OpenDiag</code>).</blockquote>
+
+<h2 id="продвинутая-диагностика-параметры-двигателя-в-реальном-времени">Продвинутая диагностика: параметры двигателя в реальном времени</h2>
+
+<p>Через <strong>OBD2</strong> можно следить не только за ошибками, но и за ключевыми параметрами двигателя. Это помогает выявить проблемы на ранней стадии. Основные показатели для <em>Лада Гранта</em>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Параметр</th>
+      <th>Нормальное значение</th>
+      <th>Что означает отклонение</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Долговременная топливная коррекция (<code>LTFT</code>)</td>
+      <td>±5%</td>
+      <td>Более +10% — подсос воздуха или бедная смесь; менее −10% — богатая смесь</td>
+    </tr>
+    <tr>
+      <td>Кратковременная топливная коррекция (<code>STFT</code>)</td>
+      <td>±10%</td>
+      <td>Резкие скачки — неисправность ДМРВ или лямбда-зонда</td>
+    </tr>
+    <tr>
+      <td>Угол опережения зажигания (<code>Advance</code>)</td>
+      <td>8–12° на холостом ходу</td>
+      <td>Меньше 5° — позднее зажигание (может быть детонация)</td>
+    </tr>
+    <tr>
+      <td>Время впрыска (<code>Injection Time</code>)</td>
+      <td>2.5–4.0 мс</td>
+      <td>Более 5 мс — забитые форсунки или низкое давление топлива</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Для анализа используйте графики в <code>Torque Pro</code>:</p>
+<ol>
+  <li>Откройте <code>Realtime Information</code>.</li>
+  <li>Добавьте нужные параметры (например, <code>LTFT</code>, <code>STFT</code>, <code>RPM</code>).</li>
+  <li>Нажмите <code>Graph</code> и наблюдайте за изменениями во время движения.</li>
+</ol>
+
+<p><strong>Пример диагностики:</strong> Если на холостом ходу <code>STFT</code> скачет от −15% до +20%, а <code>LTFT</code> растёт — скорее всего, неисправен <em>ДМРВ</em> или есть подсос воздуха через треснувший патрубок.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Мониторинг параметров в реальном времени позволяет выявить проблемы, которые не фиксируются как ошибки. Например, постепенное падение компрессии в цилиндрах или износ топливного насоса.</p></div>
+
+<h2 id="faq-частые-вопросы-по-obd2-на-лада-гранта">FAQ: Частые вопросы по OBD2 на Лада Гранта</h2>
+
+<details>
+  <summary>Можно ли через OBD2 прошить ЭБУ на Гранте?</summary>
+  <p>Теоретически да, но для этого нужен специализированный адаптер (например, <em>K-Line</em>) и программа (<code>CombiLoader</code>, <code>Chiploader</code>). <strong>Самостоятельная прошивка без опыта чревата "окирпичиванием" ЭБУ!</strong> Лучше обратиться к специалистам.</p>
+</details>
+
+<details>
+  <summary>Почему адаптер не подключается к Гранте?</summary>
+  <p>Причины могут быть следующие:</p>
+  <ul>
+    <li>🔌 Не тот протокол (попробуйте <code>ISO 9141-2</code> или <code>KWP2000</code>).</li>
+    <li>🔋 Разряжен аккумулятор (напряжение ниже 11.5В — ЭБУ не отвечает).</li>
+    <li>📱 Несовместимый адаптер (китайские клоны <em>ELM327</em> часто не работают с <em>Итэлма М75</em>).</li>
+  </ul>
+</details>
+
+<details>
+  <summary>Какие параметры можно сбросить через OBD2?</summary>
+  <p>Через стандартный <strong>OBD2</strong> на <em>Гранте</em> можно сбросить:</p>
+  <ul>
+    <li>🔴 Ошибки двигателя (<code>DTC</code>).</li>
+    <li>🟡 Адаптации холостого хода (требуется обучение заслонки).</li>
+    <li>🔵 Некоторые параметры <em>АМТ</em> (например, счётчик износа сцепления).</li>
+  </ul>
+  <p>Но сбросить сервисные интервалы или данные иммобилайзера через <strong>OBD2</strong> нельзя — для этого нужен <em>дилерский сканер</em> или <code>OpenDiag</code>.</p>
+</details>
+
+<details>
+  <summary>Можно ли через OBD2 узнать реальный пробег Гранты?</summary>
+  <p>Нет, пробег хранится в <em>приборной панели</em>, а не в <em>ЭБУ</em>. Через <strong>OBD2</strong> можно увидеть только:</p>
+  <ul>
+    <li>🕒 Время работы двигателя (в часах).</li>
+    <li>🔄 Количество циклов запуска.</li>
+  </ul>
+  <p>Для проверки пробега нужен доступ к <em>EEPROM</em> спидометра (это делают в сервисах с помощью <code>KM-Correct</code> или <code>Digimaster</code>).</p>
+</details>
+
+<details>
+  <summary>Какой софт лучше для диагностики Гранты?</summary>
+  <p>Рекомендуемые программы:</p>
+  <ul>
+    <li>📱 <code>Torque Pro</code> — универсальный, поддерживает кастомные <code>PID</code>.</li>
+    <li>💻 <code>OpenDiag</code> — для глубокой диагностики (работает с <em>K-Line</em>).</li>
+    <li>📱 <code>Car Scanner ELM OBD2</code> — простой интерфейс, подходит для новичков.</li>
+  </ul>
+  <p>Для <em>АМТ</em> лучше использовать <code>OpenDiag</code> — он показывает больше параметров коробки.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#где-находится-разъём-obd2-в-лада-гранта">Где находится разъём OBD2 в Лада Гранта</a></li><li><a href="#какой-obd2-адаптер-выбрать-для-лада-гранта">Какой OBD2-адаптер выбрать для Лада Гранта</a></li><li><a href="#пошаговая-инструкция-как-подключиться-к-obd2-на-гранте">Пошаговая инструкция: как подключиться к OBD2 на Гранте</a></li><li><a href="#расшифровка-ошибок-obd2-на-лада-гранта">Расшифровка ошибок OBD2 на Лада Гранта</a></li><li><a href="#диагностика-коробки-передач-амт-и-мкпп-через-obd2">Диагностика коробки передач (АМТ и МКПП) через OBD2</a></li><li><a href="#как-сбросить-ошибки-obd2-на-гранте-без-сервиса">Как сбросить ошибки OBD2 на Гранте без сервиса</a></li><li><a href="#продвинутая-диагностика-параметры-двигателя-в-реальном-времени">Продвинутая диагностика: параметры двигателя в реальном времени</a></li><li><a href="#faq-частые-вопросы-по-obd2-на-лада-гранта">FAQ: Частые вопросы по OBD2 на Лада Гранта</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-printsip-raboty-konditsionera.html" class="related-card">Принцип работы кондиционера Лада Гранта: схема, устройство и ремонт</a></li><li><a href="/articles/l/la/lada-granta-regulirovka-stsepleniya.html" class="related-card">Регулировка сцепления Лада Гранта: ход штока и замена</a></li><li><a href="/articles/b/ba/bagazhnik-lada-granta-kross-universal.html" class="related-card">Багажник Лада Гранта Кросс универсал: объем, размеры и доработка</a></li><li><a href="/articles/m/ma/maslo-motornoe-lada-granta-8-klapannaya.html" class="related-card">Масло в двигатель Лада Гранта 8 клапанная: выбор и замена</a></li><li><a href="/articles/d/dv/dvs-lada-granta-8-klapanov.html" class="related-card">ДВС Лада Гранта 8 клапанов: устройство, ресурс и ремонт</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-printsip-raboty-konditsionera.html" class="related-bottom-card"><span class="related-bottom-title">Принцип работы кондиционера Лада Гранта: схема, устройство и ремонт</span><span class="related-bottom-desc">Подробный разбор схемы работы климат-контроля Lada Granta. Диагностика, частые неисправности, заправ</span></a><a href="/articles/l/la/lada-granta-regulirovka-stsepleniya.html" class="related-bottom-card"><span class="related-bottom-title">Регулировка сцепления Лада Гранта: ход штока и замена</span><span class="related-bottom-desc">Как отрегулировать сцепление на Лада Гранта своими руками. Настройка троса, замена выжимного подшипн</span></a><a href="/articles/b/ba/bagazhnik-lada-granta-kross-universal.html" class="related-bottom-card"><span class="related-bottom-title">Багажник Лада Гранта Кросс универсал: объем, размеры и доработка</span><span class="related-bottom-desc">Подробный обзор багажника Лада Гранта Кросс универсал. Реальные размеры, литры, фото салона, способы</span></a><a href="/articles/m/ma/maslo-motornoe-lada-granta-8-klapannaya.html" class="related-bottom-card"><span class="related-bottom-title">Масло в двигатель Лада Гранта 8 клапанная: выбор и замена</span><span class="related-bottom-desc">Какое масло лить в 8-клапанную Ладу Гранта? Полный гид по вязкости, допускам, интервалам замены и об</span></a><a href="/articles/d/dv/dvs-lada-granta-8-klapanov.html" class="related-bottom-card"><span class="related-bottom-title">ДВС Лада Гранта 8 клапанов: устройство, ресурс и ремонт</span><span class="related-bottom-desc">Полный разбор двигателя Лада Гранта 8 клапанов. Ресурс, типичные поломки, замена ремня ГРМ и советы </span></a><a href="/articles/k/ka/kak-snyat-konsol-na-lada-granta-tsentralnuyu.html" class="related-bottom-card"><span class="related-bottom-title">Как снять центральную консоль Лада Гранта: пошаговая инструкция</span><span class="related-bottom-desc">Подробный гид по демонтажу центральной панели Лада Гранта. Снятие магнитолы, блока управления и возд</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

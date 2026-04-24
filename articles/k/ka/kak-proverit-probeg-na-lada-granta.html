@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Как проверить пробег на Лада Гранта: все методы диагностики — Лада Справка</title>
+    <meta name="description" content="Подробное руководство по проверке реального пробега Лада Гранта. Считывание через ELM327, анализ состояния салона и скрытые параметры ЭБУ.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/k/ka/kak-proverit-probeg-na-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Как проверить пробег на Лада Гранта: все методы диагностики">
+    <meta property="og:description" content="Подробное руководство по проверке реального пробега Лада Гранта. Считывание через ELM327, анализ состояния салона и скрытые параметры ЭБУ.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Как проверить пробег на Лада Гранта: все методы диагностики</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Как проверить пробег на Лада Гранта: экспертный разбор</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#визуальная-оценка-состояния-салона-и-рулевого-управления">Визуальная оценка состояния салона и рулевого управления</a></li><li><a href="#диагностика-через-obd-ii-разъем-и-адаптер-elm327">Диагностика через OBD-II разъем и адаптер ELM327</a></li><li><a href="#анализ-технического-состояния-двигателя-и-навесного-оборудования">Анализ технического состояния двигателя и навесного оборудования</a></li><li><a href="#проверка-состояния-подвески-и-ходовой-части">Проверка состояния подвески и ходовой части</a></li><li><a href="#скрытые-параметры-в-блоке-abs-и-других-модулях">Скрытые параметры в блоке ABS и других модулях</a></li><li><a href="#частые-вопросы-о-проверке-пробега-faq">Частые вопросы о проверке пробега (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Покупка подержанного автомобиля всегда сопряжена с рисками, и <em>Лада Гранта</em>, будучи одним из самых популярных автомобилей на вторичном рынке, не является исключением. Потенциальные покупатели часто сталкиваются с ситуацией, когда цифры на одометре не соответствуют реальному техническому состоянию машины. Скрученный пробег — это не просто этическая проблема продавца, но и прямая угроза безопасности будущего владельца, так как ресурс критических узлов может быть уже исчерпан.</p>
+
+<p>Современные методы диагностики позволяют выявить несоответствия с высокой точностью, однако владельцы часто полагаются только на визуальный осмотр, что является грубой ошибкой. <strong>Электронный блок управления</strong> (ЭБУ) хранит историю работы двигателя, которую крайне сложно полностью стереть без специализированного оборудования. В этой статье мы разберем все доступные способы проверки, от простого анализа интерьера до глубокой компьютерной диагностики.</p>
+
+<p>Важно понимать, что ни один метод не дает стопроцентной гарантии в отрыве от других. Только комплексный подход, включающий осмотр <strong>технических жидкостей</strong>, анализ электронных логов и проверку физического износа деталей, позволит составить объективную картину. Игнорирование любого из этапов может привести к покупке «кота в мешке» с двигателем, готовящимся к капитальному ремонту.</p>
+
+<h2 id="визуальная-оценка-состояния-салона-и-рулевого-управления">Визуальная оценка состояния салона и рулевого управления</h2>
+
+<p>Первое, что бросается в глаза при осмотре <em>Лады Гранты</em> с пробегом более 100 000 км, — это состояние водительского места. Рулевое колесо, особенно если оно не было заменено на новое или обтянуто чехлом, является отличным индикатором. На оригинальных рулях ВАЗ к этому пробегу стирается рельефный рисунок, появляется лоск или даже трещины на коже. Если продавец утверждает, что пробег составляет 40 000 км, а руль выглядит так, будто на нем возили мешки с цементом, это повод насторожиться.</p>
+
+<p>Второй важный элемент — педали и коврик под ними. Резиновые накладки на пелях газа и тормоза имеют свойство стираться. На <em>Гранте</em> с механической коробкой передач стоит обратить внимание и на педаль сцепления. Однако здесь есть нюанс: недобросовестные продавцы часто меняют только резиновые накладки, поэтому этот метод стоит использовать в связке с другими. Потертости на боковой поддержке сиденья также красноречиво говорят о длительной эксплуатации.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Не доверяйте слепо показаниям одометра, даже если они выглядят правдоподобыми. Визуальный износ салона может быть скрыт новыми чехлами или перетяжкой руля, что является распространенной практикой при предпродажной подготовке.</p>
+</blockquote>
+
+<p>Стоит также внимательно осмотреть состояние кнопок на центральной панели. На <em>Лада Гранта</em> часто встречаются модели с кондиционером или климат-контролем. Пластик кнопок регулировки температуры и вентилятора со временем стирается, надписи становятся бледными. Если на машине с заявленным малым пробегом кнопки выглядят «лысыми», а цифры на спидометре сияют новизной, скорее всего, пробег был скорректирован.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Как часто вы проверяете состояние салона при покупке б/у авто?</strong><ul><li>Только руль и сиденья</li><li>Только ковролин и педали</li><li>Провожу полную дефектовку каждого элемента</li><li>Вообще не обращаю на это внимания</li></ul></div></div>
+
+<h2 id="диагностика-через-obd-ii-разъем-и-адаптер-elm327">Диагностика через OBD-II разъем и адаптер ELM327</h2>
+
+<p>Наиболее точным и доступным методом для рядового пользователя является считывание данных через диагностический разъем. В <em>Лада Гранта</em> он обычно расположен под панелью приборов слева от рулевой колонки или под бардачком, в зависимости от года выпуска. Для подключения вам понадобится адаптер <strong>ELM327</strong> (версии 1.5 или 2.1) и смартфон с установленным приложением, например, <em>OpenDiag</em> или <em>Torque</em>.</p>
+
+<p>После подключения к блоку управления двигателем (чаще всего это <em>ВАЗ-21129</em> или <em>ВАЗ-11186</em>) необходимо найти параметр, отображающий общий пробег автомобиля. В некоторых версиях программного обеспечения ЭБУ этот параметр скрыт или может быть обнулен при перепрошивке «чип-тюнером», но часто он сохраняется в отдельной ячейке памяти. Сравните полученное значение с цифрами на приборной панели.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте приложение OpenDiag Mobile для Android — оно имеет наилучшую совместимость с отечественными контроллерами и позволяет видеть параметры, скрытые от стандартных сканеров.</p></div>
+
+<p>Важно учитывать, что адаптеры бывают разных версий. Дешевые китайские копии могут работать нестабильно или некорректно считывать данные с некоторых блоков. Если приложение показывает ошибку соединения или странные значения, попробуйте переподключить устройство или использовать другой смартфон. Также стоит проверить версию прошивки ЭБУ: если она отличается от заводской для данного года выпуска, это может свидетельствовать о вмешательстве в работу электроники.</p>
+
+<div class="checklist-block"><h4>☑️ Алгоритм проверки через OBD-II</h4><label class="check-item"><input type="checkbox"><span>Найти разъем под панелью</span></label><label class="check-item"><input type="checkbox"><span>Подключить адаптер ELM327</span></label><label class="check-item"><input type="checkbox"><span>Запустить приложение OpenDiag</span></label><label class="check-item"><input type="checkbox"><span>Считать параметр "Пробег" и сравнить с одометром</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="анализ-технического-состояния-двигателя-и-навесного-оборудования">Анализ технического состояния двигателя и навесного оборудования</h2>
+
+<p>Двигатель внутреннего сгорания — это сердце автомобиля, и его состояние напрямую зависит от количества моточасов и километража. На <em>Лада Гранта</em> с 8-клапанными моторами серии 11186 или 21116 одним из первых признаков большого пробега является состояние <strong>ремня ГРМ</strong> и натяжного ролика. Хотя регламент замены составляет 60 000 км, визуально по трещинам на ремне можно понять, меняли ли его недавно или он стоит с завода.</p>
+
+<p>Обратите внимание на сальники клапанов и прокладку ГБЦ. К пробегу в 100+ тысяч километров резина дубеет, и двигатель начинает «потеть» маслом. Если под капотом сухо, как в музее, а пробег заявлен большой — возможно, двигатель недавно мыли или меняли уплотнители. Если же пробег маленький, а течи есть — это признак бракованных деталей или перегрева в прошлом.</p>
+
+<table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Ресурс (км)</th>
+<th>Признаки износа на Гранте</th>
+<th>Стоимость замены (ориент.)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ремень ГРМ</td>
+<td>60 000</td>
+<td>Трещины, расслоение, гул ролика</td>
+<td>3 000 - 5 000 руб.</td>
+</tr>
+<tr>
+<td>Свечи зажигания</td>
+<td>30 000</td>
+<td>Нагар, увеличенный зазор</td>
+<td>1 000 руб.</td>
+</tr>
+<tr>
+<td>Тормозные диски</td>
+<td>80 000</td>
+<td>Биение руля, глубокие борозды</td>
+<td>4 000 руб.</td>
+</tr>
+<tr>
+<td>Амортизаторы</td>
+<td>100 000</td>
+<td>Масляные потеки, стук на кочках</td>
+<td>6 000 руб.</td>
+</tr>
+</tbody>
+</table>
+
+<p>Состояние системы охлаждения также красноречиво говорит о пробеге. Пластиковые элементы расширительного бачка на <em>Гранте</em> со временем мутнеют и желтеют. Если бачок кристально прозрачный на машине с пробегом под 150 000 км, его явно меняли. Патрубки радиатора к этому времени должны потерять эластичность; если они мягкие и новые, а машина «из-под деда», это повод задуматься о причинах такой заботы.</p>
+
+<h2 id="проверка-состояния-подвески-и-ходовой-части">Проверка состояния подвески и ходовой части</h2>
+
+<p>Дороги в регионах эксплуатации часто оставляют свой след, и подвеска <em>Лады Гранты</em> здесь не исключение. Стойки стабилизатора и сайлентблоки передних рычагов — это расходный материал, который обычно требует замены каждые 40-60 тысяч километров. Если продавец утверждает, что пробег составляет 30 000 км, а шаровые опоры уже имеют люфт или заменены на неоригинальные, цифры на одометре явно не соответствуют действительности.</p>
+
+<p>Осмотрите заднюю балку и амортизаторы. На больших пробегах штоки амортизаторов могут уходить в коррозию, а резиновые отбойники превращаться в крошку. Также стоит заглянуть под автомобиль: состояние выхлопной системы. Глушитель на <em>Гранте</em> при активной эксплуатации и больших пробегах часто прогорает или покрывается рыжим налетом ржавчины. Новый глушитель на старой машине — маркер скрученного пробега.</p>
+
+<blockquote>
+<p>⚠️ Внимание: При осмотре подвески обращайте внимание на дату производства деталей. Если на резиновых изделиях (сайлентблоках, втулках) выбит год выпуска, который моложе года выпуска автомобиля, значит, деталь меняли. Сопоставьте этот факт с заявленным пробегом.</p>
+</blockquote>
+
+<p>Не забудьте проверить люфт в рулевом управлении. На больших пробегах рейка может начать стучать или течь. Хотя для <em>Гранты</em> это не самая частая проблема по сравнению с классикой, но на экземплярах с пробегом свыше 150 000 км износ зубчатой пары вполне реален. Люфт в руле также может свидетельствовать о замене рулевых наконечников, что опять же указывает на эксплуатацию.</p>
+
+<details class="faq-item"><summary>Почему стучит подвеска на малом пробеге?</summary><div class="faq-answer"><p>Часто стук возникает не из-за износа, а из-за неправильной затяжки болтов при сборке или использования некачественных запчастей при предыдущем ремонте. Однако, если стучат оригинальные втулки стабилизатора на пробеге до 20 000 км — это брак партии или экстремальные условия эксплуатации.</p></div></details>
+
+<h2 id="скрытые-параметры-в-блоке-abs-и-других-модулях">Скрытые параметры в блоке ABS и других модулях</h2>
+
+<p>Многие автолюбители забывают, что современный автомобиль — это сеть связанных между собой компьютеров. Пока вы проверяете ЭБУ двигателя, блок управления антиблокировочной системой (<strong>ABS</strong>) может хранить историю наработанных моточасов или даже примерный пробег, который сложнее обнулить при продаже. Для доступа к этим данным потребуется более профессиональный сканер, например, <em>Launch</em> или <em>Autel</em>, либо специализированное ПО для дилеров.</p>
+
+<p>В некоторых комплектациях <em>Лада Гранта</em> оснащается электроусилителем руля (ЭУР). Блок управления ЭУР также фиксирует количество циклов работы и может содержать данные о пробеге. Если при диагностике двигателя пробег совпадает с одометром, но в логах ЭУР видны ошибки, характерные для больших пробегов (например, износ датчика момента), это косвенный признак несоответствия.</p>
+
+<p>Также стоит проверить историю ошибок. Даже если горение лампы <code>Check Engine</code> было устранено сбросом ошибок, в памяти могут остаться «неактивные»故障ы (pending codes), которые накапливались годами. Частые пропуски зажигания или ошибки по датчику кислорода могут указывать на то, что двигатель работал много и, возможно, с перебоями, что характерно для больших пробегов.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Самую достоверную информацию о реальном пробеге часто можно найти не в основной памяти ЭБУ, а в периферийных блоках (ABS, EPS, АКПП), куда продавцы забывают заглянуть при «отмывке» истории.</p></div>
+
+<h2 id="частые-вопросы-о-проверке-пробега-faq">Частые вопросы о проверке пробега (FAQ)</h2>
+
+<details>
+<summary>Можно ли полностью обнулить пробег в Лада Гранта?</summary>
+<p>Теоретически да, путем перепрошивки EEPROM-памяти приборной панели или ЭБУ. Однако сделать это качественно и дешево сложно. Часто после таких манипуляций в блоках остаются «хвосты» (разбежность показаний между модулями), которые легкоdetectятся при глубокой диагностике.</p>
+</details>
+
+<details>
+<summary>Врет ли одометр при замене колес на нестандартный размер?</summary>
+<p>Да, показания одометра зависят от длины окружности колеса. Установка шин размера, отличного от заводского (например, 185/60 R14 вместо 175/65 R14), приведет к погрешности в показаниях спидометра и одометра, но это не скручивание, а техническая особенность.</p>
+</details>
+
+<details>
+<summary>Какой средний ресурс двигателя ВАЗ-11186 до капремонта?</summary>
+<p>При своевременном обслуживании и качественном масле ресурс составляет 200-250 тысяч километров. Однако на практике, из-за качества сборки и топлива, многие моторы требуют вмешательства (замена колец, притирка клапанов) уже к 150 тысячам км.</p>
+</details>
+
+<details>
+<summary>Стоит ли верить данным из сервисной книжки?</summary>
+<p>Сервисная книжка — это документ, который легко купить или подделать. stamps и записи могут быть проставлены за деньги без реального проведения работ. Доверять стоит только записям в официальных базах дилеров, которые можно проверить по VIN-коду.</p>
+</details>
+
+<p>Подводя итог, можно сказать, что проверка пробега на <em>Лада Гранта</em> — это процесс, требующий внимательности и комплексного подхода. Не существует одной «волшебной кнопки», которая сразу покажет правду. Сочетание визуального осмотра, компьютерной диагностики через <code>OBD-II</code> и анализа технического состояния позволит вам избежать покупки проблемного автомобиля. Помните, что честный продавец не будет скрывать историю обслуживания и предоставит доступ к диагностике.</p></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#визуальная-оценка-состояния-салона-и-рулевого-управления">Визуальная оценка состояния салона и рулевого управления</a></li><li><a href="#диагностика-через-obd-ii-разъем-и-адаптер-elm327">Диагностика через OBD-II разъем и адаптер ELM327</a></li><li><a href="#анализ-технического-состояния-двигателя-и-навесного-оборудования">Анализ технического состояния двигателя и навесного оборудования</a></li><li><a href="#проверка-состояния-подвески-и-ходовой-части">Проверка состояния подвески и ходовой части</a></li><li><a href="#скрытые-параметры-в-блоке-abs-и-других-модулях">Скрытые параметры в блоке ABS и других модулях</a></li><li><a href="#частые-вопросы-о-проверке-пробега-faq">Частые вопросы о проверке пробега (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-kak-snyat-obshivku-dveri.html" class="related-card">Лада Гранта: как снять обшивку двери – полная инструкция</a></li><li><a href="/articles/z/za/zadnie-podkrylki-lada-granta.html" class="related-card">Задние подкрылки на Лада Гранта: выбор, установка и нюансы</a></li><li><a href="/articles/k/ko/kolodki-lada-granta-perednie-artikul.html" class="related-card">Передние тормозные колодки Лада Гранта: артикулы, выбор, замена</a></li><li><a href="/articles/n/na/nastrojka-vremeni-lada-granta.html" class="related-card">Как настроить время на Лада Гранта: инструкция 2026</a></li><li><a href="/articles/n/no/nomer-dvigatelya-na-lada-granta-8-klapannaya-gde-nakhoditsya.html" class="related-card">Где номер двигателя Лада Гранта 8 клапанов: фото и инструкция</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-kak-snyat-obshivku-dveri.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта: как снять обшивку двери – полная инструкция</span><span class="related-bottom-desc">Подробный гид по демонтажу дверной карты Лада Гранта. Советы, инструменты, пошаговый план и таблица </span></a><a href="/articles/z/za/zadnie-podkrylki-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Задние подкрылки на Лада Гранта: выбор, установка и нюансы</span><span class="related-bottom-desc">Как подобрать и установить задние подкрылки на Гранту: сравнение материалов, пошаговая инструкция, с</span></a><a href="/articles/k/ko/kolodki-lada-granta-perednie-artikul.html" class="related-bottom-card"><span class="related-bottom-title">Передние тормозные колодки Лада Гранта: артикулы, выбор, замена</span><span class="related-bottom-desc">Полный гид по передним колодкам Лада Гранта. Артикулы ВАЗ, TSN, TRW. Размеры, допуски, нюансы замены</span></a><a href="/articles/n/na/nastrojka-vremeni-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Как настроить время на Лада Гранта: инструкция 2026</span><span class="related-bottom-desc">Пошаговое руководство по настройке даты и времени на Lada Granta всех поколений. Автоматическая синх</span></a><a href="/articles/n/no/nomer-dvigatelya-na-lada-granta-8-klapannaya-gde-nakhoditsya.html" class="related-bottom-card"><span class="related-bottom-title">Где номер двигателя Лада Гранта 8 клапанов: фото и инструкция</span><span class="related-bottom-desc">Где находится номер двигателя на Лада Гранта 8 клапанов? Подробная инструкция по поиску, фото распол</span></a><a href="/articles/m/mo/motornyj-shchit-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Моторный щит Лада Гранта: выбор, замена и установка защиты</span><span class="related-bottom-desc">Полный гид по моторному щиту Лада Гранта. Обзор материалов, инструкция по замене, сравнение штатной </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

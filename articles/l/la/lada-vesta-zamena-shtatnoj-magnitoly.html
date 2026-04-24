@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Лада Веста: замена штатной магнитолы и установка Android — Лада Справка</title>
+    <meta name="description" content="Пошаговая инструкция по замене штатной магнитолы Лада Веста. Выбор мультимедиа, нюансы подключения, коды ошибок и настройка CAN-шины.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-vesta-zamena-shtatnoj-magnitoly.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Лада Веста: замена штатной магнитолы и установка Android">
+    <meta property="og:description" content="Пошаговая инструкция по замене штатной магнитолы Лада Веста. Выбор мультимедиа, нюансы подключения, коды ошибок и настройка CAN-шины.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Лада Веста: замена штатной магнитолы и установка Android</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Замена штатной магнитолы Лада Веста: полное руководство</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#выбор-мультимедийной-системы-для-лада-веста">Выбор мультимедийной системы для Лада Веста</a></li><li><a href="#необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</a></li><li><a href="#демонтаж-штатного-головного-устройства">Демонтаж штатного головного устройства</a></li><li><a href="#подключение-и-установка-нового-оборудования">Подключение и установка нового оборудования</a></li><li><a href="#настройка-can-шины-и-устранение-ошибок">Настройка CAN-шины и устранение ошибок</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы автомобилей <strong>Лада Веста</strong> часто сталкиваются с ограничениями штатного головного устройства, которое, несмотря на наличие сенсорного экрана, работает медленно и имеет урезанный функционал. Замена штатной магнитолы на современное Android-решение открывает доступ к навигации, мультимедиа и интернету, превращая салон в мультимедийный центр. Этот процесс требует внимательного подхода к выбору оборудования и аккуратности при монтаже, чтобы сохранить работоспособность всех систем автомобиля.</p>
+
+<p>Рынок предлагает множество вариантов замены, от простых эмуляторов до полноценных <em>Android-боксов</em>, полностью интегрирующихся в панель приборов. Важно понимать, что простая замена "железа" без правильной настройки программной части приведет к потере управления климатом или отображению ошибок на приборной панели. <mark>Критически важно проверить совместимость CAN-шины конкретного года выпуска Весты с выбранным устройством перед покупкой.</mark></p>
+
+<p>В этой статье мы детально разберем этапы подготовки, выбора компонентов и установки, чтобы минимизировать риски и получить качественный результат. Вы узнаете, как избежать распространенных ошибок, сохранить гарантию на электрооборудование и получить максимум удовольствия от обновленной мультимедийной системы.</p>
+
+<h2 id="выбор-мультимедийной-системы-для-лада-веста">Выбор мультимедийной системы для Лада Веста</h2>
+
+<p>Первым шагом является определение типа заменяемого устройства. Штатная магнитола <em>Lada Enjoy Pro</em> или более ранние версии имеют специфическую форму и разъемы, поэтому универсальные решения 2DIN могут не подойти без дополнительных рамок. Оптимальным выбором считаются специализированные <strong>Android-блоки</strong>, разработанные специально под геометрию торпедо Весты.</p>
+
+<p>При выборе стоит обратить внимание на технические характеристики процессора и объем оперативной памяти. Бюджетные модели с 1 ГБ RAM будут работать медленно, особенно при одновременном использовании навигации и музыки. Для комфортной эксплуатации рекомендуется выбирать устройства с процессором не ниже 4 ядер и <strong>оперативной памятью</strong> от 2 ГБ.</p>
+
+<p>Также важно наличие встроенного модуля <em>4G/LTE</em> и поддержка внешних камер. Некоторые модели требуют подключения внешнего модема через USB, что создает лишние провода в салоне. Интегрированные решения выглядят эстетичнее и работают стабильнее.</p>
+
+<ul>
+<li>📱 Поддержка разрешения экрана штатной матрицы (обычно 1024x600 или 800x480)</li>
+<li>🔊 Наличие DSP-процессора для улучшения качества звука штатной акустики</li>
+<li>📡 Встроенный GPS/ГЛОНАСС модуль для работы навигации без телефона</li>
+<li>🎤 Сохранение функционала кнопок на руле и вывода информации о климате</li>
+</ul>
+
+<blockquote>
+<p>⚠️ Внимание: При покупке устройства убедитесь, что в комплекте идет правильный шлейф для подключения к штатной проводке. Использование "скруток" может привести к окислению контактов и потере сигнала.</p>
+</blockquote>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой тип мультимедиа вы планируете установить?</strong><ul><li>Штатный Android блок</li><li>Универсальная 2DIN магнитола</li><li>Эмулятор с телефоном</li><li>Оставить штатную</li></ul></div></div>
+
+<h2 id="необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</h2>
+
+<p>Для успешной замены магнитолы потребуется минимальный набор инструментов, который найдется у большинства автолюбителей. Основное внимание следует уделить безопасности электропроводки, так как <strong>бортовая сеть</strong> Весты чувствительна к коротким замыканиям.</p>
+
+<p>Перед началом работ необходимо отключить минусовую клемму аккумулятора. Это предотвратит случайное сгорание предохранителей или повреждение блоков управления при случайном замыкании проводов. Также рекомендуется приготовить фонарик, так как пространство за панелью приборов плохо освещено.</p>
+
+<p>Важно подготовить рабочее место и организовать хранение мелких деталей. Болты, саморезы и пластиковые заглушки лучше складывать в отдельную емкость, чтобы не потерять их в салоне. Для снятия панелей понадобятся пластиковые монтажные лопатки, чтобы не поцарапать <em>торпедо</em>.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к установке</h4><label class="check-item"><input type="checkbox"><span>Отключить клемму аккумулятора</span></label><label class="check-item"><input type="checkbox"><span>Снять пластиковую накладку торпедо</span></label><label class="check-item"><input type="checkbox"><span>Подготовить пластиковые лопатки</span></label><label class="check-item"><input type="checkbox"><span>Проверить комплектацию новой магнитолы</span></label><label class="check-item"><input type="checkbox"><span>Найти схему распиновки разъемов</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<ul>
+<li>🔧 Набор отверток (крестовая и плоская)</li>
+<li>🛠️ Пластиковые лопатки для снятия обшивки</li>
+<li>🔦 Фонарик или налобник</li>
+<li>🧤 Перчатки для защиты рук от острых кромок</li>
+<li>📱 Смартфон для фотосъемки процесса подключения</li>
+</ul>
+
+<h2 id="демонтаж-штатного-головного-устройства">Демонтаж штатного головного устройства</h2>
+
+<p>Процесс снятия штатной магнитолы на Лада Веста начинается с демонтажа декоративной рамки вокруг экрана и блока климата. Аккуратно подденьте нижнюю часть рамки пластиковой лопаткой и потяните на себя, освобождая <strong>пластиковые защелки</strong>. Действуйте без чрезмерных усилий, чтобы не сломать хрупкие фиксаторы.</p>
+
+<p>После снятия рамки открывается доступ к крепежным болтам самого головного устройства. Обычно их четыре, они расположены по углам блока. Открутив их, можно извлечь магнитолу из ниши, но не тяните резко — сзади остаются подключенные провода.</p>
+
+<p>Отсоединение разъемов требует внимательности. На задней панели находятся основной силовой разъем, антенный вход и разъемы для кнопок руля и климата. Некоторые коннекторы имеют фиксирующие защелки, которые нужно отжать перед извлечением. <em>Сфотографируйте</em> положение всех проводов перед отключением.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Не прикладывайте усилие к проводам при вытягивании магнитолы. Шлейфы могут быть короткими, и резкий рывок приведет к обрыву контактов внутри разъема.</p>
+</blockquote>
+
+<details class="faq-item"><summary>Нюансы снятия рамок на разных годах выпуска</summary><div class="faq-answer"><p>На автомобилях выпуска после 2019 года конструкция креплений рамок может отличаться наличием дополнительных винтов под заглушками в нижней части торпедо. Внимательно осмотрите периметр перед снятием, чтобы не повредить пластик.</</p></div></details>
+
+<h2 id="подключение-и-установка-нового-оборудования">Подключение и установка нового оборудования</h2>
+
+<p>Установка новой мультимедийной системы чаще всего происходит по принципу <strong>Plug-and-Play</strong>, если используется специализированный адаптер. Основной блок нового устройства подключается в разрыв штатной проводки, сохраняя оригинальные разъемы автомобиля.</p>
+
+<p>Особое внимание уделите подключению кабеля CAN-шины. Именно через него новая магнитола получает данные о времени, температуре и состоянии дверей. Неправильное подключение или отсутствие настройки CAN-протокола приведет к тому, что часы будут сбрасываться, а климат не будет отображаться на экране.</p>
+
+<p>Для активации некоторых функций может потребоваться вход в инженерное меню. Путь к нему обычно указан в инструкции: например, нужно перейти в <code>Настройки → О устройстве → Версия ПО</code> и несколько раз нажать на номер сборки. В открывшемся окне выбирается модель автомобиля и тип трансмиссии.</p>
+
+<pre><code>Типичный код для входа в инженерное меню: 8888 или 123456 (зависит от прошивки)</code></pre>
+
+<p>После физического подключения всех шлейфов можно временно подключить питание и проверить работу устройства, не собирая панель полностью. Если экран загорелся, звук есть, а климат реагирует на кнопки, можно приступать к финальной сборке.</p>
+
+<ul>
+<li>🔌 Проверка плотности посадки всех разъемов до упора</li>
+<li>📡 Подключение внешней GPS-антенны (клеится на торпедо)</li>
+<li>🎚️ Настройка эквалайзера и задержек звука</li>
+<li>📶 Проверка работы микрофона и громкой связи</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте изоленту или термоусадку для изоляции любых оголенных участков проводов, даже если они кажутся безопасными. Вибрация автомобиля со временем может привести к замыканию.</p></div>
+
+<h2 id="настройка-can-шины-и-устранение-ошибок">Настройка CAN-шины и устранение ошибок</h2>
+
+<p>Самая сложная часть замены — корректная настройка взаимодействия нового головного устройства с бортовым компьютером Весты. Если после установки на приборной панели горит лампочка ошибки или не работает управление климатом, значит, сбиты настройки <strong>CAN-протокола</strong>.</p>
+
+<p>В меню настроек Android-блока необходимо найти раздел "Car Settings" или "Заводские настройки". Здесь выбирается конкретная модель автомобиля (Vesta) и год выпуска. Иногда требуется вручную указать тип коробки передач (МКПП или АКПП), так как от этого зависит отображение передачи на экране.</p>
+
+<p>Если стандартные настройки не помогают, может потребоваться перепрошивка CAN-модуля. Этот процесс рискованный и требует точного следования инструкциям производителя магнитолы. Ошибка в этом этапе может привести к тому, что перестанут работать кнопки на руле.</p>
+
+<table>
+<thead>
+<tr>
+<th>Проблема</th>
+<th>Возможная причина</th>
+<th>Решение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Не работает климат</td>
+<td>Неверный CAN-протокол</td>
+<td>Выбрать правильный протокол в заводских настройках</td>
+</tr>
+<tr>
+<td>Сбрасывается время</td>
+<td>Отсутствует сигнал CAN</td>
+<td>Проверить подключение CAN-шины (H и L)</td>
+</tr>
+<tr>
+<td>Нет звука</td>
+<td>Не подключен провод MUTE</td>
+<td>Проверить соединение провода управления звуком</td>
+</tr>
+<tr>
+<td>Треск в динамиках</td>
+<td>Плохая масса</td>
+<td>Проверить надежность крепления минусового провода</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>⚠️ Внимание: Если после настройки CAN-шины ошибки на приборной панели не исчезают через 10-15 минут работы двигателя, попробуйте сбросить ошибки сканером или снятием клеммы АКБ на 15 минут.</p>
+</blockquote>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Правильная настройка CAN-шины — это 90% успеха установки. Без неё вы получите просто планшет с экраном, лишенный интеграции с автомобилем.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Сохраниется ли гарантия на автомобиль после замены магнитолы?</summary>
+<p>Официальные дилеры могут снять гарантию только на электрооборудование, если докажут, что неисправность возникла именно из-за вмешательства в проводку. Использование разъемов Plug-and-Play без разрезания штатных проводов минимизирует этот риск.</p>
+</details>
+
+<details>
+<summary>Будет ли работать камера заднего вида?</summary>
+<p>Да, штатная камера будет работать, если новое устройство поддерживает аналоговый видеовход (CVBS). В большинстве специализированных блоков для Весты этот функционал сохранен и активируется автоматически при включении задней передачи.</p>
+</details>
+
+<details>
+<summary>Можно ли вернуть штатную магнитолу обратно?</summary>
+<p>Конечно. Если вы не резали провода и сохранили все демонтированные детали, процесс обратной установки займет около 30 минут. Это важно учитывать при продаже автомобиля.</p>
+</details>
+
+<details>
+<summary>Почему греется новая магнитола?</summary>
+<p>Android-устройства имеют мощные процессоры и требуют отвода тепла. Если блок установлен плотно в нише без зазоров, нагрев неизбежен. Рекомендуется проверить наличие термопрокладок и свободной циркуляции воздуха за экраном.</p>
+</details>
+
+<details>
+<summary>Как обновить программное обеспечение?</summary>
+<p>Обновление происходит через меню "О устройстве" -> "Обновление системы". Файл прошивки скачивается с сайта производителя магнитолы и записывается на флешку или устанавливается через Wi-Fi. <em>Важно</em> не прерывать процесс обновления, чтобы не превратить устройство в "кирпич".</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#выбор-мультимедийной-системы-для-лада-веста">Выбор мультимедийной системы для Лада Веста</a></li><li><a href="#необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</a></li><li><a href="#демонтаж-штатного-головного-устройства">Демонтаж штатного головного устройства</a></li><li><a href="#подключение-и-установка-нового-оборудования">Подключение и установка нового оборудования</a></li><li><a href="#настройка-can-шины-и-устранение-ошибок">Настройка CAN-шины и устранение ошибок</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/z/zi/zimnyaya-rezina-lada-vesta.html" class="related-card">Зимняя резина для Lada Vesta: выбор, размеры, отзывы 2026</a></li><li><a href="/articles/l/le/levaya-fara-lada-vesta.html" class="related-card">Левая фара Лада Веста: выбор, замена и регулировка</a></li><li><a href="/articles/l/la/lada-vesta-ng-komfort.html" class="related-card">Лада Веста NG Комфорт: полный обзор комплектации, цены и опций</a></li><li><a href="/articles/l/la/lada-vesta-zashchita-dvigatelya.html" class="related-card">Защита двигателя Лада Веста: сравнение, установка и выбор</a></li><li><a href="/articles/o/ot/otzyvy-o-lada-vesta-universal.html" class="related-card">Отзывы о Lada Vesta SW 2026: плюсы и минусы универсала от владельцев</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/z/zi/zimnyaya-rezina-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Зимняя резина для Lada Vesta: выбор, размеры, отзывы 2026</span><span class="related-bottom-desc">Как выбрать зимнюю резину для Лада Веста: рекомендуемые размеры, лучшие модели шин, отзывы владельце</span></a><a href="/articles/l/le/levaya-fara-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Левая фара Лада Веста: выбор, замена и регулировка</span><span class="related-bottom-desc">Полный гид по левой фаре Лада Веста. Артикулы, отличия оригинала от аналогов, пошаговая инструкция з</span></a><a href="/articles/l/la/lada-vesta-ng-komfort.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста NG Комфорт: полный обзор комплектации, цены и опций</span><span class="related-bottom-desc">Лада Веста NG в комплектации Комфорт: детальный разбор технических характеристик, оснащения, преимущ</span></a><a href="/articles/l/la/lada-vesta-zashchita-dvigatelya.html" class="related-bottom-card"><span class="related-bottom-title">Защита двигателя Лада Веста: сравнение, установка и выбор</span><span class="related-bottom-desc">Полный гид по защите картера Лада Веста. Обзор алюминиевых и стальных листов, нюансы монтажа, защита</span></a><a href="/articles/o/ot/otzyvy-o-lada-vesta-universal.html" class="related-bottom-card"><span class="related-bottom-title">Отзывы о Lada Vesta SW 2026: плюсы и минусы универсала от владельцев</span><span class="related-bottom-desc">Реальные отзывы о Лада Веста Универсал (SW): недостатки, преимущества, опыт эксплуатации. Анализ над</span></a><a href="/articles/l/la/lada-vesta-kross-krash-test.html" class="related-bottom-card"><span class="related-bottom-title">Lada Vesta Cross краш-тест: результаты, безопасность и экспертный анализ</span><span class="related-bottom-desc">Подробный разбор краш-тестов Lada Vesta Cross: оценки ARCAP, Euro NCAP, слабые места кузова, сравнен</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

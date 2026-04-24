@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Канбас для магнитолы TEYES Лада Веста NG: установка и настройка — Лада Справка</title>
+    <meta name="description" content="Полный гид по CAN-адаптеру TEYES для Lada Vesta NG. Настройка кнопок руля, парктроника и климата. Решение проблем с протоколами.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/k/ka/kanbas-dlya-magnitoly-teyes-lada-vesta-ng.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Канбас для магнитолы TEYES Лада Веста NG: установка и настройка">
+    <meta property="og:description" content="Полный гид по CAN-адаптеру TEYES для Lada Vesta NG. Настройка кнопок руля, парктроника и климата. Решение проблем с протоколами.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Канбас для магнитолы TEYES Лада Веста NG: установка и настройка</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Канбас для магнитолы TEYES Лада Веста NG: полный разбор и настройка</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#принцип-работы-can-шины-в-lada-vesta-ng">Принцип работы CAN-шины в Lada Vesta NG</a></li><li><a href="#выбор-подходящего-can-модуля-для-teyes">Выбор подходящего CAN-модуля для TEYES</a></li><li><a href="#схема-подключения-и-распиновка-проводов">Схема подключения и распиновка проводов</a></li><li><a href="#настройка-протокола-в-меню-магнитолы">Настройка протокола в меню магнитолы</a></li><li><a href="#диагностика-и-решение-типичных-проблем">Диагностика и решение типичных проблем</a></li><li><a href="#расширенные-функции-и-кастомизация">Расширенные функции и кастомизация</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы обновленной модели <em>Лада Веста NG</em> часто сталкиваются с дилеммой выбора мультимедийной системы, которая сохранит функциональность штатных органов управления. Ключевым элементом в этой цепочке становится <strong>CAN-адаптер</strong>, который обеспечивает связь между головным устройством и бортовой сетью автомобиля. Без корректной работы этого модуля невозможно управление климатом, отображение парктроника или использование кнопок на руле.</p>
+<p>Компания <em>TEYES</em> предлагает собственные решения для интеграции, но часто пользователи выбирают универсальные CAN-модули или используют встроенные декодеры. Правильная настройка протокола позволяет превратить обычную Android-магнитолу в полноценный центр управления автомобилем. В этой статье мы детально разберем процесс выбора, подключения и тонкой настройки <strong>канбаса</strong> именно для новой Весты.</p>
+<p>Ошибки на этапе выбора могут привести к неработоспособности важных функций или, в худшем случае, к проблемам с электроникой. Поэтому важно понимать разницу между встроенными CAN-декодерами в магнитолах TEYES и внешними модулями. Мы рассмотрим конкретные шаги, которые помогут избежать распространенных ошибок при инсталляции.</p>
+
+<h2 id="принцип-работы-can-шины-в-lada-vesta-ng">Принцип работы CAN-шины в Lada Vesta NG</h2>
+<p>Современный автомобиль <em>Lada Vesta NG</em> оснащен сложной цифровой архитектурой, где все узлы обмениваются данными через единую сеть <strong>CAN-bus</strong>. Магнитола не является исключением и должна «говорить» на языке автомобиля, чтобы получать информацию о скорости, открытых дверях или уровне топлива. Адаптер выступает в роли переводчика, преобразуя цифровые пакеты данных в команды, понятные Android-системе.</p>
+<p>В отличие от предыдущих поколений, новая Веста использует обновленные протоколы обмена данными, что требует использования актуальных версий прошивок CAN-модулей. Стандартные решения, работавшие на дорестайлинговых моделях, могут некорректно отображать данные или вовсе не определяться системой. <strong>Протокол</strong> передачи данных здесь критически важен для стабильности работы.</p>
+<p>Канбас для магнитолы TEYES в контексте Весты NG часто представляет собой программный модуль внутри самой Android-системы, реже — отдельную коробочку, подключаемую через USB или UART. Понимание этого различия помогает правильно диагностировать проблемы. Если у вас не работают кнопки руля, скорее всего, сбит именно программный протокол в настройках.</p>
+<blockquote>
+<p>⚠️ Внимание: Попытка подключить провода CAN-шины напрямую к клеммам аккумулятора или нечитаемым контактам без знания распиновки может привести к короткому замыканию и выходу из строя блока комфорта.</p>
+</blockquote>
+<p>Стоит отметить, что скорость передачи данных в сети Весты NG достаточно высока, и дешевые универсальные адаптеры могут не справляться с потоком информации, вызывая задержки в реакции интерфейса. Качественный <em>TEYES</em> или специализированный CAN-модуль для Lada обеспечивает мгновенный отклик. Это особенно заметно при переключении треков кнопками на руле.</p>
+
+<h2 id="выбор-подходящего-can-модуля-для-teyes">Выбор подходящего CAN-модуля для TEYES</h2>
+<p>При покупке магнитолы TEYES для Лада Веста NG важно сразу уточнить у продавца тип установленного CAN-декодера. Часто в описании товара указано «Canbus built-in», что означает наличие встроенного модуля. Однако для полной совместимости со всеми функциями новой Весты (особенно с расширенным климатом и тележкой) может потребоваться внешний модуль или специфическая настройка.</p>
+<p>Существует несколько популярных производителей внешних CAN-адаптеров, которые дружат с Android-головными устройствами. Среди них можно выделить модели, специально заточенные под протоколы <em>АвтоВАЗ</em>. Выбор правильного оборудования — это 90% успеха всей установки.</p>
+<ul>
+<li>🚗 <strong>Встроенный CAN</strong>: уже установлен в магнитолах TEYES серии S, CC, T3, требует только правильной настройки в меню.</li>
+<li>🔌 <strong>Внешний USB-CAN</strong>: отдельная коробочка, подключаемая в USB-порт, часто используется как дополнение для редких протоколов.</li>
+<li>⚙️ <strong>Универсальный программируемый</strong>: требует подключения к ПК для загрузки конфигурации под конкретную модель авто.</li>
+</ul>
+<p>Если вы приобретаете магнитолу TEYES отдельно, убедитесь, что в комплекте идет необходимая колодка для подключения к штатной проводке Весты NG. Разъемы могут отличаться от предыдущих версий из-за изменений в комплектациях (например, наличие или отсутствие усилителя). <strong>Распиновка</strong> разъемов должна строго соответствовать вашей комплектации.</p>
+<div class="attention-box attention-info"><div><strong>📊 Какой тип подключения CAN вы предпочитаете?</strong><ul><li>Встроенный в магнитолу</li><li>Внешний модуль</li><li>Штатный через эмулятор</li><li>Мне все равно</li></ul></div></div>
+<p>Также стоит обратить внимание на версию программного обеспечения магнитолы. Прошивки TEYES регулярно обновляются, добавляя поддержку новых автомобилей. Возможно, для вашей Весты NG уже вышло обновление, которое улучшит работу с CAN-шиной без замены hardware-части.</p>
+
+<h2 id="схема-подключения-и-распиновка-проводов">Схема подключения и распиновка проводов</h2>
+<p>Процесс физической установки начинается с демонтажа штатной магнитолы и подготовки проводки. Для Лада Веста NG характерно использование стандартных разъемов ISO, однако контакты CAN-шины могут находиться на отдельном пине или быть объединены в общей колодке. Главное — найти пару проводов, отвечающих за передачу данных.</p>
+<p>Обычно это провода с маркировкой <code>CAN-H</code> (High) и <code>CAN-L</code> (Low). В проводке Весты они могут быть обозначены цветами, зависящими от года выпуска и комплектации. Часто это зеленый и желтый провода, но полагаться только на цвет нельзя — необходима проверка мультиметром или изучение электросхемы.</p>
+<pre><code>Типовая схема подключения TEYES CAN к Lada Vesta NG:
+<p>Красный (ACC) -> В зажигание</p>
+<p>Желтый (B+) -> В постоянный плюс</p>
+<p>Черный (GND) -> На массу кузова</p>
+<p>Зеленый (CAN-H) -> Шина CAN High (авто)</p>
+<p>Желтый (CAN-L) -> Шина CAN Low (авто)</code></pre></p>
+<p>При подключении внешнего CAN-модуля к магнитоле TEYES, соединение чаще всего происходит через разъем <code>KEY1</code>, <code>KEY2</code> или специальный порт <code>CAN</code> на задней панели. Если используется встроенный декодер, провода от автомобиля подключаются напрямую в соответствующие пины разъема TEYES.</p>
+<table>
+<thead>
+<tr>
+<th>Функция</th>
+<th>Цвет провода (TEYES)</th>
+<th>Назначение в авто</th>
+<th>Примечание</th>
+</tr>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Питание постоянное</td>
+<td>Yellow</td>
+<td>Battery +</td>
+<td>Через предохранитель</td>
+</tr>
+<tr>
+<td>Питание ACC</td>
+<td>Red</td>
+<td>Ignition</td>
+<td>Появляется при включении</td>
+</tr>
+<tr>
+<td>CAN High</td>
+<td>Green</td>
+<td>CAN Bus H</td>
+<td>Не перепутать с Low</td>
+</tr>
+<tr>
+<td>CAN Low</td>
+<td>Yellow/White</td>
+<td>CAN Bus L</td>
+<td>Заземление не нужно</td>
+</tr>
+<tr>
+<td>Земля</td>
+<td>Black</td>
+<td>GND</td>
+<td>Чистый кузов</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ Внимание: Перед началом любых работ с проводкой обязательно снимите минусовую клемму с аккумулятора во избежание короткого замыкания.</p>
+</blockquote>
+<p>Качество скрутки или пайки контактов имеет решающее значение. Плохой контакт в цепи CAN-шины приведет к появлению «мусора» в сети и сбоям в работе электроники. Используйте термоусадку и качественные соединители.</p>
+
+<h2 id="настройка-протокола-в-меню-магнитолы">Настройка протокола в меню магнитолы</h2>
+<p>После физического подключения наступает этап программной конфигурации. В магнитолах TEYES за это отвечает раздел «Car Settings» или «Заводские настройки». Для входа в это меню обычно требуется ввести пароль, который зависит от модели устройства (часто это <code>8888</code>, <code>3368</code> или <code>1234</code>).</p>
+<p>В открывшемся меню необходимо найти вкладку <strong>Canbus</strong> или <strong>Protocol</strong>. Здесь представлен длинный список производителей автомобилей. Вам нужно найти бренд <em>Lada</em> или <em>Vaz</em>. Внутри списка моделей следует искать «Vesta» или «Vesta NG». Важно выбрать именно ту версию протокола, которая соответствует году выпуска вашего авто.</p>
+<ul>
+<li>🔍 Зайдите в <code>Settings → Car Settings → Factory Settings</code>.</li>
+<li>📂 Выберите вкладку <code>Canbus</code> или <code>Protocol</code>.</li>
+<li>🏷️ Найдите производителя <em>Lada/Vaz</em> и модель <em>Vesta NG</em>.</li>
+<li>💾 Нажмите «OK» и дождитесь перезагрузки системы.</li>
+</ul>
+<p>Если в списке нет точного совпадения с «NG», попробуйте выбрать протокол для обычной Весты с годом выпуска близким к вашему. Часто протоколы совместимы, но могут отличаться отображаемыми данными. Экспериментальный подбор — нормальная практика в мире Android-магнитол.</p>
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Сделайте скриншот или фото текущих настроек CAN-протокола перед изменением параметров. Это позволит быстро вернуться к исходному состоянию, если новая настройка не заработает.</p></div>
+<p>После выбора протокола система попросит перезагрузку. Не игнорируйте этот шаг, так как новый конфиг загружается именно при старте. Если после перезагрузки кнопки не заработали, попробуйте другой протокол из списка или обновите прошивку магнитолы.</p>
+
+<h2 id="диагностика-и-решение-типичных-проблем">Диагностика и решение типичных проблем</h2>
+<p>Даже при правильном подключении могут возникнуть ситуации, когда CAN-шина не оживает. Первым признаком проблемы является отсутствие реакции на кнопки руля или некорректное отображение данных о автомобиле (например, показывает «0 км/ч» при движении). В этом случае нужно провести диагностику.</p>
+<p>Частая проблема Весты NG — конфликт протоколов, если в автомобиле установлен штатный усилитель звука или мультимедийная система с экраном в приборной панели. В таких случаях может потребоваться не просто выбор модели авто, но и настройка типа руля или дополнительных опций в меню канбаса.</p>
+<details class="faq-item"><summary>Что делать, если горит ошибка Check Engine после установки?</summary><div class="faq-answer"><p>Иногда некачественное соединение проводов CAN-шины может вызывать помехи, которые бортовой компьютер воспринимает как ошибку. Проверьте надежность контактов и отсутствие «соплей» припоя. Если ошибка осталась, сбросьте её через диагностический сканер ELM327.</p></div></details>
+<p>Также стоит проверить напряжение на проводах CAN. В состоянии покоя на каждом из них должно быть около 2.5 В, а в сумме давать 5 В (или близкие значения в зависимости от состояния сети). Если напряжения нет или оно сильно отличается, проблема в проводке автомобиля или самом адаптере.</p>
+<p>Если магнитола TEYES видит протокол, но данные не обновляются (например, застряла температура), попробуйте в настройках канбаса изменить тип опроса или задержку. Иногда помогает переключение между версиями протокола (например, с V1 на V2).</p>
+<blockquote>
+<p>⚠️ Внимание: Постоянные ошибки в CAN-шине могут разрядить аккумулятор за пару дней стоянки, так как система не будет уходить в спящий режим.</p>
+</blockquote>
+<p>В сложных случаях, когда штатными средствами настроить не удается, пользователи прибегают к установке дополнительного внешнего CAN-модуля (например, от брендов like <em>RedPower</em> или универсальных), который эмулирует работу штатной головы и передает данные в TEYES через эмуляцию кнопок руля.</p>
+
+<h2 id="расширенные-функции-и-кастомизация">Расширенные функции и кастомизация</h2>
+<p>Правильно настроенный канбас для магнитолы TEYES на Лада Веста NG открывает доступ к расширенным функциям. Вы получаете не просто музыку, а полноценную интеграцию. Например, на экране могут отображаться открытые двери, уровень топлива, температура двигателя и даже давление в шинах (если поддерживается).</p>
+<p>Особого внимания заслуживает управление климатом. На Весте NG климатическая система тесно завязана на CAN-шину. При грамотной настройке вы сможете регулировать температуру и обдув прямо с экрана Android-магнитолы, сохранив функционал штатных кнопок, если они остались на панели.</p>
+<ul>
+<li>🎚️ <strong>Эквалайзер и DSP</strong>: настройка звука с учетом акустики салона Весты.</li>
+<li>🅿️ <strong>Парктроники</strong>: визуализация датчиков на 3D-модели авто при включении задней передачи.</li>
+<li>📱 <strong>Уведомления</strong>: вывод информации о низком уровне топлива прямо на рабочий стол.</li>
+</ul>
+<p>Для энтузиастов доступна возможность редактирования файлов конфигурации CAN-декодера, если магнитола позволяет доступ к файловой системе. Это позволяет создавать собственные карты кнопок или исправлять ошибки перевода в меню. Однако это требует глубоких знаний hexadecimal-кодов протокола.</p>
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Качественная настройка CAN-шины превращает стороннюю магнитолу в нативную часть интерьера, сохраняя эстетику и функционал автомобиля.</p></div>
+<p>Не забывайте, что программное обеспечение TEYES постоянно развивается. Периодически проверяйте раздел «Обновление системы», так как в новых версиях прошивок часто улучшается стабильность работы с CAN-шиной автомобилей Lada. Это особенно актуально для новых модификаций Весты.</p>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+<details>
+<summary>Нужен ли отдельный CAN-модуль для TEYES на Весту NG?</summary>
+<p>В большинстве случаев отдельный модуль не нужен, так как магнитолы TEYES имеют встроенный CAN-декодер. Достаточно правильно выбрать протокол в настройках. Отдельный модуль требуется только если встроенный не поддерживает специфические функции вашей комплектации.</p>
+</details>
+<details>
+<summary>Почему не работает регулировка громкости кнопками на руле?</summary>
+<p>Скорее всего, в настройках магнитолы выбран неверный протокол CAN-шины или неверно определен тип руля. Попробуйте выбрать другой протокол Lada/Vesta из списка или проверить физическое подключение проводов KEY1/CAN.</p>
+</details>
+<details>
+<summary>Можно ли вывести расход топлива на экран магнитолы TEYES?</summary>
+<p>Да, если выбранный протокол CAN-шины поддерживает передачу этих данных и магнитола имеет виджет для их отображения. На Весте NG эта функция часто доступна через виджеты TEYES или сторонние приложения для торк-модулей.</p>
+</details>
+<details>
+<summary>Сбрасываются ли настройки канбаса после снятия клеммы аккумулятора?</summary>
+<p>Нет, настройки протокола CAN-шины сохраняются в энергонезависимой памяти магнитолы. После подключения питания система автоматически подхватит ранее выбранный профиль автомобиля.</p>
+</details>
+<details>
+<summary>Работает ли штатный парктроник через CAN на магнитолах TEYES?</summary>
+<p>Да, при правильном подключении и настройке протокола, магнитола будет получать сигналы от штатных датчиков парковки и отображать их графически на экране при включении задней передачи.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#принцип-работы-can-шины-в-lada-vesta-ng">Принцип работы CAN-шины в Lada Vesta NG</a></li><li><a href="#выбор-подходящего-can-модуля-для-teyes">Выбор подходящего CAN-модуля для TEYES</a></li><li><a href="#схема-подключения-и-распиновка-проводов">Схема подключения и распиновка проводов</a></li><li><a href="#настройка-протокола-в-меню-магнитолы">Настройка протокола в меню магнитолы</a></li><li><a href="#диагностика-и-решение-типичных-проблем">Диагностика и решение типичных проблем</a></li><li><a href="#расширенные-функции-и-кастомизация">Расширенные функции и кастомизация</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/p/pr/priborka-lada-vesta-sport.html" class="related-card">Приборка Лада Веста Спорт: тюнинг, установка и совместимость</a></li><li><a href="/articles/k/ka/kak-snyat-plafon-na-lada-vesta.html" class="related-card">Как снять плафон на Лада Веста: полная инструкция</a></li><li><a href="/articles/l/la/lada-vesta-ustanovka-kamery-zadnego-vida.html" class="related-card">Лада Веста: установка камеры заднего вида своими руками</a></li><li><a href="/articles/t/to/tormoznye-kolodki-dlya-lada-vesta-sv.html" class="related-card">Тормозные колодки Лада Веста СВ: выбор, артикулы, замена</a></li><li><a href="/articles/k/kn/knopki-rulya-lada-vesta.html" class="related-card">Кнопки руля Лада Веста: установка, распиновка, ошибки</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/p/pr/priborka-lada-vesta-sport.html" class="related-bottom-card"><span class="related-bottom-title">Приборка Лада Веста Спорт: тюнинг, установка и совместимость</span><span class="related-bottom-desc">Полный гид по приборной панели Lada Vesta Sport. Разбор мультимедиа, установка штатной комбинации, т</span></a><a href="/articles/k/ka/kak-snyat-plafon-na-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Как снять плафон на Лада Веста: полная инструкция</span><span class="related-bottom-desc">Подробная инструкция по демонтажу плафона освещения Лада Веста. Снятие передних и задних фонарей, за</span></a><a href="/articles/l/la/lada-vesta-ustanovka-kamery-zadnego-vida.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста: установка камеры заднего вида своими руками</span><span class="related-bottom-desc">Подробная инструкция по установке камеры заднего вида на Лада Веста. Выбор места врезки, схема подкл</span></a><a href="/articles/t/to/tormoznye-kolodki-dlya-lada-vesta-sv.html" class="related-bottom-card"><span class="related-bottom-title">Тормозные колодки Лада Веста СВ: выбор, артикулы, замена</span><span class="related-bottom-desc">Полный гид по тормозным колодкам для Lada Vesta SW. Артикулы оригиналов и аналогов, признаки износа,</span></a><a href="/articles/k/kn/knopki-rulya-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Кнопки руля Лада Веста: установка, распиновка, ошибки</span><span class="related-bottom-desc">Полный гид по кнопкам руля Лада Веста. Как установить, настроить, прошить. Решаем проблемы с мультим</span></a><a href="/articles/l/li/litye-diski-dlya-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Литые диски для Лада Веста: размеры, вылет, лучшие модели</span><span class="related-bottom-desc">Полный гид по выбору литых дисков для Лада Веста. Разбор параметров 5x100, R15-R17, влияние на управ</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

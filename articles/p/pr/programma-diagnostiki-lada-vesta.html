@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Программа диагностики Лада Веста: выбор софта и адаптеров — Лада Справка</title>
+    <meta name="description" content="Обзор лучших программ для диагностики Лада Веста. Подключение через ELM327 и K-Line, чтение ошибок, адаптации ECU и доработки своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/pr/programma-diagnostiki-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Программа диагностики Лада Веста: выбор софта и адаптеров">
+    <meta property="og:description" content="Обзор лучших программ для диагностики Лада Веста. Подключение через ELM327 и K-Line, чтение ошибок, адаптации ECU и доработки своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Программа диагностики Лада Веста: выбор софта и адаптеров</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Профессиональная программа диагностики Лада Веста: полный гид</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#выбор-интерфейса-для-подключения-к-эбу">Выбор интерфейса для подключения к ЭБУ</a></li><li><a href="#популярные-программы-для-компьютерной-диагностики">Популярные программы для компьютерной диагностики</a></li><li><a href="#мобильные-приложения-для-android-и-ios">Мобильные приложения для Android и iOS</a></li><li><a href="#диагностика-автоматических-трансмиссий-amt-и-cvt">Диагностика автоматических трансмиссий AMT и CVT</a></li><li><a href="#чтение-и-расшифровка-кодов-ошибок">Чтение и расшифровка кодов ошибок</a></li><li><a href="#процедура-самостоятельной-диагностики">Процедура самостоятельной диагностики</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Владение современным автомобилем, таким как <em>Lada Vesta</em>, требует не только своевременной замены масла, но и умения считывать данные бортового компьютера. <strong>Программа диагностики Лада Веста</strong> становится незаменимым инструментом для владельца, желающего контролировать состояние систем двигателя, коробки передач и электроники. Без специализированного софта доступ к глубоким параметрам ЭБУ (электронного блока управления) закрыт, что превращает поиск неисправностей в гадание на кофейной гуще.</p>
+
+<p>Рынок автомобильного софта переполнен предложениями, однако далеко не каждое приложение способно корректно работать с протоколами <strong>ВАЗ</strong>. Стандартные OBD2-сканеры часто показывают лишь поверхностные данные, игнорируя специфические ошибки трансмиссии <em>AMT</em> или вариатора <em>CVT</em>. Именно поэтому выбор специализированного программного обеспечения является критически важным шагом для грамотной диагностики.</p>
+
+<p>В этой статье мы разберем, какой софт действительно работает с российскими автомобилями, какие адаптеры необходимы для подключения и как избежать распространенных ошибок при считывании кодов неисправностей. Вы узнаете о бесплатных и платных решениях, а также о том, как провести базовую проверку систем жизнеобеспечения машины без посещения автосервиса.</p>
+
+<h2 id="выбор-интерфейса-для-подключения-к-эбу">Выбор интерфейса для подключения к ЭБУ</h2>
+
+<p>Прежде чем запускать любую программу, необходимо обеспечить физическую связь между компьютером или смартфоном и автомобилем. Для <em>Лада Веста</em> наиболее актуальны два типа подключения: через <strong>K-Line</strong> и через <strong>CAN-шину</strong>. Выбор зависит от года выпуска автомобиля и конкретной версии программного обеспечения ЭБУ (M86, M74, M74K или более новые M86MW).</p>
+
+<p>Самым популярным и доступным решением остается адаптер <strong>ELM327</strong>. Однако не все версии одинаково полезны. Дешевые китайские clones версии 2.1 часто некорректно работают с отечественными блоками управления, обрывая связь или не видя специфические ошибки. Для стабильной работы с <em>Vesta</em> настоятельно рекомендуется искать адаптеры версии 1.5 на чипе PIC18F25K80.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Использование дешевых Bluetooth-адаптеров ELM327 версии 2.1 может привести к невозможности чтения ошибок в подушках безопасности (SRS) и ABS, так как они часто не поддерживают необходимые протоколы обмена данными.</p>
+</blockquote>
+
+<p>Для профессиональной работы, особенно если планируется чип-тюнинг или глубокая адаптация, лучше использовать специализированные интерфейсы, такие как <em>OpenPort 2.0</em> или оригинальный сканер <strong>ДСТ-14Т</strong>. Эти устройства обеспечивают стабильный канал связи и защищают ЭБУ от скачков напряжения, что критично при перепрошивке.</p>
+
+<ul>
+<li>🔌 <strong>ELM327 v1.5</strong> — бюджетный вариант для базовой диагностики через смартфон (Android/iOS).</li>
+<li>💻 <strong>OpenPort 2.0</strong> — профессиональный интерфейс для ПК, поддерживающий J2534.</li>
+<li>📟 <strong>Вася Диагност / K-Line USB</strong> — старые, но надежные кабели для работы с протоколом K-Line на дорестайлинговых версиях.</li>
+<li>🛠️ <strong>ДСТ-14Т</strong> — официальный дилерский сканер, обеспечивающий полный доступ ко всем системам.</li>
+</ul>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой адаптер вы используете для диагностики?</strong><ul><li>Дешевый ELM327 (AliExpress)</li><li>Профессиональный OpenPort 2.0</li><li>Оригинальный ДСТ-14Т</li><li>Только смартфон без адаптера</li></ul></div></div>
+
+<h2 id="популярные-программы-для-компьютерной-диагностики">Популярные программы для компьютерной диагностики</h2>
+
+<p>Когда аппаратная часть выбрана, встает вопрос о программном обеспечении. Для <strong>Лада Веста</strong> существует несколько проверенных временем решений, которые позволяют не просто считать ошибку "Check Engine", но и провести параметризацию систем. Лидером в этом сегменте для ПК является программа <em>OpenDiag Mobile</em> и ее десктопные аналоги, а также специализированный софт от <strong>ВАЗ</strong>.</p>
+
+<p>Одной из самых мощных утилит считается <strong>Scanmatik</strong> или софт, работающий с одноименными адаптерами. Он позволяет видеть работу форсунок в реальном времени, корректировки топливоподачи и угол опережения зажигания. Для владельцев <em>Vesta</em> с вариатором <em>Jatco</em> это единственный способ проконтролировать температуру трансмиссионной жидкости без визита в сервис.</p>
+
+<p>Также стоит отметить программу <em>PyCar</em> (ранее известную как ELMConfig для ВАЗ), которая отлично работает на Android. Она умеет строить графики в реальном времени, что удобно для поиска плавающих неисправностей. Однако для глубокого анализа логики работы ЭБУ лучше использовать полноценный ноутбук с Windows.</p>
+
+<table>
+<thead>
+<tr>
+<th>Название ПО</th>
+<th>Платформа</th>
+<th>Поддерживаемые протоколы</th>
+<th>Стоимость</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenDiag</td>
+<td>Android / Windows</td>
+<td>K-Line, CAN</td>
+<td>Бесплатно / Pro</td>
+</tr>
+<tr>
+<td>Scanmatik 2</td>
+<td>Android</td>
+<td>K-Line, CAN, J2534</td>
+<td>Платно (лицензия)</td>
+</tr>
+<tr>
+<td>Вася Диагност</td>
+<td>Windows</td>
+<td>K-Line</td>
+<td>Платно (адаптер+ПО)</td>
+</tr>
+<tr>
+<td>ECU Tester</td>
+<td>Windows</td>
+<td>Все (через J2534)</td>
+<td>Дорого (профи)</td>
+</tr>
+</tbody>
+</table>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Для разовой диагностики не обязательно покупать дорогую лицензию. Многие приложения (например, OpenDiag) имеют бесплатный режим с ограниченным функционалом, которого достаточно для чтения и сброса ошибок.</p></div>
+
+<h2 id="мобильные-приложения-для-android-и-ios">Мобильные приложения для Android и iOS</h2>
+
+<p>Современный ритм жизни диктует свои правила, и все больше владельцев <em>Лада Веста</em> предпочитают использовать смартфоны вместо громоздких ноутбуков. Мобильная <strong>программа диагностики Лада Веста</strong> позволяет быстро проверить автомобиль перед покупкой или в дальней дороге. Наиболее функциональными приложениями на сегодняшний день являются <em>OpenDiag Mobile</em> и <em>HobDrive</em>.</p>
+
+<p>Приложение <strong>HobDrive</strong> заслуживает отдельного внимания благодаря возможности ведения бортового журнала и детальной статистики поездок. Оно умеет рассчитывать реальный расход топлива, основываясь на данных ДМРВ (датчик массового расхода воздуха), что часто точнее показаний штатного маршрутизатора. Интерфейс приложения полностью адаптирован под русскоязычного пользователя.</p>
+
+<p>Для владельцев iPhone выбор ограничен из-за политики Apple, но приложение <em>CarScanner ELM OBD2</em> показывает отличные результаты с <em>Vesta</em>. Оно имеет预设ленные профили для ВАЗ, что упрощает первичную настройку соединения. </p>
+
+<blockquote>
+<p>⚠️ Внимание: При подключении через Bluetooth на Android всегда подтверждайте код сопряжения (обычно 1234 или 0000). Неправильное сопряжение может привести к тому, что система перестанет видеть адаптер до полной перезагрузки телефона.</p>
+</blockquote>
+
+<p>Мобильные приложения также позволяют настроить уведомление о критических параметрах. Например, можно задать порог напряжения бортовой сети, и телефон подаст сигнал, если генератор перестанет справлять с нагрузкой. Это превращает смартфон в полноценный бортовой компьютер с расширенным функционалом.</p>
+
+<ul>
+<li>📱 <strong>OpenDiag Mobile</strong> — лидер рынка, поддерживает чтение специфичных ошибок ВАЗ.</li>
+<li>🚗 <strong>HobDrive</strong> — лучший выбор для экономичных водителей, подробная статистика расхода.</li>
+<li>🍎 <strong>CarScanner</strong> — оптимальное решение для пользователей iOS с адаптерами BLE.</li>
+<li>⚙️ <strong>Torque Pro</strong> — универсальное приложение, требует ручной настройки профилей для ВАЗ.</li>
+</ul>
+
+<h2 id="диагностика-автоматических-трансмиссий-amt-и-cvt">Диагностика автоматических трансмиссий AMT и CVT</h2>
+
+<p>Отдельного внимания требует диагностика роботизированных коробок передач <strong>AMT</strong> и вариаторов <em>Jatco</em>, которые устанавливаются на <em>Лада Веста</em>. Штатные методы "перезагрузки" путем выключения зажигания часто не решают проблему, если ошибка записана в памяти блока управления трансмиссией. Здесь необходима программа, умеющая работать с отдельным блоком TCU (Transmission Control Unit).</p>
+
+<p>Для <strong>AMT</strong> (робот) критически важно проверять состояние сцепления и актуаторов. Специализированный софт позволяет запустить процедуру адаптации точки схватывания сцепления, что часто устраняет рывки при переключении передач. Без компьютера выполнить эту процедуру корректно практически невозможно.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист диагностики коробки передач</h4><label class="check-item"><input type="checkbox"><span>Подключить адаптер в разъем OBD2</span></label><label class="check-item"><input type="checkbox"><span>Запустить приложение с поддержкой TCU</span></label><label class="check-item"><input type="checkbox"><span>Считать ошибки трансмиссии (не только двигателя)</span></label><label class="check-item"><input type="checkbox"><span>Проверить температуру масла в КПП</span></label><label class="check-item"><input type="checkbox"><span>Сбросить адаптации при замене масла</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>В случае с вариатором <em>CVT</em> ситуация еще серьезнее. Перегрев или загрязнение масла могут привести к дорогостоящему ремонту. Программа диагностики покажет текущую температуру масла, степень его деградации (по счетчику старения) и давление в гидроблоке. Игнорирование этих параметров может привести к выходу вариатора из строя.</p>
+
+<details class="faq-item"><summary>Секреты адаптации робота</summary><div class="faq-answer"><p>Процедуру адаптации точки схватывания сцепления на AMT лучше проводить на прогретом двигателе. После сброса адаптаций автомобиль может вести себя неадекватно первые 10-20 км пробега, пока ЭБУ не обучится заново.</p></div></details>
+
+<h2 id="чтение-и-расшифровка-кодов-ошибок">Чтение и расшифровка кодов ошибок</h2>
+
+<p>Получить код ошибки — это только половина дела. Главное — правильно его интерпретировать. <strong>Программа диагностики Лада Веста</strong> выдает код в формате <code>P0300</code>, <code>C0035</code> или <code>B1000</code>. Первая буква указывает на систему: <strong>P</strong> — двигатель и трансмиссия, <strong>C</strong> — шасси (ABS, ESP), <strong>B</strong> — кузов (подушки, стеклоподъемники), <strong>U</strong> — сеть.</p>
+
+<p>Часто одна и та же ошибка может быть вызвана разными причинами. Например, код бедной смеси может указывать как на подсос воздуха, так и на неисправность датчика кислорода. Поэтому важно смотреть не только на код, но и на <strong>параметры в реальном времени</strong>. Анализ топливных коррекций и лямбда-корректоров помогает pinpoint-ить проблему.</p>
+
+<p>Для <em>Весты</em> характерны ошибки, связанные с катализатором (неэффективность) и датчиками фаз. Часто они появляются после заправки некачественным топливом. В таких случаях помогает сброс ошибок и несколько циклов прогрева двигателя в движении.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Никогда не игнорируйте ошибки, связанные с пропусками зажигания (P0300-P0304). Длительная езда с такой неисправностью гарантированно приведет к разрушению катализатора и повреждению цилиндров.</p></div>
+
+<h2 id="процедура-самостоятельной-диагностики">Процедура самостоятельной диагностики</h2>
+
+<p>Чтобы провести диагностику самостоятельно, выполните следующую последовательность действий. Сначала подключите адаптер в разъем <code>OBD-II</code>, который на <em>Лада Веста</code> находится под рулевой колонкой, слева (иногда прикрыт пластиковой заглушкой). Затем включите зажигание, но не запускайте двигатель, если программа не требует работы мотора для проверки определенных параметров.</p>
+
+<p>Запустите выбранное приложение на смартфоне или ПК и нажмите кнопку подключения. После установления связи выберите режим "Диагностика" или "Считать ошибки". Дождитесь окончания сканирования всех блоков. Если связь прерывается, проверьте надежность соединения адаптера или попробуйте перезагрузить приложение.</p>
+
+<pre><code>Типичная последовательность действий:
+<p>1. Включить зажигание.</p>
+<p>2. Подключиться к Bluetooth-адаптеру в настройках телефона.</p>
+<p>3. Открыть приложение (например, OpenDiag).</p>
+<p>4. Выбрать тип подключения: Bluetooth / COM-порт.</p>
+<p>5. Нажать "Подключиться".</p>
+<p>6. Перейти в раздел "Ошибки" и нажать "Считать".</code></pre></p>
+
+<p>После получения списка ошибок запишите их коды. Если горит лампа <strong>Check Engine</strong>, но ошибок нет или они статусные (неактивные), попробуйте сбросить их и проехать на автомобиле. Если ошибка возвращается немедленно — проблема требует механического вмешательства.</p>
+
+<details>
+<summary>Как часто нужно делать полную диагностику?</summary>
+<p>Полную компьютерную диагностику всех систем <em>Лада Веста</code> рекомендуется проводить не реже одного раза в год или каждые 15 000 км пробега. Это поможет выявить скрытые неисправности до того, как они приведут к поломке.</p>
+</details>
+
+<details>
+<summary>Может ли программа диагностики навредить автомобилю?</summary>
+<p>Сама по себе программа чтения ошибок безопасна. Однако использование функций "Запись в ЭБУ", "Чип-тюнинг" или "Сброс адаптаций" без понимания процессов может нарушить работу двигателя. Будьте осторожны с функциями записи.</p>
+</details>
+
+<details>
+<summary>Почему программа не видит автомобиль?</summary>
+<p>Наиболее частые причины: выключено зажигание, неисправен предохранитель цепи диагностики, несовместимость версии адаптера ELM327 с протоколом автомобиля или занятый COM-порт в системе.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#выбор-интерфейса-для-подключения-к-эбу">Выбор интерфейса для подключения к ЭБУ</a></li><li><a href="#популярные-программы-для-компьютерной-диагностики">Популярные программы для компьютерной диагностики</a></li><li><a href="#мобильные-приложения-для-android-и-ios">Мобильные приложения для Android и iOS</a></li><li><a href="#диагностика-автоматических-трансмиссий-amt-и-cvt">Диагностика автоматических трансмиссий AMT и CVT</a></li><li><a href="#чтение-и-расшифровка-кодов-ошибок">Чтение и расшифровка кодов ошибок</a></li><li><a href="#процедура-самостоятельной-диагностики">Процедура самостоятельной диагностики</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/r/re/remont-amt-lada-vesta.html" class="related-card">Ремонт АМТ Лада Веста: диагностика, поломки, стоимость</a></li><li><a href="/articles/l/la/lada-vesta-astrakhan.html" class="related-card">Лада Веста Астрахань: купить, цены, тест-драйв</a></li><li><a href="/articles/v/vi/vibratsiya-lada-vesta.html" class="related-card">Вибрация Лада Веста: причины, диагностика и методы устранения</a></li><li><a href="/articles/k/ka/kak-vyglyadit-lada-vesta-kross.html" class="related-card">Как выглядит Лада Веста Кросс: фото, дизайн и детали</a></li><li><a href="/articles/l/la/lada-vesta-massa-avtomobilya.html" class="related-card">Лада Веста масса автомобиля: вес кузова и комплектаций</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/r/re/remont-amt-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Ремонт АМТ Лада Веста: диагностика, поломки, стоимость</span><span class="related-bottom-desc">Полный гид по ремонту АМТ Лада Веста: причины пинков, гула, рывков. Разбор конструкции, частые неисп</span></a><a href="/articles/l/la/lada-vesta-astrakhan.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста Астрахань: купить, цены, тест-драйв</span><span class="related-bottom-desc">Обзор Лада Веста в Астрахани. Актуальные цены, комплектации, условия покупки в кредит, адреса дилеро</span></a><a href="/articles/v/vi/vibratsiya-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Вибрация Лада Веста: причины, диагностика и методы устранения</span><span class="related-bottom-desc">Почему вибрирует Лада Веста на холостых или ходу? Полный разбор причин: от подушек двигателя до трое</span></a><a href="/articles/k/ka/kak-vyglyadit-lada-vesta-kross.html" class="related-bottom-card"><span class="related-bottom-title">Как выглядит Лада Веста Кросс: фото, дизайн и детали</span><span class="related-bottom-desc">Подробный разбор экстерьера Лада Веста Кросс. Уникальные черты дизайна, отличия от седана, цветовая </span></a><a href="/articles/l/la/lada-vesta-massa-avtomobilya.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста масса автомобиля: вес кузова и комплектаций</span><span class="related-bottom-desc">Узнайте точный вес Лада Веста в разных кузовах. Масса седана, SW, Cross и NG. Влияние снаряженной ма</span></a><a href="/articles/k/ka/kakie-dvigateli-ustanavlivayutsya-na-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Двигатели Lada Vesta: характеристики, особенности и выбор</span><span class="related-bottom-desc">Какие двигатели устанавливаются на Лада Веста? Сравнение моторов 1.6, 1.8, их мощность, расход топли</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

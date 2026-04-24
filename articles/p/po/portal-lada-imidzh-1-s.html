@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Портал Лада ИМДЖ-1С: Настройка и работа с EPC каталогом — Лада Справка</title>
+    <meta name="description" content="Полный гид по работе с порталом Лада ИМДЖ-1С. Настройка, поиск запчастей по VIN, решение ошибок и интеграция с базами данных дилеров.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/po/portal-lada-imidzh-1-s.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Портал Лада ИМДЖ-1С: Настройка и работа с EPC каталогом">
+    <meta property="og:description" content="Полный гид по работе с порталом Лада ИМДЖ-1С. Настройка, поиск запчастей по VIN, решение ошибок и интеграция с базами данных дилеров.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Портал Лада ИМДЖ-1С: Настройка и работа с EPC каталогом</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Портал Лада ИМДЖ-1С: Эффективная работа с каталогом запчастей</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#основные-возможности-и-преимущества-системы">Основные возможности и преимущества системы</a></li><li><a href="#технические-требования-и-установка-программного-обеспечения">Технические требования и установка программного обеспечения</a></li><li><a href="#регистрация-и-авторизация-в-личном-кабинете">Регистрация и авторизация в личном кабинете</a></li><li><a href="#навигация-и-поиск-запасных-частей-по-vin">Навигация и поиск запасных частей по VIN</a></li><li><a href="#интеграция-с-1спредприятие-и-выгрузка-данных">Интеграция с 1С:Предприятие и выгрузка данных</a></li><li><a href="#решение-распространенных-проблем-и-ошибок">Решение распространенных проблем и ошибок</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный сервисный центр или магазин автозапчастей не может эффективно функционировать без доступа к актуальной технической документации и схемам узлов. <strong>Портал Лада ИМДЖ-1С</strong> стал неотъемлемым инструментом для специалистов, работающих с продукцией АвтоВАЗ. Это специализированное программное решение, которое интегрируется с популярной бухгалтерской и управленческой системой 1С, обеспечивая мгновенный доступ к электронным каталогам (EPC).</p>
+
+<p>Использование данного софта позволяет исключить человеческий фактор при подборе деталей, что критически важно для соблюдения гарантийных обязательств и точности складского учета. <em>Лада ИМДЖ</em> предоставляет детализированные взрыв-схемы, где каждый элемент имеет свой уникальный артикул. Без такого инструмента поиск нужной шайбы или болта в многотысячном номенклатурном списке превратился бы в хаотичный и длительный процесс, отнимающий время у клиента.</p>
+
+<p>Внедрение этой системы требует понимания не только автомобильной техники, но и основ работы с базами данных. <mark>Система использует защищенное соединение с серверами производителя для получения обновлений в режиме реального времени.</mark> В этой статье мы подробно разберем, как правильно настроить рабочее место, избежать типичных ошибок и максимально эффективно использовать функционал каталога для быстрого подбора запчастей.</p>
+
+<h2 id="основные-возможности-и-преимущества-системы">Основные возможности и преимущества системы</h2>
+
+<p>Главной задачей программного комплекса является ускорение процесса идентификации запасных частей. <strong>Электронный каталог</strong> содержит информацию обо всех моделях, выпускаемых концерном, включая архивные и современные серии. Пользователь получает доступ к структурированным данным, которые постоянно обновляются производителем, что гарантирует отсутствие расхождений между реальной деталью и ее описанием в системе.</p>
+
+<p>Ключевой особенностью является глубокая интеграция с платформой <em>1С:Предприятие</em>. Это означает, что подобранная деталь может быть мгновенно зарезервирована на складе, оформлена в заказ-наряд или выставлена в счет для клиента без необходимости ручного ввода артикулов. Такая автоматизация снижает риск опечаток, которые часто приводят к возврату товара и дополнительным логистическим расходам.</p>
+
+<p>Система также позволяет проводить поиск не только по VIN-коду, но и по номеру узла или даже визуальному ознакомлению со схемой сборки. <strong>Интерактивные схемы</strong> позволяют увеличивать отдельные фрагменты, скрывать ненужные группы узлов и видеть взаимосвязи между деталями. Это особенно полезно при работе со сложными агрегатами, такими как двигатель или коробка передач, где одна ошибка в номере может стоить дорого.</p>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Данные в каталоге могут обновляться производителем без предварительного уведомления. Всегда проверяйте актуальность версии базы перед формированием крупных оптовых заказов, чтобы избежать ситуаций, когда артикул детали уже изменен в новой ревизии.</p>
+</blockquote>
+
+<h2 id="технические-требования-и-установка-программного-обеспечения">Технические требования и установка программного обеспечения</h2>
+
+<p>Для стабильной работы <strong>Лада ИМДЖ</strong> необходимо соблюдение минимальных системных требований. Программа является клиентским приложением, которое обращается к удаленному серверу или локальной базе данных. Недостаточная производительность компьютера или низкая скорость интернет-соединения могут привести к долгой загрузке графических схем и задержкам в ответе на запросы пользователя.</p>
+
+<p>Процесс инсталляции обычно начинается с установки основного клиента на рабочее место сотрудника. Важно, чтобы на компьютере была установлена совместимая версия платформы <em>1С</em>, если планируется использование модуля интеграции. Часто для корректного отображения всех элементов интерфейса требуются определенные библиотеки визуальных компонентов, которые идут в комплекте с дистрибутивом.</p>
+
+<p>Особое внимание следует уделить настройке сетевого подключения. <strong>Корректная работа</strong> возможна только при наличии стабильного канала связи с серверами поставщика услуги. В корпоративных сетях с жесткими политиками безопасности может потребоваться добавление адресов серверов в список исключений брандмауэра.</p>
+
+<details class="faq-item"><summary>Системные требования (подробно)</summary><div class="faq-answer"><p>Для комфортной работы рекомендуется процессор не ниже Intel Core i3, 4 ГБ оперативной памяти и SSD-диск. Разрешение экрана должно быть не менее 1280x720 для полного отображения схем без горизонтальной прокрутки.</p></div></details>
+
+<p>После установки необходимо выполнить первичную синхронизацию. Это может занять некоторое время в зависимости от объема загружаемых данных. Если используется локальная версия базы, первоначальное скачивание может составлять несколько гигабайт информации.</p>
+
+<h2 id="регистрация-и-авторизация-в-личном-кабинете">Регистрация и авторизация в личном кабинете</h2>
+
+<p>Доступ к функционалу каталога предоставляется только авторизованным пользователям. Для начала работы необходимо получить лицензионный ключ или учетные данные от официального дистрибьютора. Процесс регистрации часто требует подтверждения статуса юридического лица, так как система ориентирована в первую очередь на дилерские центры и крупные СТО.</p>
+
+<p>Ввод учетных данных осуществляется в стартовом окне программы. <strong>Логин и пароль</strong> привязываются к конкретному рабочему месту или диапазону IP-адресов для обеспечения безопасности. При изменении оборудования или сетевой конфигурации может потребоваться повторная активация лицензии через службу технической поддержки.</p>
+
+<p>Важно хранить данные для входа в надежном месте. Утрата доступа может парализовать работу отдела запчастей. Некоторые версии системы поддерживают двухфакторную авторизацию или привязку к аппаратному ключу защиты (USB-токену), что повышает уровень безопасности данных.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Как вы предпочитаете работать с каталогами?</strong><ul><li>Локальная версия базы:Облачный доступ через браузер:Мобильное приложение:Гибридный режим</li></ul></div></div>
+
+<p>После успешного входа система может предложить выбрать профиль работы. Это позволяет настроить интерфейс под конкретные задачи: например, режим "Склад" будет отличаться от режима "Сервисный консультант" набором доступных функций и отображаемых полей.</p>
+
+<h2 id="навигация-и-поиск-запасных-частей-по-vin">Навигация и поиск запасных частей по VIN</h2>
+
+<p>Основной сценарий работы начинается с ввода идентификационного номера транспортного средства. <strong>Поиск по VIN</strong> является наиболее точным методом, так как он автоматически отсекает детали, которые не подходят для конкретной комплектации автомобиля. Даже визуально одинаковые модели могут иметь разные узлы в зависимости от года выпуска и рынка сбыта.</p>
+
+<p>После ввода кода система отображает дерево узлов. Навигация осуществляется от общих групп (например, "Двигатель") к более детальным ("Головка блока цилиндров"). <em>Визуализация</strong> позволяет быстро найти нужную область. При наведении курсора на номер детали на схеме часто всплывает подсказка с кратким описанием.</p>
+
+<p>В результатах поиска отображается не только артикул, но и количество требуемых единиц на один автомобиль. Это критически важный параметр при формировании заказа. Также система может показывать статус замены: если деталь снята с производства, будет указан актуальный аналог или суперсессия.</p>
+
+<div class="checklist-block"><h4>☑️ Алгоритм поиска детали</h4><label class="check-item"><input type="checkbox"><span>Ввести VIN-код автомобиля в поисковую строку:Выбрать соответствующую группу узлов из каталога:Найти номер детали на взрыв-схеме:Проверить количество и статус замены</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 1</div></div>
+
+<p>Иногда прямой поиск по номеру детали бывает быстрее, если артикул уже известен. В этом случае используется поле быстрого поиска, которое фильтрует базу данных мгновенно. Однако такой метод не гарантирует, что деталь подойдет именно к этому VIN-коду без дополнительной проверки по схемам.</p>
+
+<h2 id="интеграция-с-1спредприятие-и-выгрузка-данных">Интеграция с 1С:Предприятие и выгрузка данных</h2>
+
+<p>Самым мощным инструментом в арсенале специалиста является возможность прямой передачи данных в учетную систему. <strong>Интеграция с 1С</strong> eliminates the need for manual entry. Выбрав необходимую позицию в каталоге <em>Лада ИМДЖ</em>, пользователь может одним кликом добавить ее в документ "Заказ клиента" или "Требование-накладная".</p>
+
+<p>Для настройки связи необходимо установить специальный модуль обмена. Он прописывается в конфигурации бухгалтерской программы. Параметры подключения, такие как порт и адрес сервера приложений, должны совпадать в обоих программах. Часто требуется запуск службы обмена данными в фоновом режиме.</p>
+
+<p>При выгрузке передаются не только артикул и название, но и текущая цена, остатки на центральном складе и сроки поставки. Это позволяет менеджеру сразу озвучить клиенту итоговую стоимость и дату готовности автомобиля. Ошибки синхронизации обычно связаны с несовпадением версий справочников номенклатуры.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Значение в каталоге</th>
+<th>Значение в 1С</th>
+<th>Статус</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Артикул</td>
+<td>11180-1000011-00</td>
+<td>11180-1000011-00</td>
+<td>Совпадает</td>
+</tr>
+<tr>
+<td>Наименование</td>
+<td>Блок цилиндров</td>
+<td>Блок цилиндров в сборе</td>
+<td>Требует правки</td>
+</tr>
+<tr>
+<td>Цена</td>
+<td>25 000 руб.</td>
+<td>25 000 руб.</td>
+<td>Совпадает</td>
+</tr>
+<tr>
+<td>Остаток</td>
+<td>5 шт.</td>
+<td>5 шт.</td>
+<td>Совпадает</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> При обновлении конфигурации 1С или самого каталога ИМДЖ интеграция может прерваться. Всегда проводите тестовый заказ после обновления программного обеспечения, чтобы убедиться, что данные передаются корректно.</p>
+</blockquote>
+
+<h2 id="решение-распространенных-проблем-и-ошибок">Решение распространенных проблем и ошибок</h2>
+
+<p>В процессе эксплуатации пользователи могут сталкиваться с различными техническими трудностями. Одной из частых проблем является <strong>отсутствие соединения</strong> с сервером лицензирования. Это может быть вызвано как проблемами на стороне провайдера, так и блокировкой антивирусом. Проверка логов программы помогает установить точную причину сбоя.</p>
+
+<p>Другая распространенная ситуация — некорректное отображение схем или их отсутствие. Это часто решается очисткой кэша приложения или переустановкой графических библиотек. Иногда проблема кроется в нехватке места на системном диске, так как программа активно использует временные файлы для работы с графикой.</p>
+
+<p>Ошибки при выгрузке в 1С часто связаны с правами доступа. У пользователя должна быть полнаяสิทธิ์ на запись в базу данных бухгалтерии. Если учетная запись ограничена, система выдаст ошибку при попытке создать новый документ.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если программа "зависает" при загрузке схемы, попробуйте отключить аппаратное ускорение в настройках графического драйвера или увеличить объем виртуальной памяти в Windows.</p></div>
+
+<p>Для диагностики сложных случаев рекомендуется использовать режим отладки, если он доступен в вашей версии. Логи сохраняют историю действий и системные ответы, что значительно облегчает работу технической поддержки при обращении за помощью.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>90% проблем с работой портала Лада ИМДЖ-1С решаются проверкой интернет-соединения, обновлением клиентской части программы и проверкой прав доступа пользователя в Windows.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли использовать Лада ИМДЖ на нескольких компьютерах с одной лицензией?</summary>
+<p>Обычно лицензия привязывается к одному рабочему месту или требует установки сервера лицензий для локальной сети. Использование одной копии на множестве ПК без соответствующей сетевой лицензии является нарушением условий соглашения.</p>
+</details>
+
+<details>
+<summary>Как часто обновляются данные в каталоге?</summary>
+<p>Обновление баз данных происходит регулярно, по мере поступления информации от завода-производителя об изменениях в конструкциях или выходе новых моделей. Частота может варьироваться от еженедельной до ежемесячной.</p>
+</details>
+
+<details>
+<summary>Что делать, если деталь по VIN не находится?</summary>
+<p>Возможно, автомобиль имеет нестандартную комплектацию или был произведен в переходный период. Рекомендуется искать деталь по номеру узла на самой машине или обратиться к техническим бюллетеням завода.</p>
+</details>
+
+<details>
+<summary>Работает ли система без интернета?</summary>
+<p>Полноценная работа возможна только при наличии подключения к сети, так как основные базы данных находятся на сервере. Существуют оффлайн-версии, но они требуют регулярного обновления через интернет и могут содержать менее актуальную информацию.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#основные-возможности-и-преимущества-системы">Основные возможности и преимущества системы</a></li><li><a href="#технические-требования-и-установка-программного-обеспечения">Технические требования и установка программного обеспечения</a></li><li><a href="#регистрация-и-авторизация-в-личном-кабинете">Регистрация и авторизация в личном кабинете</a></li><li><a href="#навигация-и-поиск-запасных-частей-по-vin">Навигация и поиск запасных частей по VIN</a></li><li><a href="#интеграция-с-1спредприятие-и-выгрузка-данных">Интеграция с 1С:Предприятие и выгрузка данных</a></li><li><a href="#решение-распространенных-проблем-и-ошибок">Решение распространенных проблем и ошибок</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/n/no/novaya-lada-nadezhda.html" class="related-card">Лада Надежда: история, технические характеристики и перспективы</a></li><li><a href="/articles/l/la/lada-kristall-rostov.html" class="related-card">Лада Кристалл Ростов: официальный дилер, цены, наличие</a></li><li><a href="/articles/k/kr/krym-lada-simferopol-ofitsialnyj.html" class="related-card">Крым Лада Симферополь: официальный дилер, цены и наличие</a></li><li><a href="/articles/p/pr/prodazha-lada-v-krasnoyarske.html" class="related-card">Продажа Лада в Красноярске: цены, автосалоны и выгодные предложения</a></li><li><a href="/articles/p/pe/pervyj-lada-tsentr-krasnodar.html" class="related-card">Первый Лада Центр Краснодар: официальный дилер, цены, отзывы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/n/no/novaya-lada-nadezhda.html" class="related-bottom-card"><span class="related-bottom-title">Лада Надежда: история, технические характеристики и перспективы</span><span class="related-bottom-desc">Подробный обзор минивэна ВАЗ-2120. История создания, технические особенности, причины снятия с произ</span></a><a href="/articles/l/la/lada-kristall-rostov.html" class="related-bottom-card"><span class="related-bottom-title">Лада Кристалл Ростов: официальный дилер, цены, наличие</span><span class="related-bottom-desc">Официальный дилер Лада Кристалл в Ростове-на-Дону. Полный модельный ряд, актуальные цены, условия Tr</span></a><a href="/articles/k/kr/krym-lada-simferopol-ofitsialnyj.html" class="related-bottom-card"><span class="related-bottom-title">Крым Лада Симферополь: официальный дилер, цены и наличие</span><span class="related-bottom-desc">Официальный дилер Лада в Симферополе. Полный обзор модельного ряда, актуальные цены, условия кредито</span></a><a href="/articles/p/pr/prodazha-lada-v-krasnoyarske.html" class="related-bottom-card"><span class="related-bottom-title">Продажа Лада в Красноярске: цены, автосалоны и выгодные предложения</span><span class="related-bottom-desc">Полный гид по покупке Lada в Красноярске. Актуальные цены, наличие в автосалонах, условия кредитован</span></a><a href="/articles/p/pe/pervyj-lada-tsentr-krasnodar.html" class="related-bottom-card"><span class="related-bottom-title">Первый Лада Центр Краснодар: официальный дилер, цены, отзывы</span><span class="related-bottom-desc">Первый Лада Центр в Краснодаре — официальный дилер. Полный модельный ряд, сервис, цены, тест-драйв и</span></a><a href="/articles/l/la/lada-eto-inomarka-ili-net.html" class="related-bottom-card"><span class="related-bottom-title">Лада — это иномарка или нет: юридический статус и история</span><span class="related-bottom-desc">Разбираемся, считается ли Лада иномаркой по закону, ПТС и таможне. История бренда, локализация произ</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Прошивка приборки Лада Веста: установка и настройка — Лада Справка</title>
+    <meta name="description" content="Как прошить панель приборов Лада Веста своими руками. Инструкция по обновлению ПО, снятию комбинации и устранению ошибок через OBD2.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/pr/proshivka-priborki-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Прошивка приборки Лада Веста: установка и настройка">
+    <meta property="og:description" content="Как прошить панель приборов Лада Веста своими руками. Инструкция по обновлению ПО, снятию комбинации и устранению ошибок через OBD2.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Прошивка приборки Лада Веста: установка и настройка</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Прошивка приборки Лада Веста: полное руководство</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#подготовка-оборудования-и-программного-обеспечения">Подготовка оборудования и программного обеспечения</a></li><li><a href="#демонтаж-комбинации-приборов-лада-веста">Демонтаж комбинации приборов Лада Веста</a></li><li><a href="#процесс-прошивки-через-obd2-разъем">Процесс прошивки через OBD2 разъем</a></li><li><a href="#настройка-и-калибровка-после-обновления">Настройка и калибровка после обновления</a></li><li><a href="#возможные-ошибки-и-способы-их-устранения">Возможные ошибки и способы их устранения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Модернизация штатной электроники — популярный шаг для владельцев современных автомобилей, и <em>Лада Веста</em> не является исключением. Многие водители сталкиваются с ограничениями заводского программного обеспечения, которое не отображает полезную информацию или содержит программные ошибки. Грамотно выполненная <strong>прошивка приборки</strong> позволяет расширить функционал, активировать скрытые опции и улучшить читаемость данных на дисплее.</p>
+
+<p>Процесс обновления программного обеспечения требует внимательности и подготовки, так как вмешательство в электронные системы автомобиля всегда сопряжено с рисками. В ходе перепрошивки можно активировать индикацию температуры охлаждающей жидкости, изменить алгоритмы работы стрелок или даже добавить поддержку новых датчиков. Однако перед началом работ необходимо четко понимать, что любые действия с <strong>ECU</strong> (электронным блоком управления) вы берете на себя.</p>
+
+<p>В данной статье мы подробно разберем все этапы процесса: от демонтажа комбинации приборов до финальной калибровки. Вы узнаете, какие инструменты потребуются для безопасного подключения, как выбрать стабильную версию прошивки и что делать в случае возникновения ошибок. <em>Программное обеспечение</em> панели приборов — это сложный код, и его корректная работа напрямую влияет на информативность вашего автомобиля.</p>
+
+<h2 id="подготовка-оборудования-и-программного-обеспечения">Подготовка оборудования и программного обеспечения</h2>
+
+<p>Для успешного выполнения работ вам потребуется специализированный софт и аппаратное обеспечение. Основным инструментом для работы с блоками <em>АвтоВАЗ</em> является адаптер <strong>ELM327</strong> версии 1.5 или специализированный кабель K-Line. Без качественного оборудования связь с блоком управления может быть нестабильной, что приведет к прерыванию записи данных.</p>
+
+<p>На компьютер или ноутбук необходимо установить программный комплекс, например, <em>OpenPort 2.0</em> в связке с софтом для чип-тюнинга или специализированные утилиты от сторонних разработчиков. Важно убедиться, что драйверы адаптера корректно установлены в системе и порт COM определен верно. Ноутбук должен быть полностью заряжен, а в идеале — подключен к источнику бесперебойного питания.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Использование дешевых китайских клонов адаптеров ELM327 часто приводит к ошибкам при записи flash-памяти. Для прошивки приборной панели используйте только проверенные устройства с чипом PIC18F25K80.</p>
+</blockquote>
+
+<p>Файлы прошивки следует скачивать только из проверенных источников, так как некорректный бинарный код может permanently вывести блок из строя. Перед началом процедуры обязательно проверьте целостность скачанного файла и его совместимость с вашей моделью комбинации приборов. <strong>Идентификация</strong> версии блока — первый шаг, который нельзя игнорировать.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой у вас опыт в чип-тюнинге авто?</strong><ul><li>Вообще нет опыта/Я новичок/Пробовал на других авто/Профессиональный тюнер</li></ul></div></div>
+
+<h2 id="демонтаж-комбинации-приборов-лада-веста">Демонтаж комбинации приборов Лада Веста</h2>
+
+<p>Для подключения напрямую к контактам платы или для обеспечения стабильного питания часто требуется снятие комбинации приборов. На <em>Лада Веста</em> этот процесс не требует снятия всей торпедо, но нуждается в аккуратности. Сначала необходимо отсоединить минусовую клемму <strong>аккумуляторной батареи</strong>, чтобы избежать короткого замыкания при работе с проводкой.</p>
+
+<p>Далее снимается декоративный козырек над приборной панелью, который держится на пластиковых защелках. Их следует отщелкивать плоской пластиковой лопаткой, чтобы не повредить мягкие материалы салона. После снятия козырька становятся видны винты крепления самой комбинации приборов.</p>
+
+<p>Открутив крепежные винты, аккуратно потяните блок на себя. С обратной стороны расположены разъемы проводки, которые нужно отсоединить, нажав на фиксаторы. Теперь у вас есть доступ к контактной группе для подключения программатора или возможности вынуть блок для работы на столе.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист по демонтажу</h4><label class="check-item"><input type="checkbox"><span>Отключить клемму АКБ</span></label><label class="check-item"><input type="checkbox"><span>Снять козырек приборной панели</span></label><label class="check-item"><input type="checkbox"><span>Выкрутить винты крепления</span></label><label class="check-item"><input type="checkbox"><span>Отщелкнуть фиксаторы разъемов</span></label><label class="check-item"><input type="checkbox"><span>Извлечь блок</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<h2 id="процесс-прошивки-через-obd2-разъем">Процесс прошивки через OBD2 разъем</h2>
+
+<p>Наиболее распространенный метод обновления — подключение через диагностический разъем <strong>OBD2</strong>, расположенный в салоне автомобиля. Этот способ позволяет избежать демонтажа, если адаптер обеспечивает стабильный сигнал. Подключите адаптер к разъему и запустите программу для прошивки на ноутбуке.</p>
+
+<p>Включите зажигание в положение «II», но не запускайте двигатель. В программе выберите правильный тип двигателя и версию комбинации приборов. Процесс записи данных может занять от 5 до 15 минут, в зависимости от объема обновляемого кода. В это время на экране могут появляться предупреждения о ходе процесса.</p>
+
+<pre><code>Connect --&gt; Read Flash --&gt; Save Backup --&gt; Write Flash --&gt; Checksum Correction</code></pre>
+
+<p>Во время записи категорически запрещается дергать провода, открывать двери (чтобы не сработали энергопотребители) или выключать зажигание. Прерывание процесса на этапе <code>Write Flash</code> может привести к тому, что блок перестанет отвечать на запросы. После завершения записи программа автоматически выполнит проверку контрольной суммы.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Если в процессе прошивки гаснет экран ноутбука или срабатывает энергосбережение, запись прервется. Заранее настройте схему электропитания Windows на режим «Высокая производительность» и запретите отключение дисплея.</p>
+</blockquote>
+
+<h2 id="настройка-и-калибровка-после-обновления">Настройка и калибровка после обновления</h2>
+
+<p>После успешной установки нового программного обеспечения часто требуется процедура калибровки. Это необходимо для того, чтобы стрелки указывали точные значения, а бортовой компьютер корректно считывал данные с датчиков. Калибровка обычно проводится через диагностическое меню или специализированным софтом.</p>
+
+<p>В меню комбинации приборов могут появиться новые пункты, такие как «Температура ОЖ» или «Мгновенный расход». Для активации некоторых функций может потребоваться вход в инженерное меню путем зажатия определенных кнопок на подрулевом переключателе. <strong>Алгоритм</strong> входа зависит от версии прошивки.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Заводское значение</th>
+<th>После прошивки</th>
+<th>Метод изменения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Отображение температуры</td>
+<td>Отсутствует</td>
+<td>Активно</td>
+<td>Меню БК</td>
+</tr>
+<tr>
+<td>Язык интерфейса</td>
+<td>1 язык</td>
+<td>Мультиязычность</td>
+<td>Настройки</td>
+</tr>
+<tr>
+<td>Диапазон шкалы тахометра</td>
+<td>До 8000</td>
+<td>До 9000</td>
+<td>Прошивка</td>
+</tr>
+<tr>
+<td>Индикация открытой двери</td>
+<td>Только водитель</td>
+<td>Все двери</td>
+<td>Конфигурация</td>
+</tr>
+</tbody>
+</table>
+
+<p>Обратите внимание на работу указателя уровня топлива. После перепрошивки может потребоваться полный цикл «бак до отсечки — полная выработка», чтобы блок обучился корректно отображать уровень бензина. <em>Погрешность</em> в первые километры пробега является нормальным явлением.</p>
+
+<details class="faq-item"><summary>Скрытые функции меню</summary><div class="faq-answer"><p>В инженерном меню часто доступна функция сброса адаптаций, тест всех сегментов дисплея и проверка работы ламп. Будьте осторожны: изменение параметров в разделе 'Configuration' может заблокировать запуск двигателя.</p></div></details>
+
+<h2 id="возможные-ошибки-и-способы-их-устранения">Возможные ошибки и способы их устранения</h2>
+
+<p>В процессе модернизации электроники могут возникать различные сбои. Одной из частых проблем является несоответствие <strong>VIN-кода</strong>, зашитого в приборной панели, коду в блоке управления двигателем. В этом случае на дисплее может появиться ошибка или не будет отображаться пробег.</p>
+
+<p>Если после прошивки приборка не включается или ведет себя некорректно (мигает подсветка, не работают стрелки), возможно, была повреждена файловая система. В таком случае помогает возврат к заводской копии, которую необходимо было сохранить перед началом работ. <mark>Наличие бэкапа оригинальной прошивки — единственная страховка от превращения блока в «кирпич».</mark></p>
+
+<p>Также возможны проблемы с коммуникацией по CAN-шине. Если другие блоки перестали видеть комбинацию приборов, проверьте целостность соединений и правильность выбранного протокола в настройках программы. Иногда требуется повторная инициализация сети.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Сохраняйте оригинальный файл прошивки в трех разных местах: на компьютере, на флешке и в облачном хранилище. Потеря этого файла сделает восстановление автомобиля платной услугой в сервисе.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Сбросится ли пробег после прошивки приборки?</summary>
+<p>Нет, при правильном выполнении процедуры пробег сохраняется в энергонезависимой памяти EEPROM. Однако, если вы меняете саму комбинацию приборов на другую, пробег можно корректировать только специальным оборудованием, и это должно быть зафиксировано юридически.</p>
+</details>
+
+<details>
+<summary>Можно ли прошить приборку без снятия с автомобиля?</summary>
+<p>В большинстве случаев для Лада Веста это возможно через разъем OBD2, если адаптер и прошивка поддерживают режим Bootloader. Однако, если блок «заблокирован» или требуется пайка, снятие все же понадобится.</p>
+</details>
+
+<details>
+<summary>Снимается ли автомобиль с гарантии после чип-тюнинга приборки?</summary>
+<p>Официальные дилеры могут отказать в гарантийном обслуживании электрической части, если обнаружат факт вмешательства в программный код. Факт прошивки фиксируется в логах ошибок, даже если визуально ничего не изменилось.</p>
+</details>
+
+<details>
+<summary>Какой риск выхода из строя блока при прошивке?</summary>
+<p>При использовании качественного оборудования и стабильного источника питания риск минимален. Основные проблемы возникают из-за скачков напряжения в бортовой сети или прерывания соединения во время записи.</p>
+</details>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Прошивка приборной панели — это эффективный способ улучшить эргономику и функционал Лада Веста, но она требует строгого соблюдения технологии и наличия резервной копии заводских данных.</p></div></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#подготовка-оборудования-и-программного-обеспечения">Подготовка оборудования и программного обеспечения</a></li><li><a href="#демонтаж-комбинации-приборов-лада-веста">Демонтаж комбинации приборов Лада Веста</a></li><li><a href="#процесс-прошивки-через-obd2-разъем">Процесс прошивки через OBD2 разъем</a></li><li><a href="#настройка-и-калибровка-после-обновления">Настройка и калибровка после обновления</a></li><li><a href="#возможные-ошибки-и-способы-их-устранения">Возможные ошибки и способы их устранения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/z/za/zamena-kamery-zadnego-vida-lada-vesta.html" class="related-card">Замена камеры заднего вида Лада Веста: пошаговая инструкция</a></li><li><a href="/articles/k/ko/kovanye-diski-lada-vesta.html" class="related-card">Кованые диски Лада Веста: выбор, размеры, плюсы и минусы</a></li><li><a href="/articles/l/la/lada-vesta-sw-cross-2024.html" class="related-card">Lada Vesta SW Cross 2026: Полный обзор, цены и тест-драйв</a></li><li><a href="/articles/k/ka/kak-snyat-forsunki-lada-vesta.html" class="related-card">Как снять форсунки Лада Веста: пошаговая инструкция</a></li><li><a href="/articles/n/na/nakonechnik-lada-vesta.html" class="related-card">Наконечник Лада Веста: выбор, замена, артикулы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/z/za/zamena-kamery-zadnego-vida-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Замена камеры заднего вида Лада Веста: пошаговая инструкция</span><span class="related-bottom-desc">Подробный гид по установке и замене камеры заднего вида на Лада Веста. Схемы подключения, распиновка</span></a><a href="/articles/k/ko/kovanye-diski-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Кованые диски Лада Веста: выбор, размеры, плюсы и минусы</span><span class="related-bottom-desc">Полный гид по кованым дискам для Lada Vesta. Разбор размеров, сравнение с литьем, советы по выбору и</span></a><a href="/articles/l/la/lada-vesta-sw-cross-2024.html" class="related-bottom-card"><span class="related-bottom-title">Lada Vesta SW Cross 2026: Полный обзор, цены и тест-драйв</span><span class="related-bottom-desc">Lada Vesta SW Cross 2026: подробный анализ обновленного универсала. Двигатель 1.8 Evolution, вариато</span></a><a href="/articles/k/ka/kak-snyat-forsunki-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Как снять форсунки Лада Веста: пошаговая инструкция</span><span class="related-bottom-desc">Подробное руководство по снятию топливных форсунок на Лада Веста 1.6 и 1.8. Замена уплотнителей, чис</span></a><a href="/articles/n/na/nakonechnik-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Наконечник Лада Веста: выбор, замена, артикулы</span><span class="related-bottom-desc">Полный гид по рулевым наконечникам Лада Веста. Артикулы, отличия OEM от аналогов, признаки износа и </span></a><a href="/articles/l/la/lampy-v-blizhnij-svet-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Лампы в ближний свет Лада Веста: выбор, замена и цоколь H7</span><span class="related-bottom-desc">Подробный гид по лампам ближнего света для Лада Веста. Какой цоколь H7 выбрать, как заменить лампу с</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

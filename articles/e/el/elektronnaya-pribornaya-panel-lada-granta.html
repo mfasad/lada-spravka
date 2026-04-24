@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Электронная приборная панель Лада Гранта: установка и тюнинг — Лада Справка</title>
+    <meta name="description" content="Полный гид по электронной панели приборов Лада Гранта. Установка штатной ЭПП, прошивка, устранение ошибок и совместимость с ЭБУ. Советы экспертов.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/e/el/elektronnaya-pribornaya-panel-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Электронная приборная панель Лада Гранта: установка и тюнинг">
+    <meta property="og:description" content="Полный гид по электронной панели приборов Лада Гранта. Установка штатной ЭПП, прошивка, устранение ошибок и совместимость с ЭБУ. Советы экспертов.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Электронная приборная панель Лада Гранта: установка и тюнинг</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Электронная приборная панель Лада Гранта: модернизация и настройка</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#преимущества-и-недостатки-цифровой-приборки">Преимущества и недостатки цифровой приборки</a></li><li><a href="#типы-электронных-панелей-и-их-совместимость">Типы электронных панелей и их совместимость</a></li><li><a href="#необходимые-инструменты-и-комплектующие">Необходимые инструменты и комплектующие</a></li><li><a href="#процесс-установки-и-физическое-подключение">Процесс установки и физическое подключение</a></li><li><a href="#программирование-и-калибровка-эпп">Программирование и калибровка ЭПП</a></li><li><a href="#типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный водитель привык к информативности и комфорту, которые предоставляет цифровая индикация. Именно поэтому <strong>электронная приборная панель</strong> для Лада Гранта становится одним из самых популярных элементов тюнинга салона. Замена архаичных стрелочных указателей на яркий TFT-экран кардинально меняет восприятие автомобиля, делая его ближе к современным моделям АвтоВАЗа, таким как Vesta или XRAY.</p>
+
+<p>Процесс перехода на "цифру" не требует полной замены проводки или сложной переделки торпедо, так как посадочные места остаются идентичными. Однако, простая физическая установка — это лишь половина дела. Ключевым моментом является правильная <em>калибровка</em> и синхронизация с блоком управления двигателем. Без этого шага вы рискуете получить нерабочий спидометр или некорректные показания уровня топлива.</p>
+
+<p>В этом материале мы детально разберем технические нюансы перехода на ЭПП, рассмотрим различия между версиями экранов и алгоритмы их программирования. Вы узнаете, как избежать распространенных ошибок при прошивке и какие <strong>комплектующие</strong> действительно необходимы для стабильной работы системы. Глубокое понимание процессов поможет вам выполнить модернизацию качественно и безопасно.</p>
+
+<h2 id="преимущества-и-недостатки-цифровой-приборки">Преимущества и недостатки цифровой приборки</h2>
+
+<p>Переход на <em>электронную панель приборов</em> (ЭПП) дает водителю Гранты несколько неоспоримых преимуществ. В первую очередь, это расширенная функциональность: на экране отображается значительно больше параметров, включая точный цифровой спидометр, мгновенный и средний расход топлива, а также часы с датой. <strong>Яркость и контрастность</strong> изображения на TFT-дисплее значительно превосходят возможности старых ЖК-экранов со светодиодной подсветкой, что особенно заметно при ярком солнце или в ночное время.</p>
+
+<p>Однако, у цифровых решений есть свои особенности, которые нельзя игнорировать. Некоторые пользователи отмечают задержку в обновлении данных при резком изменении скорости, хотя в последних версиях ПО этот дефект практически устранен. Кроме того, стоимость оригинальной панели значительно выше, чем у стрелочных аналогов, а ремонт в случае выхода из строя матрицы часто экономически нецелесообразен.</p>
+
+<p>Стоит также учитывать психологический аспект восприятия информации. Стрелочные приборы позволяют считывать скорость периферийным зрением, тогда как к цифровым значениям нужно привыкнуть. Тем не менее, для большинства владельцев <em>Лада Гранта</em> плюсы от установки ЭПП перевешивают минусы, особенно учитывая возможность настройки внешнего вида интерфейса.</p>
+
+<ul>
+<li>🚀 Высокая информативность: отображение до 12 различных параметров работы автомобиля одновременно.</li>
+<li>🎨 Настраиваемый интерфейс: возможность менять темы оформления и приоритет отображаемых данных.</li>
+<li>💡 Отличная читаемость: TFT-матрица обеспечивает идеальный обзор при любом освещении.</li>
+<li>🔧 Самодиагностика: расширенные коды ошибок и детальный мониторинг систем автомобиля.</li>
+</ul>
+
+<blockquote>
+<p>⚠️ Внимание: Приобретая б/у электронную панель, убедитесь, что она не привязана к иммобилайзеру другого автомобиля. В противном случае вам потребуется доступ к серверу АвтоВАЗа или специализированное оборудование для разблокировки (развязки) блока.</p>
+</blockquote>
+
+<h2 id="типы-электронных-панелей-и-их-совместимость">Типы электронных панелей и их совместимость</h2>
+
+<p>На рынке автозапчастей для <strong>Лада Гранта</strong> можно встретить несколько модификаций электронных приборных панелей. Они различаются не только внешним видом, но и программным обеспечением, а также типом используемого процессора. Понимание этих различий критически важно при подборе донора или новой детали. Основные версии, встречающиеся в продаже, маркируются кодами, начинающимися на 2190-3801xxx.</p>
+
+<p>Первый тип — это ранние версии ЭПП, которые часто шли в паре с первыми моделями Грант с электронным дросселем. Они имеют более низкое разрешение и менее современный дизайн меню. Второй тип — это обновленные версии с улучшенной графикой и поддержкой новых протоколов обмена данными. Именно они рекомендуются к установке для получения максимального функционала.</p>
+
+<p>Совместимость панели напрямую зависит от типа <strong>ЭБУ</strong> (электронного блока управления) вашего двигателя. Если на автомобиле установлен старый блок Январь 7.2, установка ЭПП потребует замены самого ЭБУ или сложной перепрошивки, так как протоколы обмена данными могут не совпадать. Для современных моторов ВАЗ-11186 и ВАЗ-21127 проблем с совместимостью, как правило, не возникает при использовании штатных компонентов.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой тип приборной панели установлен на вашей Гранте?</strong><ul><li>Стрелочная (старая)</li><li>Стрелочная (новая с ЖК)</li><li>Электронная (ЭПП)</li><li>Не знаю / Не слежу</li></ul></div></div>
+
+<p>Важно обращать внимание на количество пинов в разъеме подключения. Хотя геометрически разъемы одинаковы, распиновка может отличаться в зависимости от года выпуска автомобиля и комплектации (норма, люкс). <mark>Критически важно проверить наличие CAN-шины в вашей проводке</mark>, так как именно по ней передаются основные данные для ЭПП. В базовых комплектациях проводку CAN-шины часто приходится прокладывать вручную.</p>
+
+<h2 id="необходимые-инструменты-и-комплектующие">Необходимые инструменты и комплектующие</h2>
+
+<p>Для успешной установки и настройки электронной панели вам потребуется подготовить не только саму деталь, но и специфический инструментарий. Игнорирование требований к оборудованию может привести к повреждению электроники или невозможности завершить установку. Список необходимого оборудования варьируется от простых отверток до сложных диагностических адаптеров.</p>
+
+<p>В первую очередь, вам понадобится качественный источник питания. Поскольку процесс прошивки и калибровки энергоемок, использование слабого аккумулятора недопустимо. Также необходим специализированный <strong>адаптер K-Line</strong> или CAN-USB для подключения к диагностическому разъему OBD2. Программное обеспечение OpenBox или аналогичные дилерские сканеры станут вашими главными инструментами в работе с ПО.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к установке ЭПП</h4><label class="check-item"><input type="checkbox"><span>Наличие исправного аккумулятора 12В</span></label><label class="check-item"><input type="checkbox"><span>Адаптер K-Line или CAN-USB</span></label><label class="check-item"><input type="checkbox"><span>Ноутбук с установленным ПО OpenBox</span></label><label class="check-item"><input type="checkbox"><span>Мультиметр для проверки цепи</span></label><label class="check-item"><input type="checkbox"><span>Отвертки и съемники панели</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Не забудьте про материалы для изоляции и защиты соединений. Термоусадка, изолента и, возможно, новые контактные группы для разъемов помогут избежать проблем с окислением в будущем. Если вы планируете менять и сам ЭБУ, убедитесь, что его версия ПО соответствует требованиям устанавливаемой приборной панели.</p>
+
+<table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Назначение</th>
+<th>Обязательность</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Адаптер K-Line</td>
+<td>Связь с ЭБУ и панелью</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>ПО OpenBox</td>
+<td>Прошивка и калибровка</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>Зарядное устройство</td>
+<td>Стабилизация напряжения</td>
+<td>Средняя</td>
+</tr>
+<tr>
+<td>Мультиметр</td>
+<td>Проверка целостности цепей</td>
+<td>Высокая</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="процесс-установки-и-физическое-подключение">Процесс установки и физическое подключение</h2>
+
+<p>Физическая замена приборной панели в Лада Гранта не требует демонтажа всей торпедо, что значительно упрощает задачу. Достаточно снять декоративный козырек и открутить крепежные винты самой панели. Однако, работа с электрикой требует предельной осторожности и соблюдения техники безопасности.</p>
+
+<p>Первым делом необходимо отключить клемму аккумулятора. Это <strong>обязательное требование</strong>, предотвращающее короткое замыкание и повреждение электроники при манипуляциях с разъемами. После снятия старой панели аккуратно отсоедините разъемы, стараясь не повредить фиксаторы. Пластик на морозе становится хрупким, поэтому работы лучше проводить в теплом помещении.</p>
+
+<p>При установке новой ЭПП убедитесь, что все контакты чистые и не окисленные. Если вы переходите со стрелочной версии, проверьте наличие проводов CAN-шины в разъеме. Часто бывает так, что физически разъем имеет пины, но сами провода в жгуте проводки отсутствуют. В таком случае их придется протягивать от диагностического разъема или ЭБУ самостоятельно, сверяясь с электросхемой.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Перед окончательной сборкой торпедо включите зажигание и проверьте работу всех индикаторов. Убедитесь, что погас лампочка Check Engine и корректно отображается пробег.</p></div>
+
+<p>После физического подключения можно приступать к программной части. Не спешите закручивать все винты до конца, оставьте доступ к разъему диагностики на случай необходимости переподключения адаптера. Убедитесь, что панель зафиксирована ровно и не дребожит при вибрации.</p>
+
+<h2 id="программирование-и-калибровка-эпп">Программирование и калибровка ЭПП</h2>
+
+<p>Самый сложный и ответственный этап — это <strong>программирование</strong>. После установки "пустой" или б/у панели на экран выведется сообщение о необходимости калибровки. Для этого используется программа OpenBox, которая является стандартом де-факто для работы с приборками ВАЗ.</p>
+
+<p>Процесс начинается с подключения адаптера к разъему OBD2 и запуска ПО на ноутбуке. Необходимо выбрать правильный тип контроллера и версию приборной панели. Если панель новая, потребуется загрузить в нее базовую прошивку, соответствующую вашему типу двигателя и комплектации. Ошибка на этом этапе может привести к "кирпичу", поэтому внимательно следуйте инструкциям в программе.</p>
+
+<p>Ключевой момент — калибровка бака. Электронная панель должна знать точный объем и форму вашего топливного бака, чтобы корректно отображать уровень топлива. Для этого бак полностью опустошается, затем заправляется известное количество литров (например, 10 литров), и в программе фиксируется текущее показание датчика. Процедура повторяется несколько раз для построения точной кривой.</p>
+
+<details class="faq-item"><summary>Что делать, если OpenBox не видит панель?</summary><div class="faq-answer"><p>Убедитесь, что драйверы адаптера установлены корректно. Проверьте настройки COM-порта. Попробуйте другой адаптер, так как дешевые китайские clones часто работают нестабильно. Также убедитесь, что включено зажигание, но двигатель не запущен.</p></div></details>
+
+<p>После калибровки необходимо прописать VIN-код автомобиля и текущий пробег. Это позволяет привязать панель к конкретному автомобилю и активировать иммобилайзер. Без этого шага автомобиль может не завестись или постоянно выдавать ошибки системы безопасности.</p>
+
+<h2 id="типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</h2>
+
+<p>В процессе модернизации владельцы Грант часто сталкиваются с рядом типичных проблем. Одна из самых распространенных — неверные показания уровня топлива. Если стрелка скачет или показывает полный бак при пустом, требуется повторная калибровка или проверка самого датчика уровня топлива (ДУТ) в баке. Возможно, резистор ДУТ имеет нелинейную характеристику, несовместимую с выбранным профилем в ПО.</p>
+
+<p>Другая частая проблема — отсутствие связи с ЭБУ, что выражается в горящей лампе Check Engine и отсутствии данных о расходе. Это указывает на проблемы с CAN-шиной. Проверьте целостность проводов, идущих к диагностическому разъему. Также стоит проверить "массу" приборной панели, так как плохой контакт может вызывать помехи в цифровом сигнале.</p>
+
+<p>Иногда встречается ситуация, когда панель включается, но не проходит проверку контрольной суммы (Checksum). Это значит, что прошивка повреждена или несовместима с "железом". В этом случае необходимо найти актуальную версию ПО для вашего конкретного артикула панели и перепрошить её начисто, предварительно очистив память.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Никогда не прерывайте процесс прошивки, выключая зажигание или вынимая адаптер. Это гарантированно выведет микроконтроллер панели из строя, и восстановление потребует программатора для пайки.</p>
+</blockquote>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли установить ЭПП на Гранту без CAN-шины?</summary>
+<p>Нет, электронная панель приборов работает исключительно по протоколу CAN. Если в вашей комплектации (например, Стандарт) нет CAN-шины, ее придется протягивать вручную от ЭБУ или диагностического разъема, иначе панель работать не будет.</p>
+</details>
+
+<details>
+<summary>Сохранится ли пробег при замене панели?</summary>
+<p>При простой замене без программирования пробег может сбиться или отображаться некорректно. Однако, используя ПО OpenBox, вы можете прописать реальный пробег автомобиля в новую панель, синхронизировав его с ЭБУ.</p>
+</details>
+
+<details>
+<summary>Нужно ли менять ЭБУ при установке ЭПП?</summary>
+<p>В большинстве случаев на Грантах с электронным дросселем (Е-газ) замена ЭБУ не требуется. Достаточно правильно настроить связь между существующим блоком и новой панелью. Замена ЭБУ нужна только на очень старых версиях с тросовым дросселем и блоками Январь 7.2.</p>
+</details>
+
+<details>
+<summary>Где взять прошивку для моей приборной панели?</summary>
+<p>Актуальные прошивки и калибровки можно найти на специализированных форумах по чип-тюнингу ВАЗ или в базах данных дилерского ПО. Важно подбирать прошивку строго по артикулу, указанному на наклейке с обратной стороны панели.</p>
+</details>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Установка электронной панели — это комплексный процесс, требующий не только технических навыков, но и понимания логики работы автомобильной электроники. Тщательная подготовка и наличие качественного оборудования — залог успеха.</p></div></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#преимущества-и-недостатки-цифровой-приборки">Преимущества и недостатки цифровой приборки</a></li><li><a href="#типы-электронных-панелей-и-их-совместимость">Типы электронных панелей и их совместимость</a></li><li><a href="#необходимые-инструменты-и-комплектующие">Необходимые инструменты и комплектующие</a></li><li><a href="#процесс-установки-и-физическое-подключение">Процесс установки и физическое подключение</a></li><li><a href="#программирование-и-калибровка-эпп">Программирование и калибровка ЭПП</a></li><li><a href="#типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/d/da/davlenie-masla-lada-granta-8-klapanov.html" class="related-card">Давление масла Лада Гранта 8 клапанов: нормы, причины падения и ремонт</a></li><li><a href="/articles/p/pr/predokhranitel-na-povorotniki-lada-granta.html" class="related-card">Предохранитель на поворотники Лада Гранта: где находится, схема</a></li><li><a href="/articles/k/ka/kak-vystavit-zazhiganie-lada-granta-8-klapanov.html" class="related-card">Как выставить зажигание на Лада Гранта 8 клапанов: пошаговая инструкция</a></li><li><a href="/articles/l/la/lada-granta-maksimalnyj-probeg.html" class="related-card">Лада Гранта: максимальный пробег и как его достичь (реальные данные)</a></li><li><a href="/articles/l/la/lada-granta-vysokovoltnye-provoda.html" class="related-card">Высоковольтные провода Лада Гранта: выбор, проверка, замена</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/d/da/davlenie-masla-lada-granta-8-klapanov.html" class="related-bottom-card"><span class="related-bottom-title">Давление масла Лада Гранта 8 клапанов: нормы, причины падения и ремонт</span><span class="related-bottom-desc">Какое давление масла должно быть в двигателе Лада Гранта 8 клапанов? Причины низкого давления, нормы</span></a><a href="/articles/p/pr/predokhranitel-na-povorotniki-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Предохранитель на поворотники Лада Гранта: где находится, схема</span><span class="related-bottom-desc">Как найти и заменить предохранитель поворотников на Лада Гранта? Подробная схема, таблица номиналов,</span></a><a href="/articles/k/ka/kak-vystavit-zazhiganie-lada-granta-8-klapanov.html" class="related-bottom-card"><span class="related-bottom-title">Как выставить зажигание на Лада Гранта 8 клапанов: пошаговая инструкция</span><span class="related-bottom-desc">Подробное руководство по регулировке зажигания на Lada Granta 8V своими руками: признаки неисправнос</span></a><a href="/articles/l/la/lada-granta-maksimalnyj-probeg.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта: максимальный пробег и как его достичь (реальные данные)</span><span class="related-bottom-desc">Сколько проходит Лада Гранта без капиталки? Реальные отзывы владельцев, факторы долговечности и сове</span></a><a href="/articles/l/la/lada-granta-vysokovoltnye-provoda.html" class="related-bottom-card"><span class="related-bottom-title">Высоковольтные провода Лада Гранта: выбор, проверка, замена</span><span class="related-bottom-desc">Как выбрать и заменить высоковольтные провода на Лада Гранта? Признаки неисправности, лучшие бренды </span></a><a href="/articles/p/pr/propala-iskra-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Пропала искра Лада Гранта: причины, диагностика и устранение</span><span class="related-bottom-desc">Нет искры на Лада Гранта? Полный разбор причин: катушка, модуль зажигания, ЭБУ, ДПКВ. Инструкция по </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

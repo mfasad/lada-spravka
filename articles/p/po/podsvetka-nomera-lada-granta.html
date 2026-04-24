@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Подсветка номера Лада Гранта: установка и выбор LED — Лада Справка</title>
+    <meta name="description" content="Полный гид по подсветке номера Лада Гранта. Выбор LED-плафонов, схемы подключения, устранение ошибок CAN-шины и советы по установке своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/po/podsvetka-nomera-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Подсветка номера Лада Гранта: установка и выбор LED">
+    <meta property="og:description" content="Полный гид по подсветке номера Лада Гранта. Выбор LED-плафонов, схемы подключения, устранение ошибок CAN-шины и советы по установке своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Подсветка номера Лада Гранта: установка и выбор LED</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Профессиональная подсветка номера Лада Гранта: от выбора до монтажа</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#выбор-типа-подсветки-галоген-или-led">Выбор типа подсветки: галоген или LED?</a></li><li><a href="#обзор-популярных-моделей-плафонов-для-гранты">Обзор популярных моделей плафонов для Гранты</a></li><li><a href="#необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</a></li><li><a href="#демонтаж-штатных-плафонов-освещения">Демонтаж штатных плафонов освещения</a></li><li><a href="#схема-подключения-и-монтаж-led-модулей">Схема подключения и монтаж LED-модулей</a></li><li><a href="#устранение-ошибок-и-моргания-подсветки">Устранение ошибок и моргания подсветки</a></li><li><a href="#юридические-аспекты-и-требования-гост">Юридические аспекты и требования ГОСТ</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>С наступлением сумерек или в условиях плохой видимости штатное освещение регистрационного знака на <em>Лада Гранта</em> часто оказывается недостаточно эффективным, оставляя номер едва различимым для камер и других участников движения. <strong>Подсветка номера Лада Гранта</strong> — это не просто вопрос эстетики, а насущная необходимость для соблюдения правил дорожного движения и собственной безопасности на дороге. Многие владельцы сталкиваются с тусклым свечением ламп накаливания, которые со временем начинают моргать или перегорают, требуя частой замены.</p>
+
+<p>Модернизация этой системы освещения открывает широкий спектр возможностей: от простой замены ламп на более мощные аналоги до полной установки специализированных <strong>LED-плафонов</strong> с индивидуальным управлением. В этой статье мы детально разберем все технические нюансы, схемы подключения и юридические аспекты, чтобы вы могли сделать правильный выбор и выполнить работу качественно.</p>
+
+<h2 id="выбор-типа-подсветки-галоген-или-led">Выбор типа подсветки: галоген или LED?</h2>
+
+<p>Первым шагом к улучшению видимости номерного знака становится выбор источника света. Штатно на <em>ВАЗ-2190</em> и других модификациях Гранты устанавливаются плафоны с лампами типа <code>W5W</code> (T10), которые обладают низкой светоотдачей и желтоватым оттенком. Переход на светодиодные технологии позволяет получить яркий, холодный белый свет, который идеально читается камерами фиксации нарушений.</p>
+
+<p>Существует два основных пути модернизации. Первый вариант — это простая замена ламп накаливания на светодиодные аналоги. Это дешевый способ, но он часто сопряжен с появлением ошибок на приборной панели из-за низкого потребления тока диодами. Второй, более надежный вариант — установка готовых <strong>LED-плафонов</strong>, которые конструктивно повторяют штатные места крепления, но лишены недостатков ламповой системы.</p>
+
+<p>При выборе готовых модулей стоит обращать внимание на качество рассеивателя. Дешевые китайские аналоги могут давать неравномерное пятно света или иметь слабую влагозащиту. Качественная <strong>подсветка номера Лада Гранта</strong> должна обеспечивать равномерное освещение всей площади знака без засветов по краям.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При покупке LED-плафонов выбирайте модели с линзами или матовыми рассеивателями — они дают более мягкий и равномерный свет, исключая слепящий эффект для сзади идущих водителей.</p></div>
+
+<h2 id="обзор-популярных-моделей-плафонов-для-гранты">Обзор популярных моделей плафонов для Гранты</h2>
+
+<p>Рынок автоаксессуаров предлагает множество решений, адаптированных specifically под кузов <em>Lada Granta</em>. Важно понимать, что плафоны от Приоры или Калины могут не подойти по геометрии крепежных лапок или форме посадочного места в багажнике.</p>
+
+<p>Особой популярностью пользуются модели с встроенными контроллерами, которые эмулируют сопротивление штатной лампы, предотвращая появление ошибок "Check Engine" или сообщений о перегоревших лампах на дисплее бортового компьютера. Такие устройства часто маркируются как <strong>CAN-bus</strong> совместимые.</p>
+
+<p>Ниже приведена сравнительная таблица характеристик различных типов подсветки, доступных для установки на Гранту:</p>
+
+<table>
+<thead>
+<tr>
+<th>Тип решения</th>
+<th>Яркость (Лм)</th>
+<em>Срок службы</em></th>
+<th>Риск ошибок ЭБУ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Штатная лампа W5W</td>
+<td>50-60</td>
+<td>500-1000 часов</td>
+<td>Отсутствует</td>
+</tr>
+<tr>
+<td>LED лампа T10 (Китай)</td>
+<td>100-150</td>
+<td>10 000 часов</td>
+<td>Высокий</td>
+</tr>
+<tr>
+<td>LED лампа T10 (CanBus)</td>
+<td>120-180</td>
+<td>15 000 часов</td>
+<td>Низкий</td>
+</tr>
+<tr>
+<td>Готовый LED плафон</td>
+<td>200-300</td>
+<td>30 000+ часов</td>
+<td>Отсутствует</td>
+</tr>
+</tbody>
+</table>
+
+<p>Готовые плафоны часто выполняются в стиле <em>Vesta</em> или имеют тонированную маску, что придает автомобилю более современный и агрессивный вид. Однако, выбирая такой вариант, убедитесь, что цвет свечения остается строго белым, чтобы не нарушать правила.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой вариант подсветки вы рассматриваете?</strong><ul><li>Простая замена ламп</li><li>LED плафоны с CanBus</li><li>Установка дополнительного света</li><li>Пока не решил</li></ul></div></div>
+
+<h2 id="необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</h2>
+
+<p>Прежде чем приступать к демонтажу штатных элементов, необходимо подготовить рабочий инструмент. Процесс установки не требует сложного оборудования, но аккуратность здесь играет решающую роль, так как пластик багажника <em>Гранты</em> довольно хрупок на морозе.</p>
+
+<p>Для работы вам потребуется стандартный набор автомобилиста. Особое внимание уделите изоляции соединений, если вы планируете врезаться в проводку, а не использовать готовые разъемы. <strong>Подсветка номера Лада Гранта</strong> должна быть абсолютно герметичной, чтобы исключить окисление контактов.</p>
+
+<p>Список необходимого оборудования:</p>
+<ul>
+<li>🔧 Набор отверток (крестовая и плоская) для снятия плафонов.</li>
+<li>🔪 Канцелярский нож или пластиковая лопатка для аккуратного снятия обшивки.</li>
+<li>🧵 Изолента высокого качества или термоусадочные трубки.</li>
+<li>🔌 Мультиметр для проверки напряжения и полярности.</li>
+<li>🧼 Обезжириватель и ветошь для очистки посадочных мест.</li>
+</ul>
+
+<blockquote>
+<p>⚠️ Внимание: Все работы с электропроводкой автомобиля проводите только при отключенной аккумуляторной батарее. Кратковременное замыкание может вывести из строя блок управления освещением или предохранители.</p>
+</blockquote>
+
+<h2 id="демонтаж-штатных-плафонов-освещения">Демонтаж штатных плафонов освещения</h2>
+
+<p>Процесс снятия штатных фонарей на <em>Лада Гранта</em> лифтбек и седан может незначительно отличаться, но общий принцип остается единым. Плафоны расположены в нише над номерным знаком и крепятся на защелках или винтах, скрытых под декоративными накладками.</p>
+
+<p>Для начала откройте багажник и получите доступ к внутренней стороне крышки. В некоторых комплектациях доступ к крепежу осуществляется через специальные лючки в обивке. Аккуратно подденьте края плафона плоской отверткой, стараясь не повредить лакокрасочное покрытие вокруг.</p>
+
+<p>Если плафон держится на винтах, выкрутите их и аккуратно вытяните корпус наружу. Отсоедините электрический разъем. Часто проводка в этом месте бывает короткой, поэтому действуйте без резких рывков. <strong>Подсветка номера Лада Гранта</strong> требует бережного отношения к штатной проводке, так как восстановление перебитых проводов может занять много времени.</p>
+
+<details class="faq-item"><summary>Секреты снятия закисших плафонов</summary><div class="faq-answer"><p>Если плафон не снимается, не применяйте грубую силу. Побрызгайте периметр прилегания WD-40 и подождите 5-10 минут. Пластик немного расширится, и снять элемент будет проще. Также можно слегка прогреть края феном, если работа ведется зимой.</p></div></details>
+
+<h2 id="схема-подключения-и-монтаж-led-модулей">Схема подключения и монтаж LED-модулей</h2>
+
+<p>Установка новых модулей начинается с проверки полярности. В отличие от ламп накаливания, светодиоды чувствительны к направлению тока. Используйте мультиметр в режиме прозвонки или подайте кратковременное напряжение от АКБ, чтобы убедиться в работоспособности и правильном подключении.</p>
+
+<p>Если вы используете готовые LED-плафоны с разъемами, совместимыми с <em>ВАЗ</em>, процесс сводится к соединению "папа-мама". В случае использования универсальных решений или врезки дополнительных диодных лент, необходимо обеспечить надежный контакт. Скрутки в автомобильной электрике недопустимы — используйте пайку или специальные клеммники.</p>
+
+<p>Последовательность действий при монтаже:</p>
+<ol>
+<li>Примерьте новый плафон в посадочном месте, убедитесь, что он не задевает крышку багажника при закрытии.</li>
+<li>Подключите провода, соблюдая полярность (обычно красный или белый — плюс, черный или коричневый — минус).</li>
+<li>Заизолируйте места соединений термоусадкой.</li>
+<li>Установите плафон на место и зафиксируйте защелками или винтами.</li>
+</ol>
+
+<div class="checklist-block"><h4>☑️ Контрольный список перед сборкой</h4><label class="check-item"><input type="checkbox"><span>Проверена полярность диодов</span></label><label class="check-item"><input type="checkbox"><span>Места пайки изолированы</span></label><label class="check-item"><input type="checkbox"><span>Проводка не пережата крышкой</span></label><label class="check-item"><input type="checkbox"><span>Плафон сидит плотно без люфта</span></label><label class="check-item"><input type="checkbox"><span>Свет падает ровно на номер</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Важно правильно направить пучок света. <strong>Подсветка номера Лада Гранта</strong> не должна светить в глаза водителю сзади идущего автомобиля или создавать блики на кузове. Световой поток должен быть сосредоточен строго в площади регистрационного знака.</p>
+
+<h2 id="устранение-ошибок-и-моргания-подсветки">Устранение ошибок и моргания подсветки</h2>
+
+<p>Одной из самых частых проблем при установке светодиодов является их моргание или появление ошибки на панели приборов. Это связано с тем, что бортовой компьютер <em>Гранты</em> ожидает определенное сопротивление в цепи, которое дает лампа накаливания, а светодиод потребляет слишком мало тока.</p>
+
+<p>Для решения этой проблемы используются специальные обманки или резисторы, которые имитируют нагрузку. Они подключаются параллельно светодиоду. Если вы купили дорогие LED-плафоны с пометкой <strong>CAN-bus</strong>, в них эта функция уже встроена, и дополнительные манипуляции не требуются.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Резисторы при работе могут сильно нагреваться. Не приклеивайте их вплотную к пластиковому корпусу плафона или проводке без термоизоляции, чтобы не оплавить материалы.</p>
+</blockquote>
+
+<p>Если моргание сохраняется даже с обманкой, проверьте качество контакта "массы". Плохой контакт кузова с минусом часто становится причиной нестабильной работы всей системы освещения. Зачистите контакты и обработайте их смазкой для электроконтактов.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Использование качественных резисторов-обманок мощностью не менее 5 Вт гарантирует стабильную работу светодиодов без ошибок бортового компьютера.</p></div>
+
+<h2 id="юридические-аспекты-и-требования-гост">Юридические аспекты и требования ГОСТ</h2>
+
+<p>Многие автолюбители забывают, что <strong>подсветка номера Лада Гранта</strong> регулируется техническим регламентом Таможенного союза. Основное требование — свет должен быть белым. Установка синих, красных или мигающих элементов категорически запрещена и влечет за собой штраф и возможное лишение прав.</p>
+
+<p>Свет от плафонов должен падать только на номерной знак, не выступая за его габаритные размеры. Если световой поток слишком широкий и слепит других водителей, инспектор ГИБДД имеет полное право выписать предписание на устранение неисправности.</p>
+
+<p>Также важно, чтобы номер читался с расстояния 20 метров в темное время суток. Слишком тусклая или, наоборот, чрезмерно яркая подсветка, создающая засветку (эффект "гало"), может быть расценена как нарушение. Выбирайте умеренную яркость и качественные рассеиватели.</p>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли установить подсветку номера с динамическим эффектом?</summary>
+<p>Технически установить динамическую подсветку возможно, но юридически это будет нарушением. Пункт 3.3 ПДД запрещает установку внешних световых приборов, не соответствующих требованиям конструкции транспортного средства. Динамические эффекты (бегущие огни, изменение цвета) приравниваются к спецсигналам или нарушению цветовой гаммы, что грозит серьезными штрафами.</p>
+</details>
+
+<details>
+<summary>Почему новые LED-лампы горят в полнакала?</summary>
+<p>Это часто встречается на автомобилях с системой диагностики. Блок управления видит низкое потребление тока и думает, что лампа неисправна, ограничивая ток. Решение — установка дополнительных резисторов-обманок или замена плафонов на модели со встроенной электроникой для <em>Лада Гранта</em>.</p>
+</details>
+
+<details>
+<summary>Нужно ли регистрировать изменение конструкции при установке LED?</summary>
+<p>Замена типа ламп (накаливания на светодиодные) в штатных плафонах обычно не требует внесения изменений в конструкцию ТС, если цвет света остается белым и геометрия светового пучка не нарушена. Однако, замена самих плафонов на нештатные (например, от другой модели авто) теоретически может быть расценена как изменение конструкции, хотя на практике к подсветке номера относятся лояльно, если нет нарушений по цвету.</p>
+</details>
+
+<details>
+<summary>Как продлить срок службы светодиодной подсветки?</summary>
+<p>Главный враг светодиодов — перегрев и скачки напряжения. Используйте драйверы или стабилизаторы тока вместо простых резисторов. Также важно обеспечить герметичность плафона, так как попадание влаги на контакты диодов приводит к их быстрому выходу из строя. Качественная <strong>подсветка номера Лада Гранта</strong> должна быть полностью изолирована от внешней среды.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#выбор-типа-подсветки-галоген-или-led">Выбор типа подсветки: галоген или LED?</a></li><li><a href="#обзор-популярных-моделей-плафонов-для-гранты">Обзор популярных моделей плафонов для Гранты</a></li><li><a href="#необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</a></li><li><a href="#демонтаж-штатных-плафонов-освещения">Демонтаж штатных плафонов освещения</a></li><li><a href="#схема-подключения-и-монтаж-led-модулей">Схема подключения и монтаж LED-модулей</a></li><li><a href="#устранение-ошибок-и-моргания-подсветки">Устранение ошибок и моргания подсветки</a></li><li><a href="#юридические-аспекты-и-требования-гост">Юридические аспекты и требования ГОСТ</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-kross-tsveta-kuzova.html" class="related-card">Лада Гранта Кросс: цвета кузова, фото и код краски</a></li><li><a href="/articles/r/ra/rasporka-perednikh-stoek-lada-granta.html" class="related-card">Распорка передних стоек Лада Гранта: нужна ли она и как установить</a></li><li><a href="/articles/z/za/zamena-romashek-lada-granta.html" class="related-card">Замена ромашек Лада Гранта: пошаговая инструкция и советы</a></li><li><a href="/articles/p/pe/perednij-stabilizator-lada-granta.html" class="related-card">Передний стабилизатор Лада Гранта: признаки неисправности и замена</a></li><li><a href="/articles/n/ne/ne-otkryvaetsya-dver-lada-granta-snaruzhi.html" class="related-card">Не открывается дверь Лада Гранта снаружи: причины и ремонт</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-kross-tsveta-kuzova.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта Кросс: цвета кузова, фото и код краски</span><span class="related-bottom-desc">Полный обзор палитры Лада Гранта Кросс. Официальные цвета кузова, коды красок, особенности эмали, со</span></a><a href="/articles/r/ra/rasporka-perednikh-stoek-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Распорка передних стоек Лада Гранта: нужна ли она и как установить</span><span class="related-bottom-desc">Подробный гайд по выбору и установке распорки передних стоек на Лада Гранта. Разбираем плюсы, минусы</span></a><a href="/articles/z/za/zamena-romashek-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Замена ромашек Лада Гранта: пошаговая инструкция и советы</span><span class="related-bottom-desc">Как заменить амортизаторные подушки (ромашки) на Лада Гранта. Выбор запчастей, симптомы износа и под</span></a><a href="/articles/p/pe/perednij-stabilizator-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Передний стабилизатор Лада Гранта: признаки неисправности и замена</span><span class="related-bottom-desc">Как определить износ переднего стабилизатора на Лада Гранта? Признаки поломки, выбор запчастей и пош</span></a><a href="/articles/n/ne/ne-otkryvaetsya-dver-lada-granta-snaruzhi.html" class="related-bottom-card"><span class="related-bottom-title">Не открывается дверь Лада Гранта снаружи: причины и ремонт</span><span class="related-bottom-desc">Сломалась ручка двери Лада Гранта и дверь не открывается? Полный гид по диагностике, ремонту замка и</span></a><a href="/articles/l/la/lada-granta-skolko-litrov-bagazhnik.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта: сколько литров багажник и как увеличить объем</span><span class="related-bottom-desc">Узнайте точный объем багажника Лада Гранта в литрах. Сравнение седана и лифтбека, реальные размеры, </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

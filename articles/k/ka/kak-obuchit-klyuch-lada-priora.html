@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Как обучить ключ Лада Приора: пошаговая инструкция ELM327 — Лада Справка</title>
+    <meta name="description" content="Полное руководство по программированию ключей Лада Приора через ELM327 и OpenPort. Решение проблем с иммобилайзером АПС-6 и М74.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/k/ka/kak-obuchit-klyuch-lada-priora.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Как обучить ключ Лада Приора: пошаговая инструкция ELM327">
+    <meta property="og:description" content="Полное руководство по программированию ключей Лада Приора через ELM327 и OpenPort. Решение проблем с иммобилайзером АПС-6 и М74.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/priora/">Priora</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Как обучить ключ Лада Приора: пошаговая инструкция ELM327</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Как обучить ключ Лада Приора: полное руководство</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#принцип-работы-штатного-иммобилайзера-апс-6">Принцип работы штатного иммобилайзера АПС-6</a></li><li><a href="#необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</a></li><li><a href="#подготовка-автомобиля-и-подключение-оборудования">Подготовка автомобиля и подключение оборудования</a></li><li><a href="#процедура-обучения-ключей-через-openbox-и-elm327">Процедура обучения ключей через OpenBox и ELM327</a></li><li><a href="#особенности-работы-с-эбу-bosch-m74-и-itelma">Особенности работы с ЭБУ Bosch M74 и Itelma</a></li><li><a href="#типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+<p>Ситуация, когда автомобиль перестает реагировать на брелок или вообще не заводится из-за рассинхронизации иммобилайзера, является одной из самых стрессовых для владельца. Владельцы <em>Lada Priora</em> часто сталкиваются с необходимостью прописки нового ключа или восстановления работы штатной системы защиты после замены аккумулятора или сбоя в электронике. Понимание принципов работы <strong>иммобилайзера АПС-6</strong> и правильная последовательность действий позволяют решить проблему самостоятельно, не обращаясь в дилерский центр.</p>
+
+<p>Процесс обучения, часто называемый "прошивкой" или "активацией", требует наличия специального оборудования, так как штатными методами через кнопки на панели это сделать невозможно. Современные <em>ЭБУ</em> (электронные блоки управления) требуют цифрового доступа для записи кодов в энергонезависимую память. Если вы потеряли все ключи или просто приобрели новый пульт с кнопками, вам потребуется адаптер <em>ELM327</em> или более профессиональный сканер <em>OpenPort 2.0</em>.</p>
+
+<p>В этой статье мы подробно разберем техническую сторону вопроса, рассмотрим необходимые программы и последовательность операций для различных типов блоков управления. <mark>Критически важно понимать, что прерывание процесса записи кодов на половине операции может привести к полной блокировке запуска двигателя</mark>, поэтому к подготовке нужно подойти максимально ответственно. Мы также затронем особенности работы с разными версиями программного обеспечения и типичные ошибки, которые допускают новички при первом подключении.</p>
+
+<h2 id="принцип-работы-штатного-иммобилайзера-апс-6">Принцип работы штатного иммобилайзера АПС-6</h2>
+<p>Система <strong>АПС-6</strong>, устанавливаемая на автомобили семейства <em>ВАЗ</em>, включая Приору, представляет собой противоугонное устройство, блокирующее работу двигателя при отсутствии авторизованного ключа. В отличие от простых сигнализаций, иммобилайзер разрывает цепи зажигания и топливного насоса на программном уровне. Обмен данными между чипом в ключе и блоком управления происходит по двунаправленному каналу связи, что делает систему устойчивой к простому копированию сигнала.</p>
+
+<p>Процесс обучения заключается в записи уникального секретного кода в память <em>ЭБУ</em> и в сам транспондер ключа. Без этой процедуры автомобиль "не узнает" вставленный ключ, даже если его механическая часть идеально подходит к личинке замка. Блок управления продолжает блокировать основные узлы, и двигатель либо не крутит стартер, либо глохнет через несколько секунд после запуска.</p>
+
+<p>Существует два основных типа процедур: активация (первичная прописка ключей на новом автомобиле) и переобучение (замена ключей или блока управления). В обоих случаях используется мастер-ключ или специальный режим диагностического оборудования для входа в защищенную зону памяти. </p>
+
+<blockquote>
+<p>⚠️ Внимание: При работе с иммобилайзером убедитесь, что аккумулятор автомобиля полностью заряжен. Скачок напряжения или разряд батареи в момент записи кодов может привести к повреждению FLASH-памяти контроллера.</p>
+</blockquote>
+
+<p>Важно различать системы с контроллерами <em>Bosch M74</em>, <em>Itelma M74</em> и более старыми версиями <em>M73</em> или <em>M70</em>. Алгоритмы защиты и программное обеспечение для каждой версии могут отличаться, требуя разных подходов к считыванию и записи. Например, для <strong>M74</strong> часто требуется физическое вскрытие корпуса блока или использование специальных переходников, тогда как более новые версии позволяют работать через диагностический разъем.</p>
+
+<h2 id="необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</h2>
+<p>Для успешного выполнения задачи вам потребуется специализированный набор инструментов. Базовым элементом является адаптер, поддерживающий протокол <em>K-Line</em> или <em>CAN</em>, в зависимости от года выпуска вашего автомобиля. Для Лада Приора чаще всего используется протокол K-Line, который поддерживают популярные адаптеры <em>ELM327</em> (версии 1.5 на чипе PIC18F25K80), <em>OpenPort 2.0</em> или специализированные кабели <em>ВАЗ-диагностика</em>.</p>
+
+<p>Что касается программного обеспечения, то стандартом де-факто для работы с отечественными авто является комплекс <em>OpenBox</em> или <em>Loader</em> (например, <em>BM92Loader</em>, <em>Galletto</em> в связке с нужным софтом). Также популярна программа <em>ChipLoader</em> и различные модификации <em>ECU Editor</em>. Выбор конкретной программы зависит от типа вашего ЭБУ и версии прошивки.</p>
+
+<ul>
+<li>🔌 Адаптер K-Line (ELM327 v1.5, OpenPort 2.0 или KKL 409.1)</li>
+<li>💻 Ноутбук с операционной системой Windows и установленными драйверами адаптера</li>
+<li>🔋 Стабилизатор напряжения или заряженный аккумулятор (обязательно!)</li>
+<li>📱 Смартфон с программой Torque (для проверки связи перед началом работ)</li>
+</ul>
+
+<p>Не стоит полагаться на дешевые китайские клоны адаптеров с версией 2.1, так как они часто некорректно работают с протоколом K-Line и могут оборвать связь в самый неподходящий момент. <strong>Стабильность соединения</strong> — залог успешной прошивки. Перед началом работ рекомендуется проверить связь с автомобилем, запустив любую диагностическую программу и убедившись, что вы видите параметры двигателя.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой адаптер вы планируете использовать?</strong><ul><li>ELM327 (версия 1.5)</li><li>OpenPort 2.0</li><li>KKL 409.1</li><li>Другой профессиональный сканер</li></ul></div></div>
+
+<h2 id="подготовка-автомобиля-и-подключение-оборудования">Подготовка автомобиля и подключение оборудования</h2>
+<p>Перед началом любых манипуляций с электроникой необходимо правильно подготовить рабочее место и сам автомобиль. В первую очередь, откройте капот и проверьте уровень заряда аккумуляторной батареи. Если есть возможность, подключите внешнее зарядное устройство в режиме стабилизации напряжения, чтобы исключить просадки ниже 11 вольт во время работы.</p>
+
+<p>Найдите диагностический разъем <em>OBD-II</em>. На Лада Приора он обычно расположен под панелью приборов, слева от рулевой колонки, иногда закрыт декоративной заглушкой. Подключите адаптер к разъему, а затем соедините его с ноутбуком. Только после этого включайте зажигание. Такая последовательность необходима для корректной инициализации связи.</p>
+
+<p>Убедитесь, что в автомобиле нет источников сильных радиопомех. Выключите мобильные телефоны, радиостанции и другие устройства, работающие в радиодиапазоне. Помехи могут нарушить обмен данными между адаптером и блоком управления, что приведет к ошибке записи.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте качественный USB-кабель для подключения адаптера к ноутбуку. Дешевые кабели длиной более 1 метра часто вызывают потерю пакетов данных, что критично при прошивке.</p></div>
+
+<p>Проверьте целостность контактов в разъеме. Окисление или разболтанные пины могут стать причиной нестабильной работы. Если контакты сомнительные, их лучше аккуратно почистить спиртом или сжатым воздухом перед началом процедуры.</p>
+
+<h2 id="процедура-обучения-ключей-через-openbox-и-elm327">Процедура обучения ключей через OpenBox и ELM327</h2>
+<p>Самый распространенный метод прописки ключей на Приоре с блоками <em>M74</em> и аналогичными — использование связки адаптера и программы <em>OpenBox</em> (или аналогичной, поддерживающей функцию "Обучение"). Процесс требует четкого соблюдения таймингов и последовательности действий.</p>
+
+<p>Запустите программу и выберите тип соединения (например, <em>ELM327</em> через COM-порт). После успешного соединения нажмите кнопку "Считать" или "Диагностика", чтобы убедиться, что ЭБУ откликается. Найдите в меню вкладку "Иммобилайзер" или "АПС". Именно здесь находятся функции управления ключами.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист перед стартом обучения</h4><label class="check-item"><input type="checkbox"><span>Аккумулятор подключен к заряднику</span></label><label class="check-item"><input type="checkbox"><span>Зажигание включено</span></label><label class="check-item"><input type="checkbox"><span>Двигатель заглушен</span></label><label class="check-item"><input type="checkbox"><span>Адаптер надежно вставлен в OBD</span></label><label class="check-item"><input type="checkbox"><span>Программа видит ЭБУ</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Выберите опцию "Обучить ключи" или "Записать ключи". Программа запросит подтверждение и предупредит о рисках. После подтверждения начнется процесс записи. В этот момент на панели приборов может загореться или замигать индикатор иммобλαйзера (красный светодиод). Не выключайте зажигание и не отключайте адаптер до появления сообщения "Обучение завершено успешно".</p>
+
+<p>Если в процессе возникла ошибка, не паникуйте. Выключите зажигание, подождите 10-15 секунд и попробуйте повторить процедуру. Часто с первого раза может не пройти из-за временных помех. Однако, если ошибка повторяется многократно, проверьте совместимость ПО и версию адаптера.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Во время процедуры обучения все ранее прописанные ключи будут удалены из памяти. После завершения процедуры автомобиль будет заводиться только теми ключами, которые были активны в момент обучения или прописаны заново.</p>
+</blockquote>
+
+<h2 id="особенности-работы-с-эбу-bosch-m74-и-itelma">Особенности работы с ЭБУ Bosch M74 и Itelma</h2>
+<p>Блоки управления <em>Bosch M74</em> и <em>Itelma M74</em>, которые массово устанавливались на Приоры, имеют свои особенности защиты. В некоторых случаях стандартное обучение через OBD-разъем может быть заблокировано производителем. Тогда требуется использование метода "BootMode" или вскрытие корпуса ЭБУ для подключения напрямую к плате.</p>
+
+<p>Для работы с такими блоками часто используют программаторы типа <em>BM92Loader</em> или <em>Galletto Master</em>. Процедура может потребовать снятия блока управления с автомобиля. Это более сложный путь, требующий навыков разборки и пайки (в некоторых случаях).</p>
+
+<table>
+<thead>
+<tr>
+<th>Тип ЭБУ</th>
+<th>Метод подключения</th>
+<th>Необходимый адаптер</th>
+<th>Сложность</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bosch M74 (старые)</td>
+<td>OBD-II (K-Line)</td>
+<td>ELM327 / KKL</td>
+<td>Низкая</td>
+</tr>
+<tr>
+<td>Bosch M74 (новые)</td>
+<td>Прямое подключение (Boot)</td>
+<td>BM92Loader / OpenPort</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>Itelma M74</td>
+<td>OBD-II / Boot</td>
+<td>OpenPort 2.0</td>
+<td>Средняя</td>
+</tr>
+<tr>
+<td>M73 / M70</td>
+<td>OBD-II</td>
+<td>Любой K-Line</td>
+<td>Низкая</td>
+</tr>
+</tbody>
+</table>
+
+<p>Если ваш блок управления требует подключения "на столе" (вне автомобиля), вам потребуется блок питания 12В и умение правильно подать питание на контакты разъема ЭБУ согласно пинапу. Ошибка в подключении питания может мгновенно вывести блок управления из строя.</p>
+
+<details class="faq-item"><summary>Что делать, если ЭБУ не выходит на связь?</summary><div class="faq-answer"><p>Если программа пишет "Нет связи с ЭБУ", проверьте правильность выбранного COM-порта в диспетчере устройств. Также попробуйте снизить скорость соединения (baud rate) в настройках адаптера. Иногда помогает переподключение адаптера в другой USB-порт без hubs.</p></div></details>
+
+<h2 id="типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</h2>
+<p>Одной из самых частых проблем является ошибка "Запись прервана" или "Контрольная сумма не совпадает". Это часто указывает на плохой контакт в цепи K-Line или нестабильное напряжение. Проверьте надежность подключения "крокодилов" или самого адаптера в гнезде.</p>
+
+<p>Другая распространенная ошибка — использование несовместимой версии прошивки или программы-загрузчика. Убедитесь, что ПО, которое вы используете, поддерживает именно вашу версию <strong>калибровок</strong> двигателя. mismatch версий может привести к тому, что автомобиль перестанет заводиться или будет работать в аварийном режиме.</p>
+
+<p>Если после обучения ключей автомобиль заводится, но через 2-3 секунды глохнет, значит, иммобилайзер не активировался корректно или ключ не прописался. Попробуйте повторить процедуру обучения. Иногда требуется выполнить цикл "включить зажигание — ждать 10 секунд — выключить" несколько раз для синхронизации.</p>
+
+<ul>
+<li>🔥 Ошибка связи: Проверьте драйверы адаптера и целостность проводов.</li>
+<li>🔥 Ошибка записи: Проверьте заряд аккумулятора и отсутствие помех.</li>
+<li>🔥 Двигатель глохнет: Неудачное обучение, требуется повторение процедуры.</li>
+</ul>
+
+<p>В редких случаях может потребоваться полная замена блока управления или иммобилайзера. Это происходит, если внутренняя память чипа физически деградировала или была повреждена статическим электричеством.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Успех операции на 90% зависит от качества адаптера и стабильности напряжения в бортовой сети, а не только от действий оператора.</p></div>
+
+<h2 id="faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</h2>
+<details>
+<summary>Можно ли обучить ключ Лада Приора без компьютера?</summary>
+<p>Штатными средствами, используя только кнопки на панели или ключи, обучить новый ключ на Приоре невозможно. Эта функция доступна только в некоторых очень старых моделях ВАЗ через "мастер-ключ", но для Приоры требуется диагностическое оборудование.</p>
+</details>
+
+<details>
+<summary>Сколько ключей можно прописать одновременно?</summary>
+<p>Система АПС-6 позволяет хранить в памяти до 4-х уникальных кодов ключей. При каждой процедуре обучения память очищается, и вы должны предъявить все ключи, которые хотите использовать в будущем, заново.</p>
+</details>
+
+<details>
+<summary>Что делать, если я потерял все ключи?</summary>
+<p>Если ключей нет совсем, процедура усложняется. Вам потребуется сначала изготовить механическую копию ключа по личинке замка, вставить чип (или использовать обходчик), а затем программно "обнулить" иммобилайзер или прописать новые ключи через специальное ПО с доступом к заводским кодам.</p>
+</details>
+
+<details>
+<summary>Опасно ли это для электроники автомобиля?</summary>
+<p>При соблюдении правил безопасности (стабильное напряжение, исправный адаптер) риск минимален. Основная опасность исходит от скачков напряжения и использования дешевого, нестабильного оборудования.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#принцип-работы-штатного-иммобилайзера-апс-6">Принцип работы штатного иммобилайзера АПС-6</a></li><li><a href="#необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</a></li><li><a href="#подготовка-автомобиля-и-подключение-оборудования">Подготовка автомобиля и подключение оборудования</a></li><li><a href="#процедура-обучения-ключей-через-openbox-и-elm327">Процедура обучения ключей через OpenBox и ELM327</a></li><li><a href="#особенности-работы-с-эбу-bosch-m74-и-itelma">Особенности работы с ЭБУ Bosch M74 и Itelma</a></li><li><a href="#типичные-ошибки-и-способы-их-устранения">Типичные ошибки и способы их устранения</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-priora-kak-vklyuchit-fary.html" class="related-card">Лада Приора: как включить фары — полная инструкция</a></li><li><a href="/articles/l/la/lada-priora-kakoj-akkumulyator.html" class="related-card">Аккумулятор на Ладу Приору: какой выбрать, емкость и размеры</a></li><li><a href="/articles/l/la/lada-priora-sport.html" class="related-card">Lada Priora Sport: История, Характеристики и Доработки</a></li><li><a href="/articles/k/ka/kak-snyat-perednyuyu-faru-na-lada-priora.html" class="related-card">Как снять переднюю фару на Приору: пошаговая инструкция</a></li><li><a href="/articles/l/la/lada-priora-zanizhennaya-tyuningovaya.html" class="related-card">Лада Приора заниженная: полный гид по клиренсу и тюнингу</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-priora-kak-vklyuchit-fary.html" class="related-bottom-card"><span class="related-bottom-title">Лада Приора: как включить фары — полная инструкция</span><span class="related-bottom-desc">Подробная инструкция, как включить фары на Лада Приора. Разбор переключателя, схемы ближнего и дальн</span></a><a href="/articles/l/la/lada-priora-kakoj-akkumulyator.html" class="related-bottom-card"><span class="related-bottom-title">Аккумулятор на Ладу Приору: какой выбрать, емкость и размеры</span><span class="related-bottom-desc">Полный гид по выбору аккумулятора для Лада Приора. Размеры, полярность, емкость и лучшие модели для </span></a><a href="/articles/l/la/lada-priora-sport.html" class="related-bottom-card"><span class="related-bottom-title">Lada Priora Sport: История, Характеристики и Доработки</span><span class="related-bottom-desc">Подробный обзор Lada Priora Sport: технические характеристики, динамика разгона, особенности подвеск</span></a><a href="/articles/k/ka/kak-snyat-perednyuyu-faru-na-lada-priora.html" class="related-bottom-card"><span class="related-bottom-title">Как снять переднюю фару на Приору: пошаговая инструкция</span><span class="related-bottom-desc">Подробный гид по демонтажу передней фары Лада Приора. Инструменты, схемы регулировки и секреты замен</span></a><a href="/articles/l/la/lada-priora-zanizhennaya-tyuningovaya.html" class="related-bottom-card"><span class="related-bottom-title">Лада Приора заниженная: полный гид по клиренсу и тюнингу</span><span class="related-bottom-desc">Как сделать Ладу Приору заниженной? Разбор методов снижения клиренса, выбор пружин, установка койлов</span></a><a href="/articles/l/la/lada-priora-ne-nabiraet-oboroty.html" class="related-bottom-card"><span class="related-bottom-title">Лада Приора не набирает обороты: причины и ремонт</span><span class="related-bottom-desc">Почему Лада Приора не набирает обороты? Полный разбор причин: ДМРВ, дроссель, топливо, свечи. Диагно</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Параметры ЭБУ М74 CAN Лада Гранта: прошивка, калибровки, ошибки — Лада Справка</title>
+    <meta name="description" content="Полный обзор ЭБУ М74 CAN для Лада Гранта: типовые прошивки, калибровки, совместимость, адаптация дросселя и устранение плавающих оборотов.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/t/ti/tipovye-parametry-ebu-m74-can-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Параметры ЭБУ М74 CAN Лада Гранта: прошивка, калибровки, ошибки">
+    <meta property="og:description" content="Полный обзор ЭБУ М74 CAN для Лада Гранта: типовые прошивки, калибровки, совместимость, адаптация дросселя и устранение плавающих оборотов.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Параметры ЭБУ М74 CAN Лада Гранта: прошивка, калибровки, ошибки</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Типовые параметры ЭБУ М74 CAN Лада Гранта</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#архитектура-и-аппаратная-платформа-контроллера">Архитектура и аппаратная платформа контроллера</a></li><li><a href="#идентификация-прошивок-и-версий-по">Идентификация прошивок и версий ПО</a></li><li><a href="#калибровки-системы-топливоподачи-и-зажигания">Калибровки системы топливоподачи и зажигания</a></li><li><a href="#адаптация-дроссельного-узла-и-регулятора-холостого-хода">Адаптация дроссельного узла и регулятора холостого хода</a></li><li><a href="#диагностика-типовых-неисправностей-и-коды-ошибок">Диагностика типовых неисправностей и коды ошибок</a></li><li><a href="#чип-тюнинг-и-изменение-заводских-параметров">Чип-тюнинг и изменение заводских параметров</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современные автомобили семейства <em>АвтоВАЗ</em>, в частности <strong>Лада Гранта</strong>, оснащаются сложными электронными системами управления двигателем, среди которых доминирующее положение занимает блок <strong>М74 CAN</strong>. Понимание типовых параметров этого контроллера необходимо не только профессиональным диагностам, но и грамотным автовладельцам, желающим самостоятельно обслуживать свой транспорт. Именно от корректности работы <strong>ECU</strong> зависит экономичность, динамика разгона и экологичность выхлопа вашего автомобиля.</p>
+
+<p>В отличие от предшественников, данный контроллер использует высокоскоростную шину <strong>CAN-bus</strong> для обмена данными с другими узлами, такими как панель приборов и иммобилайзер. Это накладывает определенные требования к диагностическому оборудованию и программному обеспечению. Неправильная интерпретация параметров может привести к ложным выводам о неисправности двигателя или системы зажигания.</p>
+
+<p>В рамках данного обзора мы детально разберем архитектуру памяти, типы применяемых прошивок, а также специфические калибровки, характерные для различных модификаций 8-клапанных и 16-клапанных двигателей. Вы узнаете, как отличить заводские настройки от модифицированных и на какие параметры стоит обратить внимание в первую очередь при поиске причин нестабильной работы мотора.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Любые вмешательства в программное обеспечение блока управления двигателем могут привести к потере гарантии на автомобиль. Все действия вы производите на свой страх и риск.</p>
+</blockquote>
+
+<h2 id="архитектура-и-аппаратная-платформа-контроллера">Архитектура и аппаратная платформа контроллера</h2>
+
+<p>Блок управления <strong>М74 CAN</strong> базируется на микроконтроллере производства <em>STMicroelectronics</em>, что делает его архитектуру схожей с популярными системами <em>Bosch</em> и <em>Januar</em>, но имеющей свои уникальные особенности. Основным отличием является использование протокола <strong>KWP2000</strong> или <strong>UDS</strong> для диагностики, в зависимости от года выпуска и версии ПО. Физически устройство представляет собой герметичный корпус, установленный в моторном отсеке, что требует особой внимательности при подключении диагностических сканеров во избежание короткого замыкания.</p>
+
+<p>Внутри корпуса расположена печатная плата с многослойной структурой, где критически важные данные хранятся в энергонезависимой памяти <strong>EEPROM</strong>. Именно здесь прописываются калибровочные данные, которые адаптируют работу двигателя под конкретный экземпляр автомобиля. При замене блока на новый или б/у аналог часто требуется процедура привязки и адаптации, так как <strong>иммобилайзер</strong> жестко связан с серийным номером контроллера.</p>
+
+<p>Особое внимание следует уделить системе питания микросхемы. Скачки напряжения в бортовой сети, вызванные неисправным генератором или стартером, могут повредить внутренние цепи. Для защиты данных используется двухуровневая система резервирования, однако критические сбои питания во время записи могут полностью вывести <strong>ECU</strong> из строя, превратив его в «кирпич».</p>
+
+<details class="faq-item"><summary>Технические детали микросхемы</summary><div class="faq-answer"><p>В основе М74 CAN часто лежит 16-битный микроконтроллер, работающий на частоте до 40 МГц, что обеспечивает высокую скорость обработки сигналов с датчиков кислорода и положения коленвала в реальном времени.</p></div></details>
+
+<h2 id="идентификация-прошивок-и-версий-по">Идентификация прошивок и версий ПО</h2>
+
+<p>Каждый блок управления имеет уникальный идентификатор, который позволяет определить версию программного обеспечения и применимость к конкретному двигателю. Для Лада Гранта наиболее распространены модификации с двигателями <em>ВАЗ-11186</em>, <em>ВАЗ-21116</em> и <em>ВАЗ-21127</em>. Идентификация производится через диагностический разъем <strong>OBD-II</strong> с помощью сканеров, поддерживающих протоколы <em>АВТОВАЗ</em> или универсальных адаптеров типа <strong>ELM327</strong> с специализированным софтом.</p>
+
+<p>Номер прошивки обычно состоит из буквенно-цифрового кода, где зашифрована версия калибровок, тип трансмиссии (МКПП или <strong>АКПП Jatco</strong>) и экологический класс (Евро-3, Евро-4). Знание точного номера необходимо при поиске исправленной версии ПО, устраняющей заводские «баги», такие как плавающие обороты холостого хода или дерганье при разгоне.</p>
+
+<p>Ниже приведена таблица с наиболее распространенными типами прошивок для различных конфигураций Гранты:</p>
+
+<table>
+<thead>
+<tr>
+<th>Двигатель</th>
+<th>Тип КПП</th>
+<th>Пример номера прошивки</th>
+<th>Эко-класс</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.6 8кл (11186)</td>
+<td>Механика</td>
+<td>I414DO06</td>
+<td>Евро-4</td>
+</tr>
+<tr>
+<td>1.6 16кл (21127)</td>
+<td>Механика</td>
+<td>I471DO03</td>
+<td>Евро-4</td>
+</tr>
+<tr>
+<td>1.6 8кл (11186)</td>
+<td>Автомат</td>
+<td>A414DO06</td>
+<td>Евро-4</td>
+</tr>
+<tr>
+<td>1.6 16кл (21126)</td>
+<td>Механика</td>
+<td>I471DO01</td>
+<td>Евро-3</td>
+</tr>
+</tbody>
+</table>
+
+<p>При считывании данных важно обращать внимание на контрольную сумму (<strong>CRC</strong>). Если она не сходится с эталонной для данной версии, это может свидетельствовать о предыдущем некорректном чип-тюнинге или повреждении ячеек памяти. Восстановление контрольной суммы требует использования профессиональных загрузчиков, таких как <em>OpenBox</em> или <em>Combiloader</em>.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой двигатель на вашей Лада Гранта?</strong><ul><li>1.6 8 клапанов (90 л.с.)</li><li>1.6 16 клапанов (98 л.с.)</li><li>1.6 16 клапанов (106 л.с.)</li><li>Другой вариант</li></ul></div></div>
+
+<h2 id="калибровки-системы-топливоподачи-и-зажигания">Калибровки системы топливоподачи и зажигания</h2>
+
+<p>Одним из ключевых аспектов работы <strong>М74 CAN</strong> является управление топливоподачей через форсунки. Базовые калибровки содержат карты наполнения цилиндров, которые строятся на основе показаний датчика массового расхода воздуха (<strong>ДМРВ</strong>) или датчика абсолютного давления (<strong>ДАД</strong>). Для Гранты характерно использование ДМРВ, однако в некоторых новых версиях ПО внедряется алгоритм работы без него (режим скорости-плотности), что повышает надежность, но требует точной настройки.</p>
+
+<p>Угол опережения зажигания (<strong>УОЗ</strong>) рассчитывается динамически в зависимости от октанового числа топлива (при наличии датчика детонации) и нагрузки на двигатель. Заводские калибровки часто консервативны и ориентированы на максимальный ресурс мотора, а не на динамику. Изменение этих параметров в сторону более раннего зажигания позволяет повысить мощность, но увеличивает риск возникновения <strong>детонации</strong>.</p>
+
+<p>Система коррекции по лямбда-зонду также подлежит тонкой настройке. Блок управления стремится удерживать состав смеси в районе стехиометрии (14.7:1) для эффективной работы катализатора. Однако при использовании газа (<strong>LPG/CNG</strong>) стандартные карты не подходят, и требуется либо перекалибровка, установка октан-корректора, либо переход на специализированное ПО.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Самостоятельное изменение карт зажигания без широкополосного лямбда-метра и знания основ двигателестроения может привести к прогару поршней или разрушению перегородок.</p>
+</blockquote>
+
+<h2 id="адаптация-дроссельного-узла-и-регулятора-холостого-хода">Адаптация дроссельного узла и регулятора холостого хода</h2>
+
+<p>Электронная дроссельная заслонка (<strong>Е-газ</strong>) в системе М74 не имеет механической связи с педалью акселератора. Положение заслонки контролируется двумя потенциометрами, сигналы с которых сравниваются на предмет расхождения. При замене дроссельного узла, чистке или отключении аккумулятора часто требуется процедура адаптации, чтобы блок «запомил» крайние положения заслонки и положение «нулевого» расхода воздуха.</p>
+
+<p>Процесс адаптации обычно происходит автоматически при включении зажигания, если выполнены определенные условия (температура двигателя, положение педали газа). Однако в случаях сбоя может потребоваться программный запуск через диагностический сканер. Команда на адаптацию запускает цикл открытия и закрытия заслонки, во время которого <strong>ECU</strong> калибрует шаги регулятора.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист для адаптации дросселя</h4><label class="check-item"><input type="checkbox"><span>Прогреть двигатель до рабочей температуры</span></label><label class="check-item"><input type="checkbox"><span>Выключить все потребители энергии (фары, печка)</span></label><label class="check-item"><input type="checkbox"><span>Сбросить ошибки в ЭБУ</span></label><label class="check-item"><input type="checkbox"><span>Включить зажигание на 30 секунд, не запуская двигатель</span></label><label class="check-item"><input type="checkbox"><span>Запустить двигатель и дать поработать 2 минуты</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Если после адаптации наблюдаются «плавающие» обороты или глохновение при сбросе газа, возможно, имеется подсос неучтенного воздуха или неисправен сам механизм дросселя. В таких случаях программная адаптация не поможет, требуется поиск механической неисправности. Чистка канала дросселя от нагара часто решает проблему нестабного холостого хода без перепрошивки.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте очиститель карбюратора для чистки дроссельной заслонки только при снятом узле. Попадание агрессивной химии на электропривод может разрушить пластиковую смазку шестерен.</p></div>
+
+<h2 id="диагностика-типовых-неисправностей-и-коды-ошибок">Диагностика типовых неисправностей и коды ошибок</h2>
+
+<p>Система самодиагностики <strong>М74 CAN</strong> способна фиксировать широкий спектр неисправностей, сохраняя их в виде кодов ошибок (<strong>DTC</strong>). Наиболее часто владельцы Грант сталкиваются с ошибками по датчику кислорода (Р0130-Р0141), указывающими на низкую эффективность катализатора или обрыв цепи подогрева. Игнорирование этих ошибок может привести к повышенному расходу топлива.</p>
+
+<p>Также распространены ошибки по пропускам зажигания (Р0300-Р0304), которые могут быть вызваны неисправностью свечей, катушек или низком compression в цилиндрах. Блок управления М74 умеет отключать форсунку в цилиндре с пропусками для защиты катализатора, что ощущается как троение двигателя. Диагностика требует анализа не только кода, но и текущих параметров работы двигателя в реальном времени.</p>
+
+<p>Ошибки связи по CAN-шине (например, U-коды) свидетельствуют о проблемах в проводке или неисправности других блоков (ABS, EPS, BCM). В этом случае двигатель может переходить в аварийный режим, ограничивая мощность. Для поиска таких неисправностей необходим осциллограф или анализатор CAN-шины.</p>
+
+<h2 id="чип-тюнинг-и-изменение-заводских-параметров">Чип-тюнинг и изменение заводских параметров</h2>
+
+<p>Процедура изменения программного обеспечения, известная как чип-тюнинг, позволяет раскрыть скрытый потенциал двигателя Гранты. Заводские прошивки часто «задушены» экологическими нормами и требованиями к ресурсу. Заменяя калибровки, можно убрать провалы на низких оборотах, улучшить отклик на педаль газа и снизить расход топлива при спокойной езде.</p>
+
+<p>Существует несколько стадий тюнинга: <strong>Stage 1</strong> подразумевает только изменение ПО без вмешательства в «железо». Это безопасный вариант, если используются качественные прошивки от известных разработчиков. Более глубокие стадии требуют установки выхлопа без катализатора, изменения впуска и установки более производительных форсунок.</p>
+
+<p>Важно понимать, что после чип-тюнинга автомобиль может перестать соответствовать нормам выброса вредных веществ, что актуально при прохождении технического осмотра. Кроме того, некачественная прошивка может привести к нестабильной работе двигателя на разных режимах.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Перед началом чип-тюнинга обязательно сделайте полную резервную копию (дамп) стоковой прошивки. Это единственный способ вернуть автомобиль в исходное состояние в случае проблем.</p>
+</blockquote>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли прошить ЭБУ М74 CAN через OBD-II без вскрытия блока?</summary>
+<p>Да, в большинстве случаев для Лада Гранта с блоком М74 CAN запись и чтение возможны через разъем OBD-II с использованием адаптеров типа OpenPort 2.0 и соответствующего ПО (например, OpenBox или BitBox). Вскрытие корпуса требуется только в случае повреждения bootloader'а или необходимости замены микросхемы памяти.</p>
+</details>
+
+<details>
+<summary>Почему после замены аккумулятора сбиваются настройки ЭБУ?</summary>
+<p>При отключении питания сбрасываются адаптивные значения (коррекции топливоподачи, положение дросселя), которые накапливались в оперативной памяти (RAM). Базовая прошивка в EEPROM сохраняется. Двигателю требуется некоторое время (обычно 10-20 км пробега) для повторной самоадаптации к вашим привычкам вождения и состоянию узлов.</p>
+</details>
+
+<details>
+<summary>Совместим ли ЭБУ М74 CAN с ГБО 4-го поколения?</summary>
+<p>Да, совместим, но требует правильной настройки. Поскольку М74 использует стратегию управления форсунками, отличную от старых систем, для корректной работы ГБО часто требуется установка эмулятора форсунок или использование продвинутых газовых контроллеров, умеющих работать с фазированным впрыском и обратными связями по лямбда-зонду.</p>
+</details>
+
+<details>
+<summary>Как узнать версию прошивки без компьютера?</summary>
+<p>Точную версию ПО без диагностического сканера узнать невозможно. Однако на самом блоке управления может быть наклейка с номером детали, который косвенно указывает на совместимый диапазон прошивок, но не на конкретную версию ПО, установленную внутри.</p>
+</details>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Знание типовых параметров ЭБУ М74 CAN позволяет владельцу Лада Гранта быстрее находить неисправности, грамотно обслуживать автомобиль и принимать взвешенные решения о модернизации двигателя.</p></div></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#архитектура-и-аппаратная-платформа-контроллера">Архитектура и аппаратная платформа контроллера</a></li><li><a href="#идентификация-прошивок-и-версий-по">Идентификация прошивок и версий ПО</a></li><li><a href="#калибровки-системы-топливоподачи-и-зажигания">Калибровки системы топливоподачи и зажигания</a></li><li><a href="#адаптация-дроссельного-узла-и-регулятора-холостого-хода">Адаптация дроссельного узла и регулятора холостого хода</a></li><li><a href="#диагностика-типовых-неисправностей-и-коды-ошибок">Диагностика типовых неисправностей и коды ошибок</a></li><li><a href="#чип-тюнинг-и-изменение-заводских-параметров">Чип-тюнинг и изменение заводских параметров</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/m/ma/maslo-dlya-lada-granta-16-klapannaya-106-l-s.html" class="related-card">Масло для Лада Гранта 16 клапанная 106 л.с.: выбор и замена</a></li><li><a href="/articles/r/re/remont-dvornikov-lada-granta.html" class="related-card">Ремонт дворников Лада Гранта: замена щеток, моторчика, трапеции</a></li><li><a href="/articles/n/na/nakladka-na-zerkalo-lada-granta.html" class="related-card">Накладка на зеркало Лада Гранта: выбор, установка, обзор моделей 2026</a></li><li><a href="/articles/m/ma/magnitola-lada-granta-kross.html" class="related-card">Магнитола Лада Гранта Кросс: выбор, установка, настройка</a></li><li><a href="/articles/g/ge/generator-lada-granta-fl-8-klapanov.html" class="related-card">Генератор Лада Гранта ФЛ 8 клапанов: выбор, замена, цена</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/m/ma/maslo-dlya-lada-granta-16-klapannaya-106-l-s.html" class="related-bottom-card"><span class="related-bottom-title">Масло для Лада Гранта 16 клапанная 106 л.с.: выбор и замена</span><span class="related-bottom-desc">Какое масло выбрать для Лада Гранта 1.6 16 клапанов? Объем, допуски, вязкость и алгоритм замены мото</span></a><a href="/articles/r/re/remont-dvornikov-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Ремонт дворников Лада Гранта: замена щеток, моторчика, трапеции</span><span class="related-bottom-desc">Полный гид по ремонту стеклоочистителей Лада Гранта. Замена щеток, трапеции, моторчика, регулировка </span></a><a href="/articles/n/na/nakladka-na-zerkalo-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Накладка на зеркало Лада Гранта: выбор, установка, обзор моделей 2026</span><span class="related-bottom-desc">Как выбрать накладку на зеркало заднего вида для Лада Гранта? ТОП-5 моделей, инструкция по установке</span></a><a href="/articles/m/ma/magnitola-lada-granta-kross.html" class="related-bottom-card"><span class="related-bottom-title">Магнитола Лада Гранта Кросс: выбор, установка, настройка</span><span class="related-bottom-desc">Полный гид по штатным и Android-магнитолам для Лада Гранта Кросс. Обзор моделей, пошаговая инструкци</span></a><a href="/articles/g/ge/generator-lada-granta-fl-8-klapanov.html" class="related-bottom-card"><span class="related-bottom-title">Генератор Лада Гранта ФЛ 8 клапанов: выбор, замена, цена</span><span class="related-bottom-desc">Как выбрать генератор на Лада Гранта ФЛ 8 кл? Обзор артикулов, характеристик, инструкции по замене и</span></a><a href="/articles/d/da/datsun-i-lada-granta-v-chem-otlichie.html" class="related-bottom-card"><span class="related-bottom-title">Датсун он-До и Лада Гранта: в чем отличие и что лучше?</span><span class="related-bottom-desc">Подробное сравнение Datsun on-DO и Lada Granta. Разбираем отличия в двигателях, подвеске, кузове и к</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

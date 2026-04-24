@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Лада Ларгус CAN авто: Диагностика и ошибки проводки — Лада Справка</title>
+    <meta name="description" content="Подробный разбор CAN-шины Лада Ларгус. Причины ошибок, проверка проводки, диагностика мультиметром и устранение неисправностей.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-largus-kan-avto.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Лада Ларгус CAN авто: Диагностика и ошибки проводки">
+    <meta property="og:description" content="Подробный разбор CAN-шины Лада Ларгус. Причины ошибок, проверка проводки, диагностика мультиметром и устранение неисправностей.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/largus/">Largus</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Лада Ларгус CAN авто: Диагностика и ошибки проводки</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Система CAN авто Лада Ларгус: Диагностика и устранение неисправностей</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#архитектура-цифровой-сети-автомобиля">Архитектура цифровой сети автомобиля</a></li><li><a href="#типичные-симптомы-неисправностей-can-шины">Типичные симптомы неисправностей CAN-шины</a></li><li><a href="#необходимое-оборудование-для-диагностики">Необходимое оборудование для диагностики</a></li><li><a href="#проверка-напряжения-и-сопротивления-линии">Проверка напряжения и сопротивления линии</a></li><li><a href="#поиск-обрывов-и-коротких-замыканий">Поиск обрывов и коротких замыканий</a></li><li><a href="#программная-диагностика-и-коды-ошибок">Программная диагностика и коды ошибок</a></li><li><a href="#таблица-типовых-параметров-can-шины">Таблица типовых параметров CAN-шины</a></li><li><a href="#устранение-неисправностей-и-замена-компонентов">Устранение неисправностей и замена компонентов</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+<p>Владельцы универсалов и фургонов от АвтоВАЗа часто сталкиваются с необъяснимыми сбоями в работе электрооборудования, когда загорается "Check Engine", перестает работать спидометр или начинают хаотично мигать лампочки на панели приборов.</p>
+<p>Причиной этих аномалий в современных модификациях чаще всего становится <strong>система CAN авто</strong>, представляющая собой цифровую магистраль, объединяющую все электронные блоки управления.</p>
+<p>Понимание принципов работы и диагностики этой сети позволяет избежать дорогостоящего визита в сервис и самостоятельно выявить источник проблемы, будь то окислившийся контакт или обрыв провода.</p>
+<p>В данной статье мы подробно разберем устройство цифрового интерфейса <em>Lada Largus</em>, методы поиска неисправностей и способы их устранения с помощью доступных инструментов.</p>
+
+<h2 id="архитектура-цифровой-сети-автомобиля">Архитектура цифровой сети автомобиля</h2>
+<p>Современный <em>Лада Ларгус</em> построен на базе Renault Logan первого поколения, однако электрическая схема претерпела значительные изменения с внедрением протокола <strong>CAN (Controller Area Network)</strong>.</p>
+<p>В отличие от старых моделей, где каждый датчик имел свой провод, здесь информация передается по двум скрученным жилам, что снижает вес проводки и повышает помехозащищенность.</p>
+<p>В автомобиле реализовано несколько скоростных каналов, но для диагностики наиболее важен высокоскоростной канал <strong>High-Speed CAN</strong>, который связывает двигатель, коробку передач, ABS и панель приборов.</p>
+<p>Если в этой магистрали происходит сбой, блоки управления перестают "слышать" друг друга, что приводит к переходу системы в аварийный режим.</p>
+<p>Центральным элементом здесь выступает <mark>дифференциальный сигнал</mark>, передаваемый по линиям CAN-High и CAN-Low, напряжение на которых меняется в противофазе.</p>
+<blockquote>
+<p>⚠️ Внимание: При проведении любых работ с электрикой <em>Lada Largus</em> обязательно снимайте минусовую клемму с аккумулятора, чтобы избежать короткого замыкания и вывода из строя дорогостоящих блоков ECU.</p>
+</blockquote>
+<p>Низкоскоростной канал обычно отвечает за комфорт: климат-контроль, стеклоподъемники и магнитолу, и его отказ реже влияет на возможность движения.</p>
+
+<h2 id="типичные-симптомы-неисправностей-can-шины">Типичные симптомы неисправностей CAN-шины</h2>
+<p>Диагностика системы <strong>CAN авто</strong> начинается с правильной интерпретации симптомов, которые могут казаться не связанными между собой.</p>
+<p>Наиболее ярким признаком проблемы является одновременное загорание множества индикаторов на приборной панели, включая значок сервиса и ошибки ABS.</p>
+<p>Водитель может заметить, что стрелка спидометра падает в ноль при движении, а тахометр показывает неверные значения оборотов двигателя.</p>
+<p>Часто встречается ситуация, когда при работающем моторе не крутится стартер при повторном запуске, хотя старая проводка цела.</p>
+<ul>
+<li>🔴 На приборной панели горит или мигает лампа "Service" вместе с другими предупреждениями.</li>
+<li>🔴 Отказывают стеклоподъемники, центральный замок или перестает работать звуковой сигнал.</li>
+<li>🔴 Бортовой компьютер выдает абсурдные показания, например, температуру двигателя выше 150 градусов.</li>
+<li>🔴 Невозможно считать ошибки сканером из-за потери связи с блоком управления двигателем.</li>
+</ul>
+<p>Важно понимать, что <strong>импеданс линии</strong> может меняться при нагреве, поэтому неисправность может проявляться только на прогретом двигателе.</p>
+<p>Иногда проблема кроется не в самой шине, а в конкретном блоке, который "штормит" линию и блокирует обмен данными для всех остальных участников.</p>
+
+<h2 id="необходимое-оборудование-для-диагностики">Необходимое оборудование для диагностики</h2>
+<p>Для качественной проверки <em>системы CAN авто</em> на Лада Ларгус недостаточно просто иметь под рукой тестер, хотя и он является базовым инструментом.</p>
+<p>Профессиональный подход требует использования специализированного оборудования, способного анализировать цифровой поток данных в реальном времени.</p>
+<p>Самым доступным и популярным решением для владельцев является адаптер <strong>ELM327</strong> в связке с ноутбуком или смартфоном.</p>
+<p>Более продвинутые пользователи могут использовать двухканальные осциллографы для визуализации формы сигнала, что позволяет увидеть искажения, невидимые вольтметру.</p>
+<div class="attention-box attention-info"><div><strong>📊 Чем вы планируете диагностировать CAN-шину?</strong><ul><li>Мультиметром</li><li>Адаптером ELM327</li><li>Осциллографом</li><li>Отвезу в сервис</li></ul></div></div>
+<p>При выборе диагностического ПО для <em>Lada Largus</em> стоит обратить внимание на программы, умеющие работать с протоколами Renault-Nissan, так как архитектура частично совместима.</p>
+<p>Наличие качественной <strong>схемы электропроводки</strong> конкретного года выпуска также является обязательным условием для успешного ремонта.</p>
+
+<h2 id="проверка-напряжения-и-сопротивления-линии">Проверка напряжения и сопротивления линии</h2>
+<p>Первым этапом аппаратной диагностики является проверка физических параметров линии, так как цифровые ошибки часто имеют аналоговую природу.</p>
+<p>Необходимо найти диагностический разъем OBD-II, который в Лада Ларгус расположен под панелью приборов, и измерить напряжение между контактами.</p>
+<p>В состоянии покоя (при включенном зажигании, но незаведенном двигателе) мультиметр должен показывать определенные значения относительно "массы".</p>
+<p>На линии CAN-High напряжение обычно составляет около 2.6 Вольта, а на линии CAN-Low — примерно 2.4 Вольта, в сумме давая 5 Вольт.</p>
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если мультиметр показывает 0 Вольт на обеих линиях, проверьте предохранитель питания диагностического разъема или целостность провода питания от аккумулятора.</p></div>
+<p>Отклонение от этих значений более чем на 10% свидетельствует о неисправности одного из блоков управления или обрыве в проводке.</p>
+<p>Также важно проверить сопротивление между линиями CAN-High и CAN-Low при выключенном зажигании.</p>
+<p>В исправной системе <strong>терминальное сопротивление</strong> должно быть около 60 Ом, так как на концах шины установлены два резистора по 120 Ом, включенных параллельно.</p>
+<p>Если сопротивление стремится к бесконечности, значит, оборвана одна из линий или сгорели оба терминальных резистора.</p>
+<p>Показатель близкий к нулю указывает на короткое замыкание между проводами, что часто случается при повреждении изоляции в жгутах.</p>
+
+<h2 id="поиск-обрывов-и-коротких-замыканий">Поиск обрывов и коротких замыканий</h2>
+<p>Поиск физического места повреждения проводки в <em>Лада Ларгус</em> может занять considerable время из-за сложной прокладки жгутов.</p>
+<p>Чаще всего провода перетираются в местах входа в кузов, около петель дверей или в моторном отсеке возле горячей головки блока цилиндров.</p>
+<p>Для локализации обрыва можно использовать метод покачивания жгутов при работающем двигателе, наблюдая за реакцией приборной панели.</p>
+<p>Если при шевелении проводки ошибки то появляются, то исчезают, значит, вы нащупали место плохого контакта или надлома жилы.</p>
+<blockquote>
+<p>⚠️ Внимание: Не используйте для поиска замыканий метод "тыка" острыми щупами через изоляцию, это может повредить герметичность провода и привести к коррозии в будущем.</p>
+</blockquote>
+<p>Короткое замыкание на "массу" часто приводит к сгоранию внутренних дорожек в блоке управления, поэтому перед подключением нового ЭБУ линию нужно "прозвонить" обязательно.</p>
+<p>Особое внимание уделите разъемам, которые могли окислиться после мойки двигателя или попадания влаги в салон.</p>
+<p>Иногда достаточно просто почистить контакты спреем для электропроводки и смазать их диэлектрической смазкой, чтобы <strong>сигнал</strong> восстановился.</p>
+
+<h2 id="программная-диагностика-и-коды-ошибок">Программная диагностика и коды ошибок</h2>
+<p>После проверки "железа" необходимо подключиться к автомобилю сканером и считать накопленные коды ошибок, которые хранятся в памяти блоков.</p>
+<p>Для <em>Lada Largus</em> характерны ошибки связи, начинающиеся с префикса U (например, U0100, U0121), которые указывают на потерю связи с конкретным модулем.</p>
+<p>Если сканер показывает ошибку "Неверный сигнал спидометра" или "Ошибка связи с панелью приборов", проблема гарантированно в CAN-шине.</p>
+<p>Важно различать текущие ошибки и сохраненные в истории: текущие требуют немедленного устранения, а исторические могли возникнуть при разряженном аккумуляторе.</p>
+<div class="checklist-block"><h4>☑️ Алгоритм поиска ошибки связи</h4><label class="check-item"><input type="checkbox"><span>Считать коды ошибок</span></label><label class="check-item"><input type="checkbox"><span>Записать коды U-серии</span></label><label class="check-item"><input type="checkbox"><span>Проверить наличие связи с каждым блоком отдельно</span></label><label class="check-item"><input type="checkbox"><span>Локализовать блок, не отвечающий на запрос</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+<p>Иногда помогает простой сброс ошибок, но если проблема физическая, они вернутся сразу после запуска двигателя.</p>
+<p>В некоторых случаях требуется перепрошивка блоков управления, если программный сбой привел к некорректной работе протокола обмена данными.</p>
+
+<h2 id="таблица-типовых-параметров-can-шины">Таблица типовых параметров CAN-шины</h2>
+<p>Для удобства проверки основные параметры исправной системы сведены в таблицу, на которую можно опираться при диагностике <em>Лада Ларгус</em>.</p>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Нормальное значение</th>
+<th>Возможная причина отклонения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Напряжение CAN-H</td>
+<td>2.5 - 2.7 В</td>
+<td>Обрыв линии, неисправность ЭБУ</td>
+</tr>
+<tr>
+<td>Напряжение CAN-L</td>
+<td>2.3 - 2.5 В</td>
+<td>Короткое замыкание, окисление</td>
+</tr>
+<tr>
+<td>Сопротивление шины</td>
+<td>58 - 62 Ом</td>
+<td>Обрыв резисторов, обрыв провода</td>
+</tr>
+<tr>
+<td>Сопротивление изоляции</td>
+<td>> 10 кОм</td>
+<td>Повреждение изоляции, влага</td>
+</tr>
+</tbody>
+</table>
+<p>Эти данные актуальны для высокоскоростной шины, в низкоскоростной версии напряжения могут отличаться.</p>
+<p>Если ваши замеры кардинально отличаются от табличных, необходимо последовательно отключать блоки управления для поиска виновника.</p>
+
+<h2 id="устранение-неисправностей-и-замена-компонентов">Устранение неисправностей и замена компонентов</h2>
+<p>После локализации неисправности приступают к ремонту, который может варьироваться от простой зачистки контактов до замены жгутов.</p>
+<p>Если вышел из строя один из блоков управления (например, ABS или ЭБУ двигателя), его замена потребует последующей привязки через диагностический сканер.</p>
+<p>При восстановлении проводки используйте только медный провод сечением не менее 0.5 мм² и обязательно экранируйте места пайки.</p>
+<details class="faq-item"><summary>Можно ли ездить с ошибкой CAN-шины?</summary><div class="faq-answer"><p>Ездить можно, но не рекомендуется. Автомобиль переходит в аварийный режим, отключаются системы безопасности (ABS, ESP), не работает спидометр, что опасно на трассе. Кроме того, ЭБУ не может корректно рассчитать смесь, что ведет к перерасходу топлива.</p></div></details>
+<p>Некоторые владельцы практикуют установку дополнительных резисторов 120 Ом в разрыв линии для эмуляции terminators, но это временное решение.</p>
+<p>Важно обеспечить надежную изоляцию восстановленных соединений, так как вибрации кузова быстро разрушают некачественную скрутку.</p>
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Качественная изоляция и фиксация жгутов — залог долговечности ремонта CAN-системы в условиях вибрации автомобиля.</p></div>
+<p>После завершения работ обязательно проведите повторную диагностику и тест-драйв для проверки стабильности работы всех систем.</p>
+
+<details>
+<summary>Почему горит сразу много ошибок после запуска двигателя?</summary>
+<p>Это классический признак проблем с <strong>CAN-шиной</strong>. Блоки управления перестают обмениваться данными, и каждый из них фиксирует потерю связи с соседями, выводя их на панель приборов. Сначала нужно проверить напряжение на диагностическом разъеме.</p>
+</details>
+<details>
+<summary>Можно ли отключить блоки с CAN-шины, чтобы найти неисправный?</summary>
+<p>Да, это основной метод поиска. При выключенном зажигании отключайте разъемы блоков по очереди и следите за сопротивлением линии. Если после отключения某个 блока сопротивление пришло в норму (60 Ом), значит, коротит именно он.</p>
+</details>
+<details>
+<summary>Влияет ли разряженный аккумулятор на работу CAN-авто?</summary>
+<p>Да, при низком напряжении в бортовой сети блоки управления могут работать некорректно или самопроизвольно перезагружаться, создавая помехи в линии. Перед глубокой диагностикой обязательно зарядите АКБ.</p>
+</details>
+<details>
+<summary>Где находятся терминальные резисторы в Лада Ларгус?</summary>
+<p>Обычно они встроены в блок управления двигателем (ECU) и в блок ABS или панель приборов. Точное расположение зависит от года выпуска и комплектации автомобиля, см. электросхему.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#архитектура-цифровой-сети-автомобиля">Архитектура цифровой сети автомобиля</a></li><li><a href="#типичные-симптомы-неисправностей-can-шины">Типичные симптомы неисправностей CAN-шины</a></li><li><a href="#необходимое-оборудование-для-диагностики">Необходимое оборудование для диагностики</a></li><li><a href="#проверка-напряжения-и-сопротивления-линии">Проверка напряжения и сопротивления линии</a></li><li><a href="#поиск-обрывов-и-коротких-замыканий">Поиск обрывов и коротких замыканий</a></li><li><a href="#программная-диагностика-и-коды-ошибок">Программная диагностика и коды ошибок</a></li><li><a href="#таблица-типовых-параметров-can-шины">Таблица типовых параметров CAN-шины</a></li><li><a href="#устранение-неисправностей-и-замена-компонентов">Устранение неисправностей и замена компонентов</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/b/be/benzonasos-lada-largus-8-klapanov.html" class="related-card">Бензонасос Лада Ларгус 8 клапанов: замена, цена, артикул</a></li><li><a href="/articles/k/ka/kakoj-raskhod-topliva-lada-largus.html" class="related-card">Расход топлива Лада Ларгус: реальные цифры и как снизить</a></li><li><a href="/articles/r/ra/razboltovka-lada-largus-r15.html" class="related-card">Разболтовка Лада Ларгус R15: параметры дисков и сверловка</a></li><li><a href="/articles/l/la/lada-largus-dinamiki-v-dveri-razmer.html" class="related-card">Размеры динамиков в дверях Лада Ларгус: выбор и замена</a></li><li><a href="/articles/l/la/lada-largus-kharakteristiki-avtomobilya-tekhnicheskie.html" class="related-card">Лада Ларгус: технические характеристики всех модификаций</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/b/be/benzonasos-lada-largus-8-klapanov.html" class="related-bottom-card"><span class="related-bottom-title">Бензонасос Лада Ларгус 8 клапанов: замена, цена, артикул</span><span class="related-bottom-desc">Полный гид по бензонасосу Лада Ларгус 8 клапанов. Артикулы, признаки неисправности, пошаговая инстру</span></a><a href="/articles/k/ka/kakoj-raskhod-topliva-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">Расход топлива Лада Ларгус: реальные цифры и как снизить</span><span class="related-bottom-desc">Подробный анализ расхода топлива Lada Largus (8 и 16 клапанов, бензин/газ). Нормы, причины повышенно</span></a><a href="/articles/r/ra/razboltovka-lada-largus-r15.html" class="related-bottom-card"><span class="related-bottom-title">Разболтовка Лада Ларгус R15: параметры дисков и сверловка</span><span class="related-bottom-desc">Полный справочник по разболтовке Лада Ларгус R15. Узнайте параметры сверловки 4x100, вылет ET и разм</span></a><a href="/articles/l/la/lada-largus-dinamiki-v-dveri-razmer.html" class="related-bottom-card"><span class="related-bottom-title">Размеры динамиков в дверях Лада Ларгус: выбор и замена</span><span class="related-bottom-desc">Подробный гайд по размерам штатных и нештатных динамиков в дверях Lada Largus. Схемы установки, совм</span></a><a href="/articles/l/la/lada-largus-kharakteristiki-avtomobilya-tekhnicheskie.html" class="related-bottom-card"><span class="related-bottom-title">Лада Ларгус: технические характеристики всех модификаций</span><span class="related-bottom-desc">Полный обзор технических характеристик Лада Ларгус: двигатели, габариты, расход топлива, грузоподъем</span></a><a href="/articles/l/la/lada-largus-razmery-salona.html" class="related-bottom-card"><span class="related-bottom-title">Лада Ларгус размеры салона: габариты, объём багажника, расстояния</span><span class="related-bottom-desc">Подробный обзор Лада Ларгус: размеры салона, расстояния между рядами, объём багажника в 5 и 7 мест. </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

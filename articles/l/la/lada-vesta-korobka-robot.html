@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Лада Веста робот: устройство, ресурс и особенности AMT — Лада Справка</title>
+    <meta name="description" content="Подробный разбор роботизированной коробки АМТ на Лада Веста. Ресурс сцепления, нюансы прошивок, режимы работы и сравнение с классическим автоматом.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-vesta-korobka-robot.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Лада Веста робот: устройство, ресурс и особенности AMT">
+    <meta property="og:description" content="Подробный разбор роботизированной коробки АМТ на Лада Веста. Ресурс сцепления, нюансы прошивок, режимы работы и сравнение с классическим автоматом.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Лада Веста робот: устройство, ресурс и особенности AMT</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Роботизированная коробка на Лада Веста: устройство, ресурс и тонкости эксплуатации</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#конструкция-и-принцип-работы-амт">Конструкция и принцип работы АМТ</a></li><li><a href="#отличия-версий-амт-10-и-амт-20">Отличия версий АМТ 1.0 и АМТ 2.0</a></li><li><a href="#ресурс-сцепления-и-факторы-износа">Ресурс сцепления и факторы износа</a></li><li><a href="#режимы-работы-и-управление-трансмиссией">Режимы работы и управление трансмиссией</a></li><li><a href="#обслуживание-и-замена-масла-в-амт">Обслуживание и замена масла в АМТ</a></li><li><a href="#типичные-проблемы-и-их-решения">Типичные проблемы и их решения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Автомобиль <em>Лада Веста</em> стал знаковым для отечественного автопрома не только благодаря дизайну, но и внедрению новых технических решений, среди которых особое место занимает <strong>роботизированная трансмиссия</strong>. Многие водители до сих пор относятся к «роботу» с опаской, вспоминая ранние версии подобных коробок, однако <em>АМТ</em> (автоматизированная механическая трансмиссия) имеет свои уникальные особенности, которые необходимо учитывать для долгой службы агрегата. Понимание принципов работы этой системы позволяет существенно продлить срок её эксплуатации и избежать дорогостоящего ремонта.</p>
+
+<p>В отличие от классического гидротрансформаторного автомата или вариатора, робот на Весте конструктивно ближе к механике, но управление переключением передач здесь полностью автоматизировано. Это решение было выбрано инженерами <em>АвтоВАЗ</em> как компромисс между стоимостью производства, топливной экономичностью и комфортом вождения. <strong>Электронный блок управления</strong> (ЭБУ) самостоятельно принимает решение о моменте переключения, опираясь на данные множества датчиков, что делает процесс вождения более комфортным в городских условиях.</p>
+
+<p>Сегодня мы подробно разберем устройство <strong>АМТ 2.0</strong>, поговорим о ресурсе сцепления, особенностях прошивок и том, как правильно эксплуатировать автомобиль, чтобы коробка служила максимально долго. Вы узнаете, почему <mark>прогрев масла в зимний период обязателен</mark> для сохранения ресурса актуаторов, и какие мифы окружают этот узел. Грамотный подход к обслуживанию трансмиссии — залог отсутствия рывков и пинков на протяжении десятков тысяч километров.</p>
+
+<h2 id="конструкция-и-принцип-работы-амт">Конструкция и принцип работы АМТ</h2>
+
+<p>Роботизированная коробка передач на <em>Lada Vesta</em> базируется на проверенной временем механической трансмиссии <code>ВАЗ-21807</code>. К стандартному корпусу «механики» были добавлены два электрических актуатора (сервопривода) немецкой фирмы <em>ZF</em> (в более ранних версиях встречались компоненты других производителей, но в массовом производстве утвердился этот стандарт). Первый актуатор отвечает за выжим сцепления, а второй — за выбор и переключение передач. Такая компоновка позволяет сохранить высокую надежность механической части при добавлении автоматизации.</p>
+
+<p>Управление процессами происходит через <strong>электронный блок управления</strong>, который получает информацию о скорости вращения коленвала, положении педали акселератора, скорости автомобиля и даже о крене кузова. На основе этих данных ЭБУ дает команду на смену передачи. В отличие от классического автомата, здесь нет гидротрансформатора, который сглаживал бы рывки, поэтому переключения могут ощущаться физически, особенно при активной езде. Однако современные прошивки научили робота работать гораздо плавнее, минимизируя дискомфорт.</p>
+
+<blockquote>⚠️ Внимание: АМТ не является полноценным автоматом, и алгоритмы её работы заточены в первую очередь на экономию топлива, а не на спортивную динамику. Резкое нажатие на газ часто приводит к задержке переключения вниз, что может быть опасно при обгоне.</blockquote>
+
+<p>Важно отметить, что сцепление в этой системе сухое, однодисковое, и его износ напрямую зависит от стиля вождения и условий эксплуатации. <strong>Мехатроник</strong> (совокупность механики и электроники) постоянно контролирует положение выжимного подшипника, обеспечивая точность смыкания дисков. Любые сбои в работе датчиков могут привести к некорректному поведению коробки, поэтому диагностика должна проводиться только сертифицированным оборудованием.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какая трансиссия у вашей Лада Веста?</strong><ul><li>Механика (МКПП)</li><li>Робот (АМТ)</li><li>Вариатор (CVT)</li><li>Автомат (AT)</li><li>Другое</li></ul></div></div>
+
+<h2 id="отличия-версий-амт-10-и-амт-20">Отличия версий АМТ 1.0 и АМТ 2.0</h2>
+
+<p>Эволюция роботизированной трансмиссии на <em>Весте</em> прошла путь от версии 1.0 до более совершенной 2.0. Владельцы первых моделей часто жаловались на «рысканье» машины при старте в горку и характерный вой при переключениях. Инженеры учли эти нарекания и внедрили ряд доработок, которые кардинально изменили поведение автомобиля на дороге. Теперь <strong>АМТ 2.0</strong> работает значительно тише и плавнее, а список доступных режимов расширился.</p>
+
+<p>Одним из главных улучшений стала внедрение режима <code>Start-Stop</code> и функции «ползучести» (Creep mode). Если в первой версии автомобиль при отпускании тормоза на ровной поверхности мог стоять на месте, требуя обязательного добавления газа, то версия 2.0 начинает медленно двигаться вперед, имитируя поведение классического автомата. Это существенно упрощает маневрирование в плотном городском трафике и парковку.</p>
+
+<p>Также изменения коснулись алгоритмов прогрева. Теперь при низких температурах <strong>ЭБУ</strong> автоматически корректирует моменты переключения, чтобы быстрее прогреть масло и катализатор. Звукоизоляция работы актуаторов во второй версии также была улучшена, что сделало салон тише. Однако базовая механическая часть осталась прежней, что говорит о её высокой надежности и ремонтопригодности.</p>
+
+<ul>
+<li>🚀 <strong>Режим ползучести:</strong> Автоматическое трогание при отпускании педали тормоза без участия водителя.</li>
+<li>🔇 <strong>Акустический комфорт:</strong> Снижение уровня шума при работе электромоторов переключения.</li>
+<li>❄️ <strong>Зимняя логика:</strong> Улучшенные алгоритмы старта на скользком покрытии и прогрева агрегатов.</li>
+<li>⚙️ <strong>Доработанное сцепление:</strong> Измененные фрикционные материалы для более плавного включения.</li>
+</ul>
+
+<details class="faq-item"><summary>Технические детали доработок</summary><div class="faq-answer"><p>В версии 2.0 были изменены передаточные числа главной пары и самого робота, что позволило снизить нагрузку на двигатель при старте. Также обновлен софт, который теперь быстрее реагирует на изменение положения педали газа, уменьшая задержку (лаг) при резком ускорении.</p></div></details>
+
+<h2 id="ресурс-сцепления-и-факторы-износа">Ресурс сцепления и факторы износа</h2>
+
+<p>Вопрос ресурса сцепления является самым болезненным для владельцев роботизированных Вест. На <strong>механике</strong> водитель сам решает, когда выжимать педаль, а в случае с АМТ этим занимается компьютер. Средний ресурс сцепления на роботе составляет от 80 до 120 тысяч километров, но эта цифра сильно зависит от условий эксплуатации. В плотных городских пробках износ происходит быстрее из-за частых полутолков.</p>
+
+<p>Основным врагом сцепления является перегрев. Частые короткие поездки, агрессивный стиль вождения с резкими стартами и длительная езда на низких передачах с высокими оборотами приводят к повышению температуры фрикционных дисков. <em>Электроника</em> пытается защитить узел, но при критическом перегреве может временно ограничить тягу или вообще отключить передачу крутящего момента до остывания.</p>
+
+<blockquote>⚠️ Внимание: Не держите автомобиль на уклоне только за счет работы двигателя в режиме «D». Используйте стояночный тормоз, чтобы избежать излишнего проскальзывания дисков сцепления и их преждевременного износа.</blockquote>
+
+<p>Симптомами износа сцепления могут стать рывки при переключении передач, появление вибраций при старте или характерный запах гари. Также стоит обращать внимание на поведение машины при движении в горку: если автомобиль начинает «клевать» или терять тягу на ровной дороге при умеренном газе, возможно, диск уже близок к замене. Своевременная <strong>адаптация</strong> может временно улучшить ситуацию, но не устранит физический износ.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка состояния сцепления</h4><label class="check-item"><input type="checkbox"><span>Отследить рывки при старте</span></label><label class="check-item"><input type="checkbox"><span>Проверить наличие вибраций</span></label><label class="check-item"><input type="checkbox"><span>Оценить запах из подкапотного</span></label><label class="check-item"><input type="checkbox"><span>Прислушаться к звукам выключения передачи</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="режимы-работы-и-управление-трансмиссией">Режимы работы и управление трансмиссией</h2>
+
+<p>Управление <em>роботом</em> осуществляется через селектор, расположенный в салоне, который имеет положения <code>A</code> (автоматический режим), <code>M</code> (ручной режим) и <code>R</code> (задний ход). В автоматическом режиме водитель просто выбирает направление движения, а коробка сама решает, когда переключаться. В ручном режиме (<code>+/-</code>) ответственность за выбор передачи полностью ложится на плечи водителя, что полезно при обгонах или движении по бездорожью.</p>
+
+<p>Особого внимания заслуживает режим <strong>Winter</strong> (зимний), который активируется отдельной кнопкой или комбинацией (в зависимости от года выпуска). В этом режиме автомобиль трогается со второй передачи, что снижает вероятность пробуксовки на льду или снежной каше. Также в зимнем режиме изменены алгоритмы переключений: передачи меняются на более низких оборотах, чтобы избежать резких рывков на скользкой дороге.</p>
+
+<p>При переходе в ручной режим Он не даст заглушить двигатель передачей при высокой скорости и самостоятельно понизит передачу, если обороты упадут до критических значений. Однако при длительном торможении двигателем коробка может сама перейти на нейтраль, если скорость упадет слишком сильно, поэтому контроль со стороны водителя необходим всегда.</p>
+
+<table>
+<thead>
+<tr>
+<th>Режим</th>
+<th>Обозначение</th>
+<th>Описание работы</th>
+<th>Когда использовать</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Автомат</td>
+<td><code>A</code></td>
+<td>Полное автопереключение</td>
+<td>Город, трасса, обычные условия</td>
+</tr>
+<tr>
+<td>Ручной</td>
+<td><code>M</code></td>
+<td>Переключение водителем</td>
+<td>Обгоны, спуски, бездорожье</td>
+</tr>
+<tr>
+<td>Зимний</td>
+<td><code>W</code></td>
+<td>Старт со 2-й передачи</td>
+<td>Снег, лед, грязь</td>
+</tr>
+<tr>
+<td>Спорт</td>
+<td><code>S</code></td>
+<td>Повышенные обороты</td>
+<td>Динамичная езда (на некоторых прошивках)</td>
+</tr>
+</tbody>
+</table>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При длительном спуске с горы обязательно переходите в ручной режим и принудительно включайте пониженные передачи. Это позволит тормозить двигателем и спасет тормозные колодки от перегрева.</p></div>
+
+<h2 id="обслуживание-и-замена-масла-в-амт">Обслуживание и замена масла в АМТ</h2>
+
+<p>Хотя производитель может заявлять, что масло в коробке залито на весь срок службы, практика показывает, что <strong>своевременная замена</strong> значительно продлевает жизнь подшипникам и шестерням. В роботе масло выполняет не только смазывающую, но и охлаждающую функцию, а также отводит продукты износа. Рекомендуется проводить замену каждые 60-70 тысяч километров или раз в 4-5 лет эксплуатации.</p>
+
+<p>Для <em>АМТ 2.0</em> используется специальное синтетическое трансмессионное масло с вязкостью <code>75W-90</code> и допуском <code>GL-4</code>. Важно не перепутать его с маслом для механики более старых образцов или жидкостью для АКПП, так как химический состав присадок может негативно сказаться на работе синхронизаторов и актуаторов. Объем заливаемой жидкости составляет около 2.2 литра, но лучше брать канистру с запасом.</p>
+
+<p>Процедура замены требует подъема автомобиля и наличия специального оборудования для откачки или слива через контрольное отверстие. Важно проверить состояние магнитной пробки: наличие металлической стружки допустимо в микроскопических количествах, но крупные частицы говорят о проблемах с подшипниками или шестернями. Также при обслуживании часто проводят <strong>адаптацию</strong> точки смыкания сцепления, что возвращает плавность хода.</p>
+
+<ul>
+<li>🛢️ <strong>Тип масла:</strong> Синтетика <code>75W-90</code>, класс <code>GL-4</code>.</li>
+<li>📏 <strong>Объем:</strong> Около 2.2 литра (при полной замене).</li>
+<li>📅 <strong>Интервал:</strong> Каждые 60 000 км или 4 года.</li>
+<li>🌡️ <strong>Температура:</strong> Замену лучше производить на прогретой коробке.</li>
+</ul>
+
+<h2 id="типичные-проблемы-и-их-решения">Типичные проблемы и их решения</h2>
+
+<p>Несмотря на надежность, роботизированная коробка на <em>Лада Веста</em> не лишена детских болезней. Одной из распространенных проблем является «рысканье» или дерганье на низких скоростях, особенно в пробках. Часто это решается перепрошивкой блока управления на более новую версию, где алгоритмы работы сцепления оптимизированы. Также источником проблем может быть сам <strong>выжимной подшипник</strong>, который со временем теряет плавность хода.</p>
+
+<p>Еще одна частая жалоба — долгий поиск передачи при старте или в движении. Это может быть связано с износом корзины сцепления или нарушением калибровок актуаторов. В таких случаях помогает процедура адаптации, которую можно выполнить через диагностический сканер. Если же адаптация не помогает, вероятно, потребуется механическое вмешательство и замена изношенных компонентов.</p>
+
+<blockquote>⚠️ Внимание: Если на приборной панели загорелась ошибка коробки передач (значок шестеренки), не игнорируйте это. Продолжение эксплуатации может привести к полному выходу узла из строя. Считайте код ошибки для диагностики.</blockquote>
+
+<p>Зимой водители могут столкнуться с примерзанием механизмов или загустеванием смазки в актуаторах, что приводит к затрудненному включению передач. <mark>Прогрев двигателя и кратковременное переключение режимов</mark> перед началом движения помогают распределить масло и разогреть узлы. Игнорирование прогрева в сильные морозы может привести к поломке пластиковых шестерен внутри актуаторов.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Большинство проблем с роботом АМТ решаются обновлением программного обеспечения или простой адаптацией, не требуя дорогостоящего ремонта механической части.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Сколько реально ходит сцепление на роботе Веста?</summary>
+<p>При аккуратной эксплуатации и отсутствии постоянных пробок ресурс сцепления составляет 80-120 тысяч км. В жестком городском режиме цифра может снизиться до 50-60 тысяч км.</p>
+</details>
+
+<details>
+<summary>Можно ли буксировать Лада Веста с роботом?</summary>
+<p>Буксировка возможна только при работающем двигателе, так как масляный насос, смазывающий коробку, приводится в действие мотором. Буксировка с неработающим двигателем запрещена и может вывести АКПП из строя.</p>
+</details>
+
+<details>
+<summary>Нужно ли переводить в нейтраль на светофорах?</summary>
+<p>Нет, в этом нет необходимости. Робот сам размыкает сцепление при остановке. Постоянное переключение в нейтраль только увеличивает износ актуаторов.</p>
+</details>
+
+<details>
+<summary>Почему робот воет при переключении?</summary>
+<p>Характерный вой при переключении — это конструктивная особенность работы актуаторов и механики, особенно на холодную. Если вой не сопровождается рывками, это нормально.</p>
+</details>
+
+<details>
+<summary>Как продлить жизнь АМТ 2.0?</summary>
+<p>Дайте коробке прогреться зимой, не держите машину на уклоне газом, избегайте резких стартов с места и регулярно меняйте трансмиссионное масло.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#конструкция-и-принцип-работы-амт">Конструкция и принцип работы АМТ</a></li><li><a href="#отличия-версий-амт-10-и-амт-20">Отличия версий АМТ 1.0 и АМТ 2.0</a></li><li><a href="#ресурс-сцепления-и-факторы-износа">Ресурс сцепления и факторы износа</a></li><li><a href="#режимы-работы-и-управление-трансмиссией">Режимы работы и управление трансмиссией</a></li><li><a href="#обслуживание-и-замена-масла-в-амт">Обслуживание и замена масла в АМТ</a></li><li><a href="#типичные-проблемы-и-их-решения">Типичные проблемы и их решения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/r/re/regulirovka-far-lada-vesta.html" class="related-card">Регулировка фар Лада Веста: пошаговая инструкция и схемы</a></li><li><a href="/articles/k/ka/kakie-dinamiki-stoyat-na-lada-vesta.html" class="related-card">Какие динамики стоят на Лада Веста: размеры и замена</a></li><li><a href="/articles/m/ma/magnitola-lada-vesta-sv-kross.html" class="related-card">Магнитола Lada Vesta SW Cross: выбор, установка и настройка</a></li><li><a href="/articles/k/ka/kakoj-zazor-na-svechakh-lada-vesta.html" class="related-card">Зазор на свечах Лада Веста: нормы и настройка</a></li><li><a href="/articles/a/am/amortizator-zadnij-lada-vesta-sedan.html" class="related-card">Амортизатор задний Лада Веста седан: выбор, замена, артикулы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/r/re/regulirovka-far-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Регулировка фар Лада Веста: пошаговая инструкция и схемы</span><span class="related-bottom-desc">Правильная настройка света Лада Веста своими руками. Схема регулировки, расположение винтов, нормы Г</span></a><a href="/articles/k/ka/kakie-dinamiki-stoyat-na-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Какие динамики стоят на Лада Веста: размеры и замена</span><span class="related-bottom-desc">Полный гид по акустике Лада Веста: штатные размеры динамиков в дверях и торпедо, артикулы, выбор зам</span></a><a href="/articles/m/ma/magnitola-lada-vesta-sv-kross.html" class="related-bottom-card"><span class="related-bottom-title">Магнитола Lada Vesta SW Cross: выбор, установка и настройка</span><span class="related-bottom-desc">Подробный гид по штатной и нештатной магнитоле для Lada Vesta SW Cross: модели, подключение, прошивк</span></a><a href="/articles/k/ka/kakoj-zazor-na-svechakh-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Зазор на свечах Лада Веста: нормы и настройка</span><span class="related-bottom-desc">Какой зазор должен быть на свечах Лада Веста для двигателей 1.6 и 1.8? Таблица норм, инструкция по р</span></a><a href="/articles/a/am/amortizator-zadnij-lada-vesta-sedan.html" class="related-bottom-card"><span class="related-bottom-title">Амортизатор задний Лада Веста седан: выбор, замена, артикулы</span><span class="related-bottom-desc">Все о задних амортизаторах для Лада Веста седан. Артикулы, признаки неисправности, сравнение произво</span></a><a href="/articles/z/za/zadnee-sidene-lada-vesta-s-podlokotnikom.html" class="related-bottom-card"><span class="related-bottom-title">Заднее сиденье Лада Веста с подлокотником: установка и доработка</span><span class="related-bottom-desc">Как установить заднее сиденье Лада Веста с подлокотником своими руками. Разбор конструкции, нюансы з</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Прошивка для Лада Гранта 8 клапанная: чип-тюнинг и версии ЭБУ — Лада Справка</title>
+    <meta name="description" content="Подробный гид по прошивке ЭБУ Лада Гранта 8 кл. Версии I414, I414AB, J90. Плюсы Stage 1, выбор ПО и установка своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/pr/proshivka-dlya-lada-granta-8-klapannaya.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Прошивка для Лада Гранта 8 клапанная: чип-тюнинг и версии ЭБУ">
+    <meta property="og:description" content="Подробный гид по прошивке ЭБУ Лада Гранта 8 кл. Версии I414, I414AB, J90. Плюсы Stage 1, выбор ПО и установка своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Прошивка для Лада Гранта 8 клапанная: чип-тюнинг и версии ЭБУ</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Прошивка для Лада Гранта 8 клапанная: выбор, установка и преимущества</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#идентификация-эбу-и-версии-прошивки">Идентификация ЭБУ и версии прошивки</a></li><li><a href="#преимущества-установки-альтернативного-по">Преимущества установки альтернативного ПО</a></li><li><a href="#выбор-прошивки-stage-1-или-евро-2">Выбор прошивки: Stage 1 или Евро-2?</a></li><li><a href="#необходимое-оборудование-для-прошивки">Необходимое оборудование для прошивки</a></li><li><a href="#процесс-перепрошивки-эбу-своими-руками">Процесс перепрошивки ЭБУ своими руками</a></li><li><a href="#частые-ошибки-и-способы-их-устранения">Частые ошибки и способы их устранения</a></li><li><a href="#вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владение автомобилем <em>Лада Гранта</em> с 8-клапанным двигателем часто сопровождается желанием улучшить его динамические характеристики. Штатная <strong>прошивка</strong>, устанавливаемая на заводе, зачастую представляет собой компромисс между экологическими нормами, экономичностью и мощностью. Владельцы, стремящиеся получить от машины максимум, обращают внимание на возможность замены программного обеспечения в электронном блоке управления (ЭБУ).</p>
+
+<p>Процесс перепрограммирования, или <strong>чип-тюнинг</strong>, позволяет изменить алгоритмы работы двигателя, влияя на смесеобразование и момент зажигания. Для 8-клапанных модификаций, которые традиционно считаются тяговитыми на низах, но «вялыми» на высоких оборотах, это особенно актуально. Правильно подобранное ПО способно устранить провалы в тяге и сделать отклик на педаль газа более острым.</p>
+
+<p>Однако, прежде чем приступать к вмешательству в «мозги» автомобиля, необходимо четко понимать, с каким именно оборудованием предстоит работать. Гранты оснащались разными контроллерами, и прошивка для одного типа ЭБУ не подойдет к другому. Ошибочный выбор версии может привести к некорректной работе мотора или даже выходу оборудования из строя.</p>
+
+<h2 id="идентификация-эбу-и-версии-прошивки">Идентификация ЭБУ и версии прошивки</h2>
+
+<p>Первым шагом перед началом любых работ является точное определение типа контроллера. На <em>Лада Гранта</em> с 8-клапанным мотором (ВАЗ-11186, ВАЗ-21116) чаще всего встречались блоки управления от производителя «Автэл» или «Ителма». Самым распространенным вариантом является контроллер <strong>ВАЗ-21126-1411020</strong> с программным обеспечением I414 (для Евро-4) или I414AB (для Евро-5).</p>
+
+<p>Чтобы узнать версию прошивки, не обязательно вскрывать ЭБУ. Достаточно использовать диагностический сканер или специализированный софт для подключения через OBDII разъем. В заводской комплектации часто стоит «экологичная» версия, которая душит двигатель ради соответствия нормам токсичности. Именно от неё чаще всего избавляются в первую очередь.</p>
+
+<p>В таблице ниже приведены основные типы прошивок, встречавшиеся на 8-клапанных Грантах в разные годы выпуска:</p>
+
+<table>
+<thead>
+<tr>
+<th>Тип ЭБУ</th>
+<th>Нормы токсичности</th>
+<th>Характеристики штатной версии</th>
+<th>Популярная модификация</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ВАЗ-21126-1411020-00 (I414)</td>
+<td>Евро-4</td>
+<td>Экономная, вялый отклик</td>
+<td>Евро-2 / Euro-2 (Paulus)</td>
+</tr>
+<tr>
+<td>ВАЗ-21126-1411020-10 (I414AB)</td>
+<td>Евро-5</td>
+<td>Сильные эко-ограничения</td>
+<td>Stage 1 (отечественные тюнеры)</td>
+</tr>
+<tr>
+<td>ВАЗ-21126-1411020 (J90)</td>
+<td>Евро-4</td>
+<td>Редкая, специфичная</td>
+<td>Кастомная прошивка</td>
+</tr>
+<tr>
+<td>ВАЗ-21126-1411020 (M74)</td>
+<td>Евро-4</td>
+<td>Стабильная, но медленная</td>
+<td>Модификация от Ledokol</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>⚠️ Внимание: Попытка залить прошивку от 16-клапанного мотора (например, с индексом 21127) на 8-клапанный блок управления приведет к полной неработоспособности двигателя. Всегда проверяйте совместимость калибровок!</blockquote>
+
+<div class="attention-box attention-info"><div><strong>📊 Какая у вас версия ПО на Гранте?</strong><ul><li>I414 (Евро-4)</li><li>I414AB (Евро-5)</li><li>J90</li><li>Не знаю, нужно смотреть</li></ul></div></div>
+
+<h2 id="преимущества-установки-альтернативного-по">Преимущества установки альтернативного ПО</h2>
+
+<p>Основная цель замены заводской <strong>калибровки</strong> — это изменение поведения автомобиля. Стандартные настройки часто содержат «дыры» в дроссельной заслонке и запоздалое зажигание. Устранение этих факторов дает ощутимый прирост в повседневной эксплуатации, особенно в городском режиме.</p>
+
+<p>Владельцы, установившие качественный софт Stage 1, отмечают исчезновение провалов при резком нажатии на газ. Двигатель начинает работать ровнее, улучшается работа на холостых оборотах. Кроме того, многие версии позволяют отключить второй лямбда-зонд и катализатор, что избавляет от ошибок и снижает сопротивление выхлопу.</p>
+
+<p>Не стоит ожидать превращения Гранты в спорткар, но субъективное ощущение мощности возрастает значительно. Это достигается не столько за счет пиковой мощности, сколько за счет улучшения эластичности двигателя на низких и средних оборотах. <em>Крутящий момент</em> становится доступнее.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Перед прошивкой обязательно сделайте полную диагностику двигателя. Если есть проблемы со свечами, катушками или подсосом воздуха, чип-тюнинг может усугубить ситуацию или не дать результата.</p></div>
+
+<h2 id="выбор-прошивки-stage-1-или-евро-2">Выбор прошивки: Stage 1 или Евро-2?</h2>
+
+<p>На рынке тюнинга существует множество вариантов ПО. Условно их можно разделить на две большие группы: экологические (Евро-2) и мощностные (Stage 1). Выбор зависит от того, что именно вы хотите получить от автомобиля и готовы ли вы менять конструкцию выхлопной системы.</p>
+
+<p>Прошивки под <strong>Евро-2</strong> (часто называемые «отключение катализатора») полностью игнорируют показания второго датчика кислорода. Это позволяет физически удалить катализатор, установив пламегаситель или стронгер. Двигатель «дышит» свободнее, но расход топлива может незначительно вырасти, а экологичность упадет.</p>
+
+<p>Варианты <strong>Stage 1</strong> обычно сохраняют экологические нормы (или имитируют их работу), но оптимизируют карты зажигания и топливоподачи для повышения отдачи. Они подходят тем, кто не хочет вмешиваться в выхлопную систему, но хочет улучшить динамику разгона. Такие версии часто разрабатываются известными тюнинг-ателье.</p>
+
+<ul>
+<li>🚀 <strong>Динамика:</strong> Stage 1 дает более плавный и предсказуемый разгон без потери экологичности.</li>
+<li>💰 <strong>Экономия:</strong> Евро-2 позволяет сэкономить на замене дорогостоящего катализатора в будущем.</li>
+<li>🛠 <strong>Сложность:</strong> Для Евро-2 требуется физическое вмешательство в выхлоп, Stage 1 — это только программная правка.</li>
+<li>📉 <strong>Расход:</strong> На грамотном Stage 1 расход часто остается прежним или даже снижается за счет оптимизации, в то время как на Евро-2 он может вырасти на 0.5–1 литр.</li>
+</ul>
+
+<blockquote>⚠️ Внимание: Использование прошивок «от неизвестных мастеров» с сомнительных форумов может привести к детонации двигателя. Детонация разрушает поршневую группу быстрее, чем любая естественная выработка.</blockquote>
+
+<h2 id="необходимое-оборудование-для-прошивки">Необходимое оборудование для прошивки</h2>
+
+<p>Если вы планируете выполнять работы самостоятельно, вам потребуется специфическое оборудование. Просто скачать файл и перекинуть его через USB-кабель не получится. Для работы с ЭБУ <em>ВАЗ</em> используются специальные адаптеры, работающие по протоколам K-Line или CAN (в зависимости от года выпуска).</p>
+
+<p>Наиболее популярным и универсальным инструментом является адаптер <strong>OpenBox</strong> или его аналоги (ВМД, J7). Также для старых блоков может потребоваться K-Line адаптер (VAG-COM 409.1 или специализированный кабель для ВАЗ). Компьютер должен иметь стабильное питание, поэтому использование ноутбука с подключенным зарядным устройством или внешнего источника питания 12В обязательно.</p>
+
+<p>Программное обеспечение для записи обычно поставляется вместе с адаптером. Это может быть <code>OpenBox Loader</code>, <code>ChipLoader</code> или <code>GPT</code>. Важно использовать лицензионные или проверенные версии софта, так как «крякнутые» программы могут оборвать запись на середине процесса.</p>
+
+<div class="checklist-block"><h4>☑️ Сборка оборудования для прошивки</h4><label class="check-item"><input type="checkbox"><span>Ноутбук с заряженной батареей</span></label><label class="check-item"><input type="checkbox"><span>Адаптер OpenBox или K-Line</span></label><label class="check-item"><input type="checkbox"><span>Стабилизатор напряжения 12-14В</span></label><label class="check-item"><input type="checkbox"><span>Установленный софт (ChipLoader/GPT)</span></label><label class="check-item"><input type="checkbox"><span>Кабель для подключения к ЭБУ</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<h2 id="процесс-перепрошивки-эбу-своими-руками">Процесс перепрошивки ЭБУ своими руками</h2>
+
+<p>Процедура замены ПО требует внимательности и соблюдения последовательности действий. Сначала необходимо обеспечить доступ к блоку управления. На Гранте он расположен под центральной консолью, за пластиковой накладкой тоннеля пола, рядом с рычагом КПП. Иногда для удобства приходится снимать декоративные панели.</p>
+
+<p>После получения доступа к разъему ЭБУ, подключите адаптер. Не включайте зажигание сразу. Сначала подключите адаптер к ноутбуку, запустите программу, и только потом подавайте питание. Если вы используете OpenBox, в меню выбирается соответствующий тип контроллера. Процесс считывания оригинальной прошивки (бэкап) — критически важный этап.</p>
+
+<p><mark>Никогда не начинайте запись новой прошивки, не сохранив оригинальный файл (сток) в трех разных местах: на компьютере, на флешке и в облаке.</mark> Это ваша страховка на случай, если новая версия окажется нерабочей или повредится при записи.</p>
+
+<pre><code>Алгоритм действий:
+<p>1. Подключить адаптер к ЭБУ и ПК.</p>
+<p>2. Включить зажигание (двигатель не заводить!).</p>
+<p>3. Считать VIN-код и идентификаторы (проверка связи).</p>
+<p>4. Сделать полный дамп (чтение) EEPROM и Flash памяти.</p>
+<p>5. Сохранить бэкап.</p>
+<p>6. Загрузить новую прошивку в программу.</p>
+<p>7. Нажать «Запись» и дождаться окончания (100%).</p>
+<p>8. Выключить зажигание, отключить адаптер.</code></pre></p>
+
+<p>После успешной записи необходимо выполнить процедуру «обучения» ЭБУ. Для этого включите зажигание на 10 секунд, выключите на 10 секунд, затем запустите двигатель. Дайте мотору поработать на холостых оборотах до включения вентилятора охлаждения. В это время блок адаптируется к новым картам.</p>
+
+<details class="faq-item"><summary>Что делать, если прошивка не записалась?</summary><div class="faq-answer"><p>Если процесс оборвался на середине, не паникуйте. В большинстве случаев ЭБУ остается в режиме BootLoader. Попробуйте снова запустить процесс записи того же файла. Если блок не определяется, возможно, потребуется восстановление через BSL-режим, что сложнее и требует разборки платы ЭБУ.</p></div></details>
+
+<h2 id="частые-ошибки-и-способы-их-устранения">Частые ошибки и способы их устранения</h2>
+
+<p>Даже опытные пользователи сталкиваются с проблемами. Одна из распространенных ошибок — «Ошибка контрольной суммы». Она возникает, если файл прошивки поврежден или не предназначен для данного идентификатора блока. Программа-загрузчик обычно предупреждает об этом перед началом записи.</p>
+
+<p>Другая проблема — плавающие обороты после перепрошивки. Это часто решается сбросом адаптаций через диагностический сканер (например, OpenDiag) или длительной поездкой в разных режимах. ЭБУ должен «научиться» правильно держать холостой ход с новыми настройками дроссельной заслонки.</p>
+
+<p>Если после прошивки загорелся «Check Engine», считайте код ошибки. Часто это бывает ошибка по катализатору (P0420), если вы поставили мощностную прошивку, но не отключили второй лямбда-зонд программно. В таком случае требуется либо физическое удаление датчика (с установкой эмулятора), либо повторная прошивка с правильными настройками.</p>
+
+<ul>
+<li>🔌 <strong>Плохой контакт:</strong> Проверьте надежность подключения пинов адаптера к разъему ЭБУ. Окисление или люфт могут прервать запись.</li>
+<li>🔋 <strong>Скачки напряжения:</strong> Если в бортовой сети упало напряжение ниже 11.5В во время записи, процесс прервется. Используйте зарядное устройство.</li>
+<li>💻 <strong>Драйверы:</strong> Убедитесь, что драйверы адаптера установлены корректно и порт COM выбран правильно в диспетчере устройств.</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Главный залог успеха — стабильное напряжение бортовой сети во время записи. Любой скачок может превратить ЭБУ в «кирпич».</p></div>
+
+<h2 id="вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</h2>
+
+<details>
+<summary>Сбросится ли прошивка, если снять клемму аккумулятора?</summary>
+<p>Нет, программное обеспечение записывается в энергонезависимую память (Flash). Снятие клеммы сбрасывает только краткосрочные адаптации и ошибки, но сама прошивка остается неизменной.</p>
+</details>
+
+<details>
+<summary>Увеличится ли расход топлива после чип-тюнинга?</summary>
+<p>Зависит от стиля вождения. Если вы будете чаще использовать доступную мощность, расход вырастет. При спокойной езде на правильно настроенной прошивке Stage 1 расход часто остается на уровне стока или снижается за счет более эффективного сгорания смеси.</p>
+</details>
+
+<details>
+<summary>Можно ли вернуться на заводскую прошивку?</summary>
+<p>Да, если вы сохранили оригинальный файл (бэкап) перед началом работ. Процедура возврата занимает столько же времени, сколько и первичная прошивка.</p>
+</details>
+
+<details>
+<summary>Влияет ли чип-тюнинг на ресурс двигателя?</summary>
+<p>Грамотный чип-тюнинг (Stage 1) не сокращает ресурс, так как не выходит за пределы физических параметров деталей. Однако агрессивная езда на модифицированном авто, естественно, приводит к более быстрому износу, как и на любом другом автомобиле.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#идентификация-эбу-и-версии-прошивки">Идентификация ЭБУ и версии прошивки</a></li><li><a href="#преимущества-установки-альтернативного-по">Преимущества установки альтернативного ПО</a></li><li><a href="#выбор-прошивки-stage-1-или-евро-2">Выбор прошивки: Stage 1 или Евро-2?</a></li><li><a href="#необходимое-оборудование-для-прошивки">Необходимое оборудование для прошивки</a></li><li><a href="#процесс-перепрошивки-эбу-своими-руками">Процесс перепрошивки ЭБУ своими руками</a></li><li><a href="#частые-ошибки-и-способы-их-устранения">Частые ошибки и способы их устранения</a></li><li><a href="#вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-znachki-na-paneli-priborov.html" class="related-card">Значки на панели приборов Лада Гранта: расшифровка и коды ошибок</a></li><li><a href="/articles/r/ra/raspinovka-generatora-lada-granta.html" class="related-card">Распиновка генератора Лада Гранта: схемы, провода и проверка</a></li><li><a href="/articles/l/la/lada-granta-komplektatsiya-klassik.html" class="related-card">Лада Гранта комплектация Классик: полный обзор опций и цены</a></li><li><a href="/articles/z/za/zamena-remnya-grm-lada-granta.html" class="related-card">Замена ремня ГРМ Лада Гранта: сроки, выбор, инструкция</a></li><li><a href="/articles/l/la/lada-granta-gul-pri-dvizhenii-speredi.html" class="related-card">Гул спереди у Лады Гранты: причины и решения (2026)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-znachki-na-paneli-priborov.html" class="related-bottom-card"><span class="related-bottom-title">Значки на панели приборов Лада Гранта: расшифровка и коды ошибок</span><span class="related-bottom-desc">Полная расшифровка всех значков и индикаторов на панели приборов Лада Гранта. Что делать, если загор</span></a><a href="/articles/r/ra/raspinovka-generatora-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Распиновка генератора Лада Гранта: схемы, провода и проверка</span><span class="related-bottom-desc">Полная распиновка генератора Лада Гранта (8 и 16 клапанов). Схема контактов, цвета проводов, проверк</span></a><a href="/articles/l/la/lada-granta-komplektatsiya-klassik.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта комплектация Классик: полный обзор опций и цены</span><span class="related-bottom-desc">Подробный разбор Лада Гранта комплектация Классик: технические характеристики, список оборудования, </span></a><a href="/articles/z/za/zamena-remnya-grm-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Замена ремня ГРМ Лада Гранта: сроки, выбор, инструкция</span><span class="related-bottom-desc">Подробная инструкция по замене ремня ГРМ на Lada Granta. Выбор комплекта, проверка роликов, метки дв</span></a><a href="/articles/l/la/lada-granta-gul-pri-dvizhenii-speredi.html" class="related-bottom-card"><span class="related-bottom-title">Гул спереди у Лады Гранты: причины и решения (2026)</span><span class="related-bottom-desc">Почему гудит спереди у Гранты при движении? Разбираем 7 основных причин, диагностику и способы устра</span></a><a href="/articles/t/ts/tsvet-tekhno-618-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Цвет Техно 618 Лада Гранта: фото, каталожный номер и отзывы</span><span class="related-bottom-desc">Полный обзор цвета Техно 618 для Лада Гранта. Фотографии кузова, каталожный код краски, особенности </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

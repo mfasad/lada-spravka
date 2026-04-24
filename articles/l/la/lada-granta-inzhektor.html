@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Лада Гранта инжектор: устройство, диагностика и ремонт — Лада Справка</title>
+    <meta name="description" content="Полный обзор системы впрыска Лада Гранта. Схема работы, датчики, ошибки ЭБУ и особенности диагностики. Ремонт своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-granta-inzhektor.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Лада Гранта инжектор: устройство, диагностика и ремонт">
+    <meta property="og:description" content="Полный обзор системы впрыска Лада Гранта. Схема работы, датчики, ошибки ЭБУ и особенности диагностики. Ремонт своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Лада Гранта инжектор: устройство, диагностика и ремонт</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Система впрыска Лада Гранта: устройство, диагностика и ремонт</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#принцип-работы-и-архитектура-системы-впрыска">Принцип работы и архитектура системы впрыска</a></li><li><a href="#ключевые-датчики-и-их-влияние-на-работу-двигателя">Ключевые датчики и их влияние на работу двигателя</a></li><li><a href="#диагностика-и-считывание-кодов-ошибок">Диагностика и считывание кодов ошибок</a></li><li><a href="#топливная-система-и-система-зажигания">Топливная система и система зажигания</a></li><li><a href="#типичные-неисправности-и-способы-их-устранения">Типичные неисправности и способы их устранения</a></li><li><a href="#регулировка-и-настройка-системы-после-ремонта">Регулировка и настройка системы после ремонта</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Автомобиль <em>Лада Гранта</em> стал одним из самых массовых на отечественном рынке, во многом благодаря доступности и простоте обслуживания. В основе силовых агрегатов этого автомобиля лежит современная система распределенного впрыска топлива, управляемая электроникой. Понимание принципов работы <strong>инжекторного двигателя</strong> необходимо каждому владельцу, который хочет продлить жизнь своему автомобилю и избежать дорогостоящего ремонта в сервисе.</p>
+
+<p>В отличие от карбюраторных предшественников, здесь подача топлива и формирование смеси контролируются блоком управления. Это позволяет достичь высокой топливной экономичности и соответствия современным экологическим стандартам <em>Euro-3</em> и выше. Однако электроника требует грамотного подхода к диагностике и обслуживанию.</p>
+
+<p>В этой статье мы детально разберем устройство системы, рассмотрим типичные неисправности и способы их устранения. Вы узнаете, как правильно считывать ошибки и на что обращать внимание при плановом техническом обслуживании.</p>
+
+<h2 id="принцип-работы-и-архитектура-системы-впрыска">Принцип работы и архитектура системы впрыска</h2>
+
+<p>Сердцем системы управления двигателем (СУД) является электронный блок управления (ЭБУ). Он получает сигналы от множества датчиков, анализирует их и выдает команды на исполнительные механизмы. В зависимости от года выпуска и модели двигателя, на <em>Лада Гранта</em> могут устанавливаться контроллеры <strong>ВАЗ-21116</strong>, <strong>ВАЗ-21127</strong> или более современные версии <em>Itelma</em> и <em>Avtoel</em>.</p>
+
+<p>Рабочий цикл происходит следующим образом: датчик массового расхода воздуха (ДМРВ) измеряет количество поступающего воздуха. ЭБУ рассчитывает необходимое количество топлива и открывает форсунки на строго определенное время. Одновременно с этим система зажигания подает искру в нужный момент. <mark>Ключевым параметром для стабильной работы является герметичность впускного тракта, так как подсос неучтенного воздуха приводит к обеднению смеси.</mark></p>
+
+<p>Современные версии двигателей оснащены электронной дроссельной заслонкой (Е-газ). Это означает, что механическая связь между педалью акселератора и заслонкой отсутствует. Сигнал передается по проводам, что позволяет системе быстрее и точнее реагировать на действия водителя, а также реализовывать функции безопасности.</p>
+
+<p>Важно отметить, что система постоянно проводит самодиагностику. При обнаружении аномалий в работе датчиков или исполнительных механизмов, ЭБУ записывает код ошибки в память и может переходить в аварийный режим работы, ограничивая мощность двигателя для защиты узлов.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Электронная дроссельная заслонка требует периодической адаптации после снятия клеммы аккумулятора или замены узлов.</p></div>
+
+<h2 id="ключевые-датчики-и-их-влияние-на-работу-двигателя">Ключевые датчики и их влияние на работу двигателя</h2>
+
+<p>Стабильность холостого хода и динамика разгона напрямую зависят от исправности сенсорной группы. Датчики передают аналоговые или цифровые сигналы, которые ЭБУ преобразует в физические величины. Наиболее критичными элементами являются:</p>
+
+<ul>
+    <li>🌡️ <strong>Датчик температуры охлаждающей жидкости (ДТОЖ):</strong> сообщает блоку о прогреве мотора, влияя на состав смеси и обороты холостого хода.</li>
+    <li>💨 <strong>Датчик массового расхода воздуха (ДМРВ):</strong> измеряет объем всасываемого воздуха, являясь основным параметром для расчета топливоподачи.</li>
+    <li>⚙️ <strong>Датчик положения коленчатого вала (ДПКВ):</strong> синхронизирует работу форсунок и зажигания; при его отказе двигатель не запустится.</li>
+    <li>🛑 <strong>Датчик положения дроссельной заслонки (ДПДЗ):</strong> встроен в дроссельный узел, отслеживает угол открытия педали газа.</li>
+</ul>
+
+<p>Часто проблемы с ДМРВ возникают из-за загрязнения чувствительного элемента. На автомобилях с пробегом более 50 тысяч километров рекомендуется проверять показания этого датчика с помощью диагностического сканера. Резкие скачки напряжения или показания, не соответствующие оборотам двигателя, говорят о необходимости замены.</p>
+
+<p>Датчик кислорода (лямбда-зонд) установлен в выпускном коллекторе. Он анализирует содержание кислорода в выхлопных газах и корректирует смесь в режиме реального времени. Неисправный лямбда-зонд может привести к повышенному расходу топлива и выходу из строя катализатора.</p>
+
+<details class="faq-item"><summary>Ресурс датчиков</summary><div class="faq-answer"><p>Средний срок службы ДМРВ и лямбда-зонда составляет 80-100 тысяч км, однако некачественное топливо может сократить этот ресурс в два раза.</p></div></details>
+
+<h2 id="диагностика-и-считывание-кодов-ошибок">Диагностика и считывание кодов ошибок</h2>
+
+<p>Для выявления неисправностей в системе инжектора <em>Лада Гранта</em> не всегда требуется сложное оборудование. Базовую диагностику можно провести через панель приборов или подключив простой OBD-II сканер. Интерфейс подключения обычно находится под рулевой колонкой или в бардачке, в зависимости от комплектации.</p>
+
+<p>Если на панели горит индикатор <strong>Check Engine</strong>, это сигнал о том, что в памяти ЭБУ сохранена ошибка. Для самостоятельного считывания в режиме бортового компьютера необходимо нажать и удерживать кнопку сброса суточного пробега, затем включить зажигание. На дисплее отобразится код ошибки, например, <code>P0300</code> (пропуски зажигания) или <code>P0171</code> (бедная смесь).</p>
+
+<p>Более точную информацию дает подключение ноутбука или смартфона с адаптером <em>ELM327</em>. Специализированное ПО, такое как <strong>OpenDiag</strong> или <em>Scanmaster</em>, позволяет видеть параметры работы двигателя в реальном времени. Это помогает выявить плавающие неисправности, которые не фиксируются постоянно.</p>
+
+<blockquote>⚠️ Внимание: При подключении диагностического оборудования убедитесь, что зажигание выключено, чтобы избежать скачков напряжения, которые могут повредить ЭБУ.</blockquote>
+
+<p>При анализе параметров следует обращать внимание на коррекции топливоподачи. Если краткосрочная или долгосрочная коррекция превышает 10-15%, это свидетельствует о проблеме в системе впуска или выпуска. Также важен параметр "напряжение лямбда-зонда", который в замкнутом контуре должен oscillровать между 0.1 и 0.9 Вольта.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Как вы предпочитаете диагностировать автомобиль?</strong><ul><li>Через бортовой компьютер (кнопкой)</li><li>С помощью смартфона и OBDII</li><li>В автосервисе на стенде</li><li>Только по звуку и ощущениям</li></ul></div></div>
+
+<h2 id="топливная-система-и-система-зажигания">Топливная система и система зажигания</h2>
+
+<p>Система топливоподачи <em>Лада Гранта</em> включает в себя погружной электробензонасос, модуль регулятора давления, топливный фильтр и форсунки. Давление в рампе должно составлять около 3.6-3.8 атмосферы (на моделях без обратки). Падение давления приводит к бедной смеси и потере мощности на высоких оборотах.</p>
+
+<p>Форсунки являются распылителями топлива. Со временем они могут забиваться смолами, содержащимися в бензине. Признаками загрязнения являются:</p>
+
+<ul>
+    <li>⛽ Нестабильный запуск двигателя, особенно "на горячую".</li>
+    <li>📉 Рывки и провалы при резком нажатии на педаль газа.</li>
+    <li>📈 Увеличение расхода топлива и токсичности выхлопа.</li>
+</ul>
+
+<p>Система зажигания на современных Грантах чаще всего оснащается индивидуальными катушками зажигания (свечными). Это исключает высоковольтные провода, снижая вероятность пробоя. Однако сами катушки чувствительны к перегреву и качеству свечей. Рекомендуется использовать свечи с калильным числом, строго соответствующим спецификации двигателя (обычно <code>A17DVRM</code> или аналоги <em>NGK</em>, <em>Bosch</em>).</p>
+
+<p>Замена свечей должна производиться регулярно, каждые 15-20 тысяч километров, особенно если автомобиль эксплуатируется преимущественно в городском режиме. Зазор между электродами со временем увеличивается, что повышает нагрузку на катушку и может привести к ее выходу из строя.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте только качественные свечи проверенных брендов. Дешевые аналоги могут иметь нестабильный искровой зазор, что приведет к пропускам зажигания и повреждению катализатора.</p></div>
+
+<h2 id="типичные-неисправности-и-способы-их-устранения">Типичные неисправности и способы их устранения</h2>
+
+<p>Несмотря на надежность инжекторной системы, владельцы <em>Лада Гранта</em> могут столкнуться с рядом типичных проблем. Знание их симптомов позволяет быстро локализовать неисправность. Ниже приведена таблица основных проблем и методов их решения.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Симптом</th>
+            <th>Возможная причина</th>
+            <th>Метод устранения</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Плавают обороты холостого хода</td>
+            <td>Подсос воздуха, неисправность РХХ (если есть), дроссель</td>
+            <td>Поиск подсоса, чистка дросселя, адаптация</td>
+        </tr>
+        <tr>
+            <td>Двигатель троит</td>
+            <td>Пробой катушки, свеча, форсунка, компрессия</td>
+            <td>Замена свечей/катушек, проверка форсунок</td>
+        </tr>
+        <tr>
+            <td>Глохнет на ходу или при торможении</td>
+            <td>Датчик положения дросселя, регулятор давления</td>
+            <td>Диагностика сканером, замена узлов</td>
+        </tr>
+        <tr>
+            <td>Высокий расход топлива</td>
+            <td>Лямбда-зонд, ДМРВ, низкое давление в шинах</td>
+            <td>Замена датчиков, проверка давления в рампе</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Одной из частых проблем является загрязнение дроссельной заслонки. Нагар, образующийся на краях заслонки, нарушает проход воздуха на холостом ходу. Чистка производится специальным аэрозолем-очистителем карбюратора. После чистки электронной заслонки часто требуется процедура адаптации.</p>
+
+<p>Адаптация дросселя на <em>Лада Гранта</em> с Е-газом выполняется так: включите зажигание (не запуская двигатель) на 30 секунд, затем выключите на 30 секунд. После этого запустите двигатель и дайте ему поработать на холостых оборотах до прогрева. В некоторых случаях требуется диагностика для сброса адаптаций.</p>
+
+<div class="checklist-block"><h4>☑️ Чистка дроссельной заслонки</h4><label class="check-item"><input type="checkbox"><span>Снять декоративный кожух</span></label><label class="check-item"><input type="checkbox"><span>Отсоединить разъем и патрубки</span></label><label class="check-item"><input type="checkbox"><span>Снять узел с коллектора</span></label><label class="check-item"><input type="checkbox"><span>Промыть очистителем без вращения мотором</span></label><label class="check-item"><input type="checkbox"><span>Установить и адаптировать</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<h2 id="регулировка-и-настройка-системы-после-ремонта">Регулировка и настройка системы после ремонта</h2>
+
+<p>После замены компонентов системы управления, таких как ЭБУ, дроссельный узел или педали газа, необходима настройка. Без этого двигатель может работать нестабильно или не развивать полную мощность. Процесс настройки часто называют "обучением" ЭБУ.</p>
+
+<p>Для двигателей <strong>ВАЗ-21116</strong> и <strong>ВАЗ-21127</strong> с контроллерами <em>Itelma</em> процедура может отличаться от более старых версий. Важно также проверить герметичность системы выпуска газов, так как подсос воздуха перед лямбда-зондом исказит показания и собьет настройки топливных коррекций.</p>
+
+<p>Если после ремонта автомобиль ведет себя странно, имеет смысл выполнить полный сброс адаптаций через диагностическое ПО. Это вернет все коэффициенты топливоподачи и зажигания к заводским значениям, после чего ЭБУ заново обучится под конкретный экземпляр двигателя и стиль вождения.</p>
+
+<blockquote>⚠️ Внимание: Не производите резку проводов или "колхозный" ремонт проводки датчиков. Используйте правильные разъемы и пайку, иначе окисление контактов приведет к новым ошибкам.</blockquote>
+
+<p>Помните, что инжектор — это точная система. Любое вмешательство должно быть обоснованным. Не стоит менять датчики "наугад" без предварительной проверки их параметров. Грамотная диагностика экономит время и деньги.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>После любых работ, связанных с отключением питания ЭБУ или заменой узлов дросселя, обязательна процедура адаптации для стабильной работы.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+    <summary>Какой бензин лучше заливать в Лада Гранта инжектор?</summary>
+    <p>Для большинства двигателей <em>Лада Гранта</em> (8-клапанных и 16-клапанных) рекомендованным топливом является бензин АИ-95. Использование АИ-92 возможно, но может привести к детонации в жаркую погоду и повышенному расходу, так как ЭБУ будет корректировать угол опережения зажигания в сторону уменьшения.</p>
+</details>
+
+<details>
+    <summary>Почему горит Check Engine, но машина едет нормально?</summary>
+    <p>Индикатор может загораться из-за незначительных отклонений, например, плохого качества топлива, пропусков зажигания в одном цилиндре или неисправности одного из датчиков (часто лямбда-зонда). Если двигатель работает ровно, можно доехать до сервиса, но затягивать с диагностикой не стоит, чтобы не повредить катализатор.</p>
+</details>
+
+<details>
+    <summary>Как часто нужно менять топливный фильтр?</summary>
+    <p>Официальный регламент может указывать большие промежутки, но с учетом качества топлива в регионах, рекомендуется менять топливный фильтр (который идет в модуле бензонасоса или отдельно, в зависимости от года выпуска) каждые 30-40 тысяч километров. Это продлит жизнь бензонасосу и форсункам.</p>
+</details>
+
+<details>
+    <summary>Можно ли мыть двигатель Керхером?</summary>
+    <p>Мыть двигатель <em>Лада Гранта</em> под высоким давлением крайне не рекомендуется. Вода может попасть в разъемы датчиков, катушки зажигания и сам ЭБУ, что вызовет коррозию контактов и короткое замыкание. Используйте только аккуратную мойку паром или специальными средствами без сильного напора.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#принцип-работы-и-архитектура-системы-впрыска">Принцип работы и архитектура системы впрыска</a></li><li><a href="#ключевые-датчики-и-их-влияние-на-работу-двигателя">Ключевые датчики и их влияние на работу двигателя</a></li><li><a href="#диагностика-и-считывание-кодов-ошибок">Диагностика и считывание кодов ошибок</a></li><li><a href="#топливная-система-и-система-зажигания">Топливная система и система зажигания</a></li><li><a href="#типичные-неисправности-и-способы-их-устранения">Типичные неисправности и способы их устранения</a></li><li><a href="#регулировка-и-настройка-системы-после-ремонта">Регулировка и настройка системы после ремонта</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-liftbek-koriandr.html" class="related-card">Лада Гранта лифтбек кориандр: тест-драйв, расход и технические характеристики</a></li><li><a href="/articles/o/os/oshibka-lada-granta-0-3-63.html" class="related-card">Ошибка 0 3 63 на Лада Гранта: причины и способы устранения</a></li><li><a href="/articles/v/vt/vtulka-stabilizatora-lada-granta.html" class="related-card">Втулка стабилизатора Лада Гранта: выбор, замена и артикулы</a></li><li><a href="/articles/l/la/lada-granta-toplivnyj-nasos.html" class="related-card">Топливный насос Лада Гранта: признаки неисправности и замена</a></li><li><a href="/articles/m/ma/magnitola-dlya-lada-granta-s-navigatsiej.html" class="related-card">Магнитола с навигацией для Лада Гранта: выбор, установка, обзор 2026</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-liftbek-koriandr.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта лифтбек кориандр: тест-драйв, расход и технические характеристики</span><span class="related-bottom-desc">Подробный обзор Лада Гранта лифтбек в цвете Кориандр. Реальный расход топлива, особенности кузова, к</span></a><a href="/articles/o/os/oshibka-lada-granta-0-3-63.html" class="related-bottom-card"><span class="related-bottom-title">Ошибка 0 3 63 на Лада Гранта: причины и способы устранения</span><span class="related-bottom-desc">Разбираем ошибку 0 3 63 на Лада Гранта: что означает код, как диагностировать и исправить проблему с</span></a><a href="/articles/v/vt/vtulka-stabilizatora-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Втулка стабилизатора Лада Гранта: выбор, замена и артикулы</span><span class="related-bottom-desc">Как заменить втулку стабилизатора Лада Гранта? Артикулы, сроки службы, признаки износа и пошаговая и</span></a><a href="/articles/l/la/lada-granta-toplivnyj-nasos.html" class="related-bottom-card"><span class="related-bottom-title">Топливный насос Лада Гранта: признаки неисправности и замена</span><span class="related-bottom-desc">Полный гид по бензонасосу Лада Гранта. Симптомы поломки, проверка давления, замена модуля своими рук</span></a><a href="/articles/m/ma/magnitola-dlya-lada-granta-s-navigatsiej.html" class="related-bottom-card"><span class="related-bottom-title">Магнитола с навигацией для Лада Гранта: выбор, установка, обзор 2026</span><span class="related-bottom-desc">Как выбрать лучшую магнитолу с GPS для Гранты? ТОП-5 моделей, инструкция по установке, сравнение 2DI</span></a><a href="/articles/k/ka/kak-proverit-uroven-masla-v-korobke-lada-granta-s-trosovym-privodom.html" class="related-bottom-card"><span class="related-bottom-title">Как проверить уровень масла в КПП Лада Гранта с тросовым приводом</span><span class="related-bottom-desc">Пошаговая инструкция: как проверить уровень масла в коробке Лада Гранта с тросовым приводом. Нормы, </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

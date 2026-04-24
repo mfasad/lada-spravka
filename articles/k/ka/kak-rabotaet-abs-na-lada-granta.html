@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Как работает АБС на Лада Гранта: устройство и диагностика — Лада Справка</title>
+    <meta name="description" content="Подробный разбор системы ABS Lada Granta: принцип работы, датчики, коды ошибок. Инструкция по проверке и устранению неисправностей своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/k/ka/kak-rabotaet-abs-na-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Как работает АБС на Лада Гранта: устройство и диагностика">
+    <meta property="og:description" content="Подробный разбор системы ABS Lada Granta: принцип работы, датчики, коды ошибок. Инструкция по проверке и устранению неисправностей своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Как работает АБС на Лада Гранта: устройство и диагностика</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Принцип работы и устройство АБС на Лада Гранта</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#конструкция-и-основные-компоненты-системы">Конструкция и основные компоненты системы</a></li><li><a href="#алгоритм-работы-при-торможении">Алгоритм работы при торможении</a></li><li><a href="#типичные-неисправности-и-их-симптомы">Типичные неисправности и их симптомы</a></li><li><a href="#диагностика-кодов-ошибок-сканером">Диагностика кодов ошибок сканером</a></li><li><a href="#замена-датчика-скорости-колеса">Замена датчика скорости колеса</a></li><li><a href="#прокачка-тормозной-системы-с-абс">Прокачка тормозной системы с АБС</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владение современным автомобилем подразумевает не только комфорт, но и повышенную безопасность, за которую в значительной степени отвечает <strong>антиблокировочная система тормозов</strong>. На модели <em>Лада Гранта</em> этот узел устанавливается в базовой комплектации, что делает автомобиль более предсказуемым на мокром асфальте или скользком грунте. Многие водители воспринимают работу АБС как данность, пока на приборной панели не загорается тревожный индикатор, сигнализирующий о сбое.</p>
+
+<p>Понимание того, как именно функционирует этот механизм, поможет владельцу избежать паники при экстренном торможении и грамотно подойти к диагностике в случае появления ошибок. Система не просто блокирует колеса, она <mark>модулирует давление в тормозных магистралях до 50 раз в секунду</mark>, не давая колесу уйти в юз. Это позволяет сохранить управляемость даже в критической ситуации.</p>
+
+<p>В данной статье мы детально разберем архитектуру <strong>ABS</strong> на базе вазовских седанов, рассмотрим типичные неисправности и методы их устранения. Вы узнаете, почему стучит педаль тормоза при активации и что делать, если горит лампа неисправности.</p>
+
+<h2 id="конструкция-и-основные-компоненты-системы">Конструкция и основные компоненты системы</h2>
+
+<p>Основой безопасности на <em>Lada Granta</em> является электрогидравлический модулятор, который объединяет в себе насос высокого давления и блок клапанов. Именно этот узел получает сигналы от контроллера и перераспределяет тормозную жидкость. <strong>Электронный блок управления</strong> (ЭБУ) непрерывно анализирует скорость вращения каждого колеса, сравнивая полученные данные.</p>
+
+<p>На каждое колесо установлен индивидуальный датчик скорости, который передает импульсы на ЭБУ. Если одно из колес начинает вращаться значительно медленнее других (что указывает на блокировку), система сбрасывает давление в контуре этого колеса. Затем следует фаза удержания и повторного повышения давления.</p>
+
+<ul>
+    <li>🚗 <strong>Датчики скорости</strong>: расположены в ступицах колес, считывают магнитный рельефный кольцо.</li>
+    <li>⚙️ <strong>Гидроблок</strong>: содержит соленоиды, открывающие и закрывающие каналы для тормозной жидкости.</li>
+    <li>💡 <strong>Индикатор</strong>: лампа на панели приборов, сообщающая о статусе системы.</li>
+</ul>
+
+<blockquote>
+<p>⚠️ Внимание: При замене тормозной жидкости на Гранте обязательно проводится прокачка системы с использованием диагностического сканера для активации насоса АБС.</p>
+</blockquote>
+
+<p>Все компоненты связаны жгутом проводки, который проходит вдоль кузова автомобиля. Надежность соединений здесь играет критическую роль, так как вибрации и дорожные реагенты могут окислять контакты, вызывая ложные срабатывания.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Сталкивались ли вы с загоранием лампочки ABS на Гранте?</strong><ul><li>Да, горит постоянно:Да, загорается только зимой:Нет, проблем не было:Горела, но сама потухла</li></ul></div></div>
+
+<h2 id="алгоритм-работы-при-торможении">Алгоритм работы при торможении</h2>
+
+<p>Процесс активации <strong>антиблокировочной системы</strong> начинается в тот момент, когда водитель резко нажимает на педаль тормоза. ЭБУ фиксирует резкое замедление вращения одного или нескольких колес. Если скорость падения вращения превышает пороговое значение, система переходит в режим модуляции.</p>
+
+<p>Водитель ощущает это как характерную пульсацию или удары в педаль тормоза. Это нормальная рабочая ситуация, свидетельствующая о том, что <em>ABS</em> выполняет свою функцию. Не нужно отпускать педаль или прерывать торможение — необходимо продолжать давить с усилием.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка работы АБС на скользком участке</h4><label class="check-item"><input type="checkbox"><span>Найдите безопасную пустую площадку со льдом или снегом:Разгонитесь до скорости 30-40 км/ч:Резко и до упора нажмите на педаль тормоза:Убедитесь, что колеса не заблокировались, а педаль вибрирует</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 1</div></div>
+
+<p>Цикл работы делится на три фазы: сброс давления, удержание и повышение. <strong>Насос</strong> возвращает жидкость из тормозных цилиндров обратно в главный цилиндр, снижая усилие на колодках. Как только колесо снова начинает вращаться, давление нарастает, и торможение возобновляется.</p>
+
+<h2 id="типичные-неисправности-и-их-симптомы">Типичные неисправности и их симптомы</h2>
+
+<p>Наиболее распространенной проблемой на <em>Лада Гранта</em> является выход из строя датчиков скорости вращения колес. Они расположены в непосредственной близости от дорожного полотна и подвержены воздействию грязи, воды и механическим повреждениям. Часто проблема кроется в обрыве проводки внутри гофры.</p>
+
+<p>Второй по частоте причиной загорания лампы является низкий заряд аккумуляторной батареи. При пуске двигателя напряжение в сети падает, и <strong>ЭБУ ABS</strong> может зафиксировать ошибку питания, зажегши индикатор. После зарядки АКБ ошибка часто исчезает самостоятельно.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Симптом</th>
+            <th>Вероятная причина</th>
+            <th>Метод проверки</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Горит лампа ABS</td>
+            <td>Неисправен датчик или проводка</td>
+            <td>Диагностика сканером</td>
+        </tr>
+        <tr>
+            <td>Стук в педали без торможения</td>
+            <td>Короткое замыкание в цепи</td>
+            <td>Проверка разъемов</td>
+        </tr>
+        <tr>
+            <td>Система не работает</td>
+            <td>Сгорел предохранитель или реле</td>
+            <td>Визуальный осмотр блока</td>
+        </tr>
+        <tr>
+            <td>Ошибочное срабатывание</td>
+            <td>Загрязнение гребенки датчика</td>
+            <td>Очистка ступицы</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Также стоит упомянуть о механических повреждениях самого гидроблока. Если внутрь корпуса попадет влага через поврежденный сальник, может начаться коррозия внутренних клапанов. В этом случае требуется замена узла в сборе, так как ремонт отдельных компонентов <strong>гидромодулятора</strong> экономически нецелесообразен.</p>
+
+<details class="faq-item"><summary>Почему АБС может не работать при минусовой температуре?</summary><div class="faq-answer"><p>В зимний период часто окисляются контакты в разъемах из-за попадания реагентов. Также густеет смазка в подшипниках ступиц, что может создавать сопротивление, которое датчик интерпретирует как блокировку колеса. Прогрев автомобиля часто устраняет проблему.</p></div></details>
+
+<h2 id="диагностика-кодов-ошибок-сканером">Диагностика кодов ошибок сканером</h2>
+
+<p>Для точного определения причины неисправности необходимо считать коды ошибок из памяти контроллера. На <em>ВАЗ</em> используется стандартный протокол OBD-II, однако для глубокой диагностики <strong>ABS</strong> могут потребоваться специализированные адаптеры, поддерживающие протокол K-Line.</p>
+
+<p>Популярные сканеры вроде ELM327 в связке с приложениями типа OpenDiag или Motordata позволяют увидеть не только код ошибки, но и текущее состояние датчиков в реальном времени. Это помогает понять, какой именно канал дает сбой.</p>
+
+<ul>
+    <li>🔌 <strong>C0035</strong>: Неисправность датчика переднего левого колеса (обрыв или замыкание).</li>
+    <li>🔌 <strong>C0040</strong>: Проблема с цепью датчика переднего правого колеса.</li>
+    <li>🔌 <strong>C0050/C0055</strong>: Ошибки датчиков задних колес (часто связаны с загрязнением).</li>
+</ul>
+
+<blockquote>
+<p>⚠️ Внимание: Перед подключением диагностического оборудования убедитесь, что зажигание выключено, чтобы избежать скачка напряжения, который может повредить ЭБУ.</p>
+</blockquote>
+
+<p>Если сканер показывает ошибку "Низкое напряжение", в первую очередь проверьте клеммы аккумулятора и массу двигателя. Часто плохой контакт "минуса" приводит к хаотичным ошибкам во всех электронных системах автомобиля, включая <strong>антиблокировочную систему</strong>.</p>
+
+<h2 id="замена-датчика-скорости-колеса">Замена датчика скорости колеса</h2>
+
+<p>Процедура замены датчика на <em>Лада Гранта</em> относительно проста и не требует снятия колеса в большинстве случаев, хотя доступ может быть затруднен. Датчик крепится одним болтом к поворотному кулаку и вставляется в отверстие ступицы.</p>
+
+<p>Перед установкой новой детали необходимо тщательно очистить посадочное место от грязи и ржавчины. Любая металлическая стружка на торце датчика может привести к неверным показаниям и повторному появлению ошибки.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При покупке нового датчика ABS выбирайте оригинальные запчасти или проверенные аналоги (например, Bosch, TRW), так как дешевые китайские копии часто имеют погрешность в длине кабеля или магнитных свойствах.</p></div>
+
+<p>После замены и сборки узла рекомендуется провести тестовую поездку. Если лампа не погасла, возможно, проблема не в самом датчике, а в проводке или <strong>гребенке</strong>, которая закреплена на внутренней стороне ступичного подшипника. Повреждение гребенки требует замены всего подшипникового узла.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Замена датчика ABS — процедура, доступная новичку, но требует аккуратности при работе с электрическими разъемами и чистоты при монтаже.</p></div>
+
+<h2 id="прокачка-тормозной-системы-с-абс">Прокачка тормозной системы с АБС</h2>
+
+<p>Традиционная прокачка тормозов "самотеком" или с помощником на автомобилях с <strong>ABS</strong> может быть неэффективной, так как в каналах гидроблока может остаться воздух. Для полной замены жидкости требуется активация насоса.</p>
+
+<p>На <em>ВАЗ</em> существует методика прокачки без сканера, основанная на последовательном нажатии педали и стравливании жидкости, но она не гарантирует удаление всех пузырьков из модулятора. Идеальным вариантом остается использование диагностического оборудования.</p>
+
+<pre><code>Алгоритм действий:
+<p>1. Подключить сканер.</p>
+<p>2. Выбрать пункт "Замена тормозной жидкости".</p>
+<p>3. Следовать инструкциям на экране (открытие клапанов).</p>
+<p>4. Прокачать суппорты в указанной последовательности.</code></pre></p>
+
+<p>Использование некачественной тормозной жидкости может привести к разрушению резиновых уплотнителей внутри <strong>гидроблока</strong>. Рекомендуется использовать жидкости класса DOT-4 от известных производителей и менять их каждые 40-50 тысяч километров.</p>
+
+<details>
+    <summary>Что делать, если после замены колодок загорелась ABS?</summary>
+    <p>Часто при замене тормозных колодок мастера вдавливают поршни суппортов слишком быстро или неаккуратно, что может повредить проводку датчика. Также возможно, что при монтаже суппорта был задет разъем. Проверьте целостность проводов и надежность фиксации колодок.</p>
+</details>
+
+<details>
+    <summary>Можно ли ездить, если горит лампа ABS?</summary>
+    <p>Да, эксплуатация автомобиля возможна. Обычная тормозная система будет работать в штатном режиме. Однако следует помнить, что при экстренном торможении колеса могут заблокироваться, и автомобиль пойдет юзом. Будьте осторожнее на мокрой дороге.</p>
+</details>
+
+<details>
+    <summary>Почему АБС включается на сухом асфальте при低速?</summary>
+    <p>Это признак неисправности одного из датчиков, который посылает неверный сигнал о скорости вращения колеса. ЭБУ "думает", что колесо заблокировалось, и пытается разблокировать его. Требуется срочная диагностика.</p>
+</details>
+
+<p>Своевременное обслуживание и понимание принципов работы <strong>антиблокировочной системы</strong> на вашей <em>Лада Гранта</em> обеспечит уверенность за рулем в любую погоду. Следите за состоянием проводки, качеством тормозной жидкости и реагируйте на сигналы приборной панели.</p></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#конструкция-и-основные-компоненты-системы">Конструкция и основные компоненты системы</a></li><li><a href="#алгоритм-работы-при-торможении">Алгоритм работы при торможении</a></li><li><a href="#типичные-неисправности-и-их-симптомы">Типичные неисправности и их симптомы</a></li><li><a href="#диагностика-кодов-ошибок-сканером">Диагностика кодов ошибок сканером</a></li><li><a href="#замена-датчика-скорости-колеса">Замена датчика скорости колеса</a></li><li><a href="#прокачка-тормозной-системы-с-абс">Прокачка тормозной системы с АБС</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-2015-god.html" class="related-card">Лада Гранта 2015: отзывы, технические характеристики и особенности</a></li><li><a href="/articles/l/la/lada-granta-otzyvy-realnykh-vladeltsev-nedostatki-i-dostoinstva-sedan.html" class="related-card">Лада Гранта отзывы владельцев 2026: реальные плюсы и минусы седана</a></li><li><a href="/articles/z/za/zamena-filtra-salona-lada-granta-8-klapannaya-bez-konditsionera.html" class="related-card">Замена фильтра салона Лада Гранта 8 клапанов без кондиционера</a></li><li><a href="/articles/s/sk/skolko-litrov-antifriza-lada-granta.html" class="related-card">Сколько литров антифриза в Лада Гранта: объём и замена</a></li><li><a href="/articles/l/la/lada-granta-kross-klirens.html" class="related-card">Лада Гранта Кросс клиренс: реальный дорожный просвет и как его увеличить</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-2015-god.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта 2015: отзывы, технические характеристики и особенности</span><span class="related-bottom-desc">Подробный обзор Лады Гранты 2015 года. Технические характеристики, расход топлива, типичные поломки </span></a><a href="/articles/l/la/lada-granta-otzyvy-realnykh-vladeltsev-nedostatki-i-dostoinstva-sedan.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта отзывы владельцев 2026: реальные плюсы и минусы седана</span><span class="related-bottom-desc">Честные отзывы владельцев Лада Гранта седан: недостатки, достоинства, расход топлива, надежность. Ре</span></a><a href="/articles/z/za/zamena-filtra-salona-lada-granta-8-klapannaya-bez-konditsionera.html" class="related-bottom-card"><span class="related-bottom-title">Замена фильтра салона Лада Гранта 8 клапанов без кондиционера</span><span class="related-bottom-desc">Подробная инструкция по замене салонного фильтра на Лада Гранта 8 клапанная без кондиционера. Выбор </span></a><a href="/articles/s/sk/skolko-litrov-antifriza-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Сколько литров антифриза в Лада Гранта: объём и замена</span><span class="related-bottom-desc">Точный объём антифриза для Лада Гранта с 8 и 16 клапанным двигателем. Инструкция по замене, выбор ох</span></a><a href="/articles/l/la/lada-granta-kross-klirens.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта Кросс клиренс: реальный дорожный просвет и как его увеличить</span><span class="related-bottom-desc">Узнайте точный клиренс Лада Гранта Кросс, сравнение с лифтбеком, способы увеличения дорожного просве</span></a><a href="/articles/a/ak/akpp-jatco-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">АКПП Jatco на Lada Granta: обзор, ресурс и отзывы</span><span class="related-bottom-desc">Подробный анализ АКПП Jatco для Lada Granta. Ресурс японского автомата, типичные поломки, особенност</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

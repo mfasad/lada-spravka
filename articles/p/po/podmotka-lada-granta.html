@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Подмотка Лада Гранта: коррекция пробега своими руками — Лада Справка</title>
+    <meta name="description" content="Как выполняется подмотка пробега Лада Гранта. Инструкция для приборных панелей старого и нового образца. Особенности работы с CAN-фильтром.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/po/podmotka-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Подмотка Лада Гранта: коррекция пробега своими руками">
+    <meta property="og:description" content="Как выполняется подмотка пробега Лада Гранта. Инструкция для приборных панелей старого и нового образца. Особенности работы с CAN-фильтром.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Подмотка Лада Гранта: коррекция пробега своими руками</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Подмотка Лада Гранта: особенности и инструкции</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#принцип-работы-одометра-гранты">Принцип работы одометра Гранты</a></li><li><a href="#типы-приборных-панелей-и-их-отличия">Типы приборных панелей и их отличия</a></li><li><a href="#необходимое-оборудование-для-подмотки">Необходимое оборудование для подмотки</a></li><li><a href="#инструкция-подмотка-через-разъем-obdii">Инструкция: Подмотка через разъем OBDII</a></li><li><a href="#прямое-подключение-к-датчику-скорости">Прямое подключение к датчику скорости</a></li><li><a href="#работа-с-can-шиной-и-цифровыми-панелями">Работа с CAN-шиной и цифровыми панелями</a></li><li><a href="#частые-ошибки-и-проблемы-при-подмотке">Частые ошибки и проблемы при подмотке</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Многие владельцы отечественных автомобилей сталкиваются с необходимостью изменить показания одометра. Подмотка Лада Гранта — процедура востребованная как для предпродажной подготовки, так и для коррекции показаний после замены узлов. Современные методы позволяют выполнить эту операцию быстро и без разборки приборной панели.</p>
+<p>В отличие от старых моделей с механическим приводом спидометра, Гранта оснащается электронными системами. Это требует применения специализированных устройств, имитирующих сигнал датчика скорости. Важно понимать, что <strong>электронная подмотка</strong> не оставляет физических следов вмешательства, если выполнена грамотно.</p>
+<p>Эффективность процедуры напрямую зависит от типа установленной приборной панели. На автомобилях разных лет выпуска применяются различные контроллеры, что диктует выбор метода воздействия. В данной статье мы разберем технические нюансы работы с электроникой <em>Lada Granta</em>.</p>
+
+<h2 id="принцип-работы-одометра-гранты">Принцип работы одометра Гранты</h2>
+<p>Основой системы учета пробега является электронный блок управления, связанный с датчиками трансмиссии. В зависимости от комплектации, сигнал может поступать непосредственно с коробки передач или через <strong>ABS-систему</strong>. Понимание источника сигнала критически важно для выбора точки подключения эмулятора.</p>
+<p>Сигнал представляет собой импульсы определенной частоты. Чем выше скорость вращения колес, тем чаще поступают импульсы. Приборная панель суммирует их количество и переводит в километры. <mark>Ключевым моментом является то, что подмотка происходит только при включенном зажигании, когда панель получает питание.</mark></p>
+<p>Для коррекции показаний устройство должно генерировать импульсы, идентичные заводским по амплитуде и форме. В противном случае <em>ЭБУ</em> может игнорировать сигнал или, того хуже, зафиксировать ошибку в системе. Современные эмуляторы умеют обходить эти защиты.</p>
+<p>Стоит отметить, что на некоторых версиях Гранты с роботизированной коробкой передач <em>АМТ</em>, логика работы может отличаться. Здесь сигнал часто берется с вала электромотора сцепления или коробки, что требует более тонкой настройки оборудования.</p>
+
+<details class="faq-item"><summary>Технические детали сигнала</summary><div class="faq-answer"><p>На Лада Гранта используется цифровой сигнал, частота которого зависит от передаточного числа главной пары. Стандартная частота составляет около 6000 импульсов на 1 км пути, но может варьироваться в зависимости от года выпуска автомобиля.</p></div></details>
+
+<h2 id="типы-приборных-панелей-и-их-отличия">Типы приборных панелей и их отличия</h2>
+<p>Автомобили Лада Гранта комплектовались двумя основными видами панелей приборов. Старого образца, с джойстиком управления, и нового, с кнопками. Различия в аппаратной части требуют разного подхода к <strong>калибровке пробега</strong>.</p>
+<p>Панели старого образца (до 2014-2015 годов) часто имеют отдельный разъем для подключения диагностического оборудования, через который проще всего внедрить эмулятор. Здесь сигнал скорости обычно идет по отдельному проводу.</p>
+<p>Новые панели (с 2015 года и рестайлинг) используют цифровую шину <strong>CAN-bus</strong> для передачи данных. В этом случае физическое подключение к проводу датчика скорости может не дать результата, так как данные передаются в цифровом пакете. Требуется устройство, умеющее работать с CAN-протоколом.</p>
+<ul>
+<li>🔹 Панель старого образца: аналоговый сигнал, простое подключение к проводу датчика.</li>
+<li>🔹 Панель нового образца: цифровой сигнал, требуется CAN-эмулятор.</li>
+<li>🔹 Люкс комплектации: могут иметь дополнительные защиты от вмешательства.</li>
+<li>🔹 Спорт версии: часто используют уникальные прошивки контроллеров.</li>
+</ul>
+<p>Определить тип панели можно визуально по кнопкам управления или через диагностический сканер. Ошибка в определении типа приведет к тому, что подмотка просто не запустится.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какая у вас панель приборов?</strong><ul><li>Старого образца (джойстик)</li><li>Нового образца (кнопки)</li><li>Не знаю</li><li>Спорт/Турбо</li></ul></div></div>
+
+<h2 id="необходимое-оборудование-для-подмотки">Необходимое оборудование для подмотки</h2>
+<p>Для выполнения процедуры вам потребуется специализированный генератор импульсов. Рынок предлагает множество вариантов, от простых китайских устройств до профессиональных российских комплексов. Выбор зависит от бюджета и частоты использования.</p>
+<p>Базовый набор включает в себя сам эмулятор, провода для подключения и, возможно, переходники для разных типов разъемов. Качественное устройство должно иметь защиту от переполюсовки и скачков напряжения в бортовой сети <em>Лада Гранта</strong>.</p>
+<p>Также может потребоваться ноутбук с установленным программным обеспечением для настройки скорости намотки, если устройство поддерживает такую функцию через <strong>USB-интерфейс</strong>. Это позволяет точно калибровать скорость увеличения цифр на одометре.</p>
+<ul>
+<li>🛠️ Эмулятор импульсов (генератор).</li>
+<li>🔌 Кабель подключения (OBDII или прямой).</li>
+<li>💻 Ноутбук или смартфон для настройки (опционально).</li>
+<li>🔋 Стабилизатор напряжения (для длительной работы).</li>
+</ul>
+<p>Не рекомендуется использовать самодельные схемы на базе Arduino или других микроконтроллеров без должной защиты. Бортовая сеть автомобиля полна помех, которые могут вывести самодельное устройство из строя.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Покупайте устройства с возможностью обновления прошивки. Производители часто выпускают патчи для новых версий ПО автомобилей, и ваше устройство должно уметь с ними работать.</p></div>
+
+<h2 id="инструкция-подмотка-через-разъем-obdii">Инструкция: Подмотка через разъем OBDII</h2>
+<p>Самый простой и безопасный способ — использование разъема OBDII, расположенного под бардачком или возле рычага КПП. Этот метод не требует вмешательства в проводку и подходит для большинства современных эмуляторов.</p>
+<p>Сначала необходимо заглушить автомобиль и выключить все электроприборы. Затем подключите устройство к разъему OBDII. Убедитесь, что контакты соединились плотно. После включения зажигания устройство должно автоматически определить тип панели.</p>
+<p>Запустите двигатель или просто включите зажигание, в зависимости от требований вашего эмулятора. На дисплее устройства (если он есть) или по миганию светодиода вы увидите процесс работы. Цифры на спидометре начнут расти.</p>
+
+<div class="checklist-block"><h4>☑️ Алгоритм подключения</h4><label class="check-item"><input type="checkbox"><span>Выключить зажигание</span></label><label class="check-item"><input type="checkbox"><span>Найти разъем OBDII</span></label><label class="check-item"><input type="checkbox"><span>Подключить эмулятор</span></label><label class="check-item"><input type="checkbox"><span>Включить зажигание</span></label><label class="check-item"><input type="checkbox"><span>Контролировать процесс</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Важно следить за температурой устройства. При длительной работе генератор может нагреваться. Если вы планируете намотать несколько тысяч километров, делайте перерывы или обеспечьте дополнительное охлаждение.</p>
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Не отключайте устройство резко в процессе работы. Дайте системе завершить цикл записи данных, иначе показания могут не сохраниться или возникнуть ошибка в памяти приборной панели.</p>
+</blockquote>
+<p>Скорость намотки регулируется либо потенциометром на корпусе, либо программно. Оптимальной считается скорость, при которой стрелка спидометра не дергается, а движется плавно, имитируя реальное движение.</p>
+
+<h2 id="прямое-подключение-к-датчику-скорости">Прямое подключение к датчику скорости</h2>
+<p>Если разъем OBDII не доступен или устройство не видит автомобиль, приходится прибегать к прямому подключению. Это требует минимальных знаний в автоэлектрике и доступа к жгуту проводов, идущему к приборной панели или коробке передач.</p>
+<p>Сигнал скорости на Гранте чаще всего находится на конкретном пине колодки. Для старых панелей это обычно провод, идущий от датчика на КПП. Необходимо найти этот провод, используя схему электрооборудования или мультиметр.</p>
+<p>Подключение осуществляется параллельно штатному проводу. Эмулятор внедряется в разрыв или подключается через тройник. Главное — не нарушить целостность штатной проводки, чтобы не потерять гарантию или не создать проблем с <strong>контактом</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Тип подключения</th>
+<th>Сложность</th>
+<th>Риски</th>
+<th>Эффективность</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OBDII</td>
+<td>Низкая</td>
+<td>Минимальные</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>Разбор панели</td>
+<td>Средняя</td>
+<td>Повреждение пластика</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>Врезка в проводку</td>
+<td>Высокая</td>
+<td>КЗ, потеря гарантии</td>
+<td>Максимальная</td>
+</tr>
+</tbody>
+</table>
+<p>После подключения проверьте работу штатного спидометра. Если при движении автомобиля стрелка ведет себя неадекватно, значит, устройство создает слишком большую нагрузку на цепь. В этом случае требуется установка дополнительного сопротивления.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Прямое подключение дает 100% результат даже на автомобилях с защищенными CAN-шинами, где программные методы могут быть заблокированы.</p></div>
+
+<h2 id="работа-с-can-шиной-и-цифровыми-панелями">Работа с CAN-шиной и цифровыми панелями</h2>
+<p>Современные Гранты, особенно в люксовых комплектациях, передают данные о пробеге по цифровой шине. Обычный генератор импульсов здесь бессилен, так как он создает аналоговый сигнал, который панель просто игнорирует.</p>
+<p>Для таких случаев используются CAN-эмуляторы. Эти устройства подключаются к линиям CAN-High и CAN-Low. Они внедряются в цифровой поток данных, отправляя пакеты с корректными значениями пробега, которые панель воспринимает как истинные.</p>
+<p>Настройка такого устройства сложнее. Часто требуется выбрать конкретную модель автомобиля из списка или загрузить конфигурационный файл. Ошибка в выборе протокола может привести к "замораживанию" панели приборов.</p>
+<blockquote>
+<p>⚠️ <strong>Внимание:</em> При работе с CAN-шиной крайне важно соблюдать полярность подключения. Перепутав провода High и Low, вы можете вывести из строя не только эмулятор, но и блоки управления автомобилем.</p>
+</blockquote>
+<p>Процесс намотки через CAN занимает больше времени, так как система безопасности может проверять целостность данных. Скорость часто ограничена программно, чтобы не вызывать подозрений у системы диагностики.</p>
+
+<h2 id="частые-ошибки-и-проблемы-при-подмотке">Частые ошибки и проблемы при подмотке</h2>
+<p>Даже опытные пользователи иногда сталкиваются с проблемами. Самая частая из них — устройство подключено, зажигание включено, но пробег не крутится. Это может означать, что выбран неверный режим работы или тип автомобиля.</p>
+<p>Другая проблема — скачки показаний. Цифры бегут, потом останавливаются, потом бегут снова. Это признак плохого контакта или помех в бортовой сети. Проверьте надежность подключения "массы" и плюсового провода.</p>
+<p>Иногда после успешной подмотки на панели загорается ошибка "Check Engine" или символ неисправности ABS. Это происходит, если ЭБУ зафиксировал несоответствие данных. Сбросить ошибку можно через диагностический сканер или снятием клеммы аккумулятора на короткое время.</p>
+<ul>
+<li>❌ Неверно выбран тип двигателя в настройках эмулятора.</li>
+<li>❌ Слабый заряд аккумулятора (при работе без заведенного двигателя).</li>
+<li>❌ Конфликт с установленной сигнализацией или GSM-трекером.</li>
+<li>❌ Использование дешевого кабеля с большим сопротивлением.</li>
+</ul>
+<p>Если ничего не помогает, попробуйте обновить прошивку самого эмулятора. Производители постоянно улучшают совместимость своих устройств с новыми версиями ПО автомобилей <em>АвтоВАЗ</em>.</p>
+
+<details class="faq-item"><summary>Что делать если сгорел предохранитель</summary><div class="faq-answer"><p>При подмотке часто возрастает нагрузка на цепь питания. Если погасла панель, проверьте предохранитель F3 или F18 (в зависимости от года выпуска). Замените его на аналогичный по амперажу.</p></div></details>
+
+<h2 id="faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</h2>
+<details>
+<summary>Сколько времени занимает намотка 1000 км?</summary>
+<p>Время зависит от скорости, которую вы выставите на эмуляторе. При средней скорости 60-80 км/ч процесс займет около 12-15 часов. Не рекомендуется ставить максимальную скорость, чтобы не перегреть устройство и не вызвать ошибок.</p>
+</details>
+<details>
+<summary>Останется ли след в памяти ЭБУ после подмотки?</summary>
+<p>При использовании качественных CAN-эмуляторов следов не остается. Данные в блоке управления двигателем и панели приборов синхронизируются. Однако, при прямом вмешательстве в память (чип-тюнинг) следы могут быть обнаружены дилером.</p>
+</details>
+<details>
+<summary>Можно ли сделать подмотку Лада Гранта без компьютера?</summary>
+<p>Да, многие современные эмуляторы имеют автономное управление через кнопки на корпусе или вообще работают в автоматическом режиме без настройки. Компьютер нужен только для сложных случаев или перепрошивки самого устройства.</p>
+</details>
+<details>
+<summary>Влияет ли подмотка на гарантию автомобиля?</summary>
+<p>Если вы используете разъем OBDII и не врезаетесь в проводку, физических следов вмешательства не будет. Однако, если дилер обнаружит несоответствие пробега в логах сервисных событий (которые ведутся при каждом ТО), это может стать поводом для отказа в гарантийном ремонте узлов, зависящих от пробега.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#принцип-работы-одометра-гранты">Принцип работы одометра Гранты</a></li><li><a href="#типы-приборных-панелей-и-их-отличия">Типы приборных панелей и их отличия</a></li><li><a href="#необходимое-оборудование-для-подмотки">Необходимое оборудование для подмотки</a></li><li><a href="#инструкция-подмотка-через-разъем-obdii">Инструкция: Подмотка через разъем OBDII</a></li><li><a href="#прямое-подключение-к-датчику-скорости">Прямое подключение к датчику скорости</a></li><li><a href="#работа-с-can-шиной-и-цифровыми-панелями">Работа с CAN-шиной и цифровыми панелями</a></li><li><a href="#частые-ошибки-и-проблемы-при-подмотке">Частые ошибки и проблемы при подмотке</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/s/si/silikonovye-patrubki-lada-granta.html" class="related-card">Силиконовые патрубки Лада Гранта: выбор, замена и тюнинг</a></li><li><a href="/articles/l/li/litye-diski-lada-granta-klab.html" class="related-card">Литые диски на Лада Гранта Клуб: выбор, размеры, установка</a></li><li><a href="/articles/l/la/lada-granta-zamok-voditelskoj-dveri.html" class="related-card">Замок водительской двери Лада Гранта: ремонт, регулировка и замена</a></li><li><a href="/articles/u/up/uplotnitel-proema-dveri-lada-granta.html" class="related-card">Уплотнитель проема двери Лада Гранта: выбор, замена, артикулы</a></li><li><a href="/articles/g/gr/grafik-to-lada-granta.html" class="related-card">График ТО Лада Гранта: интервалы, цены, что менять</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/s/si/silikonovye-patrubki-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Силиконовые патрубки Лада Гранта: выбор, замена и тюнинг</span><span class="related-bottom-desc">Полный гид по установке силиконовых патрубков на Лада Гранта. Обзор брендов, сравнение с резиной, по</span></a><a href="/articles/l/li/litye-diski-lada-granta-klab.html" class="related-bottom-card"><span class="related-bottom-title">Литые диски на Лада Гранта Клуб: выбор, размеры, установка</span><span class="related-bottom-desc">Подробный гайд по выбору литых дисков для Lada Granta Club: размеры, совместимость, лучшие бренды и </span></a><a href="/articles/l/la/lada-granta-zamok-voditelskoj-dveri.html" class="related-bottom-card"><span class="related-bottom-title">Замок водительской двери Лада Гранта: ремонт, регулировка и замена</span><span class="related-bottom-desc">Подробный гид по ремонту замка водительской двери Лада Гранта. Инструкция по разборке, смазке, регул</span></a><a href="/articles/u/up/uplotnitel-proema-dveri-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Уплотнитель проема двери Лада Гранта: выбор, замена, артикулы</span><span class="related-bottom-desc">Полный гид по уплотнителям дверей Лада Гранта. Артикулы оригиналов и аналогов, пошаговая инструкция </span></a><a href="/articles/g/gr/grafik-to-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">График ТО Лада Гранта: интервалы, цены, что менять</span><span class="related-bottom-desc">Полный график ТО Лада Гранта: таблица замены масла, фильтров, ремней ГРМ по пробегу. Реальные цены и</span></a><a href="/articles/o/ob/obrabotka-kuzova-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Обработка кузова Лада Гранта: полная защита от коррозии</span><span class="related-bottom-desc">Экспертная инструкция по антикоррозийной обработке кузова Lada Granta. Обзор методов, скрытых полост</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

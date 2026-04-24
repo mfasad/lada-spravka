@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Светодиодные лампы на Лада Гранта: выбор, установка и ошибки — Лада Справка</title>
+    <meta name="description" content="Полный гид по LED-свету для Лада Гранта. Разбор цоколей, устранение ошибок CAN-bus, замена в фарах и габаритах. Таблицы яркости и советы.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/s/sv/svetodiodnye-lampy-na-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Светодиодные лампы на Лада Гранта: выбор, установка и ошибки">
+    <meta property="og:description" content="Полный гид по LED-свету для Лада Гранта. Разбор цоколей, устранение ошибок CAN-bus, замена в фарах и габаритах. Таблицы яркости и советы.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Светодиодные лампы на Лада Гранта: выбор, установка и ошибки</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Светодиодные лампы на Лада Гранта: выбор, установка и устранение ошибок</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#выбор-цоколя-и-типы-ламп-для-разных-поколений">Выбор цоколя и типы ламп для разных поколений</a></li><li><a href="#проблема-can-bus-и-необходимость-обманок">Проблема CAN-bus и необходимость обманок</a></li><li><a href="#инструкция-по-замене-ламп-в-фарах-и-птф">Инструкция по замене ламп в фарах и ПТФ</a></li><li><a href="#сравнение-характеристик-галоген-vs-led">Сравнение характеристик: Галоген vs LED</a></li><li><a href="#установка-в-габариты-и-салон-нюансы-полярности">Установка в габариты и салон: нюансы полярности</a></li><li><a href="#юридические-аспекты-и-взаимодействие-с-гибдд">Юридические аспекты и взаимодействие с ГИБДД</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Модернизация головной оптики и салонного освещения — это первый шаг, который делает владелец после покупки бюджетного седана или хэтчбека. Штатный галоген на <em>Лада Гранта</em> часто критикуют за тусклый свет и желтоватый оттенок, который утомляет глаза в дальних поездках. Переход на современные <strong>светодиодные лампы</strong> позволяет кардинально изменить картину на дороге, делая вождение более безопасным и комфортным.</p>
+
+<p>Однако простая замена лампочек "один в один" без учета особенностей бортовой сети может привести к неприятным сюрпризам. Электрика автомобиля чувствительна к изменению сопротивления цепи, что часто вызывает моргание или полную неработоспособность LED-элементов. Владельцам необходимо понимать разницу между цоколями, знать про необходимость обманок и правильно выбирать цветовую температуру, чтобы не слепить встречных водителей.</p>
+
+<p>В этом материале мы детально разберем процесс подбора и установки LED-света на все поколения <em>Lada Granta</em>. Вы узнаете, какие <strong>цоколи</strong> используются в разных модификациях, как избежать появления ошибок на приборной панели и стоит ли менять лампы в фарах с линзами. Грамотный подход позволит получить яркий белый свет без риска повредить проводку или получить штраф от ГИБДД.</p>
+
+<h2 id="выбор-цоколя-и-типы-ламп-для-разных-поколений">Выбор цоколя и типы ламп для разных поколений</h2>
+<p>Первое, с чем сталкивается покупатель — это разнообразие цоколей. На <em>Лада Гранта</em> первого поколения (рестайлинг и дорестайлинг) и на обновленной версии <em>FL</em> с узкой решеткой радиатора применяются разные решения в головной оптике. Для ближнего и дальнего света чаще всего используется цоколь <code>H4</code>, который объединяет две нити накаливания в одной колбе. Это классическое решение, проверенное временем, но имеющее свои ограничения по ресурсу.</p>
+
+<p>В топовых комплектациях с дневными ходовыми огнями (ДХО) в виде полосок или отдельных блоков ситуация может отличаться. Здесь часто встречаются цоколи <code>W21/5W</code> или специфические светодиодные модули, не подлежащие замене. Для противотуманных фар (ПТФ) стандартом является цоколь <code>H11</code>, который также активно заменяют на LED-аналоги для улучшения видимости в туман и дождь.</p>
+
+<p>При выборе <strong>светодиодных ламп</strong> важно обращать внимание не только на тип цоколя, но и на габариты корпуса. LED-лампы часто оснащены радиаторами охлаждения или вентиляторами, которые могут быть шире штатного галогена. В условиях плотной компотовки подкапотного пространства <em>Гранты</em> это может привести к тому, что фара просто не закроется крышкой.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой тип оптики установлен на вашей Гранте?</strong><ul><li>Обычные рефлекторные фары</li><li>Фары с линзами (ProSport/Китай)</li><li>Оптика от ВАЗ-2110 (старый стиль)</li><li>Не знаю, нужно посмотреть</li><li>Другое</li></ul></div></div>
+
+<p>Салонное освещение также требует внимания. Для плафонов используются бесцокольные лампы <code>W5W</code> (T10), а для подсветки номерного знака и габаритов — <code>W5W</code> или <code>C5W</code> (фестонные). Замена их на светодиоды дает мгновенный визуальный эффект, делая салон светлее и современнее, однако здесь также есть свои нюансы с полярностью.</p>
+
+<h2 id="проблема-can-bus-и-необходимость-обманок">Проблема CAN-bus и необходимость обманок</h2>
+<p>Одной из главных технических проблем при установке LED-света на <em>Лада Гранта</em> является система диагностики бортовой сети. Штатная электропроводка рассчитана на определенное сопротивление нити накаливания галогенной лампы. Когда вы ставите <strong>светодиод</strong>, потребление тока падает в разы, и блок управления (или просто реле) "думает", что лампа сгорела.</p>
+
+<p>Внешне это проявляется в виде неприятного моргания фар или габаритов. Частота моргания может быть высокой, создавая эффект стробоскопа, или низкой, имитируя мигающий сигнал поворота. В некоторых случаях система просто отказывается подавать напряжение на цепь, и лампа не горит вовсе. Для решения этой проблемы используются специальные устройства — <strong>обманки</strong> или CAN-bus декодеры.</p>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Использование простых резистивных обманок приводит к сильному нагреву. Не оставляйте их лежащими на пластиковых деталях или вблизи проводки, так как температура нагрева может достигать 80-90 градусов по Цельсию.</p>
+</blockquote>
+
+<p>Современные LED-лампы часто уже имеют встроенный драйвер с поддержкой CAN-bus, что избавляет от необходимости покупать отдельные блоки. Однако на старых версиях <em>Гранты</em> даже "умные" лампы могут вести себя нестабильно из-за скачков напряжения в бортовой сети. В таких случаях помогает установка внешнего стабилизатора или конденсатора.</p>
+
+<p>Если вы меняете лампы в поворотниках, моргание является штатным режимом работы, но при установке LED оно становится слишком частым (гиперфлеш). Здесь установка обманок или замена реле-прерывателя на электронное (для LED) является обязательным условием для корректной работы указателей поворота.</p>
+
+<h2 id="инструкция-по-замене-ламп-в-фарах-и-птф">Инструкция по замене ламп в фарах и ПТФ</h2>
+<p>Процесс замены ламп головного света на <em>Лада Гранта</em> не требует сложного инструмента, но требует аккуратности и определенной сноровки. Доступ к лампам со стороны двигателя ограничен, особенно на версиях с кондиционером, где мешают патрубки и корпус воздушного фильтра. Для работы вам понадобится только чистая ветошь и, возможно, тонкая отвертка.</p>
+
+<p>Начинать работу следует со снятия защитной крышки фары. На <em>Гранте</em> она снимается поворотом против часовой стрелки. После этого открывается доступ к колодке питания и самой лампе. </p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист перед заменой ламп</h4><label class="check-item"><input type="checkbox"><span>Дождаться остывания фар (если они горели)</span></label><label class="check-item"><input type="checkbox"><span>Отключить минусовую клемму АКБ (желательно)</span></label><label class="check-item"><input type="checkbox"><span>Подготовить чистые перчатки или салфетки</span></label><label class="check-item"><input type="checkbox"><span>Проверить работоспособность новой LED-лампы до установки</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>Для замены лампы ближнего/дальнего света <code>H4</code> необходимо отсоединить фишку питания, затем снять металлический фиксатор (пружинную скобу), прижимающий лампу. Лампа вынимается движением назад. Установка светодиодного аналога требует внимательности: цоколь <code>H4</code> имеет три выступа, которые должны попасть в соответствующие пазы фары. Часто LED-лампы имеют поворотный цоколь, который нужно правильно сориентировать относительно отражателя.</p>
+
+<p>В противотуманных фарах процесс схож, но доступ еще более ограничен. Иногда проще снять брызговик или подкрылок, чтобы добраться до задней части ПТФ. Лампа <code>H11</code> фиксируется поворотом и имеет разъем с предохранителем, который также нужно аккуратно извлечь и переставить на новую лампу, если она идет без него.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При установке LED-ламп с активным охлаждением (вентилятором) старайтесь расположить корпус вентилятора горизонтально, чтобы пыль не набивалась внутрь подшипника, и был отток горячего воздуха.</p></div>
+
+<h2 id="сравнение-характеристик-галоген-vs-led">Сравнение характеристик: Галоген vs LED</h2>
+<p>Переход на светодиоды — это не просто смена цвета света, это изменение физических параметров освещения. Галогенные лампы имеют спектр излучения, смещенный в желтую область, что хорошо для тумана, но хуже для восприятия контрастов на сухой дороге. <strong>LED-технологии</strong> обеспечивают более белый свет, близкий к дневному, что снижает утомляемость глаз водителя.</p>
+
+<p>Ниже приведена таблица, сравнивающая основные параметры штатных ламп и качественных светодиодных аналогов, которые можно установить на <em>Лада Гранта</em>. Данные усреднены для ламп популярных брендов.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Галоген (Штат)</th>
+<th>LED (Качественный)</th>
+<th>LED (Дешевый Китай)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Световой поток (Лм)</td>
+<td>1000 - 1500</td>
+<td>3000 - 5000</td>
+<td>800 - 1200</td>
+</tr>
+<tr>
+<td>Цветовая температура</td>
+<td>3200K (Желтый)</td>
+<td>4800K - 6000K (Белый)</td>
+<td>7000K+ (Синий оттенок)</td>
+</tr>
+<tr>
+<td>Срок службы</td>
+<td>500 - 1000 часов</td>
+<td>30 000+ часов</td>
+<td>2 000 - 5 000 часов</td>
+</tr>
+<tr>
+<td>Потребление (Вт)</td>
+<td>55-60 Вт</td>
+<td>15-25 Вт</td>
+<td>5-10 Вт</td>
+</tr>
+</tbody>
+</table>
+
+<p>Как видно из таблицы, даже недорогие светодиоды выигрывают по ресурсу, но проигрывают в яркости хорошим образцам. Дешевые лампы часто имеют завышенную цветовую температуру (7000K и выше), из-за чего свет кажется ярким, но в реальности имеет низкую светоотдачу и плохо освещает дорогу в дождь. Оптимальным выбором для <em>Гранты</em> считается диапазон <mark>4800K-5000K</mark>, который дает чистый белый свет без потери пробивной способности.</p>
+
+<p>Кроме того, LED-лампы практически не греются в сторону отражателя фары (тепло отводится радиатором назад), что спасает пластиковый отражатель от выгорания и помутнения, что является частой проблемой старых "грантовских" фар с галогеном.</p>
+
+<h2 id="установка-в-габариты-и-салон-нюансы-полярности">Установка в габариты и салон: нюансы полярности</h2>
+<p>Замена ламп в габаритных огнях и салонном освещении — самый простой, но коварный этап. Лампы типа <code>W5W</code> (T10), используемые в габаритах <em>Лада Гранта</em>, и <code>C5W</code> (фестонные) для плафонов, часто имеют полярность. В отличие от галогена, светодиод горит только тогда, когда ток течет в правильном направлении.</p>
+
+<p>Если после установки LED-лампы в габарит или подсветку номера она не загорелась, не спешите её выбрасывать. Просто выньте цоколь из патрона, разверните на 180 градусов и вставьте обратно. Для бесцокольных ламп <code>W5W</code> это сделать проще всего, а вот с фестонками иногда приходится подгибать контакты патрона, чтобы обеспечить надежный контакт с нужного полюса.</p>
+
+<details class="faq-item"><summary>Почему перегорают светодиоды в габаритах?</summary><div class="faq-answer"><p>Частая причина — плохой контакт в патроне. Окислившиеся контакты создают дополнительное сопротивление и нагрев, что губительно для драйвера светодиодной лампы. Зачистите контакты перед установкой.</p></div></details>
+
+<p>В салонных плафонах <em>Гранты</em> часто используются двухконтактные лампы. При замене на светодиодные аналоги убедитесь, что вы покупаете именно двухконтактный вариант, если штатная лампа имела два контакта с одной стороны. Установка одноконтатной лампы приведет к тому, что работать будет только половина диодов или свет будет тусклым.</p>
+
+<p>Также стоит учитывать, что яркий белый свет светодиодов в салоне может создавать блики на лобовом стекле в ночное время, если плафоны не имеют рассеивателей или матового покрытия. В таких случаях можно заклеить светодиоды тонким слоем матовой пленки или использовать лампы меньшей мощности.</p>
+
+<h2 id="юридические-аспекты-и-взаимодействие-с-гибдд">Юридические аспекты и взаимодействие с ГИБДД</h2>
+<p>Вопрос легальности установки LED-ламп в фары, предназначенные для галогена, остается одним из самых обсуждаемых. Согласно Техническому регламенту Таможенного союза, тип источника света должен соответствовать маркировке на фаре. Если на фаре <em>Лада Гранта</em> стоит маркировка <code>HC</code> или <code>H</code> (для галогена), то установка светодиодов формально является изменением конструкции транспортного средства.</p>
+
+<p>На практике инспекторы ГИБДД редко проверяют тип ламп при стандартной остановке, если световой пучок не слепит встречных водителей и фары не имеют явных признаков кустарного вмешательства (разобранный герметик, торчащие провода). Однако при прохождении планового технического осмотра (ТО) с такими лампами могут возникнуть проблемы, и диагностическую карту вы не получите.</p>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Установка LED-ламп в фары с маркировкой "галоген" может повлечь штраф по ч.3 ст. 12.5 КоАП РФ (незаконное изменение конструкции) или даже лишение прав на срок от 6 месяцев до 1 года, если будет доказано, что цвет огней не соответствует требованиям (например, вместо белого — синий).</p>
+</blockquote>
+
+<p>Чтобы минимизировать риски, выбирайте лампы с правильной светотеневой границей (СТГ). Хорошие LED-лампы имеют светодиоды, расположенные строго по бокам цоколя, имитируя нить накала, и оснащены линзой на торце для правильного фокусирования света в рефлекторной фаре. Лампы, которые светят "веером" во все стороны, гарантированно будут слепить других участников движения и привлекать внимание полиции.</p>
+
+<p>Самым безопасным с юридической точки зрения является установка LED-ламп только в те места, где это разрешено или не регламентируется строго, например, в салон, в габариты (если они белые) или в ПТФ, если конструкция фары позволяет установить сертифицированный LED-модуль. Для головного света на серийной <em>Гранте</em> с галогеновым рефлектором полная легализация возможна только через процедуру регистрации изменений в НАМИ, что экономически нецелесообразно.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Главный критерий безопасности и законности — отсутствие слепящего эффекта для встречных водителей. Если вас встречные водители не моргают фарами, значит свет настроен правильно.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Нужно ли снимать аккумулятор при замене ламп на Лада Гранта?</summary>
+<p>Снимать клемму аккумулятора не обязательно, но крайне желательно, особенно если вы работаете в ограниченном пространстве и можете случайно замкнуть металлическим цоколем лампы на массу (кузов). Короткое замыкание может вывести из строя предохранитель или блок комфорта. Отключение минусовой клеммы займет 2 минуты, но обезопасит электрику автомобиля.</p>
+</details>
+
+<details>
+<summary>Почему после установки LED габариты продолжают гореть в полнакала, когда машина выключена?</summary>
+<p>Это распространенная особенность некоторых комплектаций <em>Гранты</em>, где через цепь габаритов может проходить небольшой ток утечки или ток для проверки целостности цепи. Для галогена этот ток незаметен, но чувствительные светодиоды могут слабо светиться. Решается установкой параллельно лампе дополнительного резистора или конденсатора, который заберет этот ток на себя.</p>
+</details>
+
+<details>
+<summary>Можно ли ставить LED-лампы в фары с линзами?</summary>
+<p>Да, в фары с линзами (например, ProSport или штатные линзы на топовых версиях) LED-лампы ставить можно и нужно, но только специализированные. Обычные LED-лампы, имитирующие нить накала, в линзе могут давать неправильный свет. Лучше использовать готовые LED-модули или лампы, разработанные специально для линзованной оптики, чтобы получить четкую светотеневую границу.</p>
+</details>
+
+<details>
+<summary>Какой цоколь стоит в противотуманках Гранты ФЛ (рестайлинг)?</summary>
+<p>На Лада Гранта ФЛ (Facelift) с узкой решеткой радиатора в противотуманных фарах используется цоколь <code>H11</code>. Это тот же цоколь, что и на многих иномарках. При выборе обращайте внимание на длину цоколя, так как в ПТФ Гранты место очень ограничено, и длинный радиатор может упереться в заднюю стенку.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#выбор-цоколя-и-типы-ламп-для-разных-поколений">Выбор цоколя и типы ламп для разных поколений</a></li><li><a href="#проблема-can-bus-и-необходимость-обманок">Проблема CAN-bus и необходимость обманок</a></li><li><a href="#инструкция-по-замене-ламп-в-фарах-и-птф">Инструкция по замене ламп в фарах и ПТФ</a></li><li><a href="#сравнение-характеристик-галоген-vs-led">Сравнение характеристик: Галоген vs LED</a></li><li><a href="#установка-в-габариты-и-салон-нюансы-полярности">Установка в габариты и салон: нюансы полярности</a></li><li><a href="#юридические-аспекты-и-взаимодействие-с-гибдд">Юридические аспекты и взаимодействие с ГИБДД</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-rele-ventilyatora-okhlazhdeniya-dvigatelya.html" class="related-card">Реле вентилятора Лада Гранта: замена, схема и где находится</a></li><li><a href="/articles/m/ma/makhovik-lada-granta-8-klapannaya.html" class="related-card">Маховик Лада Гранта 8 клапанная: выбор, замена, признаки износа</a></li><li><a href="/articles/l/la/lada-granta-kross-razgon-do-100.html" class="related-card">Lada Granta Cross разгон до 100 км/ч: реальные тесты и секреты тюнинга</a></li><li><a href="/articles/r/ra/razmery-potolka-lada-granta.html" class="related-card">Размеры потолка Лада Гранта: габариты, обшивка, нюансы замены</a></li><li><a href="/articles/d/da/datchik-vklyucheniya-ventilyatora-lada-granta-8-klapannaya-gde-nakhoditsya.html" class="related-card">Где находится датчик включения вентилятора Лада Гранта 8 клапанная</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-rele-ventilyatora-okhlazhdeniya-dvigatelya.html" class="related-bottom-card"><span class="related-bottom-title">Реле вентилятора Лада Гранта: замена, схема и где находится</span><span class="related-bottom-desc">Подробный разбор схемы реле вентилятора Лада Гранта. Где находится блок, как проверить 16-клапанный </span></a><a href="/articles/m/ma/makhovik-lada-granta-8-klapannaya.html" class="related-bottom-card"><span class="related-bottom-title">Маховик Лада Гранта 8 клапанная: выбор, замена, признаки износа</span><span class="related-bottom-desc">Полный гид по маховику для Лада Гранта 8 клапанов. Симптомы поломки, артикулы, цена, процесс замены </span></a><a href="/articles/l/la/lada-granta-kross-razgon-do-100.html" class="related-bottom-card"><span class="related-bottom-title">Lada Granta Cross разгон до 100 км/ч: реальные тесты и секреты тюнинга</span><span class="related-bottom-desc">Сколько времени уходит на разгон Лада Гранта Кросс до 100 км/ч? Сравнение с конкурентами, факторы вл</span></a><a href="/articles/r/ra/razmery-potolka-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Размеры потолка Лада Гранта: габариты, обшивка, нюансы замены</span><span class="related-bottom-desc">Точные размеры потолка Lada Granta (FL/FL2/лифтбек/седан), особенности обшивки, инструкция по снятию</span></a><a href="/articles/d/da/datchik-vklyucheniya-ventilyatora-lada-granta-8-klapannaya-gde-nakhoditsya.html" class="related-bottom-card"><span class="related-bottom-title">Где находится датчик включения вентилятора Лада Гранта 8 клапанная</span><span class="related-bottom-desc">Точное расположение датчика включения вентилятора Лада Гранта 8 клапанов. Инструкция по замене, симп</span></a><a href="/articles/l/la/lada-granta-tsvet-sochi.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта цвет Сочи: все о оттенке 691</span><span class="related-bottom-desc">Полный обзор цвета 691 Сочи на Лада Гранта. Характеристики краски, нумерация, нюансы выбора и уход з</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Ошибка U0402 Лада Веста: причины, диагностика, устранение — Лада Справка</title>
+    <meta name="description" content="Разбор кода U0402 на Лада Веста. Почему загорается Check Engine, как расшифровать данные CAN-шины и что делать, если пропали показания.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/u/u0/u0402-oshibka-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Ошибка U0402 Лада Веста: причины, диагностика, устранение">
+    <meta property="og:description" content="Разбор кода U0402 на Лада Веста. Почему загорается Check Engine, как расшифровать данные CAN-шины и что делать, если пропали показания.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Ошибка U0402 Лада Веста: причины, диагностика, устранение</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Ошибка U0402 на Лада Веста: полный разбор неисправности</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#расшифровка-кода-неисправности-и-его-значение">Расшифровка кода неисправности и его значение</a></li><li><a href="#основные-причины-появления-u0402-на-весте">Основные причины появления U0402 на Весте</a></li><li><a href="#диагностика-инструменты-и-порядок-действий">Диагностика: инструменты и порядок действий</a></li><li><a href="#таблица-расшифровка-статусов-ошибки-u0402">Таблица: Расшифровка статусов ошибки U0402</a></li><li><a href="#методы-устранения-от-сброса-до-перепрошивки">Методы устранения: от сброса до перепрошивки</a></li><li><a href="#профилактика-и-полезные-советы-владельцам">Профилактика и полезные советы владельцам</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Появление на приборной панели <em>Lada Vesta</em> загадочного кода <strong>U0402</strong> часто застает владельца врасплох, вызывая тревогу за техническое состояние автомобиля. Эта комбинация символов не указывает на механическую поломку двигателя или трансмиссии, а сигнализирует о сбое в цифровом обмене данными между блоками управления. В современных автомобилях семейства <em>АвтоВАЗ</em>, оснащенных мультимедийной системой <em>EnjoY Pro</em> или более ранними версиями <em>Media</em>, этот код тесно связан с некорректной работой <strong>CAN-шины</strong>.</p>
+
+<p>Владельцы могут заметить, что вместе с ошибкой перестает отображаться информация о температуре двигателя, расходе топлива или времени в пути на дисплее бортового компьютера. Иногда система может самостоятельно сбрасывать показания, а затем восстанавливать их через несколько минут работы. Понимание природы этого кода <strong>U0402</strong> критически важно, так как игнорирование проблемы может привести к полному отказу отображения диагностических данных.</p>
+
+<p>В данной статье мы детально разберем причины возникновения сбоя, методы программной и аппаратной диагностики, а также способы устранения неисправности своими силами или в сервисном центре. Важно отметить, что в большинстве случаев проблема носит программный характер и решается без замены дорогостоящих узлов.</p>
+
+<h2 id="расшифровка-кода-неисправности-и-его-значение">Расшифровка кода неисправности и его значение</h2>
+
+<p>Код <strong>U0402</strong> в международной классификации <em>OBD-II</em> расшифровывается как «Неверные данные, полученные от модуля управления коробкой передач». Однако в контексте автомобилей <em>Лада Веста</em> и <em>XRAY</em> трактовка часто смещается в сторону получения некорректных данных от модуля <em>Gateway</em> или мультимедийной системы. Это означает, что один из блоков управления (чаще всего приборная панель или ЭБУ двигателя) получает сигнал, который не проходит проверку на целостность или выходит за пределы допустимых значений.</p>
+
+<p>Ситуация осложняется тем, что ошибка носит межсетевой характер. <strong>CAN-шина</strong> — это «нервная система» автомобиля, по которой передаются команды от педалей, датчиков и кнопок. Если в этой сети возникает «шум» или конфликт адресов, появляется код <strong>U0402</strong>. Это не обязательно означает поломку самого датчика, скорее — нарушение протокола общения между устройствами.</p>
+
+<blockquote>⚠️ Внимание: Не пытайтесь сбрасывать ошибку просто снятием клеммы аккумулятора на длительное время. В случае с <em>Lada Vesta</em> это может привести к рассинхронизации иммобилайзера и потребовать визита к дилеру для привязки ключей.</blockquote>
+
+<p>Для точной диагностики необходимо понимать, что код может быть «историческим» (накопленным) или «текущим». Если ошибка горит постоянно, значит, конфликт в сети происходит прямо сейчас. Если же она появляется периодически, скорее всего, проблема кроется в плохом контакте или временном скачке напряжения в бортовой сети.</p>
+
+<h2 id="основные-причины-появления-u0402-на-весте">Основные причины появления U0402 на Весте</h2>
+
+<p>Список потенциальных виновников довольно широк, но статистика сервисных центров выделяет несколько основных направлений. Чаще всего проблема кроется не в самом автомобиле, а в дополнительном оборудовании или программном обеспечении.</p>
+
+<ul>
+<li>📟 Сбой программного обеспечения мультимедийной системы <em>EnjoY Pro</em> или <em>Media</em>, который генерирует ошибочные пакеты данных в сеть CAN.</li>
+<li>⚡ Скачки напряжения в бортовой сети, вызванные неисправным генератором или «умирающим» аккумулятором, что приводит к искажению сигналов.</li>
+<li>🔌 Окисление контактов в разъемах подключения приборной панели или блока <em>Gateway</em>, расположенного за бардачком.</li>
+<li>🛠️ Некорректно работающий aftermarket-оборудование (сигнализации, камеры заднего вида), внедренное в штатную проводку.</li>
+</ul>
+
+<p>Особое внимание стоит уделить мультимедиа. После обновлений прошивки или установки нелицензионного ПО головное устройство может начать «штормить» сеть. Блоки управления <strong>ECU</strong> и <strong>TCU</strong> получают мусор вместо четких цифр и фиксируют ошибку <strong>U0402</strong>.</p>
+
+<p>Также нельзя исключать физическое повреждение проводов. Вибрации, попадание влаги или вмешательство при установке дополнительного оборудования могли повредить изоляцию витой пары <strong>CAN-High</strong> или <strong>CAN-Low</strong>. Это создает помехи, которые система воспринимает как неверные данные.</p>
+
+<h2 id="диагностика-инструменты-и-порядок-действий">Диагностика: инструменты и порядок действий</h2>
+
+<p>Для качественной диагностики наличия кода <strong>U0402</strong> обычного китайского сканера <em>ELM327</em> может быть недостаточно, хотя он и способен считать сам код ошибки. Для глубокого анализа потребуется профессиональное оборудование, поддерживающее протоколы <em>AutoVAZ</em> и capable of reading live data from the CAN bus.</p>
+
+<p>Процесс диагностики начинается с визуального осмотра. Необходимо проверить клеммы аккумулятора, состояние массы кузова и целостность предохранителей, отвечающих за блок управления кузовом (<strong>BCM</strong>) и мультимедиа. Часто проблема решается простой зачисткой контактов.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист первичной диагностики</h4><label class="check-item"><input type="checkbox"><span>Проверить напряжение на аккумуляторе (норма 12.5-12.7В)</span></label><label class="check-item"><input type="checkbox"><span>Считать коды ошибок сканером</span></label><label class="check-item"><input type="checkbox"><span>Осмотреть разъемы за магнитолой</span></label><label class="check-item"><input type="checkbox"><span>Проверить работу других систем (стеклоподъемники, свет)</span></label><label class="check-item"><input type="checkbox"><span>Сделать сброс ошибок и тест-драйв</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Если внешние причины исключены, переходят к программной части. Необходимо подключиться к диагностическому разъему <em>OBD-II</em> и посмотреть статус связи с модулем <em>Gateway</em>. Если связь с ним отсутствует или прерывистая, проблема локализуется в этом узле или проводке до него.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте приложение OpenDiem или DiagZone для более глубокой работы с автомобилями VAG и АвтоВАЗ, если штатный сканер не видит всех параметров.</p></div>
+
+<p>Важно провести тест под нагрузкой. Ошибка может не появляться на стоянке, но возникать при включении фар, печки и кондиционера одновременно. Это укажет на просадку напряжения или наводки в проводке.</p>
+
+<h2 id="таблица-расшифровка-статусов-ошибки-u0402">Таблица: Расшифровка статусов ошибки U0402</h2>
+
+<p>Для удобства понимания состояния системы, рассмотрим возможные статусы кода неисправности, которые отображаются в диагностическом ПО.</p>
+
+<table>
+<thead>
+<tr>
+<th>Статус</th>
+<th>Описание</th>
+<th>Действия</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Active (Текущая)</td>
+<td>Ошибка присутствует прямо сейчас, данные некорректны</td>
+<td>Требуется немедленная диагностика проводки и блоков</td>
+</tr>
+<tr>
+<td>Stored (Сохраненная)</td>
+<td>Ошибка была в прошлом, сейчас данные в норме</td>
+<td>Можно сбросить, наблюдать за повторением</td>
+</tr>
+<tr>
+<td>Intermittent (Периодическая)</td>
+<td>Ошибка появляется при определенных условиях (вибрация, холод)</td>
+<td>Проверка контактов и разъемов на окисление</td>
+</tr>
+<tr>
+<td>Pending (Ожидающая)</td>
+<td>Сбой зафиксирован один раз, но еще не подтвержден</td>
+<td>Мониторинг состояния в течение нескольких циклов</td>
+</tr>
+</tbody>
+</table>
+
+<p>Понимание статуса помогает принять решение: ехать в сервис своим ходом или вызывать эвакуатор. Если ошибка <strong>Active</strong> и сопровождается потерей управления (редко, но бывает при сбоях <strong>ESP</strong>), эксплуатация автомобиля запрещена.</p>
+
+<h2 id="методы-устранения-от-сброса-до-перепрошивки">Методы устранения: от сброса до перепрошивки</h2>
+
+<p>Если диагностика не выявила обрывов проводов, самым эффективным методом часто становится программное решение. Владельцы <em>Лада Веста</em> с мультимедиа <em>EnjoY Pro</em> часто сталкиваются с тем, что ошибка <strong>U0402</strong> лечится обновлением прошивки головного устройства до последней актуальной версии.</p>
+
+<details class="faq-item"><summary>Нюансы перепрошивки мультимедиа</summary><div class="faq-answer"><p>Процесс обновления ПО мультимедийной системы требует точного соблюдения инструкции. Неправильная версия прошивки может превратить магнитолу в «кирпич». Рекомендуется обращаться к официальным дилерам или использовать проверенные файлы с форумов владельцев. Перед началом обязательно зарядите аккумулятор до 100%.</p></div></details>
+
+<p>Алгоритм действий по устранению:</p>
+<p>1. Сбросить ошибки через диагностический разъем.</p>
+<p>2. Проверить версию ПО мультимедиа.</p>
+<p>3. Если версия старая — обновить через USB или у дилера.</p>
+<p>4. Если ошибка возвращается — проверить «минус» двигателя и кузова.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Сталкивались ли вы с ошибками CAN-шины на Лада Веста?</strong><ul><li>Да, лечилось сбросом клемм</li><li>Да, помогла перепрошивка магнитолы</li><li>Нет, но были другие глюки электроники</li><li>Нет, автомобиль исправен</li></ul></div></div>
+
+<p>В случаях, когда программные методы не помогают, приходится прибегать к замене узлов. Чаще всего меняют саму мультимедийную систему по гарантии или приборную панель. Блоки <strong>ECU</strong> выходят из строя крайне редко.</p>
+
+<blockquote>⚠️ Внимание: При замене мультимедийной системы или приборной панели может потребоваться привязка компонентов к VIN-коду автомобиля с использованием дилерского сканера <em>DiagRA</em> или аналогов. Без привязки автомобиль может не запуститься или не будет работать иммобилайзер.</blockquote>
+
+<h2 id="профилактика-и-полезные-советы-владельцам">Профилактика и полезные советы владельцам</h2>
+
+<p>Чтобы минимизировать риск появления ошибки <strong>U0402</strong> и других сбоев в электронике <em>Lada Vesta</em>, следует соблюдать ряд простых правил. В первую очередь, это контроль за состоянием аккумуляторной батареи. Старый аккумулятор с «плавающим» напряжением — главный враг чувствительной электроники.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Стабильное напряжение в бортовой сети — залог отсутствия ошибок CAN-шины. Следите за здоровьем аккумулятора и генератора.</p></div>
+
+<p>Также стоит избегать установки дешевого нештатного оборудования. Дешевые китайские сигнализации или регистраторы, врезаемые в штатную проводку, часто вносят хаос в цифровую сеть автомобиля. Любое вмешательство в электрику должно проводиться с использованием качественных разъемов и изоляции.</p>
+
+<p>Регулярно проверяйте обновления программного обеспечения на официальном сайте или у дилера. Инженеры <em>АвтоВАЗ</em> периодически выпускают патчи, устраняющие программные баги, вызывающие ложные ошибки.</p>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли ездить с ошибкой U0402?</summary>
+<p>Ездить можно, если ошибка не сопровождается потерей мощности, отказом тормозов или блокировкой рулевого управления. Однако отсутствие корректных данных о температуре или скорости может быть опасным в дальней дороге. Рекомендуется устранить неисправность при первой возможности.</p>
+</details>
+
+<details>
+<summary>Сколько стоит устранение ошибки U0402?</summary>
+<p>Если проблема в программном сбое, стоимость составит цену диагностики (от 1000 до 3000 рублей). Если потребуется замена мультимедиа или приборной панели вне гарантии, счет может пойти на десятки тысяч рублей.</p>
+</details>
+
+<details>
+<summary>Поможет ли снятие клеммы аккумулятора?</summary>
+<p>Временное снятие клеммы на 10-15 минут может сбросить ошибку, если она была вызвана разовым скачком напряжения. Однако, если причина в «глючной» прошивке или плохом контакте, ошибка U0402 вернется через несколько минут или километров пробега.</p>
+</details>
+
+<details>
+<summary>Влияет ли эта ошибка на гарантию?</summary>
+<p>Сама по себе ошибка U0402 является гарантийным случаем, так как указывает на неисправность электроники. Однако, если будет доказано, что сбой вызван установкой нештатной сигнализации или вмешательством в проводку, в гарантии могут отказать.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#расшифровка-кода-неисправности-и-его-значение">Расшифровка кода неисправности и его значение</a></li><li><a href="#основные-причины-появления-u0402-на-весте">Основные причины появления U0402 на Весте</a></li><li><a href="#диагностика-инструменты-и-порядок-действий">Диагностика: инструменты и порядок действий</a></li><li><a href="#таблица-расшифровка-статусов-ошибки-u0402">Таблица: Расшифровка статусов ошибки U0402</a></li><li><a href="#методы-устранения-от-сброса-до-перепрошивки">Методы устранения: от сброса до перепрошивки</a></li><li><a href="#профилактика-и-полезные-советы-владельцам">Профилактика и полезные советы владельцам</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/1/15/15-lada-mashina.html" class="related-card">15 Лада: Топ-15 легендарных моделей и модификаций АвтоВАЗ</a></li><li><a href="/articles/l/la/lada-priora-kupe.html" class="related-card">Лада Приора Купе: обзор, технические характеристики и отзывы</a></li><li><a href="/articles/p/pe/pesnya-lada-sedan-baklazhan-rekord-orkestr.html" class="related-card">Лада Седан Баклажан: Как песня стала рекордом Оркестра</a></li><li><a href="/articles/b/bo/boravto-lada-voronezh.html" class="related-card">БорАвто Лада Воронеж: официальный дилер, цены, наличие</a></li><li><a href="/articles/s/sa/sajt-proizvoditelya-lada.html" class="related-card">Официальный сайт производителя Лада: навигация, сервисы и модели</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/1/15/15-lada-mashina.html" class="related-bottom-card"><span class="related-bottom-title">15 Лада: Топ-15 легендарных моделей и модификаций АвтоВАЗ</span><span class="related-bottom-desc">Обзор 15 популярных моделей Лада: от Жигулей до Весты. Характеристики, история, плюсы и минусы, сове</span></a><a href="/articles/l/la/lada-priora-kupe.html" class="related-bottom-card"><span class="related-bottom-title">Лада Приора Купе: обзор, технические характеристики и отзывы</span><span class="related-bottom-desc">Полный обзор Lada Priora Купе. Двигатель, динамика, тюнинг, комплектации и особенности кузова купе. </span></a><a href="/articles/p/pe/pesnya-lada-sedan-baklazhan-rekord-orkestr.html" class="related-bottom-card"><span class="related-bottom-title">Лада Седан Баклажан: Как песня стала рекордом Оркестра</span><span class="related-bottom-desc">Разбор феномена трека &#x27;Лада Седан Баклажан&#x27;. Почему Оркестр стал рекордсменом и как текст повлиял на</span></a><a href="/articles/b/bo/boravto-lada-voronezh.html" class="related-bottom-card"><span class="related-bottom-title">БорАвто Лада Воронеж: официальный дилер, цены, наличие</span><span class="related-bottom-desc">Полный обзор дилерского центра БорАвто Лада в Воронеже. Актуальные цены, комплектации, условия креди</span></a><a href="/articles/s/sa/sajt-proizvoditelya-lada.html" class="related-bottom-card"><span class="related-bottom-title">Официальный сайт производителя Лада: навигация, сервисы и модели</span><span class="related-bottom-desc">Полный обзор официального сайта производителя Лада. Как найти дилера, заказать автомобиль, пройти ТО</span></a><a href="/articles/r/re/rele-povorotov-lada.html" class="related-bottom-card"><span class="related-bottom-title">Реле поворотов Лада: выбор, замена и диагностика неисправностей</span><span class="related-bottom-desc">Полный гид по выбору реле поворотов для автомобилей Lada. Диагностика мигания, замена аварийки, совм</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Лада мод ряд: как настроить и увеличить ход штока — Лада Справка</title>
+    <meta name="description" content="Подробное руководство по модификации рядов ГРМ Лада. Как изменить ход штока, подобрать распредвалы и настроить фазы газораспределения.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-mod-ryad.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Лада мод ряд: как настроить и увеличить ход штока">
+    <meta property="og:description" content="Подробное руководство по модификации рядов ГРМ Лада. Как изменить ход штока, подобрать распредвалы и настроить фазы газораспределения.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Лада мод ряд: как настроить и увеличить ход штока</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Лада мод ряд: глубокая настройка ГРМ</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#теория-и-физика-процесса-модификации">Теория и физика процесса модификации</a></li><li><a href="#необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</a></li><li><a href="#технология-изменения-хода-штока">Технология изменения хода штока</a></li><li><a href="#настройка-фаз-газораспределения">Настройка фаз газораспределения</a></li><li><a href="#влияние-на-ресурс-и-надежность">Влияние на ресурс и надежность</a></li><li><a href="#диагностика-и-частые-ошибки">Диагностика и частые ошибки</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Модификация рядов газораспределительного механизма (ГРМ) на автомобилях семейства ВАЗ — это не просто замена деталей, а сложная инженерная задача, требующая точного понимания физических процессов. <strong>Ход штока</strong> толкателя клапана напрямую влияет на степень открытия клапана, что, в свою очередь, определяет наполняемость цилиндров топливовоздушной смесью. Многие энтузиасты стремятся изменить этот параметр, чтобы выжать максимум из атмосферного или турбированного двигателя.</p>
+
+<p>В стандартном исполнении двигатели ВАЗ, будь то классическая «классика» или современные 16-клапанные агрегаты, имеют жесткие ограничения по подъему клапана. <em>Ряд ГРМ</em>, собранный на заводе, оптимизирован для ресурса и экологии, а не для спортивной динамики. Изменяя геометрию привода, вы вторгаетесь в тонко сбалансированную систему, где каждый миллиметр имеет значение.</p>
+
+<p>Цель данной статьи — детально разобрать процесс модификации, риски и технические нюансы, с которыми столкнется каждый, решившийся на <strong>«мод ряд»</strong>. Мы не будем говорить о банальной замене распредвалов, а затронем более глубокие изменения, такие как установка разрезных шестерен и изменение высоты толкателей.</p>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Любое вмешательство в механизм ГРМ без должной квалификации может привести к встрече клапанов с поршнями, что гарантированно потребует капитального ремонта двигателя.</p>
+</blockquote>
+
+<p>Прежде чем приступать к физическим изменениям, необходимо четко понимать, какого результата вы хотите достичь. <mark>Изменение хода штока более чем на 0.5 мм от номинала без соответствующей настройки фаз газораспределения приведет к резкому падению крутящего момента на низких оборотах.</mark> Это не просто потеря мощности, это изменение характера работы мотора, который может стать непригодным для повседневной езды.</p>
+
+<h2 id="теория-и-физика-процесса-модификации">Теория и физика процесса модификации</h2>
+
+<p>Основой любого двигателя внутреннего сгорания является цикл впуска и выпуска газов. В двигателях ВАЗ используется схема с верхним расположением распределительного вала (OHC). <strong>Толкатель</strong> (или рокер, в зависимости от модели двигателя) передает усилие от кулачка распредвала к клапану. Стандартный подъем клапана на большинстве гражданских моторов составляет около 9-10 мм.</p>
+
+<p>Увеличивая высоту кулачка или меняя плечо рычага, мы увеличиваем <strong>ход штока</strong>. Это позволяет клапану открываться шире и, теоретически, пропускать больше смеси. Однако здесь вступает в силу аэродинамика газовых потоков. Скорость потока зависит от перепада давления и площади сечения. Слишком раннее или позднее открытие клапана при увеличенном ходе может создать турбулентность, которая ухудшит наполнение цилиндра.</p>
+
+<p>Ключевым параметром становится <em>перекрытие</em> (overlap) — момент, когда оба клапана (впускной и выпускной) открыты одновременно. При модификации ряда этот параметр меняется непропорционально. Если вы поднимаете впуск, но оставляете стандартные фазы выпуска, вы можете получить эффект «запирания» выхлопных газов в цилиндре.</p>
+
+<ul>
+<li>📏 <strong>Ход клапана</strong> — расстояние, которое проходит тарелка клапана от седла до максимального открытия.</li>
+<li>⏱️ <strong>Длительность открытия</strong> — угол поворота коленчатого вала, в течение которого клапан открыт.</li>
+<li>🔄 <strong>Перекрытие</strong> — угол поворота коленвала, когда открыты оба клапана.</li>
+</ul>
+
+<p>Важно понимать, что простого увеличения подъема недостаточно. Система должна работать гармонично. Если впускные клапаны открываются слишком широко, а выпускные не успевают очищать цилиндр, произойдет смешивание свежей смеси с отработанными газами. Это приведет к потере мощности и нестабильной работе на холостом ходу.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте индикатор часового типа для замера реального хода клапана на собранном двигателе, так как прогиб деталей ГРМ может вносить свои коррективы в теоретические расчеты.</p></div>
+
+<h2 id="необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</h2>
+
+<p>Для качественного выполнения работ по модификации ГРМ вам потребуется специализированный инструмент. Обычного набора ключей будет недостаточно, так как требуется высокая точность измерений. <strong>Микрометр</strong> и <strong>индикаторная головка</strong> — это ваши главные помощники. Без них работа превращается в гадание на кофейной гуще.</p>
+
+<p>Первым делом необходимо демонтировать головку блока цилиндров (ГБЦ) или, как минимум, снять клапанную крышку и механизм ГРМ. Перед разборкой убедитесь, что двигатель холодный. Любые замеры «на горячую» будут некорректными из-за теплового расширения металлов. Также потребуется динамометрический ключ для сборки с соблюдением моментов затяжки.</p>
+
+<p>При подготовке к модификации часто возникает вопрос о выборе компонентов. Можно расточить стандартные толкатели, установить более высокие или использовать специальные спортивные рокеры с измененной геометрией. Каждый метод имеет свои плюсы и минусы. Расточка снижает ресурс, а замена деталей требует финансовых вложений.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к модификации ГРМ</h4><label class="check-item"><input type="checkbox"><span>Демонтировать ГБЦ и очистить от нагара</span></label><label class="check-item"><input type="checkbox"><span>Замерить стандартные параметры подъема клапанов</span></label><label class="check-item"><input type="checkbox"><span>Подобрать новые толкатели или рокеры</span></label><label class="check-item"><input type="checkbox"><span>Проверить состояние направляющих втулок клапанов</span></label><label class="check-item"><input type="checkbox"><span>Закупить новую прокладку ГБЦ и сальники</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Особое внимание уделите чистоте. Попадание металлической стружки или абразива в масляные каналы после расточки или шлифовки деталей может убить двигатель за несколько минут работы. Промывка всех деталей в ультразвуковой ванне или качественном растворителе обязательна.</p>
+
+<table>
+<thead>
+<tr>
+<th>Инструмент</th>
+<th>Назначение</th>
+<th>Точность</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Микрометр</td>
+<td>Замер диаметра толкателей</td>
+<td>0.01 мм</td>
+</tr>
+<tr>
+<td>Индикатор</td>
+<td>Замер хода клапана</td>
+<td>0.01 мм</td>
+</tr>
+<tr>
+<td>Транспортир</td>
+<td>Определение фаз ГРМ</td>
+<td>0.5 град</td>
+</tr>
+<tr>
+<td>Динамометр</td>
+<td>Затяжка болтов ГБЦ</td>
+<td>1 Нм</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="технология-изменения-хода-штока">Технология изменения хода штока</h2>
+
+<p>Существует несколько способов изменить геометрию привода клапанов. Самый распространенный — установка <strong>разрезных шестерен</strong> в паре с высокими толкателями. Это позволяет не только увеличить подъем, но и точно выставить фазы газораспределения относительно положения коленчатого вала.</p>
+
+<p>Процесс начинается с подбора толкателей. Если стандартный толкатель имеет высоту, например, 35 мм, то для подъема клапана на 1 мм выше,可能需要 толкатель высотой 36 мм (цифры условные, зависят от плеча рычага). Точный расчет производится по формуле, учитывающей передаточное число коромысла (рокера).</p>
+
+<p>После установки новых компонентов необходимо собрать ГРМ и провернуть коленчатый вал на два полных оборота. Затем, используя индикатор, закрепленный на головке блока, замеряем реальный ход клапана. Если показания отличаются от желаемых, процедуру подбора придется повторить. Это трудоемкий процесс, требующий терпения.</p>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> При увеличении хода штока убедитесь, что пружины клапанов имеют достаточную жесткость и не发生 «сжатия до соприкосновения витков» (coil bind) в верхней точке подъема.</p>
+</blockquote>
+
+<p>Еще один важный аспект — зазоры в клапанах. При модифицированном ряде тепловые зазоры могут требовать более частой регулировки. Использование гидрокомпенсаторов в сильно форсированных моторах часто не рекомендуется, так как они могут не успевать выбирать увеличенный ход или, наоборот, создавать избыточное давление.</p>
+
+<details class="faq-item"><summary>Почему нельзя просто поставить высокие толкатели?</summary><div class="faq-answer"><p>Просто увеличить высоту толкателя недостаточно, так как изменится момент начала открытия клапана. Без смещения фаз распредвала (разрезные шестерни) вы получите рассинхронизацию работы двигателя, что приведет к потере мощности и перегреву.</p></div></details>
+
+<h2 id="настройка-фаз-газораспределения">Настройка фаз газораспределения</h2>
+
+<p>После механического изменения хода штока наступает этап тонкой настройки. <strong>Фазы ГРМ</strong> — это углы поворота коленвала, при которых происходят открытие и закрытие клапанов. Стандартные настройки ВАЗ ориентированы на средние обороты. Спорт-настройка смещает эти значения.</p>
+
+<p>Для настройки используется метод перекрытия. Найдите верхнюю мертвую точку (ВМТ) первого цилиндра. Установите разрезные шестерни так, чтобы метки на шестернях совпадали с метками на корпусе подшипников распредвала при положении поршня в ВМТ. Это будет «нулевой» точкой.</p>
+
+<p>Далее, используя градусник (транспортир) на носке коленвала, проверяем моменты открытия и закрытия клапанов. Для атмосферного мотора часто требуется более раннее открытие впуска и более позднее закрытие выпуска. Для турбомотора стратегия может быть противоположной, чтобы использовать энергию выхлопных газов.</p>
+
+<ul>
+<li>🏁 <strong>Старт</strong> — открытие впускного клапана до ВМТ.</li>
+<li>🏁 <strong>Финиш</strong> — закрытие выпускного клапана после ВМТ.</li>
+<li>🏁 <strong>Пик</strong> — максимальный подъем клапана (должен приходиться на нужный угол).</li>
+</ul>
+
+<p>Настройка ведется методом проб и ошибок, либо по рекомендациям производителя распредвалов. Идеальной настройки «на столе» не существует. Двигатель нужно заводить, слушать, смотреть на состав смеси (лямбда-зонд) и корректировать положение шестерен на несколько градусов.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой тип двигателя вы планируете дорабатывать?</strong><ul><li>8-клапанный Атмосферный</li><li>16-клапанный Атмосферный</li><li>16-клапанный Турбо</li><li>Дизельный (экзотика)</li></ul></div></div>
+
+<h2 id="влияние-на-ресурс-и-надежность">Влияние на ресурс и надежность</h2>
+
+<p>Любое отклонение от заводских параметров снижает ресурс агрегата. Увеличенный <strong>ход штока</strong> создает повышенные нагрузки на кулачки распредвала, толкатели и сами клапаны. Скорость движения клапана увеличивается, что приводит к более жесткому приземлению тарелки на седло.</p>
+
+<p>Первым сдается масло. Стандартный масляный насос может не справлять с возросшими требованиями к смазке подшипников распредвала, особенно если установлены валы с агрессивным профилем. Рекомендуется установка маслонасоса повышенной производительности и использование синтетических масел с высоким индексом вязкости (например, 5W-40 или 10W-40).</p>
+
+<p>Клапанные пружины — еще одно слабое звено. При высоких оборотах и увеличенном ходе стандартные пружины могут не успевать возвращать клапан в закрытое состояние, вызывая «подвисание». Это чревато встречей с поршнем. Установка усиленных пружин (часто желтого или красного цвета) обязательна для серьезных доработок.</p>
+
+<p>Ресурс таких двигателей редко превышает 50-70 тысяч километров без переборки. Это плата за мощность. Владелец должен быть готов к регулярному контролю зазоров и состоянию масла. Металлическая стружка в масле — первый признак разрушения пар трения.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Спортивный двигатель с модифицированным ГРМ требует сокращенных интервалов замены масла (каждые 5-7 тыс. км) и использования высокооктанового топлива.</p></div>
+
+<h2 id="диагностика-и-частые-ошибки">Диагностика и частые ошибки</h2>
+
+<p>После сборки и запуска двигателя возможны различные проблемы. Двигатель может троить, глохнуть или издавать посторонние шумы. <strong>Стук</strong> в районе ГБЦ — самый тревожный симптом. Он может указывать на то, что клапан все-таки встречается с поршнем или происходит удар толкателя о кулачок из-за неправильного зазора.</p>
+
+<p>Частая ошибка — неправильная установка меток ГРМ при сборке. Даже один пропущенный зуб на шестерне коленвала или распредвала собьет все фазы. Двигатель будет работать, но крайне неэффективно и с перегревом. Всегда перепроверяйте метки после двух оборотов коленвала вручную.</p>
+
+<p>Еще одна ошибка — игнорирование притирки. Новые детали ГРМ должны притереться друг к другу. Первые 1000 км нельзя давать полный газ или长时间 работать на высоких оборотах. Нагрузка должна расти постепенно, чтобы поверхности кулачков и толкателей приработались без задиров.</p>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Если после запуска вы слышите звонкий металлический стук, немедленно заглушите двигатель. Продолжение работы приведет к разрушению ГБЦ и поршневой группы.</p>
+</blockquote>
+
+<p>Также стоит упомянуть проблему «плавающих» холостых. При сильно измененных фазах штатный ЭБУ (электронный блок управления) может не справляться с коррекцией смеси. В таких случаях необходима чип-тюнинг прошивка, заточенная под конкретные параметры «мода ряда».</p>
+
+<h2 id="faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</h2>
+
+<details>
+<summary>Нужно ли менять поршни при увеличении хода клапанов?</summary>
+<p>В большинстве случаев — да. Стандартные поршни ВАЗ часто имеют цековки (выточки) под клапаны, рассчитанные на стандартный подъем. При увеличении хода клапана глубины цековок может не хватить, и произойдет удар. Необходимо использовать кованые поршни с увеличенными цековками или без них (с контролем фаз).</p>
+</details>
+
+<details>
+<summary>Можно ли сделать мод ряд на 8-клапанном двигателе?</summary>
+<p>Технически возможно, но экономически и технически менее целесообразно. 8-клапанные моторы имеют коромысла (рокеры) с большим передаточным числом, что делает их более чувствительными к инерционным нагрузкам. Ресурс такой конструкции при форсировке значительно ниже, чем у 16-клапанной схемы.</p>
+</details>
+
+<details>
+<summary>Сколько лошадиных сил можно добавить таким методом?</summary>
+<p>Одной лишь заменой геометрии ГРМ (без расточки цилиндров и турбонаддува) можно добиться прироста мощности в районе 10-15%. Однако этот прирост будет доступен в узком диапазоне высоких оборотов,牺牲ив тягу на «низах».</p>
+</details>
+
+<details>
+<summary>Какие распредвалы лучше сочетать с высоким подъемом?</summary>
+<p>Для высокого подъема (более 11-12 мм) нужны валы с широкой фазой открытия. Узкофазные валы с большим подъемом создадут слишком большую скорость потока, что вызовет турбулентность. Нужен баланс: чем больше подъем, тем шире должны быть фазы (длительность открытия).</p>
+</details>
+
+<details>
+<summary>Влияет ли это на звук выхлопа?</summary>
+<p>Безусловно. Изменение фаз газораспределения, особенно перекрытия, меняет характер звука выхлопа. Он становится более басистым, «рычащим» на холостых и более резким на высоких оборотах. Это один из косвенных признаков спортивной настройки ГРМ.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#теория-и-физика-процесса-модификации">Теория и физика процесса модификации</a></li><li><a href="#необходимые-инструменты-и-подготовка">Необходимые инструменты и подготовка</a></li><li><a href="#технология-изменения-хода-штока">Технология изменения хода штока</a></li><li><a href="#настройка-фаз-газораспределения">Настройка фаз газораспределения</a></li><li><a href="#влияние-на-ресурс-и-надежность">Влияние на ресурс и надежность</a></li><li><a href="#диагностика-и-частые-ошибки">Диагностика и частые ошибки</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/r/ra/razem-generatora-lada-vesta.html" class="related-card">Разъем генератора Lada Vesta: схемы, неисправности, замена</a></li><li><a href="/articles/l/la/lada-vesta-instruktsiya-po-ekspluatatsii.html" class="related-card">Лада Веста: инструкция по эксплуатации 2026 (PDF + советы)</a></li><li><a href="/articles/a/am/amortizatory-perednie-lada-vesta.html" class="related-card">Передние амортизаторы Лада Веста: выбор, замена, особенности</a></li><li><a href="/articles/l/la/lada-vesta-sport-kharakteristiki-komplektatsii-i-tseny.html" class="related-card">Лада Веста Спорт: характеристики, комплектации и цены 2026</a></li><li><a href="/articles/z/za/zamena-okhlazhdayushchej-zhidkosti-lada-vesta-16-mekhanika.html" class="related-card">Замена охлаждающей жидкости Лада Веста 1.6: полная инструкция</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/r/ra/razem-generatora-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Разъем генератора Lada Vesta: схемы, неисправности, замена</span><span class="related-bottom-desc">Подробный гайд по разъему генератора Лада Веста: где находится, как проверить, типичные поломки и ин</span></a><a href="/articles/l/la/lada-vesta-instruktsiya-po-ekspluatatsii.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста: инструкция по эксплуатации 2026 (PDF + советы)</span><span class="related-bottom-desc">Официальная инструкция по эксплуатации Лада Веста: скачать PDF, расшифровка значков, сервисные интер</span></a><a href="/articles/a/am/amortizatory-perednie-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Передние амортизаторы Лада Веста: выбор, замена, особенности</span><span class="related-bottom-desc">Как выбрать передние амортизаторы для Лада Веста? Сравнение брендов, пошаговая замена, признаки неис</span></a><a href="/articles/l/la/lada-vesta-sport-kharakteristiki-komplektatsii-i-tseny.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста Спорт: характеристики, комплектации и цены 2026</span><span class="related-bottom-desc">Полный обзор Лада Веста Спорт: технические характеристики, реальный расход, комплектации, цены и отл</span></a><a href="/articles/z/za/zamena-okhlazhdayushchej-zhidkosti-lada-vesta-16-mekhanika.html" class="related-bottom-card"><span class="related-bottom-title">Замена охлаждающей жидкости Лада Веста 1.6: полная инструкция</span><span class="related-bottom-desc">Как заменить антифриз на Лада Веста 1.6 механика? Выбор жидкости, объем системы, пошаговая инструкци</span></a><a href="/articles/d/di/disk-tormoznoj-lada-vesta-perednij.html" class="related-bottom-card"><span class="related-bottom-title">Диск тормозной Лада Веста передний: выбор, замена, артикулы</span><span class="related-bottom-desc">Полный гид по тормозным дискам Лада Веста. Размеры, артикулы OEM и аналогов, признаки износа, правил</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>ГЛОНАСС Лада Гранта: Как включить, настроить и прошить систему — Лада Справка</title>
+    <meta name="description" content="Подробная инструкция по Эре ГЛОНАСС на Лада Гранта. Узнайте, как активировать, проверить сигнал и прошить модуль самостоятельно.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/e/er/era-glonass-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="ГЛОНАСС Лада Гранта: Как включить, настроить и прошить систему">
+    <meta property="og:description" content="Подробная инструкция по Эре ГЛОНАСС на Лада Гранта. Узнайте, как активировать, проверить сигнал и прошить модуль самостоятельно.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">ГЛОНАСС Лада Гранта: Как включить, настроить и прошить систему</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Эра ГЛОНАСС Лада Гранта: Полное руководство по системе ЭРА</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#что-такое-система-эра-глонасс-и-как-она-работает">Что такое система ЭРА-ГЛОНАСС и как она работает</a></li><li><a href="#расположение-компонентов-и-активация-на-лада-гранта">Расположение компонентов и активация на Лада Гранта</a></li><li><a href="#типичные-неисправности-и-причины-сбоев">Типичные неисправности и причины сбоев</a></li><li><a href="#диагностика-и-проверка-сигнала">Диагностика и проверка сигнала</a></li><li><a href="#процесс-перепрошивки-и-обновления-по">Процесс перепрошивки и обновления ПО</a></li><li><a href="#сравнение-характеристик-модулей-разных-лет-выпуска">Сравнение характеристик модулей разных лет выпуска</a></li><li><a href="#юридические-аспекты-и-отключение-системы">Юридические аспекты и отключение системы</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный российский автопром невозможно представить без внедрения передовых технологий безопасности, и одной из ключевых среди них стала система <strong>ЭРА-ГЛОНАСС</strong>. Владельцы <em>Лада Гранта</em> часто сталкиваются с необходимостью разобраться в функционале этого комплекса, будь то первичная активация после покупки или восстановление работы после замены аккумулятора. Понимание принципов работы навигационного терминала позволяет водителю чувствовать себя увереннее на дороге, зная, что помощь придет даже в глухой тайге.</p>
+
+<p>Эра глонасс лада гранта — это не просто кнопка SOS на потолке, а сложный программно-аппаратный комплекс, который требует правильного обслуживания. Многие автовладельцы ошибочно полагают, что система работает полностью автономно и не требует никакого внимания, однако это не так. Регулярные проверки и знание алгоритмов взаимодействия с терминалом могут спасти жизнь в экстренной ситуации, когда счет идет на секунды.</p>
+
+<p>В данной статье мы подробно разберем все аспекты эксплуатации системы: от физики подключения до тонкостей программного обеспечения. <mark>Активация терминала происходит автоматически при первом запуске двигателя, но для передачи координат в колл-центр часто требуется ручное подтверждение или поездка.</mark> Мы рассмотрим типичные ошибки, методы их устранения и ответим на самые частые вопросы, возникающие у пользователей отечественных автомобилей.</p>
+
+<h2 id="что-такое-система-эра-глонасс-и-как-она-работает">Что такое система ЭРА-ГЛОНАСС и как она работает</h2>
+
+<p>Аббревиатура <strong>ЭРА</strong> расшифровывается как «Экстренное Реагирование при Аварии», а <em>ГЛОНАСС</em> обозначает глобальную навигационную спутниковую систему, разработанную в России. Основное назначение комплекса — оперативное оповещение экстренных служб о произошедшем дорожно-транспортном происшествии. Терминал, установленный в автомобиле, постоянно отслеживает координаты, скорость и направление движения, используя сигналы спутников.</p>
+
+<p>Принцип действия основан на автоматической или ручной передаче сигнала бедствия. В случае серьезного удара датчики фиксируют перегрузки и отправляют команду на модем, который связывается с ближайшей базовой станцией сотовой связи. Если автомобиль оборудован мультимедийной системой <em>Lada EnjoY Pro</em>, данные о количестве пристегнутых ремней и типе топлива также могут быть переданы диспетчеру.</p>
+
+<p>Система работает в двух основных режимах: автоматическом (при срабатывании подушек безопасности или сильном ударе) и ручном (при нажатии красной кнопки SOS). Важно понимать, что для корректной работы модулю необходим стабильный сигнал не только со спутников, но и от вышек сотовых операторов, так как именно через GSM-канал передается голосовая связь и пакет данных.</p>
+
+<details class="faq-item"><summary>Технические детали протокола передачи данных</summary><div class="faq-answer"><p>Протокол передачи данных в системе ЭРА-ГЛОНАСС базируется на стандартах 3GPP, что позволяет передавать минимальный набор данных (MSD) даже при слабом сигнале. В пакет входят координаты, VIN-код, время события и вектор движения.</p></div></details>
+
+<h2 id="расположение-компонентов-и-активация-на-лада-гранта">Расположение компонентов и активация на Лада Гранта</h2>
+
+<p>Поиск основного блока системы на <em>Лада Гранта</em> может потребовать демонтажа некоторых элементов салона, так как производители часто прячут терминал в труднодоступных местах для защиты от повреждений. Обычно модуль ГЛОНАСС и GSM-антенна расположены под задней полкой, за обшивкой потолка или в районе центрального тоннеля. Антенна представляет собой небольшой керамический элемент, который должен иметь прямую видимость неба для лучшего приема.</p>
+
+<p>Активация системы происходит в момент первого запуска двигателя после установки терминала или сброса настроек на заводе. В этот момент терминал отправляет тестовый сигнал в сеть и регистрируется в базе данных оператора. Владелец автомобиля может заметить мигание индикатора на кнопке SOS или соответствующее сообщение на дисплее маршрутного компьютера.</p>
+
+<p>Если вы приобрели автомобиль с рук и не уверены, активирована ли система, стоит проверить статус в меню бортового компьютера. Перейдите в раздел <code>Настройки → Система → ЭРА-ГЛОНАСС</code> (путь может отличаться в зависимости от года выпуска и комплектации). Отсутствие ошибок в логах свидетельствует о нормальной работе оборудования.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка активации системы</h4><label class="check-item"><input type="checkbox"><span>Индикатор SOS мигает зеленым после запуска</span></label><label class="check-item"><input type="checkbox"><span>В меню БК отображается статус «Активирован»</span></label><label class="check-item"><input type="checkbox"><span>При нажатии кнопки SOS слышен гудок соединения</span></label><label class="check-item"><input type="checkbox"><span>Нет сообщений об ошибке антенны</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="типичные-неисправности-и-причины-сбоев">Типичные неисправности и причины сбоев</h2>
+
+<p>Несмотря на высокую надежность, электроника автомобиля может давать сбои, и система <strong>ЭРА-ГЛОНАСС</strong> не является исключением. Самой распространенной проблемой является разряд встроенного резервного аккумулятора терминала. Этот элемент питания необходим для работы системы в случае, при котором основной аккумулятор автомобиля будет полностью уничтожен в результате аварии.</p>
+
+<p>Еще одной частой причиной неработоспособности становится обрыв или окисление контактов антенного кабеля. Вибрации, возникающие при движении по плохим дорогам, постепенно ослабляют соединения, что приводит к потере спутникового сигнала. В таких случаях на дисплее может появляться сообщение «Нет связи» или индикатор будет гореть красным цветом.</p>
+
+<p>Программные ошибки также могут блокировать работу модуля. Например, после неквалифицированного вмешательства в электрическую схему или скачка напряжения в бортовой сети терминал может уйти в режим «глубокого сна» или зависнуть. В этом случае требуется программный сброс или перепрошивка устройства через диагностический разъем <em>OBD-II</em>.</p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Не пытайтесь самостоятельно вскрывать корпус терминала ЭРА-ГЛОНАСС. Внутри находится резервная батарея, повреждение которой может привести к возгоранию, а также пломбы, нарушение которых аннулирует гарантию на устройство.</blockquote>
+
+<h2 id="диагностика-и-проверка-сигнала">Диагностика и проверка сигнала</h2>
+
+<p>Для проведения качественной диагностики владельцу <em>Лада Гранта</em> не обязательно сразу обращаться в сервисный центр. Первичную проверку можно выполнить визуально и с помощью простых тестовых звонков. Нажмите кнопку SOS и дождитесь соединения с оператором — это самый надежный способ убедиться, что GSM-модуль и микрофон работают исправно.</p>
+
+<p>Более глубокая диагностика требует использования специализированного программного обеспечения, такого как <strong>OpenPort</strong> или дилерский сканер <em>Elaars</em>. Подключив ноутбук к диагностическому разъему, можно считать подробные логи работы терминала, уровень сигнала спутников (C/N0) и статус SIM-карты. Нормальным считается уровень сигнала выше 30 дБм для уверенной навигации.</p>
+
+<p>Если диагностика показывает отсутствие спутников, проверьте целостность антенного кабеля. Прозвоните контакты мультиметром, убедитесь, что нет короткого замыкания на массу. Иногда проблема кроется в самом SIM-модуле, который может выйти из строя из-за перепадов температур или истечения срока службы.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Сталкивались ли вы с проблемами ЭРА-ГЛОНАСС?</strong><ul><li>Да, не ловит сигнал</li><li>Да, села батарея терминала</li><li>Нет, работает идеально</li><li>Еще не проверял</li></ul></div></div>
+
+<h2 id="процесс-перепрошивки-и-обновления-по">Процесс перепрошивки и обновления ПО</h2>
+
+<p>В некоторых случаях для восстановления функционала требуется обновление программного обеспечения терминала. Это может понадобиться при изменении протоколов связи оператора или после замены неисправных компонентов. Процедура прошивки <strong>ЭРА-ГЛОНАСС</strong> на <em>Лада Гранта</em> требует наличия специального кабеля (часто Pin-to-Pin или через диагностический разъем) и компьютера с установленным софтом.</p>
+
+<p>Перед началом процедуры необходимо убедиться в стабильности напряжения в бортовой сети. Рекомендуется подключить автомобильное зарядное устройство, чтобы исключить риск прерывания процесса из-за разряда аккумулятора. Сама прошивка занимает от 5 до 15 минут, в течение которых категорически запрещается глушить двигатель или отключать питание.</p>
+
+<p>Алгоритм действий обычно выглядит следующим образом: подключение к разъему, запуск программы-загрузчика, выбор файла прошивки (bin или hex), старт процесса и ожидание завершения. После успешной записи необходимо выполнить сброс ошибок и провести тестовый звонок.</p>
+
+<pre><code>Процедура обновления (примерный алгоритм):
+<p>1. Подключить интерфейс к разъему OBD-II.</p>
+<p>2. Запустить терминал (Ignition ON).</p>
+<p>3. В ПО выбрать COM-порт и скорость (обычно 115200).</p>
+<p>4. Загрузить файл firmware_era_granta_v2.bin.</p>
+<p>5. Нажать "Start Programming".</p>
+<p>6. Дождаться сообщения "Success".</code></pre></p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Использование непроверенных файлов прошивки из открытых источников может привести к полной неработоспособности модуля. Всегда используйте официальные дилерские версии ПО.</blockquote>
+
+<h2 id="сравнение-характеристик-модулей-разных-лет-выпуска">Сравнение характеристик модулей разных лет выпуска</h2>
+
+<p>За годы производства <em>Лада Гранта</em> оснащалась различными модификациями терминалов ЭРА-ГЛОНАСС. Ранние версии имели более простой функционал и slower скорость передачи данных, в то время как современные модули поддерживают расширенные протоколы и интеграцию с мультимедиа. Понимание различий помогает правильно подобрать запчасти или software для обновления.</p>
+
+<p>Ниже приведена таблица, демонстрирующая основные различия между поколениями терминалов, устанавливаемых на автомобили семейства Гранта. Это поможет вам идентифицировать установленное у вас оборудование.</p>
+
+<table>
+<thead>
+<tr>
+<th>Характеристика</th>
+<th>Модуль 1-го поколения (до 2018)</th>
+<th>Модуль 2-го поколения (2018-2021)</th>
+<th>Модуль 3-го поколения (2022+)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Поддержка 4G/LTE</td>
+<td>Нет (только 2G/3G)</td>
+<td>Опционально</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>Резервная батарея</td>
+<td>Ni-MH (никель-металлгидридная)</td>
+<td>Li-Ion (литий-ионная)</td>
+<td>Li-Ion (улучшенная)</td>
+</tr>
+<tr>
+<td>Интеграция с ЭБУ</td>
+<td>Минимальная</td>
+<td>Полная</td>
+<td>Расширенная (телеметрия)</td>
+</tr>
+<tr>
+<td>Скорость холодного старта</td>
+<td>До 60 сек</td>
+<td>До 30 сек</td>
+<td>До 15 сек</td>
+</tr>
+</tbody>
+</table>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Современные модули третьего поколения обеспечивают более быстрое определение координат и стабильную связь даже в условиях плотной городской застройки благодаря поддержке частот 4G.</p></div>
+
+<h2 id="юридические-аспекты-и-отключение-системы">Юридические аспекты и отключение системы</h2>
+
+<p>Многие владельцы задаются вопросом о возможности отключения системы <strong>ЭРА-ГЛОНАСС</strong>. Согласно законодательству Российской Федерации, принудительное отключение или демонтаж системы на автомобилях, где она предусмотрена конструкцией, запрещена. Однако, если система неисправна, ее наличие не является препятствием для прохождения технического осмотра, при условии, что неисправность зафиксирована.</p>
+
+<p>Существует миф, что система позволяет спецслужбам отслеживать автомобиль в реальном времени без ведома владельца. На самом деле, передача координат происходит только в момент активации тревоги (SOS) или при серьезном ДТП. В обычном режиме терминал лишь принимает сигналы спутников для вычисления координат, но не передает их в сеть постоянно.</p>
+
+<p>Если вы планируете продажу автомобиля за границу (в страны, не входящие в ЕАЭС), могут возникнуть вопросы по наличию кнопки SOS. В таких случаях требуется официальное документальное подтверждение или адаптация автомобиля под требования страны ввоза, но полное удаление системы внутри РФ не рекомендуется и может повлечь проблемы при регистрации.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При продаже автомобиля обязательно сообщите новому владельцу о статусе системы ЭРА-ГЛОНАСС и передайте документы на терминал, если они сохранились. Это упростит процесс перерегистрации и настройки.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Сколько стоит замена батареи в терминале ЭРА-ГЛОНАСС?</summary>
+<p>Стоимость замены зависит от сервиса и модели терминала. В среднем работа вместе с новым аккумулятором обойдется в 3000–5000 рублей. Самостоятельная замена возможна, но требует навыков пайки и разборки электронного блока.</p>
+</details>
+
+<details>
+<summary>Будет ли работать система, если сел основной аккумулятор автомобиля?</summary>
+<p>Да, система оснащена собственным резервным источником питания, которого хватает на несколько циклов связи и короткий разговор с оператором. Однако после глубокого разряда резервной батарее требуется время для восстановления заряда от бортовой сети.</p>
+</details>
+
+<details>
+<summary>Можно ли использовать ЭРА-ГЛОНАСС как трекер для поиска угнанной машины?</summary>
+<p>Нет, штатная функциональность системы не позволяет владельцу отслеживать автомобиль через приложение на телефоне. Передача координат осуществляется только в экстренном случае в автоматическом или ручном режиме в службу 112.</p>
+</details>
+
+<details>
+<summary>Что делать, если горит красная лампа на кнопке SOS?</summary>
+<p>Горящая красная лампа обычно указывает на неисправность системы или отсутствие связи. Необходимо провести диагностику через меню бортового компьютера или обратиться к дилеру для считывания кодов ошибок.</p>
+</details>
+
+<details>
+<summary>Нужно ли платить абонентскую плату за использование ЭРА-ГЛОНАСС?</summary>
+<p>Базовый функционал (вызов экстренных служб) предоставляется бесплатно и бессрочно. Дополнительные сервисы, такие как удаленная диагностика или интеграция с приложениями производителя, могут быть платными или требовать подписки после окончания гарантийного периода.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#что-такое-система-эра-глонасс-и-как-она-работает">Что такое система ЭРА-ГЛОНАСС и как она работает</a></li><li><a href="#расположение-компонентов-и-активация-на-лада-гранта">Расположение компонентов и активация на Лада Гранта</a></li><li><a href="#типичные-неисправности-и-причины-сбоев">Типичные неисправности и причины сбоев</a></li><li><a href="#диагностика-и-проверка-сигнала">Диагностика и проверка сигнала</a></li><li><a href="#процесс-перепрошивки-и-обновления-по">Процесс перепрошивки и обновления ПО</a></li><li><a href="#сравнение-характеристик-модулей-разных-лет-выпуска">Сравнение характеристик модулей разных лет выпуска</a></li><li><a href="#юридические-аспекты-и-отключение-системы">Юридические аспекты и отключение системы</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/1/1-/1-to-lada-granta.html" class="related-card">1 то Лада Гранта: регламент, сроки и стоимость ТО-1</a></li><li><a href="/articles/l/la/lada-granta-interer.html" class="related-card">Интерьер Лада Гранта: обзор салона, материалы и эргономика</a></li><li><a href="/articles/d/di/diski-na-lada-granta-liftbek.html" class="related-card">Диски на Лада Гранта Лифтбек: размеры, выбор, установка (2026)</a></li><li><a href="/articles/m/mu/multik-lada-a-4.html" class="related-card">Lada A1: Обзор компактного электромобиля и концепт-кара</a></li><li><a href="/articles/p/pr/predokhranitel-na-konditsioner-lada-granta.html" class="related-card">Предохранитель на кондиционер Лада Гранта: схема, замена, где искать</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/1/1-/1-to-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">1 то Лада Гранта: регламент, сроки и стоимость ТО-1</span><span class="related-bottom-desc">Полный гид по первому техническому обслуживанию Lada Granta. Замена масла, фильтров, цены, список ра</span></a><a href="/articles/l/la/lada-granta-interer.html" class="related-bottom-card"><span class="related-bottom-title">Интерьер Лада Гранта: обзор салона, материалы и эргономика</span><span class="related-bottom-desc">Подробный разбор интерьера Lada Granta. Анализ качества материалов, эргономика, комплектации и совет</span></a><a href="/articles/d/di/diski-na-lada-granta-liftbek.html" class="related-bottom-card"><span class="related-bottom-title">Диски на Лада Гранта Лифтбек: размеры, выбор, установка (2026)</span><span class="related-bottom-desc">Какие диски подходят на Гранту Лифтбек: штатные размеры, совместимость, лучшие бренды и пошаговая ин</span></a><a href="/articles/m/mu/multik-lada-a-4.html" class="related-bottom-card"><span class="related-bottom-title">Lada A1: Обзор компактного электромобиля и концепт-кара</span><span class="related-bottom-desc">Всё о модели Lada A1: характеристики, история концепта, планы по выпуску электромобиля и технические</span></a><a href="/articles/p/pr/predokhranitel-na-konditsioner-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Предохранитель на кондиционер Лада Гранта: схема, замена, где искать</span><span class="related-bottom-desc">Где находится предохранитель кондиционера Лада Гранта? Полная схема блока ЭСУД, замена реле, поиск н</span></a><a href="/articles/r/ra/razmer-rulya-na-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Размер руля на Лада Гранта: все диаметры и нюансы замены</span><span class="related-bottom-desc">Подробный разбор размеров рулевого колеса Лада Гранта. Стандартный диаметр, особенности лифтбека и с</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

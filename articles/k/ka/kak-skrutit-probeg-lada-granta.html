@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Как скрутить пробег на Лада Гранта: методы и риски — Лада Справка</title>
+    <meta name="description" content="Подробная инструкция, как уменьшить пробег на Лада Гранта через OBD2 и EEPROM. Риски, методы коррекции одометра и выявление скрутки.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/k/ka/kak-skrutit-probeg-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Как скрутить пробег на Лада Гранта: методы и риски">
+    <meta property="og:description" content="Подробная инструкция, как уменьшить пробег на Лада Гранта через OBD2 и EEPROM. Риски, методы коррекции одометра и выявление скрутки.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Как скрутить пробег на Лада Гранта: методы и риски</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Скрутка пробега Лада Гранта: методы, риски и реальность</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#архитектура-хранения-данных-о-пробеге-в-лада-гранта">Архитектура хранения данных о пробеге в Лада Гранта</a></li><li><a href="#необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</a></li><li><a href="#методы-корректировки-показаний-одометра">Методы корректировки показаний одометра</a></li><li><a href="#пошаговая-инструкция-изменения-данных">Пошаговая инструкция изменения данных</a></li><li><a href="#выявление-скрученного-пробега-при-покупке">Выявление скрученного пробега при покупке</a></li><li><a href="#юридические-и-технические-последствия">Юридические и технические последствия</a></li><li><a href="#альтернативные-решения-и-выводы">Альтернативные решения и выводы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+<p>Владение автомобилем часто сопряжено с желанием повысить его ликвидность перед продажей. Одним из самых распространенных, но юридически и технически спорных способов сделать <strong>Лада Гранта</strong> привлекательнее для покупателя является уменьшение показаний одометра. Владельцы часто задаются вопросом, можно ли технически вмешаться в работу электронного блока управления и изменить цифры на приборной панели без последствий для электроники.</p>
+
+<p>Современные автомобили, включая бюджетный сегмент АвтоВАЗа, оснащаются сложными системами диагностики и хранения данных. Простое механическое вмешательство уже не актуально, так как <em>ВАЗ-2190</em> и его модификации используют цифровые протоколы обмена информацией. Понимание архитектуры бортовой сети необходимо для осознания всех рисков, с которыми столкнется владелец при попытке манипуляции данными.</p>
+
+<p>Стоит сразу отметить, что любая корректировка показаний спидометра является нарушением законодательства во многих странах и расценивается как обман потребителя. Однако техническая сторона вопроса остается актуальной для специалистов по диагностике и тех, кто хочет понять принципы работы узлов учета mileage. Далее мы рассмотрим, как устроена система хранения данных и какие методы используются для их изменения.</p>
+
+<h2 id="архитектура-хранения-данных-о-пробеге-в-лада-гранта">Архитектура хранения данных о пробеге в Лада Гранта</h2>
+<p>Система учета пробега в <em>Lada Granta</em> базируется на взаимодействии нескольких электронных компонентов. Основным узлом, где физически хранится значение километража, является комбинация приборов (панель приборов). Именно туда стекаются импульсы от датчиков скорости, и там же происходит финальная обработка и отображение информации для водителя.</p>
+
+<p>В более ранних версиях автомобилей данные могли дублироваться в блоке управления двигателем (ЭБУ), однако в современных комплектациях с контроллерами <strong>ВАЗ-21129</strong> или <strong>ВАЗ-11186</strong> приоритетным хранилищем остается "приборка". Это упрощает процедуру для тех, кто занимается чип-тюнингом, но одновременно создает единую точку отказа или уязвимости при некорректном вмешательстве.</p>
+
+<p>Данные записываются в энергонезависимую память типа <em>EEPROM</em>. Особенность этой памяти заключается в том, что она сохраняет информацию даже после полного отключения аккумуляторной батареи. Количество циклов записи в такую память ограничено, что теоретически может привести к ее деградации при частых попытках изменения данных, хотя на практике до этого доходит редко.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Вмешательство в работу EEPROM может привести к необратимому повреждению микросхемы, что потребует замены всей комбинации приборов с последующей привязкой иммобилайзера.</p>
+</blockquote>
+
+<p>Важно понимать, что помимо основного значения, в системе могут оставаться косвенные следы реального пробега. Например, моточасы в ЭБУ или история ошибок в различных блоках могут косвенно указывать на то, что автомобиль прошел значительно больше, чем отображается на экране.</p>
+
+<h2 id="необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</h2>
+<p>Для проведения процедуры изменения показаний одометра требуется специализированное оборудование, которое не доступно обычному пользователю. Базовым инструментом является диагностический сканер, поддерживающий работу с протоколами <strong>OBD-II</strong> и специфическими разработками АвтоВАЗа. Без качественного аппаратного обеспечения подключение к шине данных может быть нестабильным.</p>
+
+<p>Наиболее распространенным инструментом среди профессионалов является программатор <em>Combiloader</em> или специализированные калькуляторы пробега, подключаемые через разъем OBD2. Также часто используются адаптеры на базе чипов ELM327 в связке с мобильными приложениями, однако их функционал для работы с EEPROM крайне ограничен и часто не позволяет произвести запись, а только чтение.</p>
+
+<p>Программное обеспечение должно быть совместимо с конкретным типом панели приборов. На <em>Лада Гранта</em> могут устанавливаться разные версии приборов (например, от "Иттелма" или "Автоприбор"), и прошивка для одной модели может быть несовместима с другой, что приведет к "кирпичеванию" устройства.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Как вы планируете менять пробег?</strong><ul><li>Сам через OBD2</li><li>В сервисе у специалистов</li><li>Покупка новой панели</li><li>Не планирую, просто интересуюсь</li></ul></div></div>
+
+<p>Критически важным элементом является источник стабильного напряжения. При работе с памятью скачки напряжения в бортовой сети недопустимы. Профессионалы используют внешние блоки питания с функцией стабилизации, чтобы исключить риск прерывания процесса записи, который фатален для контроллера.</p>
+
+<h2 id="методы-корректировки-показаний-одометра">Методы корректировки показаний одометра</h2>
+<p>Существует два основных способа изменения данных: через диагностический разъем OBD2 и путем выпаивания микросхемы памяти. Первый метод является менее инвазивным и предполагает подключение программатора непосредственно к разъему в салоне автомобиля. Это позволяет считать текущий дамп памяти, изменить hex-код, отвечающий за пробег, и записать новые данные обратно.</p>
+
+<p>Второй метод, предполагающий демонтаж панели приборов и физическое воздействие на плату, применяется в случаях, когда программная защита не позволяет считать данные через разъем. Специалист выпаивает чип <strong>EEPROM</strong>, считывает его на программаторе, редактирует данные на компьютере и впаивает микросхему обратно. Этот способ требует высокой квалификации в пайке микроэлектроники.</p>
+
+<ul>
+<li>🔌 <strong>Через OBD2:</strong> Подключение через стандартный разъем, использование ноутбука и адаптера, редактирование дампа в hex-редакторе.</li>
+<li>🔧 <strong>Прямой доступ:</strong> Разборка приборной панели, использование паяльной станции для замены или перепрошивки чипа памяти.</li>
+<li>💻 <strong>Эмуляция:</strong> Установка дополнительного модуля, который программно корректирует показания на лету (наиболее редкий и сложный метод).</li>
+</ul>
+
+<p>Процесс редактирования дампа требует точного знания структуры данных. Значение пробега хранится в шестнадцатеричном формате, и ошибка даже в одном байте может привести к отображению некорректных данных или полному отказу прибора. Часто используется формула пересчета, где реальное значение умножается или делится на определенный коэффициент.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к процедуре</h4><label class="check-item"><input type="checkbox"><span>Зарядить аккумулятор до 100%</span></label><label class="check-item"><input type="checkbox"><span>Подготовить стабилизатор напряжения</span></label><label class="check-item"><input type="checkbox"><span>Сделать бэкап оригинального дампа</span></label><label class="check-item"><input type="checkbox"><span>Проверить совместимость ПО</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="пошаговая-инструкция-изменения-данных">Пошаговая инструкция изменения данных</h2>
+<p>Процесс начинается с подключения диагностического оборудования к разъему OBD2, который в <em>ВАЗ-2190</em> расположен под декоративной заглушкой в нижней части торпедо, слева от рулевой колонки. Необходимо убедиться, что зажигание включено, но двигатель заглушен. Запуск двигателя во время записи данных категорически запрещен, так как генератор может создать помехи в сети.</p>
+
+<p>После установления связи с блоком приборов производится чтение памяти (Read EEPROM). Полученный файл сохраняется на компьютере как резервная копия. Это критически важный этап, позволяющий откатиться к исходному состоянию в случае ошибки. Далее файл открывается в специализированном hex-редакторе или калькуляторе пробега.</p>
+
+<p>Нахождение нужной ячейки памяти осуществляется по маске или смещению, характерному для конкретной версии ПО панели. После внесения изменений в код выполняется процедура записи (Write EEPROM). В этот момент на экране прибора может гаснуть подсветка или хаотично меняться показания — это нормальный рабочий процесс обновления памяти.</p>
+
+<table>
+<thead>
+<tr>
+<th>Этап</th>
+<th>Действие</th>
+<th>Риски</th>
+<th>Необходимый инструмент</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Подготовка</td>
+<td>Подключение питания и сканера</td>
+<td>Короткое замыкание</td>
+<td>Адаптер OBD2, АКБ</td>
+</tr>
+<tr>
+<td>2. Чтение</td>
+<td>Считывание дампа EEPROM</td>
+<td>Обрыв связи, сбой</td>
+<td>Ноутбук, ПО</td>
+</tr>
+<tr>
+<td>3. Редактирование</td>
+<td>Изменение hex-кода</td>
+<td>Ошибка в вычислениях</td>
+<td>Hex-редактор</td>
+</tr>
+<tr>
+<td>4. Запись</td>
+<td>Загрузка нового дампа</td>
+<td>Потеря питания, "кирпич"</td>
+<td>Стабилизатор</td>
+</tr>
+</tbody>
+</table>
+
+<p>После успешной записи необходимо выключить зажигание и подождать несколько минут перед повторным включением. Это позволит системе провести самотестирование и корректно инициализировать новые значения. Если на панели загорелась ошибка или показания не изменились, процедуру, возможно, придется повторить или восстановить оригинальный дамп.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Прерывание процесса записи на этапе 50-90% практически гарантированно выводит контроллер приборной панели из строя, требуя дорогостоящего ремонта у официалов.</p>
+</blockquote>
+
+<h2 id="выявление-скрученного-пробега-при-покупке">Выявление скрученного пробега при покупке</h2>
+<p>Для покупателя важно понимать, что скрученный пробег на <strong>Лада Гранта</strong> часто можно выявить без специализированного оборудования. Первое, на что стоит обратить внимание, — это состояние салона и рулевого колеса. Потертости на руле, продавленные сиденья и стертые наклейки на кнопках часто не соответствуют заявленным 50-70 тысячам километров.</p>
+
+<p>Технические признаки также красноречивы. Состояние тормозных дисков, люфт в подвеске и цвет выхлопных газов могут рассказать о реальном ресурсе, который прошел автомобиль. Кроме того, современные дилерские центры оставляют цифровые следы при каждом плановом ТО, которые могут быть доступны через базы данных или сервисные книжки с электронными метками.</p>
+
+<ul>
+<li>📉 <strong>Несоответствие состояния:</strong> Изношенный салон при малом пробеге.</li>
+<li>🛠️ <strong>Следы вмешательства:</strong> Царапины на саморезах панели приборов, следы пайки на плате.</li>
+<li>📄 <strong>Документация:</strong> Разные данные в ПТС, сервисной книжке и на кузовных наклейках.</li>
+</ul>
+
+<p>Наиболее надежным способом проверки является компьютерная диагностика у независимого эксперта. Сканер может считать не только текущий пробег, но и остаточный ресурс масла, количество циклов работы двигателя и другие параметры, которые невозможно сбросить простым редактированием EEPROM.</p>
+
+<details class="faq-item"><summary>Можно ли узнать реальный пробег через ЭБУ?</summary><div class="faq-answer"><p>В некоторых случаях в блоке управления двигателем (Январь, Ителма) хранится значение наработанных моточасов. Разделив их на среднюю скорость движения, можно получить приблизительное значение реального пробега, которое часто значительно отличается от показаний одометра.</p></div></details>
+
+<h2 id="юридические-и-технические-последствия">Юридические и технические последствия</h2>
+<p>С юридической точки зрения, скрутка пробега перед продажей классифицируется как мошенничество. В случае обнаружения факта обмана, продавец может быть привлечен к гражданско-правовой ответственности, что подразумевает возврат полной стоимости автомобиля и компенсацию убытков покупателю. Судебная практика по таким делам в последние годы становится все более строгой к недобросовестным продавцам.</p>
+
+<p>Технические последствия также могут быть серьезными. Некорректная запись данных может нарушить работу алгоритмов, завязанных на пробег. Например, интервалы замены технических жидкостей, напоминания о ТО и адаптации различных систем могут сбиться. В некоторых случаях это приводит к некорректной работе двигателя или трансмиссии.</p>
+
+<p>Кроме того, наличие факта вмешательства в одометр может стать причиной отказа в гарантийном обслуживании. Официальные дилеры <em>Лада</em> при приемке автомобиля на гарантию проводят обязательную диагностику, и расхождение данных или следы перепрошивки являются основанием для снятия с гарантии.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Сохраняйте все чеки и заказ-наряды с указанием пробега. Это единственное доказательство того, что вы не скручивали пробег, если возникнет спор с покупателем или дилером.</p></div>
+
+<h2 id="альтернативные-решения-и-выводы">Альтернативные решения и выводы</h2>
+<p>Вместо того чтобы скрывать реальный пробег, более разумным подходом является поддержание автомобиля в технически исправном состоянии. Честная продажа прозрачному покупателю часто проходит быстрее и выгоднее, чем попытки обмануть рынок. Хорошее состояние узлов и агрегатов ценится выше, чем красивые, но лживые цифры на экране.</p>
+
+<p>Если же замена приборной панели необходима из-за ее неисправности, правильным путем является официальная замена с последующей привязкой нового узла через дилерское ПО. Это обеспечит корректную работу всех систем и сохранение юридической чистоты автомобиля. Рынок подержанных автомобилей насыщен предложениями, и честность становится конкурентным преимуществом.</p>
+
+<p>Подводя итог, можно сказать, что техническая возможность изменить пробег на <strong>ВАЗ-2190</strong> существует, но она сопряжена с высокими рисками как для электроники автомобиля, так и для кошелька владельца в виде потенциальных судебных исков. Решение должно быть взвешенным и осознанным.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Честный пробег — это не только юридическая безопасность, но и гарантия того, что будущий владелец будет правильно обслуживать автомобиль, зная его реальный ресурс.</p></div>
+
+<details>
+<summary>Можно ли скрутить пробег через смартфон?</summary>
+<p>Теоретически, с использованием мощных адаптеров ELM327 и специализированных платных приложений (например, OpenPort или кастомных версий Torque с плагинами), это возможно. Однако成功率 (вероятность успеха) крайне низка из-за ограничений протокола и риска прерывания соединения. Для надежного результата требуется профессиональный ноутбук и кабель K-Line или CAN-адаптер.</p>
+</details>
+
+<details>
+<summary>Сбрасывается ли пробег при снятии аккумулятора?</summary>
+<p>Нет, пробег на Лада Гранта хранится в энергонезависимой памяти EEPROM. Отключение питания, снятие клемм или даже полная разрядка аккумулятора не повлияют на сохраненные данные. Сброс возможен только программным путем или заменой микросхемы.</p>
+</details>
+
+<details>
+<summary>Видна ли скрутка пробега на компьютерной диагностике?</summary>
+<p>Прямого лога "пробег изменен" в стандартных блоках может не быть, но косвенные признаки выдадут вмешательство. Это может быть несовпадение пробега в разных блоках (если дублирование есть), отсутствие записей о ТО в истории ошибок или некорректные контрольные суммы данных.</p>
+</details>
+
+<details>
+<summary>Какова цена услуги по скрутке пробега в сервисе?</summary>
+<p>Стоимость услуги варьируется от 1500 до 5000 рублей в зависимости от региона, типа приборной панели и срочности. Однако цена может вырасти в разы, если потребуется восстановление "убитой" приборки после неудачной попытки самостоятельной корректировки.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#архитектура-хранения-данных-о-пробеге-в-лада-гранта">Архитектура хранения данных о пробеге в Лада Гранта</a></li><li><a href="#необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</a></li><li><a href="#методы-корректировки-показаний-одометра">Методы корректировки показаний одометра</a></li><li><a href="#пошаговая-инструкция-изменения-данных">Пошаговая инструкция изменения данных</a></li><li><a href="#выявление-скрученного-пробега-при-покупке">Выявление скрученного пробега при покупке</a></li><li><a href="#юридические-и-технические-последствия">Юридические и технические последствия</a></li><li><a href="#альтернативные-решения-и-выводы">Альтернативные решения и выводы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-fary-perednie-tyuning.html" class="related-card">Тюнинг фар Лада Гранта: виды, установка и выбор оптики</a></li><li><a href="/articles/l/li/litye-diski-lada-granta-r14.html" class="related-card">Литые диски Лада Гранта R14: обзор, размеры, выбор и отзывы</a></li><li><a href="/articles/l/la/lada-granta-dlina-kuzova-sedan.html" class="related-card">Лада Гранта седан: длина кузова, габариты и вместимость багажника</a></li><li><a href="/articles/s/sk/skhema-predokhranitelej-lada-granta-fl-2019.html" class="related-card">Схема предохранителей Лада Гранта ФЛ 2019: блоки, назначение, замена</a></li><li><a href="/articles/l/la/lada-granta-perestal-rabotat-spidometr.html" class="related-card">Лада Гранта: перестал работать спидометр — причины и ремонт</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-fary-perednie-tyuning.html" class="related-bottom-card"><span class="related-bottom-title">Тюнинг фар Лада Гранта: виды, установка и выбор оптики</span><span class="related-bottom-desc">Полный гид по модернизации передней оптики Лада Гранта. Сравнение LED, ксенона и линз. Инструкция по</span></a><a href="/articles/l/li/litye-diski-lada-granta-r14.html" class="related-bottom-card"><span class="related-bottom-title">Литые диски Лада Гранта R14: обзор, размеры, выбор и отзывы</span><span class="related-bottom-desc">Полный гид по литым дискам R14 для Лада Гранта. Разбор параметров сверловки, вылета, лучших брендов </span></a><a href="/articles/l/la/lada-granta-dlina-kuzova-sedan.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта седан: длина кузова, габариты и вместимость багажника</span><span class="related-bottom-desc">Точная длина кузова Лада Гранта седан 4268 мм. Подробный разбор габаритов, клиренса и объемов багажн</span></a><a href="/articles/s/sk/skhema-predokhranitelej-lada-granta-fl-2019.html" class="related-bottom-card"><span class="related-bottom-title">Схема предохранителей Лада Гранта ФЛ 2019: блоки, назначение, замена</span><span class="related-bottom-desc">Подробная схема предохранителей и реле Lada Granta FL 2019 с расшифровкой, расположением блоков и ин</span></a><a href="/articles/l/la/lada-granta-perestal-rabotat-spidometr.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта: перестал работать спидометр — причины и ремонт</span><span class="related-bottom-desc">Не работает спидометр на Лада Гранта? Полный разбор причин: ДС, проводка, приборная панель. Инструкц</span></a><a href="/articles/l/la/lada-granta-ne-gorit-levyj-gabarit.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта не горит левый габарит: поиск и устранение неисправности</span><span class="related-bottom-desc">Почему не работает левый габарит на Лада Гранта? Подробный разбор причин: от лампы до проводки и BCM</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

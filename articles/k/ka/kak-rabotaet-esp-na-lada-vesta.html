@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Как работает ESP на Лада Веста: устройство и отключение — Лада Справка</title>
+    <meta name="description" content="Подробный разбор системы ESP на Лада Веста: принцип работы, датчики, способы отключения и влияние на управляемость автомобиля.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/k/ka/kak-rabotaet-esp-na-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Как работает ESP на Лада Веста: устройство и отключение">
+    <meta property="og:description" content="Подробный разбор системы ESP на Лада Веста: принцип работы, датчики, способы отключения и влияние на управляемость автомобиля.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Как работает ESP на Лада Веста: устройство и отключение</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Как работает ESP на Лада Веста: полный разбор системы</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#архитектура-и-основные-компоненты-системы">Архитектура и основные компоненты системы</a></li><li><a href="#алгоритм-работы-от-теории-к-практике">Алгоритм работы: от теории к практике</a></li><li><a href="#взаимодействие-esp-с-другими-системами-безопасности">Взаимодействие ESP с другими системами безопасности</a></li><li><a href="#как-отключить-esp-на-лада-веста">Как отключить ESP на Лада Веста</a></li><li><a href="#типичные-неисправности-и-диагностика">Типичные неисправности и диагностика</a></li><li><a href="#влияние-esp-на-управляемость-в-разных-условиях">Влияние ESP на управляемость в разных условиях</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный автомобиль — это не просто набор механических узлов, а сложный программно-аппаратный комплекс, где электроника берет на себя функции контроля безопасности. Владельцы популярного российского седана <em>Lada Vesta</em> часто задаются вопросом о реальной эффективности и принципах работы системы курсовой устойчивости. <strong>ESP</strong> (Electronic Stability Program) стала стандартом для моделей тольяттинского автозавода, начиная с первого поколения Весты, существенно повысив уровень активной безопасности.</p>
+
+<p>Понимание того, как именно электроника вмешивается в управление, может спасти жизнь в критической ситуации или, наоборот, помочь опытному водителю быстрее выбраться из сугроба. Работа системы базируется на постоянном мониторинге десятков параметров в секунду, создавая виртуальную модель поведения машины. Далее мы детально разберем архитектуру этой системы, её взаимодействие с другими узлами и нюансы эксплуатации в российских условиях.</p>
+
+<h2 id="архитектура-и-основные-компоненты-системы">Архитектура и основные компоненты системы</h2>
+
+<p>Фундаментом работы <strong>ESP</strong> на <em>Лада Веста</em> является электронный блок управления (ЭБУ), который получает данные от целого ряда датчиков, разбросанных по кузову и трансмиссии. Центральным элементом здесь выступает блок ABS/ESP, который объединяет функции антиблокировочной системы и стабилизации. Именно этот модуль принимает решение о подтормаживании конкретных колес или снижении тяги двигателя.</p>
+
+<p>Ключевым сенсором, без которого работа системы невозможна, является датчик угла поворота рулевого колеса (DAS). Он сообщает блоку управления, куда именно водитель <em>хочет</em> повернуть автомобиль. Если реальная траектория движения, рассчитанная по скорости вращения колес и поперечному ускорению, отличается от желаемой, система активируется.</p>
+
+<ul>
+<li>🚗 Датчики угловой скорости вращения колес — расположены на каждой ступице, передают данные о проскальзывании.</li>
+<li>🧭 Датчик угла поворота руля (DAS) — считывает положение рулевого колеса в реальном времени.</li>
+<li>🌀 Датчик поперечного ускорения и гироскоп — определяют боковое смещение и крен кузова.</li>
+<li>⚙️ Датчик давления в тормозной магистрали — контролирует усилие, создаваемое водителем.</li>
+</ul>
+
+<p>Важно отметить, что все эти компоненты связаны через высокоскоростную CAN-шину, что обеспечивает минимальную задержку передачи данных. <strong>Задержка</strong> даже в доли секунды может стать критической при заносе на скользкой дороге, поэтому быстродействие сети играет не меньшую роль, чем точность сенсоров.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Сталкивались ли вы с работой ESP на скользкой дороге?</strong><ul><li>Да, спасала неоднократно</li><li>Нет, не доводило до заноса</li><li>Система мешала, когда застревал</li><li>Не знаю, как она выглядит</li></ul></div></div>
+
+<h2 id="алгоритм-работы-от-теории-к-практике">Алгоритм работы: от теории к практике</h2>
+
+<p>Принцип действия системы курсовой устойчивости на <em>Vesta</em> строится на сравнении векторов движения. ЭБУ постоянно сопоставляет угол поворота руля с фактическим вектором скорости автомобиля. Если машина начинает поворачивать меньше, чем требуется (недостаточная поворачиваемость), или больше, чем нужно (избыточная поворачиваемость или занос), включается механизм коррекции.</p>
+
+<p>При возникновении заноса задней оси система выборочно подтормаживает внешнее переднее колесо. Это создает стабилизирующий момент, возвращающий автомобиль на нужную траекторию. В случае сноса передней оси (когда машина «плужит» прямо несмотря на повернутый руль), электроника может подтормозить внутреннее заднее колесо, помогая машине «завернуть».</p>
+
+<blockquote>
+<p>⚠️ Внимание: При активации системы на приборной панели загорается индикатор мигающей «шашечки». В этот момент педаль тормоза может вибрировать или издавать характерный треск — это нормальная работа гидравлического модулятора, не требующая отпускания педали.</p>
+</blockquote>
+
+<p>Параллельно с работой тормозной системы, ЭБУ отправляет запрос в <strong>ECU двигателя</strong> на снижение крутящего момента. Это достигается путем изменения угла опережения зажигания, пропуска впрыска топлива или прикрытия дроссельной заслонки. Такое комплексное воздействие позволяет гасить инерцию автомобиля эффективнее, чем просто торможение.</p>
+
+
+
+<h2 id="взаимодействие-esp-с-другими-системами-безопасности">Взаимодействие ESP с другими системами безопасности</h2>
+
+<p>На <em>Лада Веста</strong> система стабилизации не работает изолированно, а тесно интегрирована с <strong>ABS</strong> (антиблокировочная система) и <strong>TCS</strong> (антипробуксовочная система). Фактически, ESP является надстройкой над этими двумя компонентами, использующей их исполнительные механизмы для достижения своих целей.</p>
+
+<p>Когда колеса начинают буксовать при разгоне, в работу вступает TCS, которая является частью общего контура ESP. Она подтормаживает буксующее колесо или снижает мощность мотора, предотвращая потерю сцепления с дорогой. Если же ситуация переходит в динамический занос, приоритет отдается алгоритмам стабилизации кузова.</p>
+
+<table>
+<thead>
+<tr>
+<th>Система</th>
+<th>Основная функция</th>
+<th>Метод воздействия</th>
+<th>Индикатор</th>
+</tr>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ABS</td>
+<td>Блокировка колес при торможении</td>
+<td>Пульсация давления в тормозах</td>
+<td>Постоянный/Мигающий</td>
+</tr>
+<tr>
+<td>TCS</td>
+<td>Борьба с пробуксовкой при старте</td>
+<td>Торможение колеса / Снижение мощности</td>
+<td>Мигающий</td>
+</tr>
+<tr>
+<td>ESP</td>
+<td>Стабилизация в поворотах</td>
+<td>Комплексное торможение + Двигатель</td>
+<td>Мигающий</td>
+</tr>
+<tr>
+<td>HSA</td>
+<td>Помощь на подъеме</td>
+<td>Удержание давления в тормозах</td>
+<td>Отсутствует</td>
+</tr>
+</tbody>
+</table>
+
+<p>Также стоит упомянуть функцию <strong>HSA</strong> (Hill Start Assist), которая предотвращает откат автомобиля при старте в гору. Хотя она не стабилизирует авто в повороте, она использует датчики наклона и давление в тормозной системе, являясь частью общего пакета безопасности <em>Весты</em>.</p>
+
+<h2 id="как-отключить-esp-на-лада-веста">Как отключить ESP на Лада Веста</h2>
+
+<p>В некоторых ситуациях, например, при попытке выехать из глубокого снега, песка или грязи, система курсовой устойчивости может мешать, искусственно «душа» двигатель и не давая колесам провернуться с необходимой пробуксовкой. На <em>Lada Vesta</em> предусмотрено два уровня отключения электронной защиты.</p>
+
+<p>Первый уровень — частичное отключение. Для этого необходимо однократно нажать кнопку <code>ESP OFF</code>, расположенную на центральной консоли рядом с рычагом переключения передач или на панели климат-контроля (в зависимости от комплектации). В этом режиме отключается только антипробуксовочная система (TCS), позволяя колесам буксовать, но контроль курсовой устойчивости остается активным на случай заноса.</p>
+
+<div class="checklist-block"><h4>☑️ Алгоритм полного отключения ESP</h4><label class="check-item"><input type="checkbox"><span>Нажмите кнопку ESP OFF один раз</span></label><label class="check-item"><input type="checkbox"><span>Быстро нажмите кнопку повторно в течение 3 секунд</span></label><label class="check-item"><input type="checkbox"><span>Удерживайте кнопку (если применимо) до появления сообщения</span></label><label class="check-item"><input type="checkbox"><span>Убедитесь, что на панели горит постоянный индикатор отключения</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>Второй уровень — полное отключение. Чтобы деактивировать систему полностью, включая контроль заносов, необходимо нажать и удерживать кнопку <code>ESP OFF</code> в течение 3-5 секунд (или нажать дважды быстро, в зависимости от версии ПО). На дисплее бортового компьютера появится сообщение о полном отключении системы стабилизации, а на панели приборов загорится желтый индикатор.</p>
+
+<blockquote>
+<p>⚠️ Внимание: После полного отключения ESP автомобиль становится полностью зависимым от навыков водителя. На скользкой дороге (лед, мокрый асфальт) риск неконтролируемого заноса возрастает многократно, так как электроника больше не будет корректировать траекторию.</p>
+</blockquote>
+
+<p> Это сделано для безопасности, чтобы водитель не забыл вернуть защиту на трассе.</p>
+
+
+
+<h2 id="типичные-неисправности-и-диагностика">Типичные неисправности и диагностика</h2>
+
+<p>Несмотря на высокую надежность, электроника <em>Весты</strong> может выдавать ошибки. Чаще всего проблемы связаны с датчиками ABS, которые расположены вблизи колес и подвержены воздействию грязи, реагентов и механическим повреждениям. При выходе из строя одного из датчиков скорости колеса система ESP автоматически отключается, так как теряет часть данных для анализа.</p>
+
+<p>Другой распространенной причиной ложных срабатываний или ошибок является разряженный аккумулятор. Низкое напряжение в бортовой сети приводит к некорректной работе электронных блоков, и ESP может перейти в аварийный режим. Также стоит проверить целостность проводки, идущей к ступичным датчикам, особенно после зимнего сезона.</p>
+
+<ul>
+<li>🔌 Окисление контактов в разъемах датчиков из-за попадания влаги и реагентов.</li>
+<li>🔋 Критический разряд аккумуляторной батареи, вызывающий сбои в ЭБУ.</li>
+<li>🛞 Механическое повреждение проводки датчиков ABS/ESP.</li>
+<li>💻 Ошибки в программном обеспечении блока управления (требуют перепрошивки).</li>
+</ul>
+
+<p>Для точной диагностики необходимо подключение сканера, поддерживающего протоколы <em>Autovaz</em> или универсальные OBDII адаптеры с соответствующим ПО. Система самодиагностики способна указать конкретный датчик или узел, который стал причиной сбоя, что значительно упрощает ремонт.</p>
+
+<h2 id="влияние-esp-на-управляемость-в-разных-условиях">Влияние ESP на управляемость в разных условиях</h2>
+
+<p>На сухом асфальте работу <strong>ESP</strong> заметить практически невозможно, если только не попытаться резко перестроиться на высокой скорости или войти в поворот с превышением безопасной скорости. В таких условиях система мягко и незаметно скорректирует траекторию, предотвратив срыв автомобиля в занос.</p>
+
+<p>Зимой, на укатанном снегу или льду, система становится главным помощником. Она позволяет сохранять контроль над автомобилем даже при потере сцепления. Однако опытные водители иногда предпочитают отключать систему на глубоком снегу или в раскатанной колее, так как алгоритмы могут не давать раскрутить колеса для очистки протектора или выхода из колеи.</p>
+
+
+
+<p>На грунтовых дорогах и в грязи логика работы системы может быть не всегда предсказуемой для водителя, привыкшего к классической механике. Электроника будет душить мотор при малейшем пробуксовывании, что может привести к остановке автомобиля в неподходящем месте. Именно здесь знание алгоритмов отключения становится полезным навыком.</p>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли ездить с постоянно горящим индикатором ESP?</summary>
+<p>Ездить можно, автомобиль останется управляемым, и тормоза будут работать в штатном режиме. Однако вы лишитесь защиты от заноса и пробуксовки. Если горит только индикатор ESP, это безопасно для кратковременного движения до СТО. Если горит и ABS — торможение колес может блокироваться раньше времени, что опасно.</p>
+</details>
+
+<details>
+<summary>Почему ESP отключается сама на высокой скорости?</summary>
+<p>Это штатная функция безопасности. На высоких скоростях (обычно выше 60-80 км/ч) система принудительно включается, так как риск потери контроля возрастает, и вмешательство электроники становится критически важным для предотвращения аварии.</p>
+</details>
+
+<details>
+<summary>Влияет ли отключение ESP на расход топлива?</summary>
+<p>Само по себе отключение системы незначительно влияет на расход, так как в спокойном режиме она не работает. Однако, если вы отключаете ESP для активной езды или пробуксовки, расход топлива неизбежно возрастет из-за изменения стиля вождения и работы двигателя под нагрузкой.</p>
+</details>
+
+<details>
+<summary>Нужно ли делать калибровку датчика руля после снятия аккумулятора?</summary>
+<p>На <em>Лада Веста</em> обычно калибровка датчика угла поворота руля (DAS) происходит автоматически после начала движения. Если индикатор не гаснет после нескольких километров езды по прямой, возможно, потребуется процедура адаптации через диагностический сканер.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#архитектура-и-основные-компоненты-системы">Архитектура и основные компоненты системы</a></li><li><a href="#алгоритм-работы-от-теории-к-практике">Алгоритм работы: от теории к практике</a></li><li><a href="#взаимодействие-esp-с-другими-системами-безопасности">Взаимодействие ESP с другими системами безопасности</a></li><li><a href="#как-отключить-esp-на-лада-веста">Как отключить ESP на Лада Веста</a></li><li><a href="#типичные-неисправности-и-диагностика">Типичные неисправности и диагностика</a></li><li><a href="#влияние-esp-на-управляемость-в-разных-условиях">Влияние ESP на управляемость в разных условиях</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/r/ra/radiator-sistemy-okhlazhdeniya-lada-vesta.html" class="related-card">Радиатор системы охлаждения Лада Веста: выбор, замена, цена</a></li><li><a href="/articles/r/ru/rul-lada-vesta-tyuning.html" class="related-card">Руль Лада Веста тюнинг: выбор, установка и доработка своими руками</a></li><li><a href="/articles/b/be/benzonasos-lada-vesta-18.html" class="related-card">Бензонасос Лада Веста 1.8: выбор, замена и диагностика</a></li><li><a href="/articles/p/pe/perekhodnik-dlya-dinamikov-lada-vesta.html" class="related-card">Переходник для динамиков Lada Vesta: выбор, установка и схемы подключения</a></li><li><a href="/articles/k/kr/kross-5-lada.html" class="related-card">Лада Кросс 5: честный обзор, технические характеристики и комплектации</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/r/ra/radiator-sistemy-okhlazhdeniya-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Радиатор системы охлаждения Лада Веста: выбор, замена, цена</span><span class="related-bottom-desc">Все о радиаторе охлаждения Лада Веста: симптомы неисправности, выбор алюминиевого или медного радиат</span></a><a href="/articles/r/ru/rul-lada-vesta-tyuning.html" class="related-bottom-card"><span class="related-bottom-title">Руль Лада Веста тюнинг: выбор, установка и доработка своими руками</span><span class="related-bottom-desc">Полный гид по тюнингу руля Лада Веста. Обзор спортивных моделей, установка мультируля, кожаной оплет</span></a><a href="/articles/b/be/benzonasos-lada-vesta-18.html" class="related-bottom-card"><span class="related-bottom-title">Бензонасос Лада Веста 1.8: выбор, замена и диагностика</span><span class="related-bottom-desc">Полный гид по топливному насосу Лада Веста 1.8. Симптомы поломки, артикулы оригиналов и аналогов, по</span></a><a href="/articles/p/pe/perekhodnik-dlya-dinamikov-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Переходник для динамиков Lada Vesta: выбор, установка и схемы подключения</span><span class="related-bottom-desc">Как выбрать переходник для динамиков Лада Веста? Схемы подключения, совместимость с штатной магнитол</span></a><a href="/articles/k/kr/kross-5-lada.html" class="related-bottom-card"><span class="related-bottom-title">Лада Кросс 5: честный обзор, технические характеристики и комплектации</span><span class="related-bottom-desc">Полный анализ Lada Vesta Cross 5. Двигатель 1.6, вариатор, клиренс и реальный расход. Стоит ли покуп</span></a><a href="/articles/k/ka/kak-snyat-sidenya-na-lada-vesta-zadnie.html" class="related-bottom-card"><span class="related-bottom-title">Как снять задние сиденья Лада Веста: пошаговая инструкция</span><span class="related-bottom-desc">Подробная инструкция, как снять задние сиденья на Лада Веста для мойки, ремонта или перевозки грузов</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Установка сигнализации Лада Гранта ФЛ: схемы, точки подключения — Лада Справка</title>
+    <meta name="description" content="Полная инструкция по установке сигнализации на Лада Гранта ФЛ. Точки подключения, схемы обхода иммобилайзера, нюансы CAN-шины и программирования.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/u/us/ustanovka-signalizatsii-lada-granta-fl.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Установка сигнализации Лада Гранта ФЛ: схемы, точки подключения">
+    <meta property="og:description" content="Полная инструкция по установке сигнализации на Лада Гранта ФЛ. Точки подключения, схемы обхода иммобилайзера, нюансы CAN-шины и программирования.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Установка сигнализации Лада Гранта ФЛ: схемы, точки подключения</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Установка сигнализации Лада Гранта ФЛ: руководство</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#подготовка-инструмента-и-выбор-охранного-комплекса">Подготовка инструмента и выбор охранного комплекса</a></li><li><a href="#демонтаж-элементов-салона-и-доступ-к-проводке">Демонтаж элементов салона и доступ к проводке</a></li><li><a href="#подключение-к-can-шине-и-питание-системы">Подключение к CAN-шине и питание системы</a></li><li><a href="#организация-управления-центральным-замком-и-дверями">Организация управления центральным замком и дверями</a></li><li><a href="#обход-иммобилайзера-и-запуск-двигателя">Обход иммобилайзера и запуск двигателя</a></li><li><a href="#настройка-датчиков-и-проверка-работы-системы">Настройка датчиков и проверка работы системы</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный автомобиль <em>Лада Гранта ФЛ</em> (Facelift) представляет собой сложный электронный комплекс, где вмешательство в штатную проводку требует высокой квалификации. Владелец, решившийся на самостоятельную <strong>установку сигнализации</strong>, должен осознавать риски: некорректный монтаж может привести к сбоям в работе электроусилителя руля или блокировке запуска двигателя. Основная сложность заключается в наличии цифровых протоколов обмена данными, которые полностью заменили аналоговые методы управления центральным замком.</p>
+
+<p>Процесс монтажа охранного комплекса на <em>Lada Granta FL</em> кардинально отличается от установки на классические модели ВАЗ. Здесь критически важно использовать модули обхода иммобилайзера и CAN-интерфейсы для минимизации врезок в жгуты проводов. <strong>Цифровая установка</strong> позволяет сохранить заводскую гарантию и обеспечивает стабильную работу всех систем автомобиля, включая климат-контроль и мультимедиа.</p>
+
+<p>В данной статье мы детально разберем все этапы инсталляции, от разборки салона до финальной настройки чувствительности датчиков. Особое внимание будет уделено точкам подключения в блоке комфорта и нюансам работы с <strong>концевиками дверей</strong>, которые часто становятся причиной ложных срабатываний. Правильно выполненный монтаж — залог долгой службы как охранной системы, так и самого автомобиля.</p>
+
+<h2 id="подготовка-инструмента-и-выбор-охранного-комплекса">Подготовка инструмента и выбор охранного комплекса</h2>
+
+<p>Перед началом любых работ необходимо подготовить качественный инструмент и расходные материалы. Для работы с проводкой <em>Гранты</em> вам потребуется набор отверток, включая Torx, и специальные съемники пластиковых панелей. Использование металлических предметов для вскрытия клипс недопустимо, так как пластик салона <strong>Лада Гранта</strong> довольно хрупок и легко царапается.</p>
+
+<p>Выбор сигнализации должен базироваться на поддержке CAN-шины 2.0, так как именно через этот интерфейс передаются команды открытия дверей и управления стеклоподъемниками. Аналоговое подключение к ЦЗ (центральному замку) на ФЛ-версиях уже практически не применяется из-за высокой вероятности ошибок. Также следует заранее приобрести качественные расходники: припой, термоусадку и медный многожильный провод сечением не менее 0.75 мм².</p>
+
+<ul>
+<li>🔧 Набор инструментов: отвертки крестовые, плоские, Torx T20, T25.</li>
+<li>🔌 Расходники: изолента 3M, термоусадка, припой ПОС-61, медный провод.</li>
+<li>📱 Мультиметр: обязателен для проверки цепей и поиска «массы».</li>
+<li>🚫 Съемники: пластиковые лопатки для аккуратного демонтажа обшивок.</li>
+</ul>
+
+<blockquote>
+<p>⚠️ Внимание: Перед началом работ обязательно снимите минусовую клемму с аккумулятора. Работа под напряжением в блоке предохранителей может привести к короткому замыканию и выходу из строя <strong>блока управления кузовом</strong>.</p>
+</blockquote>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой тип сигнализации вы планируете установить?</strong><ul><li>С CAN-модулем (цифровая)</li><li>Аналоговая (старого типа)</li><li>С GSM/GPS управлением</li><li>StarLine / Pandora / Scher-Khan</li></ul></div></div>
+
+<h2 id="демонтаж-элементов-салона-и-доступ-к-проводке">Демонтаж элементов салона и доступ к проводке</h2>
+
+<p>Доступ к основным жгутам проводки в <em>Лада Гранта ФЛ</em> осуществляется через пространство под торпедой и в дверных проемах. Для установки основного блока и CAN-модуля необходимо снять пластиковую панель под рулевой колонкой и боковую накладку слева от водителя. Крепежные элементы часто скрыты под декоративными заглушками, которые требуют аккуратного извлечения.</p>
+
+<p>При снятии дверных карт важно не повредить проводку, идущую к динамикам и кнопкам стеклоподъемников. Провода в дверях <strong>Гранты</strong> проходят через гофрированные патрубки, которые со временем могут перетираться. Это идеальное время для проверки целостности изоляции, чтобы исключить будущие проблемы с электрикой.</p>
+
+<p>Снятие центральной консоли требуется редко, только если необходимо установить скрытую кнопку Valet или дополнительный датчик удара в центре салона. Однако, большинство современных систем позволяют разместить все компоненты в зоне водительского места. Главное — обеспечить надежную фиксацию блоков, чтобы вибрация двигателя не вызывала дребезжания или отключения разъемов.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к монтажу</h4><label class="check-item"><input type="checkbox"><span>Снять клемму АКБ</span></label><label class="check-item"><input type="checkbox"><span>Снять пластиковую накладку под рулем</span></label><label class="check-item"><input type="checkbox"><span>Найти штатные точки заземления</span></label><label class="check-item"><input type="checkbox"><span>Проверить наличие свободного места для блоков</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="подключение-к-can-шине-и-питание-системы">Подключение к CAN-шине и питание системы</h2>
+
+<p>Самым важным этапом является подключение к цифровой шине CAN. В <em>Лада Гранта ФЛ</em> провода CAN-High и CAN-Low обычно находятся в жгуте, идущем от блока комфорта или в районе педального узла. Цвета проводов могут варьироваться в зависимости от года выпуска, поэтому использование мультиметра или осциллографа для подтверждения сигнала является обязательным условием.</p>
+
+<p>Питание сигнализации следует брать непосредственно от аккумуляторной батареи через дополнительный предохранитель. Использование штатных точек питания в салоне не рекомендуется, так как они могут быть рассчитаны на малые токи. <strong>Силовой провод</strong> должен иметь сечение не менее 2.5 мм² для обеспечения стабильной работы GSM-антенны и мощного передатчика.</p>
+
+<p>Заземление (минус) системы необходимо подключать к штатным болтам массы кузова. Зачистите контакт до металла, чтобы исключить окисление и появление паразитных токов. Плохой контакт «массы» — частая причина нестабильной работы <strong>охранного комплекса</strong> и ложных тревог.</p>
+
+<table>
+<thead>
+<tr>
+<th>Функция</th>
+<th>Цвет провода (типичный)</th>
+<th>Расположение</th>
+<th>Тип подключения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CAN-High</td>
+<td>Зеленый / Белый</td>
+<td>Жгут под рулем</td>
+<td>Скрутка + пайка</td>
+</tr>
+<tr>
+<td>CAN-Low</td>
+<td>Синий / Белый</td>
+<td>Жгут под рулем</td>
+<td>Скрутка + пайка</td>
+</tr>
+<tr>
+<td>Питание (+)</td>
+<td>Красный (штатный)</td>
+<td>Блок предохранителей</td>
+<td>От АКБ через предохранитель</td>
+</tr>
+<tr>
+<td>Масса (-)</td>
+<td>Черный (штатный)</td>
+<td>Кузов (болт)</td>
+<td>Под болт М6</td>
+</tr>
+</tbody>
+</table>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте только качественный припой и термоусадку. Скрутки без пайки в автомобиле быстро окисляются, что приводит к потере контакта и отказу системы.</p></div>
+
+<h2 id="организация-управления-центральным-замком-и-дверями">Организация управления центральным замком и дверями</h2>
+
+<p>Управление центральным замком в <em>Гранте ФЛ</em> осуществляется исключительно по CAN-шине. Программная настройка позволяет реализовать функцию «комфорт» (закрытие окон при постановке на охрану) без установки дополнительных реле. Это упрощает схему и повышает надежность всей системы.</p>
+
+<p>Для контроля состояния дверей необходимо найти концевые выключатели. В новых моделях они часто интегрированы в сами замки дверей, и сигнал о открытии передается по цифровой шине. Если же используются отдельные концевые выключатели, их необходимо правильно подключить к входу сигнализации, соблюдая полярность.</p>
+
+<p>Важно проверить работу штатного светового сопровождения. Сигнализация должна корректно мигать габаритными огнями при постановке и снятии с охраны. Для этого используется провод управления светом, который также программируется через CAN-модуль. Неправильная настройка может привести к тому, что <strong>габариты</strong> будут гореть постоянно или не мигать вовсе.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Не подключайте провода управления ЦЗ напрямую к моторам дверных замков. Это может вывести из строя блок управления стеклоподъемниками или сам замок. Используйте только программное управление через CAN.</p>
+</blockquote>
+
+<h2 id="обход-иммобилайзера-и-запуск-двигателя">Обход иммобилайзера и запуск двигателя</h2>
+
+<p>Вопрос обхода штатного иммобилайзера стоит особенно остро при установке сигнализации с автозапуском. Для <em>Лада Гранта ФЛ</em> наиболее предпочтительным вариантом является использование алгоритмического обходчика, встроенного в современные CAN-модули. Это позволяет реализовать запуск двигателя без прятанья второй ключ-метки в салоне автомобиля.</p>
+
+<p>Процесс обучения обходчика требует строгого соблюдения последовательности действий, описанной в инструкции к конкретному модулю. Обычно это включает в себя включение зажигания, нажатие педали тормоза и активацию режима программирования. Ошибка на этом этапе приведет к тому, что двигатель будет запускаться и сразу глохнуть.</p>
+
+<p>Если алгоритмический обход невозможен (редкие случаи), придется использовать классический обходчик с ключом. В этом случае необходимо быть крайне осторожным при размещении рамки считывания вокруг замка зажигания. Неправильное положение рамки может вызвать сбои в чтении штатного ключа владельца.</p>
+
+<details class="faq-item"><summary>Что делать, если автозапуск не работает?</summary><div class="faq-answer"><p>Если двигатель заводится и глохнет, проверьте наличие ключа в обходчике (если он не алгоритмический). Убедитесь, что провода подключения к педали тормоза и зажиганию установлены верно. Также проверьте, не блокирует ли двигатель сама сигнализация из-за ошибки программирования.</p></div></details>
+
+<h2 id="настройка-датчиков-и-проверка-работы-системы">Настройка датчиков и проверка работы системы</h2>
+
+<p>Финальный этап — калибровка датчиков удара и наклона. Чувствительность датчика удара на <em>Гранте</em> следует настраивать с учетом жесткости кузова. Слишком высокая чувствительность приведет к постоянным ложным срабатываниям от проезжающих грузовиков, слишком низкая — пропустит реальный удар.</p>
+
+<p>Проверьте работу всех зон охраны: открытие дверей, капота, багажника. Особое внимание уделите концевикам капота, так как в Гранте они часто расположены в неудобных местах и могут окисляться. Надежная защита подкапотного пространства критически важна для предотвращения отключения сигнализации угонщиком.</p>
+
+<p>Проведите тестовый цикл автозапуска (если он предусмотрен). Проверьте, как система ведет себя при работающем двигателе: не глохнет ли мотор при попытке открыть дверь без снятия с охраны. Убедитесь, что <strong>турботаймер</strong> (если есть) работает корректно.</p>
+
+<ul>
+<li>🎚️ Датчик удара: настройте две зоны (предупреждение и тревога).</li>
+<li>🚪 Концевики: проверьте реакцию на открытие каждой двери и капота.</li>
+<li>📡 GSM-связь: убедитесь в стабильном приеме сигнала в месте парковки.</li>
+<li>🔋 Контроль напряжения: проверьте работу функции защиты АКБ.</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Качественная настройка чувствительности датчиков и проверка всех сценариев тревоги — это 90% успеха эксплуатации сигнализации. Не игнорируйте этот этап.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли установить сигнализацию на Гранту ФЛ без сверления кузова?</summary>
+<p>Да, современные охранные комплексы с CAN-модулями позволяют произвести установку без сверления дополнительных отверстий в кузове. Все подключения осуществляются в штатные разъемы или методом «скрутка-пайка-изоляция» в доступных жгутах проводки.</p>
+</details>
+
+<details>
+<summary>Нужно ли прятать второй ключ в салоне для автозапуска?</summary>
+<p>В большинстве случаев для Лада Гранта ФЛ это не требуется. Современные системы (StarLine, Pandora и др.) поддерживают алгоритмический обход иммобилайзера, который эмулирует наличие ключа программно. Это повышает безопасность автомобиля.</p>
+</details>
+
+<details>
+<summary>Соберется ли гарантия на автомобиль после установки?</summary>
+<p>Если установка произведена сертифицированным центром и использовано оборудование, не нарушающее штатную электрику (CAN-подключение), гарантия сохраняется. При самостоятельной установке могут возникнуть споры с дилером в случае проблем с электрикой.</p>
+</details>
+
+<details>
+<summary>Где лучше разместить основной блок сигнализации?</summary>
+<p>Оптимальное место — за панелью приборов, в районе педального узла или за блоком предохранителей. Главное требование — недоступность блока для злоумышленника без полной разборки торпедо и наличие металлического основания для крепления.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#подготовка-инструмента-и-выбор-охранного-комплекса">Подготовка инструмента и выбор охранного комплекса</a></li><li><a href="#демонтаж-элементов-салона-и-доступ-к-проводке">Демонтаж элементов салона и доступ к проводке</a></li><li><a href="#подключение-к-can-шине-и-питание-системы">Подключение к CAN-шине и питание системы</a></li><li><a href="#организация-управления-центральным-замком-и-дверями">Организация управления центральным замком и дверями</a></li><li><a href="#обход-иммобилайзера-и-запуск-двигателя">Обход иммобилайзера и запуск двигателя</a></li><li><a href="#настройка-датчиков-и-проверка-работы-системы">Настройка датчиков и проверка работы системы</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-diski-r14.html" class="related-card">Лада Гранта диски R14: размеры, вылет, шины и совместимость</a></li><li><a href="/articles/r/ra/razmery-dvornikov-lada-granta.html" class="related-card">Размеры дворников Лада Гранта: таблица, артикулы и установка</a></li><li><a href="/articles/k/ka/kak-pomenyat-lichinku-v-zamke-lada-granta.html" class="related-card">Как заменить личинку замка Lada Granta: пошаговая инструкция 2026</a></li><li><a href="/articles/l/la/lada-granta-90-sil.html" class="related-card">Лада Гранта 90 сил: реальные характеристики, расход и ресурс двигателя</a></li><li><a href="/articles/l/la/lada-granta-zamena-grm-16-klapanov.html" class="related-card">Замена ГРМ Лада Гранта 16 клапанов: инструкция и моменты</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-diski-r14.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта диски R14: размеры, вылет, шины и совместимость</span><span class="related-bottom-desc">Полный гид по колесам для Лада Гранта R14. Штатные размеры, параметры разболтовки, допустимый вылет </span></a><a href="/articles/r/ra/razmery-dvornikov-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Размеры дворников Лада Гранта: таблица, артикулы и установка</span><span class="related-bottom-desc">Полный гид по щеткам стеклоочистителя Lada Granta. Стандартные размеры, артикулы каркасных и бескарк</span></a><a href="/articles/k/ka/kak-pomenyat-lichinku-v-zamke-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Как заменить личинку замка Lada Granta: пошаговая инструкция 2026</span><span class="related-bottom-desc">Подробное руководство по замене личинки замка двери/багажника Лада Гранта своими руками. Схемы, инст</span></a><a href="/articles/l/la/lada-granta-90-sil.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта 90 сил: реальные характеристики, расход и ресурс двигателя</span><span class="related-bottom-desc">Полный обзор Лада Гранта 90 л.с.: анализ двигателя ВАЗ-11186, динамика разгона, реальный расход топл</span></a><a href="/articles/l/la/lada-granta-zamena-grm-16-klapanov.html" class="related-bottom-card"><span class="related-bottom-title">Замена ГРМ Лада Гранта 16 клапанов: инструкция и моменты</span><span class="related-bottom-desc">Подробная инструкция по замене ремня ГРМ на Лада Гранта 16 клапанов. Моменты затяжки, метки, интерва</span></a><a href="/articles/r/ra/razval-skhozhdenie-na-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Развал-схождение Лада Гранта: когда делать, цена, признаки неисправности</span><span class="related-bottom-desc">Как проверить и отрегулировать развал-схождение на Лада Гранта? Признаки неисправности, стоимость ус</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

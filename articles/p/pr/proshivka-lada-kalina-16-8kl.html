@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Прошивка Лада Калина 1.6 8кл: чип-тюнинг и замена ПО — Лада Справка</title>
+    <meta name="description" content="Полное руководство по прошивке ЭБУ Лада Калина 1.6 8кл. Выбор ПО, инструменты, пошаговая инструкция и устранение ошибок своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/pr/proshivka-lada-kalina-16-8kl.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Прошивка Лада Калина 1.6 8кл: чип-тюнинг и замена ПО">
+    <meta property="og:description" content="Полное руководство по прошивке ЭБУ Лада Калина 1.6 8кл. Выбор ПО, инструменты, пошаговая инструкция и устранение ошибок своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/kalina/">Kalina</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Прошивка Лада Калина 1.6 8кл: чип-тюнинг и замена ПО</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Прошивка Лада Калина 1.6 8кл: руководство по обновлению ЭБУ</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#выбор-программного-обеспечения-и-калибровок">Выбор программного обеспечения и калибровок</a></li><li><a href="#необходимое-оборудование-и-подготовка">Необходимое оборудование и подготовка</a></li><li><a href="#определение-типа-контроллера">Определение типа контроллера</a></li><li><a href="#пошаговая-инструкция-по-прошивке">Пошаговая инструкция по прошивке</a></li><li><a href="#адаптация-и-первичный-запуск">Адаптация и первичный запуск</a></li><li><a href="#типичные-проблемы-и-их-решение">Типичные проблемы и их решение</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владение автомобилем <em>Лада Калина</em> с двигателем 1.6 8-клапанов часто сталкивает автолюбителя с необходимостью вмешательства в работу электронного блока управления (ЭБУ). Заводская <strong>программная оболочка</strong>, устанавливаемая на конвейере, часто имеет усредненные настройки, которые не учитывают реальные условия эксплуатации или износ двигателя. Именно поэтому качественная прошивка становится не просто способом повысить мощность, но и методом решения проблем с холостым ходом, расходом топлива и динамикой разгона.</p>
+
+<p>Процесс перепрограммирования контроллера — это сложная техническая процедура, требующая понимания принципов работы <strong>системы впрыска топлива</strong>. Владелец должен осознавать, что любые изменения в программном коде несут в себе риски. Однако при грамотном подходе и использовании проверенных калибровок можно существенно улучшить отзывчивость <em>педали газа</em> и стабилизировать работу силового агрегата на различных режимах.</p>
+
+<p>В этой статье мы детально разберем все аспекты, связанные с обновлением ПО для вашего автомобиля. Мы рассмотрим необходимое оборудование, типы используемых контроллеров и пошаговый алгоритм действий. <strong>Внимательное изучение материала</strong> поможет избежать фатальных ошибок, способных превратить ЭБУ в "кирпич".</p>
+
+<h2 id="выбор-программного-обеспечения-и-калибровок">Выбор программного обеспечения и калибровок</h2>
+
+<p>Первым и самым важным этапом является выбор подходящей <strong>калибровки</strong>. Для двигателей 1.6 8кл, устанавливаемых на <em>Калину</em>, существует множество вариантов прошивок, каждая из которых преследует свои цели. Стандартные заводские версии часто ориентированы на соблюдение жестких экологических норм Евро-3 или Евро-4, что ограничивает <strong>крутящий момент</strong> на низких оборотах.</p>
+
+<p>Существуют "экономичные" версии, которые жертвуют динамикой ради снижения расхода топлива, и "спортивные" варианты, где приоритетом является максимальная отдача двигателя. Также популярны <strong>коммерческие прошивки</strong>, разработанные инженерами-тюнерами, которые балансируют между приемистостью и расходом. Выбор зависит исключительно от ваших предпочтений и технического состояния мотора.</p>
+
+<p>При выборе стоит обращать внимание на версию <strong>Европротокола</strong>, поддерживаемую вашим блоком управления. Неправильно подобранное ПО может привести к некорректной работе датчиков или даже отказу двигателя запускаться.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какая цель чип-тюнинга для вас приоритетна?</strong><ul><li>Снижение расхода топлива</li><li>Увеличение мощности</li><li>Удаление катализатора (Евро-2)</li><li>Стабильность холостого хода</li></ul></div></div>
+
+<blockquote>
+<p>⚠️ Внимание: Использование прошивок от неизвестных источников или предназначенных для других модификаций двигателя (например, от 16-клапанной версии) может привести к необратимым повреждениям <strong>электронной системы управления</strong> или детонации двигателя.</p>
+</blockquote>
+
+<h2 id="необходимое-оборудование-и-подготовка">Необходимое оборудование и подготовка</h2>
+
+<p>Для проведения процедуры перепрошивки вам потребуется специфический набор оборудования. Без качественного <strong>адаптера K-Line</strong> или <em>CAN-сканера</em> подключение к ЭБУ невозможно. Наиболее распространенными и проверенными устройствами являются адаптеры <strong>ВМ9213</strong> или <em>OpenBox</em>, которые обеспечивают стабильную связь с контроллерами <em>Bosch</em> и <em>Январь</em>.</p>
+
+<p>Также необходим ноутбук с установленным специализированным софтом, таким как <code>OpenBox Loader</code>, <code>ChipLoader</code> или <em>GPT</em>. Важно, чтобы операциная система компьютера была стабильной, а аккумулятор ноутбука был полностью заряжен, так как скачки напряжения в бортовой сети автомобиля недопустимы во время записи.</p>
+
+<p>Не забудьте подготовить источник питания для автомобиля. <strong>Зарядное устройство</strong> с режимом стабилизации напряжения должно быть подключено к клеммам АКБ, чтобы поддерживать напряжение в диапазоне 12.5–13.5 Вольт. Падение напряжения ниже 11 Вольт в процессе записи флеш-памяти может привести к порче контроллера.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к прошивке</h4><label class="check-item"><input type="checkbox"><span>Проверить заряд аккумулятора ноутбука</span></label><label class="check-item"><input type="checkbox"><span>Подключить внешнее питание 12В к авто</span></label><label class="check-item"><input type="checkbox"><span>Установить драйверы адаптера</span></label><label class="check-item"><input type="checkbox"><span>Считать и сохранить заводскую прошивку</span></label><label class="check-item"><input type="checkbox"><span>Проверить целостность жгута проводов</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Перед началом работ обязательно проверьте состояние <strong>разъема OBD-II</strong>. Окисленные контакты могут прервать связь в самый неподходящий момент. Если разъем поврежден, его необходимо заменить или использовать удлинитель с надежными контактами.</p>
+
+<h2 id="определение-типа-контроллера">Определение типа контроллера</h2>
+
+<p>На <em>Лада Калина</em> с двигателем 1.6 8кл могли устанавливаться различные типы ЭБУ, и от этого зависит метод подключения и выбор софта. Чаще всего встречаются блоки <strong>Bosch M74</strong>, <em>Bosch M74CAN</em> или более старые версии <strong>Январь 7.2</strong>. Определить тип контроллера можно визуально, открыв крышку блока, или программно, подключив сканер.</p>
+
+<p>Блоки <em>Bosch M74</em> требуют особого подхода: для входа в режим записи (Boot mode) часто необходимо физически разбирать корпус ЭБУ и замыкать определенные контакты на плате или использовать специальный <strong>адаптер BM9213</strong> с функцией Boot. Это отличает их от более простых в обслуживании <em>Январей</em>.</p>
+
+<p>Ниже приведена таблица основных характеристик распространенных контроллеров для <strong>8-клапанных двигателей</strong>:</p>
+
+<table>
+<thead>
+<tr>
+<th>Тип ЭБУ</th>
+<th>Протокол записи</th>
+<th>Особенности подключения</th>
+<th>Годы выпуска</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bosch M74</td>
+<td>Boot/Normal</td>
+<td>Требует вскрытия или спец. адаптера</td>
+<td>2010–2014</td>
+</tr>
+<tr>
+<td>Bosch M74CAN</td>
+<td>CAN-шина</td>
+<td>Подключение через OBD-II</td>
+<td>2014–2018</td>
+</tr>
+<tr>
+<td>Январь 7.2</td>
+<td>J72K</td>
+<td>Прямое подключение K-Line</td>
+<td>2005–2010</td>
+</tr>
+<tr>
+<td>Итэлма М75</td>
+<td>Boot</td>
+<td>Сложная процедура Boot mode</td>
+<td>2015–2019</td>
+</tr>
+</tbody>
+</table>
+
+<details class="faq-item"><summary>Как вскрыть ЭБУ без повреждений?</summary><div class="faq-answer"><p>Для входа в режим Boot на некоторых блоках Bosch M74 необходимо снять герметик и аккуратно открыть крышку, прогрев края феном. Будьте осторожны, чтобы не повредить влагозащиту, иначе ЭБУ выйдет из строя от влаги.</p></div></details>
+
+<p>Понимание архитектуры вашего <strong>блока управления</strong> — это 50% успеха. Ошибка в определении типа процессора приведет к тому, что программа-загрузчик просто не увидит устройство или откажется загружать файл прошивки.</p>
+
+<h2 id="пошаговая-инструкция-по-прошивке">Пошаговая инструкция по прошивке</h2>
+
+<p>Процесс записи новой программы в память ЭБУ требует строгой последовательности действий. Сначала необходимо подключить адаптер к разъему <code>OBD-II</code> автомобиля и к USB-порту ноутбука. Убедитесь, что индикаторы на адаптере загорелись, сигнализируя о наличии питания и связи.</p>
+
+<p>Запустите программу-загрузчик и выберите соответствующий тип контроллера. Нажмите кнопку <code>Считать</code> (Read), чтобы создать полную копию заводской прошивки. <mark>Сохраните этот файл в трех разных местах (локальный диск, облако, флешка)</mark> — это ваша страховка на случай неудачи. Без оригинального дампа восстановление может стать невозможным.</p>
+
+<p>После успешного чтения переходите к записи. Выберите файл новой калибровки и нажмите кнопку <code>Записать</code> (Write). Процесс может занять от 5 до 20 минут в зависимости от скорости адаптера и объема памяти. В это время категорически запрещено шевелить провода или прерывать питание.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если процесс записи завис на 90% или 98%, не паникуйте. Часто это нормальное поведение при проверке контрольных сумм. Подождите至少 10-15 минут перед принятием решения о прерывании.</p></div>
+
+<p>После завершения записи программа выдаст сообщение об успехе. Выключите зажигание, отсоедините адаптер и подождите 10–15 секунд. Затем включите зажигание, но не запускайте двигатель сразу. Дайте <strong>ЭБУ</strong> провести самодиагностику и адаптацию.</p>
+
+<h2 id="адаптация-и-первичный-запуск">Адаптация и первичный запуск</h2>
+
+<p>Первый запуск после перепрошивки — критический момент. Двигатель может запуститься не с первой попытки, а обороты холостого хода могут "плавать". Это нормальный процесс, так как <strong>электронный блок</strong> начинает обучение по новым картам топливных коррекций и угла опережения зажигания.</p>
+
+<p>Рекомендуется провести процедуру адаптации дроссельной заслонки и регулятора холостого хода. Для этого на прогретом двигателе выполните несколько циклов: зажигание включено (3 сек) — выключено (3 сек), затем запуск и прогрев до рабочей температуры. После этого дайте мотору поработать на холостых 5–7 минут.</p>
+
+<p>В процессе адаптации <strong>система управления</strong> переписывает значения в оперативной памяти, подстраиваясь под реальное состояние форсунок, свечей и компрессии в цилиндрах. Резкая езда в первые 50–100 километров не рекомендуется, чтобы не сбить процесс обучения.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Если после прошивки загорелась лампа <code>Check Engine</code> и двигатель работает неустойчиво, возможно, в прошивке неверно отключен <strong>ДК (датчик кислорода)</strong> или некорректно заданы параметры ДМРВ. Требуется возврат к заводской версии.</p>
+</blockquote>
+
+<h2 id="типичные-проблемы-и-их-решение">Типичные проблемы и их решение</h2>
+
+<p>Даже опытные мастера сталкиваются с трудностями. Одна из частых проблем — отсутствие связи с ЭБУ. В этом случае проверьте целостность <strong>K-Line</strong> провода в жгуте проводки, так как на старых <em>Калинах</em> он часто перетирается или окисляется в месте контакта с кузовом.</p>
+
+<p>Другая распространенная ситуация — ошибка контрольной суммы (Checksum error). Это означает, что файл прошивки поврежден или не соответствует типу контроллера. Решение одно: найти исправный дамп, совместимый именно с вашей <strong>аппаратной версией</strong> ЭБУ.</p>
+
+<p>Если ЭБУ "окирпичился" (перестал выходить на связь), потребуется программатор <em>Boot Loader</em> для прямой записи во флеш-память через пайку или BDM-разъем. Это сложная процедура, требующая навыков работы с паяльником и электроникой.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>90% проблем при прошивке связаны с плохим контактом в разъеме OBD-II или нестабильным напряжением бортовой сети, а не с ошибками в самом программном обеспечении.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Снизится ли ресурс двигателя после чип-тюнинга?</summary>
+<p>При использовании качественных, проверенных калибровок ресурс двигателя не снижается. Напротив, оптимизация смесеобразования и устранение провалов на переходных режимах могут положительно сказаться на долговечности. Однако агрессивные спортивные прошивки, работающие на пределе детонационного порога, могут сократить жизнь мотора.</p>
+</details>
+
+<details>
+<summary>Можно ли вернуть заводскую прошивку?</summary>
+<p>Да, это возможно, если вы сохранили оригинальный файл (дам), считанный с автомобиля перед внесением изменений. Именно поэтому создание резервной копии является обязательным шагом перед началом любых работ с <strong>ЭБУ</strong>.</p>
+</details>
+
+<details>
+<summary>Влияет ли прошивка на расход топлива?</summary>
+<p>Влияние есть, но оно зависит от стиля вождения и выбранной калибровки. "Экономичные" прошивки могут снизить расход на 0.5–1 литр, однако чаще всего после чип-тюнинга водители начинают активнее использовать педаль газа, что, наоборот, увеличивает потребление бензина.</p>
+</details>
+
+<details>
+<summary>Нужно ли регистрировать изменения в ГИБДД?</summary>
+<p>Формально любое изменение конструкции транспортного средства требует регистрации. Однако визуально определить факт перепрошивки <strong>ЭБУ</strong> при техосмотре невозможно без специального диагностического оборудования и сверки контрольных сумм с базой данных завода.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#выбор-программного-обеспечения-и-калибровок">Выбор программного обеспечения и калибровок</a></li><li><a href="#необходимое-оборудование-и-подготовка">Необходимое оборудование и подготовка</a></li><li><a href="#определение-типа-контроллера">Определение типа контроллера</a></li><li><a href="#пошаговая-инструкция-по-прошивке">Пошаговая инструкция по прошивке</a></li><li><a href="#адаптация-и-первичный-запуск">Адаптация и первичный запуск</a></li><li><a href="#типичные-проблемы-и-их-решение">Типичные проблемы и их решение</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-kalina-gruzopodemnost.html" class="related-card">Грузоподъемность Лада Калина: реальные цифры и тесты</a></li><li><a href="/articles/f/fa/fary-lada-kalina-1-tyuning.html" class="related-card">Фары Лада Калина 1 тюнинг: от замены линз до LED-оптики</a></li><li><a href="/articles/l/la/lada-kalina-v-kemerovskoj-oblasti.html" class="related-card">Лада Калина в Кемеровской области: цены, сервис и запчасти</a></li><li><a href="/articles/k/ka/kak-otregulirovat-fary-na-lada-kalina-1.html" class="related-card">Как отрегулировать фары на Лада Калина 1: полная инструкция</a></li><li><a href="/articles/p/po/podramnik-lada-kalina-1.html" class="related-card">Подрамник Лада Калина 1: диагностика, ремонт и замена</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-kalina-gruzopodemnost.html" class="related-bottom-card"><span class="related-bottom-title">Грузоподъемность Лада Калина: реальные цифры и тесты</span><span class="related-bottom-desc">Полный разбор грузоподъемности Лада Калина хетчбэк, универсал и кросс. Реальные показатели, влияние </span></a><a href="/articles/f/fa/fary-lada-kalina-1-tyuning.html" class="related-bottom-card"><span class="related-bottom-title">Фары Лада Калина 1 тюнинг: от замены линз до LED-оптики</span><span class="related-bottom-desc">Полный гид по тюнингу фар Лада Калина 1. Замена штатного света, установка би-ксенона, полировка и ре</span></a><a href="/articles/l/la/lada-kalina-v-kemerovskoj-oblasti.html" class="related-bottom-card"><span class="related-bottom-title">Лада Калина в Кемеровской области: цены, сервис и запчасти</span><span class="related-bottom-desc">Все о Лада Калина в Кемерово: где купить, цены на б/у, ремонт, тюнинг и поиск запчастей. Актуальная </span></a><a href="/articles/k/ka/kak-otregulirovat-fary-na-lada-kalina-1.html" class="related-bottom-card"><span class="related-bottom-title">Как отрегулировать фары на Лада Калина 1: полная инструкция</span><span class="related-bottom-desc">Пошаговое руководство по регулировке света фар на Лада Калина 1. Настройка пучка света своими руками</span></a><a href="/articles/p/po/podramnik-lada-kalina-1.html" class="related-bottom-card"><span class="related-bottom-title">Подрамник Лада Калина 1: диагностика, ремонт и замена</span><span class="related-bottom-desc">Полное руководство по ремонту подрамника на Лада Калина 1. Причины стуков, признаки износа сайлентбл</span></a><a href="/articles/l/la/lada-kalina-ruchka-zadnej-dveri.html" class="related-bottom-card"><span class="related-bottom-title">Лада Калина ручка задней двери: замена, ремонт и регулировка</span><span class="related-bottom-desc">Как снять и заменить ручку двери на Лада Калина хетчбэк и универсал. Инструкция по разборке, устране</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

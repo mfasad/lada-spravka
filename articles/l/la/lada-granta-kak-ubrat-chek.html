@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Лада Гранта: как убрать чек двигателя и найти причину — Лада Справка</title>
+    <meta name="description" content="Подробная инструкция, как убрать чек на Лада Гранта. Диагностика OBD2, сброс ошибок через ELM327, причины мигания лампы и методы устранения неисправностей.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-granta-kak-ubrat-chek.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Лада Гранта: как убрать чек двигателя и найти причину">
+    <meta property="og:description" content="Подробная инструкция, как убрать чек на Лада Гранта. Диагностика OBD2, сброс ошибок через ELM327, причины мигания лампы и методы устранения неисправностей.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Лада Гранта: как убрать чек двигателя и найти причину</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Как убрать чек на Лада Гранта: диагностика и сброс ошибок</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#почему-горит-check-engine-на-лада-гранта">Почему горит Check Engine на Лада Гранта</a></li><li><a href="#диагностика-с-помощью-адаптера-elm327">Диагностика с помощью адаптера ELM327</a></li><li><a href="#как-убрать-чек-без-сканера-метод-сброса-аккумулятора">Как убрать чек без сканера: метод сброса аккумулятора</a></li><li><a href="#программный-сброс-через-меню-бортового-компьютера">Программный сброс через меню бортового компьютера</a></li><li><a href="#типичные-неисправности-и-их-устранение">Типичные неисправности и их устранение</a></li><li><a href="#специфика-двигателей-8-и-16-клапанов">Специфика двигателей 8 и 16 клапанов</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Ситуация, когда на панели приборов загорается желтая лампа с изображением двигателя, может застать врасплох любого владельца <em>Lada Granta</em>. Этот индикатор, именуемый Check Engine, сигнализирует о том, что электронный блок управления (ЭБУ) зафиксировал отклонение в работе систем мотора. В некоторых случаях паниковать не стоит, так как причиной может стать временный сбой или некачественное топливо, но игнорировать сигнал категорически нельзя.</p>
+
+<p>Современные автомобили <strong>ВАЗ</strong> оснащены сложной системой самодиагностики, которая отслеживает сотни параметров в секунду. Если вы видите горящий «чек», это означает, что один из датчиков передал в ЭБУ неверные данные или вышел за пределы допустимых значений. Понимание того, как правильно считать код ошибки и устранить первопричину, поможет избежать дорогостоящего ремонта в будущем.</p>
+
+<p>Существует несколько способов погасить эту лампу: от банального отключения аккумулятора до использования профессиональных сканеров. Однако, прежде чем приступать к сбросу, необходимо убедиться, что в работе двигателя нет критических сбоев, которые могут привести к поломке силового агрегата прямо на дороге.</p>
+
+<h2 id="почему-горит-check-engine-на-лада-гранта">Почему горит Check Engine на Лада Гранта</h2>
+
+<p>Спектр проблем, вызывающих загорание индикатора, крайне широк. На <em>ВАЗ-2190</em> и других модификациях Гранты чаще всего система реагирует на качество топливной смеси или состояние системы зажигания. ЭБУ сравнивает показания лямбда-зонда с эталонными значениями, и при любом несоответствии активирует аварийный режим.</p>
+
+<p>Часто виновником становится низкое октановое число бензина или наличие воды в топливе. В этом случае происходит детонация, которую фиксирует <strong>датчик детонации</strong>, и блок управления пытается скорректировать угол опережения зажигания. Если корректировки не помогают, на приборной панели загорается предупреждение.</p>
+
+<p>Также частыми причинами являются:</p>
+<ul>
+<li>🔥 Выход из строя или загрязнение свечей зажигания, что приводит к пропускам воспламенения.</li>
+<li>💨 Проблемы с катушкой зажигания, особенно на 8-клапанных моторах с модулем.</li>
+<li>🌬️ Подсос неучтенного воздуха через трещины во впускном коллекторе или патрубках.</li>
+<li>🛢️ Неисправность топливных форсунок или низкое давление в топливной рампе.</li>
+</ul>
+
+<blockquote>⚠️ Внимание: Если лампа Check Engine мигает, а не горит постоянно, это означает пропуски зажигания. Эксплуатация автомобиля в таком режиме строго запрещена, так как несгоревший бензин попадает в катализатор и может расплавить его за считанные километры.</blockquote>
+
+<p>Важно различать постоянный сигнал и кратковременный. Если лампа загорелась и через пару циклов запуска двигателя погасла сама, возможно, сбой был вызван скачком напряжения или однократным использованием плохого бензина. Однако запись об ошибке в памяти ЭБУ <em>ВАЗ</em> все равно останется.</p>
+
+<h2 id="диагностика-с-помощью-адаптера-elm327">Диагностика с помощью адаптера ELM327</h2>
+
+<p>Наиболее точный способ узнать причину — подключить диагностический сканер. Для Лада Гранта идеально подходят адаптеры на базе чипа <strong>ELM327</strong> версии 1.5 (версии 2.1 часто некорректно работают с отечественными протоколами). Подключение осуществляется через разъем OBD-II, который в Гранте расположен под декоративной заглушкой в нижней части центральной консоли, чуть правее кнопки подогрева сидений.</p>
+
+<p>Для считывания данных вам понадобится смартфон с операционной системой Android или iOS и специализированное приложение. Наиболее популярными и функциональными программами для диагностики <em>ВАЗ</em> являются OpenDiag, Torque Pro или Motordata.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При покупке адаптера ELM327 выбирайте версию с переключателем протоколов или чипом PIC18F25K80 — они стабильнее работают с ЭБУ М74 и М86, которые устанавливаются на Гранты.</p></div>
+
+<p>Процесс подключения выглядит следующим образом:</p>
+<ol>
+<li>Вставьте адаптер в разъем OBD-II при выключенном зажигании.</li>
+<li>Включите зажигание (двигатель запускать не обязательно).</li>
+<li>Запустите приложение на смартфоне и выполните поиск Bluetooth-устройства.</li>
+<li>Сопрягитесь с адаптером (пароль обычно 1234 или 0000).</li>
+<li>Выберите тип подключения (автоматический поиск или конкретно <em>ВАЗ</em> K-Line).</li>
+</ol>
+
+<p>После успешного соединения программа покажет список сохраненных и текущих ошибок. Коды формата P0xxx указывают на стандартные неисправности, а коды с префиксом C или B могут относиться к кузову или шасси, но для двигателя важны именно P-коды.</p>
+
+<h2 id="как-убрать-чек-без-сканера-метод-сброса-аккумулятора">Как убрать чек без сканера: метод сброса аккумулятора</h2>
+
+<p>Если под рукой нет диагностического оборудования, можно попробовать сбросить ошибку путем обесточивания бортовой сети. Этот метод работает не на всех версиях программного обеспечения ЭБУ, но часто помогает убрать «глюк», вызванный скачком напряжения.</p>
+
+<p>Для выполнения процедуры необходимо открыть капот и снять минусовую клемму с аккумуляторной батареи. Оставьте автомобиль без питания на 15–20 минут. За это время конденсаторы в блоке управления разрядятся, и оперативная память сбросится.</p>
+
+<details class="faq-item"><summary>Что происходит при сбросе клеммы?</summary><div class="faq-answer"><p>При обесточивании ЭБУ теряет не только коды ошибок, но и адаптационные данные. Блок управления «забывает» привычки водителя и коррекции по топливу, поэтому первые 10-20 километров автомобиль может работать нестабильно, пока не пройдет процесс самообучения.</p></div></details>
+
+<p>После подключения клеммы обратно не спешите сразу заводить мотор. Включите зажигание на 10 секунд, подождите, пока затихнет бензонасос, и выключите. Повторите процедуру 2-3 раза. Это необходимо для того, чтобы ЭБУ <strong>ВАЗ</strong> успел опросить все датчики в статическом режиме.</p>
+
+<p>Стоит помнить, что если физическая неисправность (например, оборванный провод или пробитая катушка) никуда не делась, лампа загорится вновь через несколько минут работы двигателя или даже сразу после запуска.</p>
+
+<h2 id="программный-сброс-через-меню-бортового-компьютера">Программный сброс через меню бортового компьютера</h2>
+
+<p>На некоторых комплектациях Лада Гранта, оснащенных более современной панелью приборов (например, «люкс» с отображением пробега до бака), существует возможность просмотра и частичного сброса сервисных интервалов, хотя полноценный сброс ошибок двигателя через кнопки на панели часто недоступен без «танцев с бубном».</p>
+
+<p>Однако, существует методика, позволяющая在某些 версиях прошивки вызвать сервисный режим. Зажмите кнопку сброса суточного пробега на панели приборов. Не отпуская кнопку, включите зажигание. Начнется тест стрелок и сегментов дисплея.</p>
+
+<p>Короткими нажатиями на кнопку попробуйте найти режим, где отображаются коды ошибок (обычно обозначается как «Err» или цифровые коды). Для сброса часто требуется длительное удержание кнопки в режиме отображения кода, но этот функционал зависит от версии ПО приборной панели и самого ЭБУ.</p>
+
+<table>
+<thead>
+<tr>
+<th>Код ошибки</th>
+<th>Описание неисправности</th>
+<th>Вероятная причина</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0300</td>
+<td>Случайные/множественные пропуски зажигания</td>
+<td>Свечи, катушка, форсунки</td>
+</tr>
+<tr>
+<td>P0171</td>
+<td>Слишком бедная топливная смесь</td>
+<td>Подсос воздуха, низкое давление топлива</td>
+</tr>
+<tr>
+<td>P0133</td>
+<td>Медленный отклик кислородного датчика</td>
+<td>Старый лямбда-зонд, загрязнение</td>
+</tr>
+<tr>
+<td>P0420</td>
+<td>Эффективность катализатора ниже порога</td>
+<td>Разрушенный катализатор, вторая лямбда</td>
+</tr>
+<tr>
+<td>P0116</td>
+<td>Неверный сигнал датчика температуры ОЖ</td>
+<td>Неисправность ДТОЖ, обрыв цепи</td>
+</tr>
+</tbody>
+</table>
+
+<div class="attention-box attention-info"><div><strong>📊 Как вы обычно устраняете ошибку Check Engine?</strong><ul><li>Сбрасываю клемму АКБ</li><li>Еду на диагностику в сервис</li><li>Покупаю сканер ELM327</li><li>Игнорирую, пока не начнет троить</li></ul></div></div>
+
+<h2 id="типичные-неисправности-и-их-устранение">Типичные неисправности и их устранение</h2>
+
+<p>Если после сброса ошибка возвращается, необходимо искать конкретную поломку. Статистика сервисов по автомобилям <em>Lada Granta</em> выделяет ряд «болезненных» мест, характерных для этой модели.</p>
+
+<p>В первую очередь стоит проверить <strong>модуль зажигания</strong>. На 8-клапанных двигателях он часто пробивает на массу, особенно в сырую погоду. Визуально это может быть не заметно, но при работе в темноте можно увидеть искрение. Замена модуля часто решает проблему с кодами P0301-P0304.</p>
+
+<p>Второй частый враг — регулятор холостого хода (РХХ) и дроссельная заслонка. Из-за накопления нагара заслонка подклинивает, и ЭБУ не может корректно регулировать обороты. В этом случае помогает механическая чистка узла дроселя специальным аэрозолем-очистителем карбюратора.</p>
+
+<p>Также обратите внимание на:</p>
+<ul>
+<li>🔌 Окисление контактов на разъемах датчиков (особенно ДМРВ и лямбда-зонда).</li>
+<li>🕸️ Повреждение проводки жгута ЭБУ (перетирается о кузов или коллектор).</li>
+<li>⛽ Забитый топливный фильтр или сетка бензонасоса.</li>
+<li>🌡️ Неисправный датчик фаз или коленвала.</li>
+</ul>
+
+<blockquote>⚠️ Внимание: При замене датчиков на Лада Гранта обязательно используйте оригинальные запчасти или качественные аналоги (например, Bosch, Siemens). Дешевые китайские аналоги часто имеют нелинейную характеристику, из-за чего ЭБУ будет постоянно видеть ошибку, даже если датчик новый.</blockquote>
+
+<div class="checklist-block"><h4>☑️ Проверка системы зажигания</h4><label class="check-item"><input type="checkbox"><span>Визуальный осмотр свечей</span></label><label class="check-item"><input type="checkbox"><span>Проверка зазора свечей</span></label><label class="check-item"><input type="checkbox"><span>Прозвонка катушек</span></label><label class="check-item"><input type="checkbox"><span>Осмотр высоковольтных проводов</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="специфика-двигателей-8-и-16-клапанов">Специфика двигателей 8 и 16 клапанов</h2>
+
+<p>Владельцы 16-клапанных версий Гранты (моторы ВАЗ-11186, ВАЗ-21127) сталкиваются с ошибками фаз газораспределения чаще, чем владельцы 8-клапанных. Здесь важную роль играет состояние <strong>фазовращателя</strong> (если он есть) и цепи/ремня ГРМ.</p>
+
+<p>Если на 16-клапаннике выскакивает ошибка P0340 (сигнал датчика фазы отсутствует), это может означать как смерть самого датчика, так и смещение фаз ГРМ. Игнорирование этой проблемы может привести к встрече клапанов с поршнями.</p>
+
+<p>На 8-клапанных моторах основной проблемой остается система зажигания и впуск. Коллектор здесь чугунный и менее подвержен подсосам, чем алюминиевые коллекторы 16-клапанных, но прокладка ресивера со временем дубеет и начинает травить воздух.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Главная причина возврата ошибки после сброса — неустраненная физическая неисправность. Бесконечный сброс кодов без ремонта приведет к повышенному расходу топлива и eventual выходу из строя катализатора.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли ездить, если горит чек, но машина ведет себя нормально?</summary>
+<p>Кратковременная поездка до сервиса допустима. Однако длительная эксплуатация с горящим чеком, особенно если ошибка связана с системой зажигания или смесеобразованием, может привести к прогоранию клапанов или разрушению катализатора. Лучше не рисковать.</p>
+</details>
+
+<details>
+<summary>Почему чек загорается только на холодном двигателе?</summary>
+<p>Это характерный признак неисправного датчика температуры охлаждающей жидкости (ДТОЖ) или подсоса воздуха. На холодную двигателю требуется обогащенная смесь, и если ЭБУ получает неверные данные о температуре, он готовит смесь неправильно, что фиксируется как ошибка.</p>
+</details>
+
+<details>
+<summary>Сбросил ошибку, она погасла, но через 50 км снова загорелась. Что делать?</summary>
+<p>Это значит, что неисправность носит постоянный характер. ЭБУ проводит циклы проверки, и если параметр снова выходит за пределы нормы, ошибка записывается повторно. Необходимо проводить полноценную диагностику с анализом параметров в реальном времени.</p>
+</details>
+
+<details>
+<summary>Влияет ли снятие клеммы АКБ на настройки магнитолы и ЭБУ?</summary>
+<p>Да, магнитола может запросить код активации (если он был установлен), а ЭБУ сбросит топливные коррекции. В течение первых 20-30 км пробега расход топлива может быть slightly повышен, пока блок заново не адаптируется к вашему стилю езды.</p>
+</details>
+
+<details>
+<summary>Какой адаптер лучше купить для Лада Гранта?</summary>
+<p>Оптимальный выбор — ELM327 Bluetooth версии 1.5 на чипе PIC. Он поддерживает протокол K-Line, который используется в старых и средних версиях ЭБУ ВАЗ, а также CAN-протокол в новых. Избегайте самых дешевых зеленых плат версии 2.1.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#почему-горит-check-engine-на-лада-гранта">Почему горит Check Engine на Лада Гранта</a></li><li><a href="#диагностика-с-помощью-адаптера-elm327">Диагностика с помощью адаптера ELM327</a></li><li><a href="#как-убрать-чек-без-сканера-метод-сброса-аккумулятора">Как убрать чек без сканера: метод сброса аккумулятора</a></li><li><a href="#программный-сброс-через-меню-бортового-компьютера">Программный сброс через меню бортового компьютера</a></li><li><a href="#типичные-неисправности-и-их-устранение">Типичные неисправности и их устранение</a></li><li><a href="#специфика-двигателей-8-и-16-клапанов">Специфика двигателей 8 и 16 клапанов</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/p/pa/panel-predokhranitelej-lada-largus.html" class="related-card">Панель предохранителей Лада Ларгус: схемы, блоки и замена</a></li><li><a href="/articles/l/la/lada-goryachaya-liniya-v-rossii.html" class="related-card">Лада горячая линия в России: номер телефона и режим работы</a></li><li><a href="/articles/a/av/avto-lada-chajkovskij.html" class="related-card">Авто Лада Чайковский: купить LADA, цены, сервис и автосалон</a></li><li><a href="/articles/u/us/usloviya-gosprogrammy-lada.html" class="related-card">Условия госпрограммы Лада 2026: льготные кредиты и автокредитование</a></li><li><a href="/articles/l/la/lada-largus-klub-forum.html" class="related-card">Лада Ларгус клуб форум: обзоры, ремонт и отзывы владельцев</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/p/pa/panel-predokhranitelej-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">Панель предохранителей Лада Ларгус: схемы, блоки и замена</span><span class="related-bottom-desc">Подробные схемы блоков предохранителей Лада Ларгус (8 и 16 клапанов). Расположение, маркировка, номи</span></a><a href="/articles/l/la/lada-goryachaya-liniya-v-rossii.html" class="related-bottom-card"><span class="related-bottom-title">Лада горячая линия в России: номер телефона и режим работы</span><span class="related-bottom-desc">Актуальный номер Лада горячая линия в России. Как связаться с техподдержкой АвтоВАЗ, режим работы оп</span></a><a href="/articles/a/av/avto-lada-chajkovskij.html" class="related-bottom-card"><span class="related-bottom-title">Авто Лада Чайковский: купить LADA, цены, сервис и автосалон</span><span class="related-bottom-desc">Ищете авто Лада в Чайковском? Полный обзор дилеров, модельного ряда, цен на LADA Vesta и Granta, а т</span></a><a href="/articles/u/us/usloviya-gosprogrammy-lada.html" class="related-bottom-card"><span class="related-bottom-title">Условия госпрограммы Лада 2026: льготные кредиты и автокредитование</span><span class="related-bottom-desc">Полный разбор условий госпрограммы Лада: кто может участвовать, лимиты сумм, требования к заемщику и</span></a><a href="/articles/l/la/lada-largus-klub-forum.html" class="related-bottom-card"><span class="related-bottom-title">Лада Ларгус клуб форум: обзоры, ремонт и отзывы владельцев</span><span class="related-bottom-desc">Полный гид по сообществу Лада Ларгус: поиск проверенных форумов, клубов и групп. Ремонт своими рукам</span></a><a href="/articles/k/ka/kak-vklyuchit-konditsioner-na-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Как включить кондиционер на Лада Гранта: инструкция</span><span class="related-bottom-desc">Подробная инструкция: как включить кондиционер на Лада Гранта. Разница между кондиционером и климато</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

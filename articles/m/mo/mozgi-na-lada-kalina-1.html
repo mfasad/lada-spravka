@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Мозги на Лада Калина 1: выбор ЭБУ, прошивка и ремонт — Лада Справка</title>
+    <meta name="description" content="Полный гид по ЭБУ для Лада Калина 1. Замена мозгов, прошивка, совместимость Январь 7.2 и М74, коды ошибок и адаптация дросселя своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/m/mo/mozgi-na-lada-kalina-1.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Мозги на Лада Калина 1: выбор ЭБУ, прошивка и ремонт">
+    <meta property="og:description" content="Полный гид по ЭБУ для Лада Калина 1. Замена мозгов, прошивка, совместимость Январь 7.2 и М74, коды ошибок и адаптация дросселя своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/kalina/">Kalina</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Мозги на Лада Калина 1: выбор ЭБУ, прошивка и ремонт</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Мозги на Лада Калина 1: выбор, установка и тюнинг</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#основные-типы-эбу-на-лада-калина-первого-поколения">Основные типы ЭБУ на Лада Калина первого поколения</a></li><li><a href="#диагностика-и-признаки-неисправности-контроллера">Диагностика и признаки неисправности контроллера</a></li><li><a href="#замена-эбу-пошаговая-инструкция-и-нюансы">Замена ЭБУ: пошаговая инструкция и нюансы</a></li><li><a href="#прошивка-и-чип-тюнинг-стоит-ли-игра-свеч">Прошивка и чип-тюнинг: стоит ли игра свеч</a></li><li><a href="#адаптация-дроссельной-заслонки-и-рхх">Адаптация дроссельной заслонки и РХХ</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+<p>Владение автомобилем семейства <em>ВАЗ 1117, 1118 или 1119</em> рано или поздно сталкивает владельца с необходимостью вмешательства в работу системы управления двигателем. Когда загорается <strong>Check Engine</strong>, машина теряет динамику или начинает потреблять неприлично много топлива, первым делом опытные автомобилисты смотрят в сторону электронного блока управления. В народе эту деталь ласково, но с уважением называют «мозги». Именно они принимают решения о подаче топлива и искры, опираясь на показания десятков датчиков.</p>
+
+<p>Выбор правильной версии прошивки или замена неисправного контроллера могут кардинально изменить поведение вашего <em>Lada Kalina</em>. Некоторые водители ищут способ убрать катализатор и перейти на Евро-2, другие хотят просто восстановить заводские параметры после неудачного чип-тюнинга. Понимание того, какие именно <strong>ЭБУ</strong> устанавливались на разные годы выпуска, является фундаментом для любого ремонта. Неверно подобранная версия ПО может превратить исправный автомобиль в груду металла, которую невозможно завести без специализированного оборудования.</p>
+
+<p>В этой статье мы разберем все нюансы, связанные с электроникой первого поколения Калины. Мы не будем использовать сложные академические термины там, где можно объяснить проще, но и технические детали оставим без внимания. Вам предстоит узнать, как отличить один блок от другого, стоит ли покупать б/у контроллер с рук и как происходит процесс «обучения» новой детали. Это руководство поможет вам принять взвешенное решение перед поездкой в сервис или покупкой инструментов для самостоятельной диагностики.</p>
+
+<h2 id="основные-типы-эбу-на-лада-калина-первого-поколения">Основные типы ЭБУ на Лада Калина первого поколения</h2>
+<p>Первые модели <em>Лада Калина</em> оснащались двигателями объемом 1.4 и 1.6 литра, которые комплектовались разными системами впрыска. Самым распространенным и, пожалуй, самым любимым тюнингаторами блоком стал <strong>Январь 7.2</strong>. Этот контроллер базировался на проверенной платформе Bosch M7.9.7, что обеспечивало ему отличную ремонтопригодность и широкие возможности для перепрограммирования. Машины с таким блоком легко поддаются чип-тюнингу, а найти мастера, умеющего с ним работать, можно даже в небольшом районном центре.</p>
+
+<p>С приходом стандартов <strong>Евро-3</strong> и выше на конвейере появились более сложные системы. Начиная с 2011-2012 годов, на Калины стали массово устанавливать блоки <em>М74</em> и <em>М75</em> от компании Итэлма. Эти «мозги» уже имели CAN-шину, что позволяло выводить ошибки на дисплей бортового компьютера, и поддерживали электронную педаль газа (Е-газ). Работа с ними требует более современного оборудования, так как старые кабель-каналы K-Line здесь уже не всегда эффективны, требуется протокол J418 или работа по CAN.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой ЭБУ стоит на вашей Калине?</strong><ul><li>Январь 7.2 (Евро-2)</li><li>Bosch M7.9.7</li><li>М74 / М75 (Евро-3/4)</li><li>Не знаю / Боюсь смотреть</li></ul></div></div>
+
+<p>Отдельного внимания заслуживает система <strong>М11</strong>, которая появлялась на более свежих версиях первого поколения с моторами 8 и 16 клапанов. Это уже полностью цифровая система с тросс-less дросселем и сложной логикой работы. Если вы владелец такой машины, забудьте о простых «откатиках» с флешки — здесь нужна профессиональная калибровка. Ошибочная прошивка может привести к некорректной работе холостого хода и дерганью при разгоне, так как алгоритмы расчета воздуха здесь значительно сложнее, чем у предшественников.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Всегда переписывайте номер заводской прошивки (Dxx00) перед любым вмешательством. Это единственная гарантия того, что вы сможете вернуться к исходному состоянию в случае неудачи.</p></div>
+
+<h2 id="диагностика-и-признаки-неисправности-контроллера">Диагностика и признаки неисправности контроллера</h2>
+<p>Понять, что «мозги» на <em>Лада Калина 1</em> требуют внимания, можно по ряду косвенных признаков, которые игнорировать крайне опасно для двигателя. Самым очевидным сигналом служит горящая лампа <strong>Check Engine</strong> на приборной панели. Однако она может загораться и при банально loose клемме аккумулятора. Настоящие проблемы начинаются, когда автомобиль начинает вести себя неадекватно: глохнет на светофорах, плавают обороты или исчезает тяга при обгоне.</p>
+
+<p>Часто водители путают неисправность самого ЭБУ с выходом из строя исполнительных механизмов или датчиков. Например, если сгорел драйвер форсунки внутри блока, то сама форсунка может быть исправна, но работать не будет. Диагностика в таком случае показывает «обрыв цепи», хотя проводка целая. Чтобы не менять полмашины, необходимо провести компьютерное тестирование с помощью сканера, поддерживающего протокол <strong>OBD-II</strong>.</p>
+
+<ul>
+    <li>🚗 Двигатель глохнет сразу после запуска или не держит холостой ход без подгазовки.</li>
+    <li>🚗 Резко вырос расход топлива (на 2-3 литра выше нормы для вашего объема).</li>
+    <li>🚗 Появились пропуски зажигания, троение и вибрации на кузове.</li>
+    <li>🚗 Отсутствует связь с ЭБУ при подключении диагностического сканера.</li>
+</ul>
+
+<blockquote>
+    <p>⚠️ <strong>Внимание:</strong> Если после мойки двигателя или сильного дождя машина перестала заводиться, не пытайтесь крутить стартер постоянно. Вода могла попасть в разъем ЭБУ, вызвав короткое замыкание. Сначала просушите контакты.</p>
+</blockquote>
+
+<p>Одной из частых проблем является нарушение контакта в разъеме или окисление контактов внутри самого «мозга». В зимний период конденсат внутри корпуса может привести к коррозии платы. Визуальный осмотр разъемов часто помогает выявить следы влаги или зеленого налета. Если вы видите окислы, простая чистка контактов спреем может вернуть автомобиль к жизни без дорогостоящей замены узла.</p>
+
+<h2 id="замена-эбу-пошаговая-инструкция-и-нюансы">Замена ЭБУ: пошаговая инструкция и нюансы</h2>
+<p>Процесс замены электронного блока управления на <em>Kalina 1</em> технически не сложен, но требует аккуратности и соблюдения мер безопасности. Главное правило: все работы по отключению разъемов должны проводиться при снятой минусовой клемме с аккумулятора. Игнорирование этого требования может привести к сгоранию не только нового ЭБУ, но и всей бортовой сети, включая панель приборов и иммобилайзер.</p>
+
+<p>Сам блок обычно расположен в нижней части центральной консоли, за декоративной крышкой, рядом с педалью газа. Чтобы добраться до него, необходимо снять боковые пластиковые панели тоннеля пола. После откручивания крепежных болтов, ЭБУ вынимается вместе с кронштейном. Будьте внимательны: разъемы могут сидеть плотно, и дергать их силой за провода категорически нельзя.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка перед установкой</h4><label class="check-item"><input type="checkbox"><span>Снять минусовую клемму АКБ</span></label><label class="check-item"><input type="checkbox"><span>Сверить каталожный номер нового ЭБУ</span></label><label class="check-item"><input type="checkbox"><span>Проверить состояние контактов в разъемах</span></label><label class="check-item"><input type="checkbox"><span>Убедиться в исправности предохранителей</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>После физической установки нового блока наступает самый важный этап — программная привязка. Если вы меняете блок на аналогичный (например, другой <strong>Январь 7.2</strong>), то достаточно просто подключить его, и машина заведется. Однако, если меняется тип блока или утерян ключ иммобилайзера, потребуется процедура согласования. Для этого нужен специализированный софт, такой как <em>OpenBox</em> или <strong>Штатный диагностический прибор (ШТАТ)</strong>.</p>
+
+<pre><code>Алгоритм действий:
+<p>1. Подключить ноутбук через K-Line адаптер.</p>
+<p>2. Войти в режим "Замена ЭБУ".</p>
+<p>3. Считать VIN-код из старого блока (если возможен доступ).</p>
+<p>4. Записать VIN-код в новый блок.</p>
+<p>5. Провести обучение ДПКВ и регулятора холостого хода.</code></pre></p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Критически важно: при замене ЭБУ на Калине с иммобилайзером (АПС-6) необходимо либо прописывать новые ключи, либо программно отключать иммобилайзер в прошивке, иначе двигатель будет глохнуть через несколько секунд.</p></div>
+
+<h2 id="прошивка-и-чип-тюнинг-стоит-ли-игра-свеч">Прошивка и чип-тюнинг: стоит ли игра свеч</h2>
+<p>Владельцы <em>Лада Калина 1</em> часто задумываются о чип-тюнинге, желая повысить мощность или снизить расход. Заводские прошивки, особенно ранних лет выпуска, часто были «задушены» экологическими нормами и некачественной калибровкой датчиков кислорода. Перепрошивка на версии типа <strong>Евро-2</strong> (без второго лямбда-зонда и катализатора) действительно может дать ощутимый прирост эластичности двигателя.</p>
+
+<p>Существует множество тюнинговых прошивок от известных авторов (Паулюс, Ledokol, СТС). Они меняют таблицы топливоподачи, углы опережения зажигания и алгоритмы работы дроссельной заслонки. Однако, «волшебной таблетки» не существует: если двигатель изношен, имеет низкую компрессию или проблемы с ГРМ, никакая прошивка не сделает из него гоночный болид. Чип-тюнинг раскрывает потенциал исправного мотора.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Тип прошивки</th>
+            <th>Эко-класс</th>
+            <th>Влияние на мощность</th>
+            <th>Расход топлива</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Заводская (Stock)</td>
+            <td>Евро-3/4</td>
+            <td>Базовый</td>
+            <td>Штатный</td>
+        </tr>
+        <tr>
+            <td>Евро-2 (Откат)</td>
+            <td>Евро-2</td>
+            <td>+5-7%</td>
+            <td>Снижение (-0.5 л)</td>
+        </tr>
+        <tr>
+            <td>Тюнинг (Спорт)</td>
+            <td>Евро-2/3</td>
+            <td>+10-12%</td>
+            <td>Возможен рост</td>
+        </tr>
+        <tr>
+            <td>Эконом</td>
+            <td>Евро-3/4</td>
+            <td>Без изменений</td>
+            <td>Снижение (-1 л)</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Важно понимать, что переход на Евро-2 подразумевает физическое удаление катализатора и установку «обманки» или перепрошивку под работу без второго датчика кислорода. Если просто удалить катализатор без смены ПО, второй лямбда-зонд выдаст ошибку, и машина перейдет в аварийный режим. Поэтому программное и механическое вмешательство должны быть синхронизированы.</p>
+
+<details class="faq-item"><summary>Что будет если прошить «кривую» прошивку?</summary><div class="faq-answer"><p>Двигатель может работать неустойчиво, глохнуть на холостых, перегреваться или детонировать под нагрузкой. В худшем случае можно прожечь клапана из-за неправильного угла зажигания.</p></div></details>
+
+<h2 id="адаптация-дроссельной-заслонки-и-рхх">Адаптация дроссельной заслонки и РХХ</h2>
+<p>После замены «мозгов», чистки дроссельной заслонки или отключения аккумулятора на <em>Лада Калина</em> часто требуется процедура адаптации. ЭБУ должен «запомнить» крайние положения заслонки и шаг регулятора холостого хода (РХХ). Без этой процедуры могут наблюдаться плавающие обороты или провалы при нажатии на педаль газа, особенно на прогретом двигателе.</p>
+
+<p>Процедура адаптации на системах <strong>Январь</strong> и <em>М74</em> немного отличается, но общий принцип един. Сначала прогреваем двигатель до рабочей температуры (включается вентилятор охлаждения). Затем выключаем зажигание и ждем около 10-15 секунд, чтобы ЭБУ сохранил параметры. После этого заводим мотор и даем ему поработать на холостых 5-7 минут, не трогая педаль газа.</p>
+
+<ul>
+    <li>🔧 Прогрейте мотор до 90 градусов по Цельсию.</li>
+    <li>🔧 Выключите зажигание, подождите 10 секунд.</li>
+    <li>🔧 Заведите двигатель, не касаясь педали газа.</li>
+    <li>🔧 Дайте поработать 5-7 минут до стабилизации оборотов.</li>
+</ul>
+
+<p>Если после такой процедуры обороты продолжают «гулять», возможно, проблема не в адаптации, а в подсосе неучтенного воздуха или неисправности самого РХХ. На Калинах первого поколения регулятор холостого хода — расходный материал, и его ресурс редко превышает 50-70 тысяч километров. При замене РХХ процедуру адаптации нужно проводить обязательно, иначе новый клапан будет работать некорректно.</p>
+
+<blockquote>
+    <p>⚠️ <strong>Внимание:</strong> Не проводите адаптацию дросселя, если в системе есть ошибки по датчику положения дроссельной заслонки (ДПДЗ). Сначала замените неисправный датчик, иначе ЭБУ запишет некорректные данные.</p>
+</blockquote>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+    <summary>Можно ли поставить ЭБУ от Приоры на Калину 1?</summary>
+    <p>Физически разъемы могут совпасть, но программно это сложный путь. Приоровские «мозги» (особенно М74/М75) требуют другой жгут проводки и часто некорректно работают с калиновской панелью приборов и иммобилайзером без глубокой переделки. Проще найти родной блок или качественный аналог.</p>
+</details>
+
+<details>
+    <summary>Где находится номер прошивки в ЭБУ?</summary>
+    <p>Номер прошивки не выбит на корпусе. Его можно узнать только подключив диагностический сканер или ноутбук с программой типа OpenBox. На наклейке самого ЭБУ указан только номер аппаратной части и заводская версия ПО, но реальная прошивка может быть изменена предыдущим владельцем.</p>
+</details>
+
+<details>
+    <summary>Почему после замены мозгов машина глохнет через 20 секунд?</summary>
+    <p>Это работа штатного иммобилайзера (АПС-6). Новый блок управления не «видит» ключ с чипом, так как они не были спарены. Необходимо либо прописать ключи через диагностическое оборудование, либо программно отключить иммобилайзер в самой прошивке ЭБУ.</p>
+</details>
+
+<details>
+    <summary>Какой ЭБУ лучше для тюнинга: Январь или М74?</summary>
+    <p>Для начального и среднего тюнинга <strong>Январь 7.2</strong> считается более гибким и понятным. Для сложных проектов с турбонаддувом некоторые предпочитают <em>М74</em> за его быстродействие, но настройка М74 требует более высокой квалификации и дорогого софта.</p>
+</details>
+
+<details>
+    <summary>Сколько стоит замена ЭБУ на Калине в сервисе?</summary>
+    <p>Стоимость складывается из цены самого блока (от 3000 до 8000 руб. за б/у или новый) и стоимости работ по установке и прописке (от 1500 до 3000 руб.). Цена может варьироваться в зависимости от региона и необходимости перепрограммирования под Евро-2.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#основные-типы-эбу-на-лада-калина-первого-поколения">Основные типы ЭБУ на Лада Калина первого поколения</a></li><li><a href="#диагностика-и-признаки-неисправности-контроллера">Диагностика и признаки неисправности контроллера</a></li><li><a href="#замена-эбу-пошаговая-инструкция-и-нюансы">Замена ЭБУ: пошаговая инструкция и нюансы</a></li><li><a href="#прошивка-и-чип-тюнинг-стоит-ли-игра-свеч">Прошивка и чип-тюнинг: стоит ли игра свеч</a></li><li><a href="#адаптация-дроссельной-заслонки-и-рхх">Адаптация дроссельной заслонки и РХХ</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/s/sk/skolko-vesit-lada-kalina-1-sedan.html" class="related-card">Сколько весит Лада Калина 1 седан: полные данные по массе</a></li><li><a href="/articles/p/po/podramnik-lada-kalina-2.html" class="related-card">Подрамник Лада Калина 2: выбор, замена и ремонт своими руками</a></li><li><a href="/articles/c/ch/chertezh-lada-kalina.html" class="related-card">Чертеж Лада Калина: схемы, размеры кузова и узлов</a></li><li><a href="/articles/s/sk/skhema-predokhranitelej-lada-kalina.html" class="related-card">Схема предохранителей Лада Калина: описание блоков и замена</a></li><li><a href="/articles/l/la/lada-kalina-robot.html" class="related-card">Лада Калина с роботом: плюсы, минусы и особенности АМТ</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/s/sk/skolko-vesit-lada-kalina-1-sedan.html" class="related-bottom-card"><span class="related-bottom-title">Сколько весит Лада Калина 1 седан: полные данные по массе</span><span class="related-bottom-desc">Точный вес Лада Калина 1 седан в разных комплектациях: снаряженная и полная масса, распределение по </span></a><a href="/articles/p/po/podramnik-lada-kalina-2.html" class="related-bottom-card"><span class="related-bottom-title">Подрамник Лада Калина 2: выбор, замена и ремонт своими руками</span><span class="related-bottom-desc">Полный гид по подрамнику Лада Калина 2. Сравнение усиленных и штатных моделей, признаки износа, поша</span></a><a href="/articles/c/ch/chertezh-lada-kalina.html" class="related-bottom-card"><span class="related-bottom-title">Чертеж Лада Калина: схемы, размеры кузова и узлов</span><span class="related-bottom-desc">Где найти чертеж Лада Калина? Полный обзор схем кузова, двигателя и подвески. Размеры, допуски, особ</span></a><a href="/articles/s/sk/skhema-predokhranitelej-lada-kalina.html" class="related-bottom-card"><span class="related-bottom-title">Схема предохранителей Лада Калина: описание блоков и замена</span><span class="related-bottom-desc">Полная схема предохранителей Лада Калина 1 и 2. Расположение блоков, расшифровка обозначений, таблиц</span></a><a href="/articles/l/la/lada-kalina-robot.html" class="related-bottom-card"><span class="related-bottom-title">Лада Калина с роботом: плюсы, минусы и особенности АМТ</span><span class="related-bottom-desc">Подробный разбор робота (АМТ) на Лада Калина: устройство, ресурс, типичные проблемы, сравнение с мех</span></a><a href="/articles/m/mo/moshchnost-dvigatelya-lada-kalina.html" class="related-bottom-card"><span class="related-bottom-title">Мощность двигателя Лада Калина: обзор всех модификаций</span><span class="related-bottom-desc">Подробный разбор мощности двигателей Лада Калина. Характеристики 8 и 16 клапанных моторов, динамичес</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

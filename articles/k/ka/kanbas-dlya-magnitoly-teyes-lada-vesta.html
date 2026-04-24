@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>CAN-Bus для магнитолы Teyes: настройка на Lada Vesta — Лада Справка</title>
+    <meta name="description" content="Полный гид по настройке CAN-Bus в Teyes для Лада Веста. Решение проблем с рулем, парктроником и климатом. Таблицы кодов и FAQ.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/k/ka/kanbas-dlya-magnitoly-teyes-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="CAN-Bus для магнитолы Teyes: настройка на Lada Vesta">
+    <meta property="og:description" content="Полный гид по настройке CAN-Bus в Teyes для Лада Веста. Решение проблем с рулем, парктроником и климатом. Таблицы кодов и FAQ.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">CAN-Bus для магнитолы Teyes: настройка на Lada Vesta</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Настройка CAN-Bus в Teyes для Lada Vesta: полное руководство</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#принципы-работы-can-шины-в-мультимедиа-teyes">Принципы работы CAN-шины в мультимедиа Teyes</a></li><li><a href="#подготовка-к-настройке-и-выбор-модели-автомобиля">Подготовка к настройке и выбор модели автомобиля</a></li><li><a href="#настройка-кнопок-рулевого-управления-swc">Настройка кнопок рулевого управления (SWC)</a></li><li><a href="#интеграция-климат-контроля-и-бортового-компьютера">Интеграция климат-контроля и бортового компьютера</a></li><li><a href="#решение-проблем-с-парктрониками-и-камерой-заднего-вида">Решение проблем с парктрониками и камерой заднего вида</a></li><li><a href="#диагностика-и-обновление-прошивки-can-модуля">Диагностика и обновление прошивки CAN-модуля</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Установка мультимедийной системы <em>Teyes</em> на <em>Lada Vesta</em> — это не просто замена штатного устройства, а реальный шаг в сторону цифрового апгрейда автомобиля. Владельцы часто сталкиваются с тем, что после монтажа новой головной единицы перестают работать штатные функции, завязанные на обмене данными по цифровой шине. Именно <strong>CAN-Bus</strong> выступает в роли переводчика между сложной электроникой автобуса и интерфейсом Android-магнитолы, обеспечивая синхронизацию всех систем.</p>
+
+<p>Без корректной конфигурации этого модуля вы рискуете остаться без отображения открытых дверей, информации о расходе топлива или управления климатом через экран. Правильно настроенный <strong>протокол обмена данными</strong> позволяет сохранить функциональность парктроников, камеры заднего вида и, что особенно важно, кнопок управления на руле. В этой статье мы детально разберем процесс выбора правильных настроек и решения типичных конфликтов оборудования.</p>
+
+<p>Современные головные устройства <em>Teyes</em> обладают гибкой системой адаптации, но требуют внимательного подхода к выбору версии прошивки автомобиля. Ошибки на этом этапе могут привести к некорректному отображению температуры или сбоям в работе аудиосистемы при включении поворотников. Понимание принципов работы <strong>цифровой шины</strong> поможет вам избежать лишних поездок в сервисный центр.</p>
+
+<h2 id="принципы-работы-can-шины-в-мультимедиа-teyes">Принципы работы CAN-шины в мультимедиа Teyes</h2>
+
+<p>Технология <strong>Controller Area Network</strong> (CAN) стала стандартом де-факто для автомобильной электроники, позволяя различным блокам управления обмениваться данными всего по двум проводам. В контексте магнитол <em>Teyes</em> это означает, что устройство не просто получает питание, а активно считывает пакеты данных, передаваемые блоком комфорта <em>Lada Vesta</em>. Без декодирования этих сигналов магнитола остается "слепой" к состоянию автомобиля.</p>
+
+<p>Основная задача CAN-модуля внутри головного устройства заключается в фильтрации и интерпретации тысяч сообщений, циркулирующих в сети. Для пользователя это транслируется в понятный интерфейс: когда вы открываете дверь, магнитола показывает соответствующую анимацию; когда сдаете назад — автоматически переключается на камеру. <strong>Протокол связи</strong> должен быть подобран с математической точностью, так как даже минимальное несовпадение версий ПО автомобиля может нарушить логику работы.</p>
+
+<details class="faq-item"><summary>Технические детали протокола</summary><div class="faq-answer"><p>В автомобилях Lada Vesta используется высокоскоростной CAN (500 кбит/с) для силовых агрегатов и низкоскоростной для кузовной электроники. Магнитола Teyes обычно подключается к низкоскоростной шине комфорта, где передаются данные о климате, дверях и мультимедиа.</p></div></details>
+
+<p>Важно отметить, что <em>Teyes</em> использует собственные алгоритмы декодирования, которые могут отличаться от штатных решений <em>Renault-Nissan</em>, на базе которых создана электроника Весты. Поэтому выбор правильной модели автомобиля в меню настроек является критическим моментом. Неправильный выбор приведет к тому, что <strong>цифровые сигналы</strong> будут игнорироваться или интерпретироваться ошибочно.</p>
+
+<h2 id="подготовка-к-настройке-и-выбор-модели-автомобиля">Подготовка к настройке и выбор модели автомобиля</h2>
+
+<p>Перед началом глубокой настройки необходимо убедиться, что физическое подключение выполнено верно. Кабель CAN, идущий в комплекте с магнитолой <em>Teyes</em>, должен быть подключен к соответствующим пинам в разъеме ISO или штатной фишке <em>Lada Vesta</em>. Часто пользователи забывают проверить целостность соединения, что приводит к пустой трате времени на программные настройки.</p>
+
+<p>Процесс выбора модели начинается с входа в инженерное меню. Для этого необходимо перейти в <code>Настройки → Car Info → Canbus</code> (или <code>Заводские настройки</code>, пароль часто <code>8888</code> или <code>1234</code>). В открывшемся списке производителей следует найти <em>Lada</em> или <em>VAZ</em>, а затем выбрать конкретную модель <em>Vesta</em>. Здесь кроется важный нюанс: в списке может быть несколько вариантов, например, "Vesta SW", "Vesta Cross" или просто "Vesta 2015+".</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Перед изменением любых параметров в заводских настройках сфотографируйте текущий экран смартфона. Это позволит быстро вернуться к исходным значениям, если новые настройки вызовут сбои в работе системы.</p></div>
+
+<p>Если вы не уверены в точной комплектации или годе выпуска, лучше начать с наиболее общего варианта, помеченного как <strong>универсальный протокол</strong>. После выбора модели магнитола потребует перезагрузки. Только после полного цикла включения можно будет судить о правильности сделанного выбора. Игнорирование этапа перезагрузки может привести к тому, что новые параметры <strong>конфигурации</strong> не применятся.</p>
+
+<h2 id="настройка-кнопок-рулевого-управления-swc">Настройка кнопок рулевого управления (SWC)</h2>
+
+<p>Одной из главных причин, по которой владельцы <em>Lada Vesta</em> переходят на <em>Teyes</em>, является желание сохранить удобство управления музыкой и громкостью с руля. Однако штатные кнопки работают по принципу изменения сопротивления, и магнитола должна знать, какому действию какое сопротивление соответствует. В меню <code>Steering Wheel</code> (Рулевое управление) представлен список функций для переназначения.</p>
+
+<p>Процесс калибровки выглядит следующим образом: вы выбираете функцию (например, "Громкость +"), нажимаете кнопку "Learn" (Обучение) и физически зажимаете соответствующую кнопку на руле. Система считывает значение и сохраняет его. Для <em>Весты</em> характерно наличие двух джойстиков или набора кнопок, каждый из которых требует отдельной <strong>калибровки</strong>. Особое внимание уделите кнопке переключения источников (SRC) и ответам на звонки.</p>
+
+<ul>
+    <li>🎚️ <strong>Громкость:</strong> настройте отдельно увеличение и уменьшение, проверив плавность шага.</li>
+    <li>📞 <strong>Телефон:</strong> назначьте краткое нажатие для ответа и долгое для сброса (если поддерживается).</li>
+    <li>🎵 <strong>Медиа:</strong> не забудьте про переключение треков и паузу, так как штатный функционал может отличаться.</li>
+</ul>
+
+<p>Иногда встречается ситуация, когда кнопки работают, но с задержкой или "двожат". В таком случае помогает сброс настроек SWC и повторное обучение с более длительным или, наоборот, коротким нажатием. Также стоит проверить, не конфликтует ли приложение <strong>рулевого управления</strong> со сторонними лаунчерами, установленными пользователем.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка работы кнопок руля</h4><label class="check-item"><input type="checkbox"><span>Назначить Громкость Плюс</span></label><label class="check-item"><input type="checkbox"><span>Назначить Громкость Минус</span></label><label class="check-item"><input type="checkbox"><span>Проверить переключение треков</span></label><label class="check-item"><input type="checkbox"><span>Проверить ответ на звонок</span></label><label class="check-item"><input type="checkbox"><span>Проверить сброс звонка</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<h2 id="интеграция-климат-контроля-и-бортового-компьютера">Интеграция климат-контроля и бортового компьютера</h2>
+
+<p>Владельцы <em>Lada Vesta</em> с климат-контролем часто опасаются потерять управление температурой в салоне после установки Android-магнитолы. К счастью, правильный <strong>CAN-протокол</strong> позволяет вывести интерфейс климата прямо на экран <em>Teyes</em>. Для этого в настройках CAN-шины должна стоять галочка напротив пункта "Climate Control" или "HVAC".</p>
+
+<p>Если после включения этой опции интерфейс не появился, возможно, потребуется ручная активация виджета климата на рабочем столе или в шторке уведомлений. Стоит учитывать, что работа климата через экран магнитолы создает дополнительную нагрузку на процессор, хотя для современных моделей <em>Teyes</em> (серии CC2, S90 и новее) это не является проблемой. <strong>Синхронизация</strong> происходит в реальном времени, и изменения, внесенные с экрана, мгновенно отражаются на физическом блоке управления.</p>
+
+<p>Что касается бортового компьютера (БК), то здесь ситуация зависит от типа приборной панели. На простых панелях магнитола может дублировать основные параметры: скорость, обороты, уровень топлива. На продвинутых версиях доступна детализация вплоть до расхода топлива в реальном времени. Однако стоит помнить, что данные берутся из шины, и если ЭБУ двигателя не передает их в сеть комфорта, магнитола их не увидит.</p>
+
+<blockquote>⚠️ Внимание: При активной настройке климат-контроля через магнитолу, штатный экранчик на физической кнопке может перестать отображать температуру, уступив приоритет головному устройству. Это штатное поведение системы, а не неисправность.</blockquote>
+
+<h2 id="решение-проблем-с-парктрониками-и-камерой-заднего-вида">Решение проблем с парктрониками и камерой заднего вида</h2>
+
+<p>Корректная работа парковочных радаров — еще один критический аспект, зависящий от CAN-шины. В <em>Lada Vesta</em> данные о расстояниях до препятствий передаются цифровым пакетом. Чтобы увидеть графическое отображение парктроников на экране <em>Teyes</em>, необходимо не только выбрать правильную модель авто, но и убедиться, что в настройках CAN активирован пункт "Parking Sensor".</p>
+
+<p>Частая проблема — отсутствие звукового сопровождения или задержка в отображении зон. Это может быть связано с тем, что магнитола получает сигнал о включении задней передачи (для камеры) быстрее, чем данные от датчиков парковки. В таких случаях помогает настройка задержки видео или использование отдельного входа для сигнала парковки, если он выведен отдельно от CAN-шины. <strong>Визуализация</strong> расстояния значительно упрощает парковку в стесненных условиях.</p>
+
+<p>Для владельцев кроссоверов <em>Vesta SW Cross</em> важно проверить работу обеих камер, если установлена система кругового обзора. CAN-шина должна передавать сигнал о повороте руля для динамической разметки, если такая функция поддерживается прошивкой магнитолы. Без правильного <strong>протокола</strong> разметка будет статичной или отсутствовать.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Функция</th>
+            <th>Зависимость от CAN</th>
+            <th>Типичная проблема</th>
+            <th>Решение</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Парктроники</td>
+            <td>Высокая</td>
+            <td>Нет звука или графика</td>
+            <td>Смена модели авто в Canbus</td>
+        </tr>
+        <tr>
+            <td>Климат-контроль</td>
+            <td>Критическая</td>
+            <td>Не включается меню</td>
+            <td>Активация галочки HVAC</td>
+        </tr>
+        <tr>
+            <td>Открытие дверей</td>
+            <td>Полная</td>
+            <td>Нет индикации</td>
+            <td>Проверка версии прошивки</td>
+        </tr>
+        <tr>
+            <td>Габариты</td>
+            <td>Средняя</td>
+            <td>Экран не гаснет</td>
+            <td>Настройка в разделе "Light"</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="attention-box attention-info"><div><strong>📊 Сталкивались ли вы с проблемами CAN-шины после установки?</strong><ul><li>Все работало сразу/Были мелкие баги/Ничего не работало/Не устанавливал сам</li></ul></div></div>
+
+<h2 id="диагностика-и-обновление-прошивки-can-модуля">Диагностика и обновление прошивки CAN-модуля</h2>
+
+<p>Если ни один из стандартных протоколов не позволяет добиться стабильной работы всех систем, вероятнее всего, проблема кроется в версии программного обеспечения самой магнитолы. Разработчики <em>Teyes</em> регулярно выпускают обновления, добавляющие поддержку новых модификаций <em>Lada Vesta</em>, в том числе с обновленными блоками комфорта от <em>Renault</em>. Проверка актуальности ПО — первый шаг в сложной диагностике.</p>
+
+<p>Для обновления необходимо скачать файл прошивки с официального сайта, соответствующий точной модели вашего устройства (указана в <code>Car Info</code>). Процесс обновления требует стабильного питания, поэтому двигатель должен работать, или магнитола подключена к зарядному устройству. Прерывание записи данных в <strong>флеш-память</strong> может привести к кирпичу устройства.</p>
+
+<p>В некоторых случаях требуется ручная установка драйверов CAN через инженерное меню, используя ADB-команды или специальные APK-файлы от разработчиков. Это продвинутый уровень, требующий понимания структуры файловых систем Android. Если вы не уверены в своих силах, лучше обратиться в специализированный сервис, так как риск повредить <strong>системный раздел</strong> довольно высок.</p>
+
+<blockquote>⚠️ Внимание: Никогда не прерывайте процесс обновления прошивки выключением зажигания. Это гарантированно приведет к невозможности загрузки операциной системы магнитолы и потребует сложного восстановления через UART.</blockquote>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Совместимость CAN-протокола зависит не только от модели автомобиля, но и от даты выпуска и конкретной комплектации электроники, поэтому универсального решения "для всех Вест" не существует.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+    <summary>Почему после установки Teyes пропал звук парктроников?</summary>
+    <p>Скорее всего, в настройках CAN-шины выбрана неверная модель автомобиля или не активирована опция "Parking Sensor". Также проверьте, не отключен ли звук предупреждений в общих настройках системы. В редких случаях требуется подключение отдельного провода-триггера, если цифровой протокол не поддерживается вашей версией магнитолы.</p>
+</details>
+
+<details>
+    <summary>Можно ли через Teyes управлять климатом на Весте с механическими крутилками?</summary>
+    <p>Нет, полноценное управление климатом с экрана возможно только на версиях с электронным климат-контролем. Для механических версий магнитола может только отображать температуру (если датчик передает данные в CAN-шину), но регулировать заслонки и вентилятор придется физическими ручками.</p>
+</details>
+
+<details>
+    <summary>Как узнать, какой CAN-протокол выбрать для Lada Vesta 2023 года?</summary>
+    <p>Для новых автомобилей лучше всего начинать с протоколов, помеченных как "Vesta NG" или "Vesta 2022+". Электроника рестайлинговых моделей отличается от дорестайлинга. Если ни один вариант не работает идеально, попробуйте последовательно перебирать протоколы с префиксом "Lada" или "VAZ", делая перезагрузку после каждого выбора.</p>
+</details>
+
+<details>
+    <summary>Влияет ли настройка CAN на гарантию автомобиля?</summary>
+    <p>Сама по себе настройка программных параметров магнитолы не влияет на гарантию двигателя или ходовой части. Однако, если в процессе подключения были повреждены провода штатной проводки или сгорел блок комфорта из-за короткого замыкания, дилер может отказать в гарантийном обслуживании электрики. Используйте качественные переходники без разрезки штатных проводов.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#принципы-работы-can-шины-в-мультимедиа-teyes">Принципы работы CAN-шины в мультимедиа Teyes</a></li><li><a href="#подготовка-к-настройке-и-выбор-модели-автомобиля">Подготовка к настройке и выбор модели автомобиля</a></li><li><a href="#настройка-кнопок-рулевого-управления-swc">Настройка кнопок рулевого управления (SWC)</a></li><li><a href="#интеграция-климат-контроля-и-бортового-компьютера">Интеграция климат-контроля и бортового компьютера</a></li><li><a href="#решение-проблем-с-парктрониками-и-камерой-заднего-вида">Решение проблем с парктрониками и камерой заднего вида</a></li><li><a href="#диагностика-и-обновление-прошивки-can-модуля">Диагностика и обновление прошивки CAN-модуля</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/s/sa/salnik-korobki-lada-vesta.html" class="related-card">Сальник коробки Лада Веста: выбор, замена и признаки износа</a></li><li><a href="/articles/o/op/opora-dvigatelya-lada-vesta.html" class="related-card">Опора двигателя Лада Веста: признаки износа, замена и артикулы</a></li><li><a href="/articles/z/za/zadnij-stabilizator-lada-vesta.html" class="related-card">Задний стабилизатор Лада Веста: признаки износа, замена и выбор</a></li><li><a href="/articles/c/ch/cherez-skolko-menyaetsya-remen-grm-na-lada-vesta.html" class="related-card">Через сколько меняется ремень ГРМ на Лада Веста: сроки и нюансы</a></li><li><a href="/articles/t/to/tonnel-lada-vesta.html" class="related-card">Тоннель Лада Веста: ремонт, шумоизоляция и модернизация</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/s/sa/salnik-korobki-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Сальник коробки Лада Веста: выбор, замена и признаки износа</span><span class="related-bottom-desc">Полный гид по сальникам КПП Лада Веста. Как выбрать уплотнитель, признаки течи, артикулы запчастей и</span></a><a href="/articles/o/op/opora-dvigatelya-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Опора двигателя Лада Веста: признаки износа, замена и артикулы</span><span class="related-bottom-desc">Подробный гид по подушкам двигателя Лада Веста. Артикулы, симптомы поломки, инструкция по замене сво</span></a><a href="/articles/z/za/zadnij-stabilizator-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Задний стабилизатор Лада Веста: признаки износа, замена и выбор</span><span class="related-bottom-desc">Полный гид по задней стабилизации Lada Vesta. Симптомы стуков, артикулы запчастей, пошаговая инструк</span></a><a href="/articles/c/ch/cherez-skolko-menyaetsya-remen-grm-na-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Через сколько меняется ремень ГРМ на Лада Веста: сроки и нюансы</span><span class="related-bottom-desc">Подробный разбор регламента замены ремня ГРМ на Лада Веста. Через сколько км или лет менять ремень, </span></a><a href="/articles/t/to/tonnel-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Тоннель Лада Веста: ремонт, шумоизоляция и модернизация</span><span class="related-bottom-desc">Полный гид по центральному тоннелю Лада Веста. Устранение скрипов, замена кожуха КПП, установка подл</span></a><a href="/articles/p/pr/pragmatika-vasileostrovskij-lada.html" class="related-bottom-card"><span class="related-bottom-title">Прагматика Василеостровский Лада: обзор и цены</span><span class="related-bottom-desc">Прагматика Василеостровский Лада: официальный дилер, полный модельный ряд, условия покупки, тест-дра</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

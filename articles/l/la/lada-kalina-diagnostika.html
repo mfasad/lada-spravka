@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Лада Калина: диагностика своими руками и коды ошибок — Лада Справка</title>
+    <meta name="description" content="Полная диагностика Лада Калина: как считать ошибки ЭБУ, расшифровать коды неисправностей и проверить датчики своими руками без СТО.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-kalina-diagnostika.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Лада Калина: диагностика своими руками и коды ошибок">
+    <meta property="og:description" content="Полная диагностика Лада Калина: как считать ошибки ЭБУ, расшифровать коды неисправностей и проверить датчики своими руками без СТО.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/kalina/">Kalina</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Лада Калина: диагностика своими руками и коды ошибок</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Диагностика Лада Калина: выявление и устранение неисправностей</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#интерфейсы-и-способы-подключения-к-эбу">Интерфейсы и способы подключения к ЭБУ</a></li><li><a href="#программное-обеспечение-для-считывания-ошибок">Программное обеспечение для считывания ошибок</a></li><li><a href="#расшифровка-основных-кодов-неисправностей">Расшифровка основных кодов неисправностей</a></li><li><a href="#диагностика-без-сканера-метод-подсчета-импульсов">Диагностика без сканера: метод подсчета импульсов</a></li><li><a href="#проверка-исполнительных-механизмов-и-параметров">Проверка исполнительных механизмов и параметров</a></li><li><a href="#типичные-проблемы-и-их-решения">Типичные проблемы и их решения</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+<p>Современный автомобиль <em>Лада Калина</em>, несмотря на свою доступность, представляет собой сложную систему, где за работу двигателя и основных узлов отвечает электроника. Владельцы часто сталкиваются с ситуацией, когда на приборной панели загорается индикатор Check Engine, или же двигатель начинает работать нестабильно, теряя тягу. <strong>Диагностика Лада Калина</strong> становится первым и самым важным шагом для определения причины сбоя, позволяя избежать дорогостоящего ремонта в сервисе.</p>
+<p>Система управления двигателем (СУД) в моделях ВАЗ-1117, ВАЗ-1118 и ВАЗ-1119 постоянно мониторит показания десятков датчиков. При выходе параметров за допустимые пределы, <strong>электронный блок управления</strong> (ЭБУ) фиксирует ошибку и сохраняет её в памяти. Понимание принципов работы этой системы дает водителю огромное преимущество, позволяя отличить серьезную поломку от временного сбоя.</p>
+<p>В этой статье мы подробно разберем, как провести <em>компьютерную диагностику</em> доступными методами, какие инструменты понадобятся и как правильно интерпретировать полученные данные. Вы узнаете, почему не стоит игнорировать мигающую лампочку и как сохранить ресурс мотора.</p>
+
+<h2 id="интерфейсы-и-способы-подключения-к-эбу">Интерфейсы и способы подключения к ЭБУ</h2>
+<p>Для проведения диагностики владельцу <em>Лада Калина</em> необходимо физически подключиться к бортовому компьютеру. В зависимости от года выпуска автомобиля, разъем для подключения может отличаться. На более ранних моделях, оснащенных контроллерами <strong>Bosch M7.9.7</strong> или <em>Январь 7.2</em>, часто используется 12-контактный разъем, расположенный под консолью или за бардачком.</p>
+<p>Более современные версии, особенно с <strong>Евро-4</strong> и выше, уже оснащаются стандартным разъемом <code>OBD-II</code>, который обычно находится под рулевой колонкой слева. Это значительно упрощает процесс, так как позволяет использовать универсальные сканеры и адаптеры, доступные в любом магазине электроники. Для подключения вам потребуется адаптер <em>ELM327</em> (версии 1.5 или 2.1) или специализированный кабель <code>K-Line</code>.</p>
+<p>Важно понимать, что просто воткнуть сканер недостаточно. Необходимо обеспечить стабильное соединение. Если вы используете Bluetooth-адаптер, убедитесь, что он сопряжен с вашим смартфоном или ноутбуком. Проводное соединение через <code>USB</code> считается более надежным, особенно если аккумулятор автомобиля разряжен или напряжение в сети нестабильно.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Перед подключением любого диагностического оборудования убедитесь, что зажигание выключено. Резкий скачок напряжения в момент соединения может повредить контроллер ЭБУ, что приведет к дорогостоящему ремонту.</p>
+</blockquote>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой адаптер вы используете для диагностики?</strong><ul><li>Bluetooth ELM327</li><li>Проводной K-Line</li><li>Официальный дилерский сканер</li><li>Смартфон с приложением</li><li>Пока не пробовал</li></ul></div></div>
+
+<h2 id="программное-обеспечение-для-считывания-ошибок">Программное обеспечение для считывания ошибок</h2>
+<p>Выбор программного обеспечения напрямую зависит от типа установленного на вашу <em>Калину</strong> контроллера. Для отечественных автомобилей наиболее популярными и функциональными являются программы <strong>OpenDiag</strong>, <em>Scanmaster</em> и <code>Ваз-Диаг</code>. Эти приложения позволяют не только считывать коды ошибок, но и просматривать параметры работы двигателя в реальном времени.</p>
+<p>Если вы используете ноутбук с Windows, отличным выбором станет программа <strong>Ваз-Диаг</strong> или <em>Ваз-Экспресс</em>. Они обладают дружелюбным интерфейсом на русском языке и заточены specifically под протоколы <em>ВАЗ</em>. Для владельцев Android-смартфонов идеальным решением будет связка адаптера <code>ELM327</code> и приложения <strong>OpenDiag Mobile</strong>, которое превращает телефон в полноценный диагностический сканер.</p>
+<p>После запуска программы необходимо выбрать правильный тип подключения и протокол. Обычно система автоматически определяет тип ЭБУ, но в некоторых случаях требуется ручной выбор из списка (например, <code>Bosch M74</code> или <em>Январь 7.2+</code>). После успешного соединения вы увидите текущий пробег, версию прошивки и список накопленных ошибок.</p>
+
+<details class="faq-item"><summary>Что такое режим OBD2 Mode 06?</summary><div class="faq-answer"><p>Режим 06 позволяет получить доступ к результатам тестов компонентов, которые не являются постоянными. Это полезно для поиска плавающих неисправностей, которые не всегда зажигают лампочку Check Engine, но влияют на экологичность и экономичность.</p></div></details>
+
+<h2 id="расшифровка-основных-кодов-неисправностей">Расшифровка основных кодов неисправностей</h2>
+<p>Получив список кодов, многие водители приходят в замешательство. Цифровые обозначения, такие как <code>P0300</code> или <em>P0171</em>, ни о чем не говорят без расшифровки. Ошибки делятся на несколько категорий: P — проблемы с двигателем и трансмиссией, B — кузовная электрика, C — шасси, U — сеть. Для <strong>Лада Калина</strong> наиболее актуальны коды, начинающиеся на P.</p>
+<p>Рассмотрим самые частые ошибки, с которыми сталкиваются владельцы. Код <strong>P0300</strong> указывает на множественные пропуски зажигания. Это может быть вызвано свечами, катушками или низком качеством топлива. Код <em>P0133</em> сигнализирует о медленном отклике датчика кислорода, что часто требует замены самого датчика или проверки его проводки.</p>
+<p>Ниже приведена таблица с наиболее распространенными кодами ошибок для двигателей ВАЗ и их кратким описанием:</p>
+
+<table>
+<thead>
+<tr>
+<th>Код ошибки</th>
+<th>Описание неисправности</th>
+<th>Вероятная причина</th>
+<th>Метод устранения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0102</td>
+<td>Низкий уровень сигнала ДМРВ</td>
+<td>Обрыв цепи, грязный датчик</td>
+<td>Проверка контактов, чистка или замена ДМРВ</td>
+</tr>
+<tr>
+<td>P0117</td>
+<td>Низкий сигнал датчика температуры</td>
+<td>Короткое замыкание</td>
+<td>Замена датчика охлаждающей жидкости</td>
+</tr>
+<tr>
+<td>P0336</td>
+<td>Ошибка датчика положения коленвала</td>
+<td>Неисправность датчика, загрязнение</td>
+<td>Замена ДПКВ, проверка зазора</td>
+</tr>
+<tr>
+<td>P0444</td>
+<td>Цепь клапана продувки адсорбера</td>
+<td>Обрыв цепи клапана</td>
+<td>Проверка проводки, замена клапана</td>
+</tr>
+</tbody>
+</table>
+
+<p> Ошибка могла быть зафиксирована в прошлом из-за плохого бензина или влажной погоды. Поэтому перед заменой деталей рекомендуется <strong>стереть ошибки</strong> и проехать на автомобиле несколько километров, чтобы проверить, появится ли код снова.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При покупке нового датчика массового расхода воздуха (ДМРВ) обязательно проверяйте его работу на месте с помощью сканера. Многие бракованные датчики показывают нормальные значения на холостом ходу, но "плывут" под нагрузкой.</p></div>
+
+<h2 id="диагностика-без-сканера-метод-подсчета-импульсов">Диагностика без сканера: метод подсчета импульсов</h2>
+<p>Что делать, если под рукой нет ни ноутбука, ни смартфона с адаптером? Владельцам <em>Лада Калина</strong> с контроллерами <code>Bosch</code> и <em>Январь</em> доступен метод самодиагностики через панель приборов. Этот способ менее информативен, но позволяет быстро определить наличие критических сбоев.</p>
+<p>Для активации режима диагностики необходимо выключить зажигание, затем зажать кнопку переключения показаний одометра (на приборной панели) и, удерживая её, включить зажигание. Стрелки приборов начнут двигаться, а на дисплее появится версия прошивки. Повторное нажатие кнопки переведет систему в режим отображения кодов ошибок.</p>
+<p>Ошибки будут выводиться в виде чисел на экране одометра. Например, цифра <code>4</code> означает ошибку датчика уровня топлива, а <code>6</code> — перегрев двигателя. Однако этот метод не дает детальной информации, как <strong>OBD-II сканер</strong>, и служит лишь для первичной оценки состояния.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Коды, полученные через панель приборов, не всегда соответствуют стандартным кодам <code>Pxxxx</code>. Для точной диагностики все же рекомендуется использовать специализированное программное обеспечение.</p>
+</blockquote>
+
+<h2 id="проверка-исполнительных-механизмов-и-параметров">Проверка исполнительных механизмов и параметров</h2>
+<p>Диагностика <em>Лада Калина</strong> не ограничивается чтением ошибок. Важнейшим этапом является анализ текущих параметров работы двигателя. В режиме реального времени можно отслеживать положение <strong>дроссельной заслонки</strong>, угол опережения зажигания и коррекции топливоподачи.</p>
+<p>Обратите внимание на параметр "Напряжение датчика кислорода". В исправной системе оно должно постоянно меняться от 0.1 до 0.9 Вольт. Если сигнал "залип" на одном значении, это говорит о неисправности лямбда-зонда или системы питания. Также важен параметр <code>Цикловое наполнение</code>, который показывает, сколько воздуха попадает в цилиндры.</p>
+<p>Многие программы позволяют проводить <strong>активную диагностику</strong>. В этом режиме можно принудительно включать бензонасос, форсунки или вентилятор охлаждения, проверяя их работоспособность по звуку и вибрации. Это особенно полезно, когда нужно локализовать источник шума или отказа без разборки узлов.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист перед сбросом ошибок</h4><label class="check-item"><input type="checkbox"><span>Проверить уровень масла</span></label><label class="check-item"><input type="checkbox"><span>Оценить цвет выхлопа</span></label><label class="check-item"><input type="checkbox"><span>Прослушать работу двигателя</span></label><label class="check-item"><input type="checkbox"><span>Записать текущие параметры ДМРВ</span></label><label class="check-item"><input type="checkbox"><span>Убедиться в отсутствии течей</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<h2 id="типичные-проблемы-и-их-решения">Типичные проблемы и их решения</h2>
+<p>Анализ статистики ремонтов показывает, что у <em>Лада Калина</strong> есть ряд "болезней", которые легко выявляются при диагностике. Частой проблемой является выход из строя <strong>катушки зажигания</strong>. Это приводит к троению двигателя и быстрому разрушению катализатора. Диагностика покажет пропуски зажигания в конкретном цилиндре.</p>
+<p>Еще одна распространенная issue — подсос неучтенного воздуха. Если сканер показывает <strong>бедную смесь</strong> (отрицательная коррекция по длинному топливному корректору), стоит проверить целостность впускного коллектора и патрубков. Трещины в резине со временем приводят к нестабильной работе на холостом ходу.</p>
+<p>Также стоит упомянуть датчик <code>фаз</code>. При его отказе двигатель переходит на аварийный режим работы, что заметно снижает мощность и увеличивает расход топлива. Замена этого датчика часто решает проблему, но только если проводка цела.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Регулярная компьютерная диагностика позволяет выявить износ компонентов (например, свечей или фильтров) до того, как они вызовут поломку двигателя, экономя бюджет владельца.</p></div>
+
+<h2 id="faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</h2>
+<details>
+<summary>Можно ли ездить, если горит Check Engine?</summary>
+<p>Если лампа горит постоянно и поведение машины не изменилось, доехать до сервиса можно. Если же лампа мигает или двигатель троит — движение категорически не рекомендуется, так как это может разрушить катализатор.</p>
+</details>
+<details>
+<summary>Почему сканер не видит ЭБУ?</summary>
+<p>Причин может быть несколько: несовместимость версии адаптера, неправильный выбор протокола в программе, сгоревший предохранитель цепи диагностики или обрыв проводов в жгуте.</p>
+</details>
+<details>
+<summary>Как часто нужно делать диагностику?</summary>
+<p>Профилактическую диагностику <em>Лада Калина</strong> рекомендуется проводить не реже одного раза в год или каждые 15-20 тысяч км пробега, а также при каждом плановом ТО.</p>
+</details>
+<details>
+<summary>Сбрасывает ли ошибка сама себя?</summary>
+<p>Некоторые временные ошибки могут сброситься после 3-5 успешных циклов запуска и прогрева двигателя, если неисправность больше не повторяется. Однако критические ошибки сохраняются в памяти до принудительного удаления.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#интерфейсы-и-способы-подключения-к-эбу">Интерфейсы и способы подключения к ЭБУ</a></li><li><a href="#программное-обеспечение-для-считывания-ошибок">Программное обеспечение для считывания ошибок</a></li><li><a href="#расшифровка-основных-кодов-неисправностей">Расшифровка основных кодов неисправностей</a></li><li><a href="#диагностика-без-сканера-метод-подсчета-импульсов">Диагностика без сканера: метод подсчета импульсов</a></li><li><a href="#проверка-исполнительных-механизмов-и-параметров">Проверка исполнительных механизмов и параметров</a></li><li><a href="#типичные-проблемы-и-их-решения">Типичные проблемы и их решения</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-kalina-universal-ves.html" class="related-card">Лада Калина Универсал вес: полная масса, грузоподъемность, характеристики</a></li><li><a href="/articles/l/la/lada-kalina-tsentralnyj-zamok.html" class="related-card">Центральный замок Лада Калина: ремонт, схемы и установка</a></li><li><a href="/articles/m/mo/montazhnyj-blok-lada-kalina-1.html" class="related-card">Монтажный блок Лада Калина 1: схема, ремонт и замена своими руками</a></li><li><a href="/articles/l/la/lada-kalina-predokhranitel-na-benzonasos.html" class="related-card">Предохранитель бензонасоса Лада Калина: где находится, замена, схема</a></li><li><a href="/articles/l/la/lada-kalina-khetchbek-sport.html" class="related-card">Лада Калина Хэтчбек Спорт: обзор, характеристики и тюнинг</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-kalina-universal-ves.html" class="related-bottom-card"><span class="related-bottom-title">Лада Калина Универсал вес: полная масса, грузоподъемность, характеристики</span><span class="related-bottom-desc">Подробный разбор массы Лада Калина Универсал. Снаряженная и полная масса, грузоподъемность, влияние </span></a><a href="/articles/l/la/lada-kalina-tsentralnyj-zamok.html" class="related-bottom-card"><span class="related-bottom-title">Центральный замок Лада Калина: ремонт, схемы и установка</span><span class="related-bottom-desc">Полный гид по центральному замку Лада Калина. Диагностика неисправностей, распиновка, замена активат</span></a><a href="/articles/m/mo/montazhnyj-blok-lada-kalina-1.html" class="related-bottom-card"><span class="related-bottom-title">Монтажный блок Лада Калина 1: схема, ремонт и замена своими руками</span><span class="related-bottom-desc">Подробное руководство по монтажному блоку Лада Калина 1 (1118): схема предохранителей, реле, типичны</span></a><a href="/articles/l/la/lada-kalina-predokhranitel-na-benzonasos.html" class="related-bottom-card"><span class="related-bottom-title">Предохранитель бензонасоса Лада Калина: где находится, замена, схема</span><span class="related-bottom-desc">Где находится предохранитель бензонасоса на Лада Калина 1 и 2 поколения? Схема блока, признаки неисп</span></a><a href="/articles/l/la/lada-kalina-khetchbek-sport.html" class="related-bottom-card"><span class="related-bottom-title">Лада Калина Хэтчбек Спорт: обзор, характеристики и тюнинг</span><span class="related-bottom-desc">Полный обзор Лада Калина Хэтчбек Спорт: технические данные, особенности 1.6 16V, реальный расход, тю</span></a><a href="/articles/k/ka/kak-proverit-uroven-masla-v-korobke-lada-kalina.html" class="related-bottom-card"><span class="related-bottom-title">Проверка уровня масла в коробке Лада Калина: полная инструкция</span><span class="related-bottom-desc">Подробное руководство, как проверить уровень масла в КПП Лада Калина. Разбор щупа, заливка через сап</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Lada Enjoy Pro: установка сторонних приложений и APK — Лада Справка</title>
+    <meta name="description" content="Полный гайд по Lada Enjoy Pro: установка приложений через ADB, отладку по USB и настройки мультимедиа. Расширяем возможности мультимедийной системы LADA.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-enjoy-pro-ustanovka-storonnikh-prilozhenij.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Lada Enjoy Pro: установка сторонних приложений и APK">
+    <meta property="og:description" content="Полный гайд по Lada Enjoy Pro: установка приложений через ADB, отладку по USB и настройки мультимедиа. Расширяем возможности мультимедийной системы LADA.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Lada Enjoy Pro: установка сторонних приложений и APK</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Lada Enjoy Pro: расширенные возможности мультимедийной системы</h1>
+                    
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современные автомобили LADA оснащаются мультимедийными системами, которые призваны обеспечивать комфорт водителя и пассажиров, однако функционал штатного ПО часто ограничен базовыми возможностями. Владельцы моделей с головным устройством <em>Lada Enjoy Pro</em> нередко сталкиваются с отсутствием привычных навигационных сервисов или невозможностью установки любимых стриминговых платформ напрямую из магазина. Именно поэтому тема расширения функционала через установку стороннего программного обеспечения становится одной из самых востребованных среди автолюбителей.</p>
+
+<p>Процесс инсталляции неоригинальных программ требует понимания архитектуры операционной системы <strong>Android Automotive</strong>, на которой базируется данный медиацентр. В отличие от смартфонов, здесь существуют свои нюансы доступа к файловой системе и правам суперпользователя. Грамотный подход позволит вам превратить стандартную магнитолу в полноценный планшет с доступом к YouTube, навигации <em>Яндекс.Навигатор</em> и другим полезным утилитам, не нарушая при этом работу штатных систем автомобиля.</p>
+
+<p>## Особенности архитектуры Lada Enjoy Pro и ограничения системы</p>
+
+<p>Штатная операционная система, установленная на заводе, представляет собой сильно модифицированную версию Android с закрытым доступом к системным разделам. Производитель intentionally ограничивает возможность установки приложений из неизвестных источников, чтобы гарантировать стабильность работы мультимедиа и отсутствие конфликтов с бортовыми системами управления. <strong>Безопасность</strong> здесь стоит на первом месте, так как некорректная работа ПО может повлиять на отображение критически важной информации о состоянии автомобиля.</p>
+
+<p>Пользовательский интерфейс заблокирован от внесения изменений, а стандартный пакетный менеджер скрыт от глаз владельца. Для обхода этих ограничений необходимо активировать скрытые меню разработчика, что открывает доступ к отладке по USB и возможности управления системой через компьютер. Это ключевой этап, без которого любые дальнейшие манипуляции с файловой системой будут невозможны.</p>
+
+<blockquote>⚠️ Внимание: Любое вмешательство в программное обеспечение головного устройства может привести к потере гарантии на мультимедийную систему. Действия по установке стороннего ПО вы производите на свой страх и риск.</blockquote>
+
+<p>Существует несколько уровней доступа к системе, и для установки приложений нам потребуется получить права на запуск APK-файлов. Стандартный путь через браузер часто не работает из-за блокировок сертификатов безопасности или отсутствия поддержки современных стандартов шифрования во встроенном браузере. Поэтому наиболее надежным методом остается использование внешнего вычислительного устройства для передачи команд.</p>
+
+<ul>
+<li>🔒 Система блокирует установку из неизвестных источников по умолчанию.</li>
+<li>🛡️ Штатный антивирус может препятствовать запуску модифицированных системных файлов.</li>
+<li>⚙️ Интерфейс ограничен лаунчером, скрывающим стандартное меню Android.</li>
+<li>📡 Обновление прошивки может сбросить все внесенные изменения и права доступа.</li>
+</ul>
+
+<p>## Подготовка рабочего места и необходимого инструментария</p>
+
+<p>Прежде чем приступать к активным действиям, необходимо подготовить весь набор инструментов, чтобы процесс прошел гладко и без непредвиденных остановок. Вам потребуется компьютер или ноутбук с операционной системой Windows, так как драйверы ADB (Android Debug Bridge) наиболее стабильно работают именно в этой среде. Также незаменимым элементом станет качественный USB-кабель, желательно оригинальный или сертифицированный, с экранированием, чтобы избежать потери пакетов данных при передаче.</p>
+
+<p>На компьютер необходимо установить платформенные инструменты <code>Platform-Tools</code> от Google, которые содержат исполняемые файлы <strong>ADB</strong> и <strong>Fastboot</strong>. Без этого набора команд взаимодействие с головным устройством автомобиля невозможно. Скачивать пакет следует исключительно с официального сайта разработчиков Android, чтобы исключить наличие вредоносного кода в исполняемых файлах.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к установке приложений</h4><label class="check-item"><input type="checkbox"><span>Найти USB-кабель Type-A to Type-A или Type-C</span></label><label class="check-item"><input type="checkbox"><span>Скачать Platform-Tools на ПК</span></label><label class="check-item"><input type="checkbox"><span>Загрузить APK-файлы приложений</span></label><label class="check-item"><input type="checkbox"><span>Зарядить автомобильный аккумулятор</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>Вторым важным компонентом подготовки является поиск самих установочных файлов приложений. Поскольку встроенный магазин Google Play в Lada Enjoy Pro может работать некорректно или отсутствовать вовсе, вам понадобятся APK-файлы, адаптированные для автомобильных экранов. Рекомендуется искать версии с пометкой <em>Android Auto</em> или <em>TV version</em>, так как они имеют интерфейс, удобный для управления с тачскрина или физических кнопок.</p>
+
+<table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Назначение</th>
+<th>Требования</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USB-кабель</td>
+<td>Соединение ПК и ГУ</td>
+<td>Двусторонний Type-A или Type-C</td>
+</tr>
+<tr>
+<td>Platform-Tools</td>
+<td>Управление системой</td>
+<td>Версия 30.0.0 и выше</td>
+</tr>
+<tr>
+<td>Флеш-накопитель</td>
+<td>Транспортировка APK</td>
+<td>Файловая система FAT32</td>
+</tr>
+<tr>
+<td>Файловый менеджер</td>
+<td>Запуск установки</td>
+<td>Установлен заранее или через ADB</td>
+</tr>
+</tbody>
+</table>
+
+<p>## Активация режима разработчика и отладки по USB</p>
+
+<p>Первым шагом в процессе модификации является включение скрытых функций системы. На главном экране мультимедийной системы Lada Enjoy Pro необходимо перейти в настройки. Обычно путь выглядит так: <code>Настройки → Система → О устройстве</code>. Здесь требуется найти строку «Номер сборки» и быстро нажать на нее 7-10 раз подряд.</p>
+
+<p>После серии нажатий система уведомит вас о том, что режим разработчика активирован. В меню настроек появится новый пункт «Для разработчиков», который ранее был скрыт. Именно внутри этого раздела находятся ключевые переключатели, необходимые для подключения к компьютеру.</p>
+
+<details class="faq-item"><summary>Что делать, если режим разработчика не включается?</summary><div class="faq-answer"><p>Если после 10 нажатий ничего не происходит, попробуйте сначала очистить кэш приложения «Настройки» или выполнить сброс настроек мультимедиа до заводских. В редких случаях на новых версиях прошивки доступ к этому меню может быть заблокирован производителем программно.</p></div></details>
+
+<p>В открывшемся меню найдите пункт «Отладка по USB» и активируйте его ползунком. Система выдаст предупреждение о потенциальных рисках — подтвердите действие. Также рекомендуется включить опцию «Установка через USB» или «Неизвестные источники», если такие пункты присутствуют в вашей версии ПО отдельно. При первом подключении к компьютеру на экране автомобиля появится запрос на разрешение отладки с отпечатком ключа RSA — обязательно нажмите «Разрешить» и поставьте галочку «Всегда разрешать с этого компьютера».</p>
+
+<ul>
+<li>📲 Найдите пункт «Номер сборки» в меню «О устройстве».</li>
+<li>🔓 Нажмите на него 7 раз для активации скрытого меню.</li>
+<li>🔌 Включите тумблер «Отладка по USB» в новом меню.</li>
+<li>✅ Подтвердите запрос на подключение на экране магнитолы.</li>
+</ul>
+
+<p>## Установка приложений через ADB с компьютера</p>
+
+<p>После успешного сопряжения устройств можно переходить к непосредственной установке софта. Подключите автомобиль к компьютеру через USB-кабель. Откройте командную строку или PowerShell в папке с установленными инструментами Platform-Tools. Для проверки связи введите команду <code>adb devices</code>. Если в списке появилось устройство с серийным номером и статусом <code>device</code>, значит связь установлена корректно.</p>
+
+<p>Сам процесс установки выглядит как передача команды на запуск инсталлятора APK-файла. Файл приложения должен лежать на компьютере в той же папке, где запущена консоль, либо путь к нему должен быть прописан полностью. Команда имеет вид <code>adb install имя_файла.apk</code>. В процессе установки на экране автомобиля может появиться окно подтверждения — его нужно быстро подтвердить, так как таймер ожидания может быть ограничен.</p>
+
+<pre><code>adb install -r navigator.apk</code></pre>
+
+<blockquote>⚠️ Внимание: Если установка зависает на 47% или выдает ошибку INSTALL_FAILED_UPDATE_INCOMPATIBLE, попробуйте сначала удалить старую версию приложения командой <code>adb uninstall пакет_приложения</code> или используйте флаг <code>-r</code> для замены.</blockquote>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте команду adb install -r для установки, если приложение уже есть в системе, но вы хотите обновить его версию без потери данных.</p></div>
+
+<p>Для упрощения процесса можно сначала установить файловый менеджер, например, <em>Total Commander</em> или <em>X-Plore</em>, через ADB, а затем скачивать остальные приложения прямо на флешку и устанавливать их через интерфейс автомобиля. Это избавит от необходимости постоянно подключать ноутбук. Однако для системных приложений и лаунчеров метод с командной строкой остается наиболее надежным.</p>
+
+<p>## Альтернативные методы: установка с флеш-накопителя</p>
+
+<p>Не всегда под рукой есть компьютер, и в таких случаях на помощь приходит метод установки через USB-накопитель. Для этого вам предварительно нужно скачать установочные файлы APK нужных программ на флешку. Важно, чтобы накопитель был отформатирован в файловой системе FAT32, так как NTFS штатная система Lada Enjoy Pro может не распознать без дополнительных драйверов.</p>
+
+<p>Вставьте флешку в USB-порт автомобиля. Если в системе уже установлен какой-либо файловый менеджер или медиа-плеер с функцией просмотра файлов, перейдите в каталог флеш-карты. Найдите нужный APK-файл и нажмите на него. Система выдаст предупреждение о безопасности — согласитесь с установкой. Если система блокирует запуск, ссылаясь на неизвестный источник, перейдите в настройки безопасности и разрешите установку для конкретного приложения-установщика.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой способ установки вы предпочитаете?</strong><ul><li>Через компьютер (ADB)</li><li>С флешки (USB)</li><li>Через Bluetooth</li><li>Только штатный магазин</li></ul></div></div>
+
+<p>Существует нюанс с именами файлов: избегайте использования кириллицы и длинных имен файлов при копировании на флешку, так как некоторые версии Android Automotive могут некорректно отображать или не видеть такие пути. Лучше переименовать файлы в латиницу, например, <code>yandex_nav.apk</code>. Этот метод менее надежен, чем ADB, так как система может блокировать запуск установщика, но для простых пользовательских приложений он часто срабатывает.</p>
+
+<ul>
+<li>💾 Форматируйте флешку в FAT32 перед записью файлов.</li>
+<li>📂 Используйте короткие имена файлов без русских букв.</li>
+<li>🚫 Система может блокировать установку «тяжелых» приложений с флешки.</li>
+<li>⏳ Время отклика тачскрина при установке может быть увеличено.</li>
+</ul>
+
+<p>## Настройка автозагрузки и работа с лаунчером</p>
+
+<p>После установки сторонних приложений возникает вопрос их удобного запуска. Стандартный лаунчер Lada Enjoy Pro может не отображать иконки новых программ на главном экране. Для решения этой проблемы часто устанавливают сторонние автомобильные лаунчеры, такие как <em>AGAMA Car Launcher</em> или <em>CarWebGuru</em>. Они создают привычную оболочку с крупными кнопками и виджетами.</p>
+
+<p>Однако, чтобы новый лаунчер заработал, его нужно назначить приложением по умолчанию. Это делается через меню настроек Android, раздел «Приложения» → «По умолчанию». Если штатные настройки не дают выбрать другой лаунчер, можно воспользоваться специальными утилитами для смены дефолтных приложений, которые также устанавливаются через ADB.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Сторонний лаунчер — это не просто красивая картинка, а необходимость для полноценного доступа к установленным приложениям без танцев с бубном.</p></div>
+
+<p>Важно настроить автозапуск критически важных приложений, например, навигации или видеорегистратора. Для этого можно использовать встроенные средства Android или специальные скрипты. Некоторые пользователи создают профили в Tasker, которые при подключении питания (старте автомобиля) автоматически запускают нужный софт. Это избавляет от необходимости каждый раз вручную искать иконку программы в глубине меню.</p>
+
+<blockquote>⚠️ Внимание: Не устанавливайте слишком тяжелые лаунчеры с 3D-анимацией на слабые головные устройства. Это может привести к подтормаживанию интерфейса и даже перезагрузкам системы во время движения.</blockquote>
+
+<p>## FAQ: Часто задаваемые вопросы</p>
+
+<details>
+<summary>Слетит ли гарантия на автомобиль после установки приложений?</summary>
+<p>Официально любое вмешательство в программное обеспечение может стать причиной отказа в гарантийном обслуживании мультимедийной системы. На остальной автомобиль это, как правило, не влияет, но дилер может отказать в ремонте ГУ, если обнаружит следы модификации ПО.</p>
+</details>
+
+<details>
+<summary>Можно ли удалить установленные приложения и вернуть все как было?</summary>
+<p>Да, приложения можно удалить через меню настроек или командой <code>adb uninstall</code>. Чтобы полностью вернуть систему в исходное состояние, часто достаточно выполнить сброс до заводских настроек (Hard Reset) через меню восстановления или настройки системы, что удалит все пользовательские данные и программы.</p>
+</details>
+
+<details>
+<summary>Почему не работает звук в YouTube после установки?</summary>
+<p>В некоторых версиях Lada Enjoy Pro каналы звука перепутаны или заблокированы для сторонних приложений. Решением может стать установка специального патча звука или использование приложений-аудиомикшеров, которые перенаправляют аудиопоток в правильный канал системы.</p>
+</details>
+
+<details>
+<summary>Нужно ли получать Root-права для установки APK?</summary>
+<p>Для обычной установки пользовательских приложений (навигация, плееры) получение Root-прав не требуется. Достаточно активировать отладку по USB. Root необходим только для глубокой модификации системы, удаления системного мусора или изменения системных файлов конфигурации.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-sport-resiver-original.html" class="related-card">Ресивер Лада Спорт оригинал: характеристики и установка</a></li><li><a href="/articles/l/la/lada-kabluk-kak-nazyvaetsya.html" class="related-card">Лада Каблук: как правильно называется и особенности кузова</a></li><li><a href="/articles/k/ko/komu-prinadlezhit-kontsern-lada.html" class="related-card">Кому принадлежит концерн Лада: структура, владельцы и история</a></li><li><a href="/articles/p/pr/predokhranitel-na-kruiz-kontrol-lada-vesta.html" class="related-card">Предохранитель круиз-контроля Лада Веста: схема, поиск и замена</a></li><li><a href="/articles/l/la/lada-gomel-ofitsialnyj-sajt.html" class="related-card">Лада Гомель официальный сайт: цены, наличие и дилеры</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-sport-resiver-original.html" class="related-bottom-card"><span class="related-bottom-title">Ресивер Лада Спорт оригинал: характеристики и установка</span><span class="related-bottom-desc">Впускной ресивер Лада Спорт оригинал: обзор моделей, сравнение с тюнингом, влияние на мощность 8 и 1</span></a><a href="/articles/l/la/lada-kabluk-kak-nazyvaetsya.html" class="related-bottom-card"><span class="related-bottom-title">Лада Каблук: как правильно называется и особенности кузова</span><span class="related-bottom-desc">Узнайте, как официально называется Лада Каблук. Разбор моделей ВИС-2345, 2346, 2917. Технические хар</span></a><a href="/articles/k/ko/komu-prinadlezhit-kontsern-lada.html" class="related-bottom-card"><span class="related-bottom-title">Кому принадлежит концерн Лада: структура, владельцы и история</span><span class="related-bottom-desc">Полный разбор акционеров АвтоВАЗ. Кто владеет брендом Лада сегодня? Роль государства, французских па</span></a><a href="/articles/p/pr/predokhranitel-na-kruiz-kontrol-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Предохранитель круиз-контроля Лада Веста: схема, поиск и замена</span><span class="related-bottom-desc">Где находится предохранитель круиз-контроля на Лада Веста. Подробная схема блока F95, причины отказа</span></a><a href="/articles/l/la/lada-gomel-ofitsialnyj-sajt.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гомель официальный сайт: цены, наличие и дилеры</span><span class="related-bottom-desc">Актуальная информация с официального сайта Лада Гомель. Узнайте цены на новые модели Vesta и Niva Tr</span></a><a href="/articles/r/re/retsept-marmelada-iz-yablok-v-domashnikh-usloviyakh-v-dukhovke.html" class="related-bottom-card"><span class="related-bottom-title">Мармелад из яблок в духовке: простой рецепт</span><span class="related-bottom-desc">Готовим натуральный мармелад из яблок в духовке. Пошаговый рецепт, время сушки, выбор сорта и секрет</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

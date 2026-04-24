@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Лада Ларгус самодиагностика: коды ошибок и режимы — Лада Справка</title>
+    <meta name="description" content="Полная инструкция по самодиагностике Лада Ларгус. Как войти в сервисный режим, расшифровать коды ошибок двигателя и проверить приборную панель без сканера.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-largus-samodiagnostika.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Лада Ларгус самодиагностика: коды ошибок и режимы">
+    <meta property="og:description" content="Полная инструкция по самодиагностике Лада Ларгус. Как войти в сервисный режим, расшифровать коды ошибок двигателя и проверить приборную панель без сканера.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/largus/">Largus</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Лада Ларгус самодиагностика: коды ошибок и режимы</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Самодиагностика Лада Ларгус: руководство по кодам ошибок</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#вход-в-режим-самодиагностики-приборной-панели">Вход в режим самодиагностики приборной панели</a></li><li><a href="#диагностика-эбу-через-педали-и-замок-зажигания">Диагностика ЭБУ через педали и замок зажигания</a></li><li><a href="#расшифровка-основных-кодов-ошибок-двигателя">Расшифровка основных кодов ошибок двигателя</a></li><li><a href="#проверка-электрических-цепей-и-датчиков">Проверка электрических цепей и датчиков</a></li><li><a href="#сброс-ошибок-и-адаптация-систем">Сброс ошибок и адаптация систем</a></li><li><a href="#частые-проблемы-и-их-решение">Частые проблемы и их решение</a></li><li><a href="#вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы универсалов <em>Lada Largus</em> часто сталкиваются с необходимостью быстро определить причину загоревшейся лампы <strong>Check Engine</strong> или странного поведения приборной панели. Штатная система самодиагностики позволяет получить доступ к скрытым параметрам работы <strong>ЭБУ</strong> (электронного блока управления) без использования дорогостоящего диагностического оборудования. Это особенно актуально в полевых условиях или когда под рукой нет <em>OBD-II</em> сканера.</p>
+
+<p>Процедура запуска внутреннего теста зависит от года выпуска автомобиля и типа установленной приборной панели. В ранних версиях <em>Largus</em> с Renault-овскими блоками управление осуществлялось через кнопки на самом щитке, тогда как более новые модификации требуют использования комбинаций педалей и замка зажигания. Понимание этих нюансов поможет вам сэкономить время на поиске неисправности и избежать ложных визитов в сервисный центр.</p>
+
+<p>Важно отметить, что режим самодиагностики отображает не только текущие ошибки, но и историю сбоев, которые могли быть устранены автоматически. <strong>Коды неисправностей</strong> выводятся в цифровом формате, который требует правильной расшифровки. Ниже мы подробно разберем алгоритмы входа для разных поколений автомобиля и приведем таблицу основных кодов, характерных для двигателей <em>K4M</em> и <em>11189</em>.</p>
+
+<h2 id="вход-в-режим-самодиагностики-приборной-панели">Вход в режим самодиагностики приборной панели</h2>
+
+<p>Для автомобилей <em>Lada Largus</em> первого поколения, укомплектованных приборными панелями производства <em>VDO</em> или <em>Siemens</em>, существует специальный алгоритм входа в сервисный режим. Он позволяет проверить работоспособность всех индикаторов, сегментов дисплея и стрелочных указателей. Вам не понадобятся инструменты, только внимание и точное соблюдение последовательности действий.</p>
+
+<p>Процесс активации скрытого меню начинается с выключенного зажигания. Необходимо зажать кнопку сброса суточного пробега, расположенную на лицевой панели щитка приборов. Не отпуская кнопку, поверните ключ зажигания в положение включения бортовой сети (первый щелчок). На дисплее должна отобразиться версия прошивки, а затем начнется цикл проверки.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Не пытайтесь вводить этот режим во время движения автомобиля. Отвлечение от дороги даже на несколько секунд может привести к аварийной ситуации. Все манипуляции проводите только на стоянке с заглушенным двигат!</p>
+</blockquote>
+
+<p>После появления версии ПО однократное короткое нажатие кнопки переводаит систему в режим проверки зоны индикации. Следующее нажатие запускает тест стрелочных указателей, которые пройдут полный цикл отклонения. Дальнейшие нажатия позволяют проверить работу звукового зуммера и переключить язык интерфейса, если такая опция поддерживается вашей версией <strong>ПО</strong>.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какая у вас приборная панель на Ларгусе?</strong><ul><li>Старая (с кнопкой сброса)</li><li>Новая (без кнопки, через меню)</li><li>Не знаю / Не смотрел</li><li>У меня Реношная панель</li></ul></div></div>
+
+<p>Если комбинация кнопок не срабатывает, возможно, в вашей модификации <em>Largus</em> применен другой тип щитка. В некоторых случаях для активации требуется нажимать кнопку не на выключенном, а на включенном зажигании. Экспериментировать следует осторожно, чтобы не сбить настройки бортового компьютера.</p>
+
+<h2 id="диагностика-эбу-через-педали-и-замок-зажигания">Диагностика ЭБУ через педали и замок зажигания</h2>
+
+<p>Более глубокая диагностика, затрагивающая системы управления двигателем <em>K7M</em> или <em>K4M</em>, проводится через специальный режим, активируемый педалями. Этот метод позволяет выявить ошибки датчиков, форсунок и системы зажигания, которые горят лампой <strong>Check Engine</strong>. Алгоритм напоминает процедуру, используемую на автомобилях марки <em>Renault</em>.</p>
+
+<p>Для входа в режим диагностики выполните следующие действия:
+<ul>
+<li>🚗 Убедитесь, что зажигание полностью выключено, и ключ извлечен из замка.</li>
+<li>🦶 Нажмите педаль акселератора до упора в пол и удерживайте её.</li>
+<li>🔑 Вставьте ключ и поверните его в положение включения зажигания (второй щелчок, стартер не крутить).</li>
+<li>⏱️ Удерживайте педаль газа в течение 5-7 секунд, пока не загорится лампа <strong>Check Engine</strong> и не начнет мигать индикатор уровня топлива.</li>
+</ul>
+</p>
+
+<p>После того как лампаCheck Engine загорится, отпустите педаль газа. Теперь система готова к выводу кодов. Короткие вспышки лампы обозначают единицы, а длинные — десятки. Например, код 12 будет выглядеть как один длинный сигнал, пауза, и два коротких. Нулевые значения в коде обычно не отображаются вспышками, а просто обозначаются паузой соответствующей длительности.</p>
+
+<pre><code>Алгоритм считывания:
+<p>1. Длинная вспышка = 10 единиц</p>
+<p>2. Короткая вспышка = 1 единица</p>
+<p>3. Пауза между цифрами = 2 секунды</p>
+<p>4. Пауза между кодами = 4 секунды</code></pre></p>
+
+<p>Важно правильно интерпретировать сигналы. Если лампа горит постоянно без мигания, это может указывать на отсутствие ошибок в памяти или на критическую неисправность, блокирующую вывод диагностики. В таких случаях рекомендуется использовать внешний <em>OBD-II</em> сканер для получения точных данных через разъем.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист перед диагностикой</h4><label class="check-item"><input type="checkbox"><span>Автомобиль стоит на ровной поверхности</span></label><label class="check-item"><input type="checkbox"><span>Ключ в замке зажигания</span></label><label class="check-item"><input type="checkbox"><span>Педаль газа исправна и не заедает</span></label><label class="check-item"><input type="checkbox"><span>Заряд аккумулятора выше 11.5В</span></label><label class="check-item"><input type="checkbox"><span>Двигатель заглушен</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<h2 id="расшифровка-основных-кодов-ошибок-двигателя">Расшифровка основных кодов ошибок двигателя</h2>
+
+<p>Полученные в ходе самодиагностики коды необходимо правильно расшифровать. Система <strong>EOBD</strong>, установленная на <em>Lada Largus</em>, использует стандартную пятизначную нумерацию, где первая цифра указывает на тип системы (P — двигатель и трансмиссия). Ниже приведена таблица наиболее часто встречающихся ошибок, с которыми сталкиваются владельцы.</p>
+
+<table>
+<thead>
+<tr>
+<th>Код ошибки</th>
+<th>Описание неисправности</th>
+<th>Возможная причина</th>
+<th>Приоритет ремонта</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0130</td>
+<td>Неисправность цепи датчика кислорода (Банк 1, Датчик 1)</td>
+<td>Обрыв проводки, выход из строя лямбда-зонда</td>
+<td>Средний</td>
+</tr>
+<tr>
+<td>P0300</td>
+<td>Случайные/множественные пропуски воспламенения</td>
+<td>Свечи, катушки, низкое давление топлива</td>
+<td>Высокий</td>
+</tr>
+<tr>
+<td>P0117</td>
+<td>Низкий уровень сигнала датчика температуры ОЖ</td>
+<td>Короткое замыкание, неисправность датчика</td>
+<td>Средний</td>
+</tr>
+<tr>
+<td>P0500</td>
+<td>Неисправность датчика скорости автомобиля</td>
+<td>Обрыв цепи, неисправность датчика на КПП</td>
+<td>Низкий</td>
+</tr>
+</tbody>
+</table>
+
+<p>Ошибка <strong>P0300</strong> требует немедленного внимания, так как игнорирование пропусков зажигания может привести к разрушению каталитического нейтрализатора. В то же время, ошибки датчика скорости <em>P0500</em> могут не влиять критически на работу двигателя, но приведут к некорректному показанию спидометра и ошибкам в работе <strong>ABS</strong>.</p>
+
+<p>При расшифровке учитывайте, что некоторые коды могут быть "плавающими". Это означает, что они появляются только при определенных условиях эксплуатации, например, при прогреве двигателя или под высокой нагрузкой. Если ошибка появляется редко, возможно, проблема кроется в плохом контакте разъема, а не в выходе из строя самого компонента.</p>
+
+<details class="faq-item"><summary>Что такое Банк 1 и Банк 2?</summary><div class="faq-answer"><p>В контексте ошибок двигателя (например, P0130), "Банк" refers к ряду цилиндров. На рядных 4-цилиндровых двигателях Largus (K4M, K7M) всегда只有一个 Банк 1. Датчик 1 — это датчик до катализатора (управляющий), Датчик 2 — после катализатора (диагностический). Ошибки по Банку 2 на таких моторах появляться не должны.</p></div></details>
+
+<h2 id="проверка-электрических-цепей-и-датчиков">Проверка электрических цепей и датчиков</h2>
+
+<p>Самодиагностика также позволяет проверить целостность цепей управления исполнительными механизмами. В сервисном режиме можно активировать бензонасос, форсунки или клапан адсорбера для проверки их работы "на слух" и по вибрации. Это полезно, когда нужно локализовать неисправность без снятия деталей.</p>
+
+<p>Для проверки бензонасоса в режиме диагностики часто достаточно включить зажигание и прислушаться к характерному гулу из-под заднего сиденья. Если насос не включается, проверьте предохранитель и реле в монтажном блоке. Часто проблема кроется именно в окислившихся контактах реле, а не в сгоревшем моторе насоса.</p>
+
+<p>Проверка форсунок в режиме теста может быть выполнена только при наличии специального оборудования, подающего сигналы на <strong>ЭБУ</strong>, однако косвенно их работу можно оценить по равномерности работы двигателя на холостом ходу после сброса ошибок. Неравномерная работа часто указывает на загрязненные форсунки или проблемы с компрессией.</p>
+
+<blockquote>
+<p>⚠️ Внимание: При проведении тестов исполнительных механизмов убедитесь, что в моторном отсеке нет легковоспламеняющихся жидкостей. Искрообразование при проверке катушек зажигания или форсунок может привести к возгоранию паров бензина.</p>
+</blockquote>
+
+<h2 id="сброс-ошибок-и-адаптация-систем">Сброс ошибок и адаптация систем</h2>
+
+<p>После устранения неисправности код ошибки остается в памяти <strong>ЭБУ</strong> до тех пор, пока не будет произведен сброс. На <em>Lada Largus</em> это можно сделать несколькими способами. Самый простой — отключение минусовой клеммы аккумулятора на 10-15 минут. Однако этот метод также сбросит настройки часов и радиостанций.</p>
+
+<p>Более профессиональный подход предполагает использование режима самодиагностики для сброса. В некоторых версиях ПО длительное удержание кнопки сброса пробега (более 10 секунд) в режиме диагностики приводит к очистке памяти ошибок. Также можно использовать метод "трех циклов": если после трех запусков двигателя ошибка не появляется повторно, система автоматически гасит лампу <strong>Check Engine</strong>.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Сохраняйте фото ошибок: Перед сбросом ошибок обязательно сфотографируйте коды на телефон. Если проблема вернется, у вас будет история для мастера, что значительно ускорит поиск причины.</p></div>
+
+<p>Помните, что сброс ошибки не устраняет физическую поломку. Если датчик вышел из строя, лампа загорится вновь после нескольких циклов работы двигателя. Постоянное игнорирование горящей лампы может привести к переходу двигателя в аварийный режим, где <strong>мощность</strong> искусственно ограничивается для защиты агрегатов.</p>
+
+<h2 id="частые-проблемы-и-их-решение">Частые проблемы и их решение</h2>
+
+<p>Владельцы <em>Largus</em> часто сталкиваются с ложными показаниями датчика уровня топлива. Стрелка может резко падать или показывать полный бак при пустом. Это решается калибровкой через диагностический разъем или заменой датчика в баке. Реже проблема кроется в плохой "массе" кузова.</p>
+
+<p>Еще одна распространенная беда — ошибки по датчику положения дроссельной заслонки. На старых моделях с тросовым приводом это лечится заменой датчика, на новых с <strong>E-Gas</strong> — часто требуется чистка заслонки или перепрошивка <em>ЭБУ</em>. Грязь на заслонке нарушает проходимость воздуха, и компьютер не может стабилизировать холостой ход.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Не используйте для чистки дроссельной заслонки агрессивные растворители, содержащие ацетон. Они могут повредить пластиковое покрытие и уплотнители. Используйте специальные очистители для карбюраторов и инжекторов.</p>
+</blockquote>
+
+<p>Если самодиагностика показывает ошибку, которую невозможно устранить своими силами, обратитесь к специалистам. Современный автомобиль — это сложный комплекс электроники, где вмешательство без знаний может привести к дополнительным проблемам с программным обеспечением.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Регулярная проверка кодов ошибок позволяет выявить проблему на ранней стадии, до того, как она приведет к дорогостоящему ремонту двигателя или катализатора.</p></div>
+
+<h2 id="вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</h2>
+
+<details>
+<summary>Можно ли ездить с горящей лампой Check Engine?</summary>
+<p>Кратковременная езда возможна, если двигатель работает ровно и нет потери мощности. Однако длительная эксплуатация с активной ошибкой может привести к повышенному расходу топлива и повреждению катализатора. Если лампа мигает — ехать нельзя, это признак критических пропусков зажигания.</p>
+</details>
+
+<details>
+<summary>Почему самодиагностика не показывает коды?</summary>
+<p>Возможно, в памяти ЭБУ нет сохраненных ошибок, либо используется нестандартный алгоритм входа для вашей версии ПО. Также причиной может быть неисправность самой лампы Check Engine или отсутствие связи с блоком управления.</p>
+</details>
+
+<details>
+<summary>Сбрасываются ли ошибки после снятия клеммы аккумулятора?</summary>
+<p>Да, в большинстве случаев отключение питания ЭБУ на 15-20 минут приводит к очистке оперативной памяти и сбросу текущих ошибок. Однако адаптивные настройки (коррекции топливоподачи) также сбросятся, и двигателю потребуется время на обучение.</p>
+</details>
+
+<details>
+<summary>Где находится разъем для подключения сканера на Лада Ларгус?</summary>
+<p>Диагностический разъем <em>OBD-II</em> на Lada Largus расположен под торпедой, справа от рулевой колонки, часто скрыт декоративной пластиковой заглушкой или ковриком. Он имеет стандартную форму трапеции с 16 контактами.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#вход-в-режим-самодиагностики-приборной-панели">Вход в режим самодиагностики приборной панели</a></li><li><a href="#диагностика-эбу-через-педали-и-замок-зажигания">Диагностика ЭБУ через педали и замок зажигания</a></li><li><a href="#расшифровка-основных-кодов-ошибок-двигателя">Расшифровка основных кодов ошибок двигателя</a></li><li><a href="#проверка-электрических-цепей-и-датчиков">Проверка электрических цепей и датчиков</a></li><li><a href="#сброс-ошибок-и-адаптация-систем">Сброс ошибок и адаптация систем</a></li><li><a href="#частые-проблемы-и-их-решение">Частые проблемы и их решение</a></li><li><a href="#вопросы-и-ответы-faq">Вопросы и ответы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/7/7-/7-mestnaya-lada-largus.html" class="related-card">7 местная Лада Ларгус: расход, габариты и реальные отзывы владельцев</a></li><li><a href="/articles/l/la/lada-largus-8-mest.html" class="related-card">Лада Ларгус 8 мест: Обзор салона, технические характеристики и расход</a></li><li><a href="/articles/z/za/zamena-datchika-kholostogo-khoda-lada-largus.html" class="related-card">Замена датчика холостого хода Лада Ларгус: пошаговая инструкция</a></li><li><a href="/articles/k/k4/k4m-16-klapannyj-dvigatel-lada-largus.html" class="related-card">К4М 16 клапанный двигатель Лада Ларгус: ресурс, характеристики, отзывы</a></li><li><a href="/articles/k/ka/kak-zamenit-perednie-tormoznye-kolodki-na-lada-largus.html" class="related-card">Замена передних тормозных колодок Лада Ларгус: пошаговая инструкция</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/7/7-/7-mestnaya-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">7 местная Лада Ларгус: расход, габариты и реальные отзывы владельцев</span><span class="related-bottom-desc">Подробный обзор 7-местной версии Lada Largus. Расход топлива, габариты салона, особенности трансформ</span></a><a href="/articles/l/la/lada-largus-8-mest.html" class="related-bottom-card"><span class="related-bottom-title">Лада Ларгус 8 мест: Обзор салона, технические характеристики и расход</span><span class="related-bottom-desc">Подробный анализ Лады Ларгус 8 мест. Реальный расход топлива, схема салона, трансформация сидений, т</span></a><a href="/articles/z/za/zamena-datchika-kholostogo-khoda-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">Замена датчика холостого хода Лада Ларгус: пошаговая инструкция</span><span class="related-bottom-desc">Как заменить регулятор холостого хода на Лада Ларгус 8 и 16 клапанов. Признаки неисправности, провер</span></a><a href="/articles/k/k4/k4m-16-klapannyj-dvigatel-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">К4М 16 клапанный двигатель Лада Ларгус: ресурс, характеристики, отзывы</span><span class="related-bottom-desc">Полный обзор 16-клапанного мотора K4M на Lada Largus. Ресурс до капремонта, технические характеристи</span></a><a href="/articles/k/ka/kak-zamenit-perednie-tormoznye-kolodki-na-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">Замена передних тормозных колодок Лада Ларгус: пошаговая инструкция</span><span class="related-bottom-desc">Как поменять передние тормозные колодки на Лада Ларгус своими руками. Подробная инструкция, размеры </span></a><a href="/articles/z/za/zamena-trosa-ruchnika-lada-largus.html" class="related-bottom-card"><span class="related-bottom-title">Замена троса ручника Lada Largus: пошаговая инструкция 2026</span><span class="related-bottom-desc">Как самостоятельно поменять трос ручного тормоза на Лада Ларгус: признаки неисправности, выбор запча</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

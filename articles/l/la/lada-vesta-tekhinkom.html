@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Лада Веста техинком: Полное руководство по диагностике — Лада Справка</title>
+    <meta name="description" content="Подробный обзор сканера Лада Веста техинком. Как провести диагностику, сброс ошибок и адаптацию узлов своими руками. Инструкция и коды.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-vesta-tekhinkom.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Лада Веста техинком: Полное руководство по диагностике">
+    <meta property="og:description" content="Подробный обзор сканера Лада Веста техинком. Как провести диагностику, сброс ошибок и адаптацию узлов своими руками. Инструкция и коды.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Лада Веста техинком: Полное руководство по диагностике</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Лада Веста техинком: Профессиональная диагностика своими руками</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#что-такое-техинком-и-зачем-он-владельцу-весты">Что такое техинком и зачем он владельцу Весты</a></li><li><a href="#необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</a></li><li><a href="#пошаговая-инструкция-по-подключению-и-первому-запуску">Пошаговая инструкция по подключению и первому запуску</a></li><li><a href="#расшифровка-кодов-ошибок-и-мониторинг-параметров">Расшифровка кодов ошибок и мониторинг параметров</a></li><li><a href="#адаптация-и-сброс-параметров-системы">Адаптация и сброс параметров системы</a></li><li><a href="#типичные-проблемы-лада-веста-и-их-диагностика">Типичные проблемы Лада Веста и их диагностика</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владение современным автомобилем, таким как <em>Лада Веста</em>, требует не только регулярной замены масла, но и понимания процессов, скрытых в электронике. Часто загоревшаяся лампочка <strong>Check Engine</strong> способна напугать неопытного водителя, заставив его срочно ехать в сервис. Однако, обладая правильным инструментом, вы можете самостоятельно определить причину неисправности.</p>
+
+<p>Сканер <strong>Лада Веста техинком</strong> (или его программные аналоги) становится незаменимым помощником в арсенале владельца. Это устройство позволяет заглянуть «под капот» электронных систем, считывать коды ошибок и выполнять адаптацию узлов. Многие водители даже не подозревают, какие возможности скрыты в стандартном диагностическом разъеме их машины.</p>
+
+<p>В этой статье мы подробно разберем, как использовать диагностическое оборудование для <em>Lada Vesta</em>. Вы узнаете, какие параметры можно мониторить в реальном времени, как сбросить ошибки без посещения СТО и зачем нужна адаптация педали газа. Информация поможет сэкономить бюджет и лучше чувствовать свой автомобиль.</p>
+
+<h2 id="что-такое-техинком-и-зачем-он-владельцу-весты">Что такое техинком и зачем он владельцу Весты</h2>
+
+<p>Под понятием «техинком» часто подразумевают как специализированное программное обеспечение, так и аппаратные комплексы, используемые дилерами <em>АвтоВАЗ</em>. Для обычного пользователя это, прежде всего, возможность подключения к блоку управления двигателем (<strong>ECU</strong>) через адаптер <strong>ELM327</strong> или более профессиональные сканеры <em>Scanmatik</em>. Это мост между человеком и сложной электроникой автомобиля.</p>
+
+<p>Основная ценность такого подхода заключается в прозрачности процессов. Когда загорается индикатор неисправности, бортовой компьютер сохраняет код ошибки. Без сканера вы видите лишь симптом, а с ним — конкретную причину. Это может быть пропуск зажигания, неисправность датчика кислорода или проблемы с системой охлаждения.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Использование нелицензионного ПО или дешевых китайских клонов адаптеров может привести к некорректному чтению данных. Всегда проверяйте совместимость версии прошивки адаптера с протоколами <em>Веста</em>.</p>
+</blockquote>
+
+<p>Кроме того, <strong>диагностика Лада Веста</strong> позволяет отслеживать параметры, которые не отображаются на приборной панели. Вы можете видеть реальное положение дроссельной заслонки, напряжение бортовой сети и даже качество смеси в цилиндрах. Это дает полное понимание работы мотора в разных режимах.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Используете ли вы диагностический сканер для своего авто?</strong><ul><li>Да, постоянно</li><li>Иногда, когда горит ошибка</li><li>Никогда не пользовался</li><li>Только в сервисе</li></ul></div></div>
+
+<h2 id="необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</h2>
+
+<p>Для начала работы вам потребуется базовый набор. Самый популярный и доступный вариант — адаптер <strong>ELM327</strong> версии 1.5 или 2.1 с поддержкой протоколов <em>CAN</em>. Важно выбирать устройства на чипе PIC18F25K80, так как они стабильнее работают с российскими автомобилями. Более продвинутые пользователи выбирают <em>Scanmatik 2 PRO</em> или <em>OpenPort</em>.</p>
+
+<p>Что касается программного обеспечения, то для <em>Лада Веста</em> отлично подходят мобильные приложения на Android и iOS. Лидерами рынка считаются <strong>OpenDiag Mobile</strong>, <em>Hob-Drive</em> и <strong>Car Scanner</strong>. Эти приложения имеют готовые профили для автомобилей ВАЗ, что упрощает первичное подключение.</p>
+
+<ul>
+<li>📱 <strong>OpenDiag Mobile</strong> — наиболее функциональное приложение с поддержкой широкого спектра блоков.</li>
+<li>🚗 <strong>Car Scanner ELM OBD2</strong> — удобный интерфейс и возможность создания собственных панелей приборов.</li>
+<li>💻 <strong>Scanmatik</strong> — профессиональный софт для ПК, требующий соответствующего адаптера.</li>
+<li>🔧 <strong>ВАЗ-Диагност</strong> — специализированная утилита для глубокой настройки параметров.</li>
+</ul>
+
+<p>Подключение осуществляется через разъем <strong>OBD-II</strong>, который в <em>Лада Веста</strong> расположен под декоративной заглушкой слева от рулевой колонки, ближе к педали сцепления. Для доступа к нему может потребоваться снять пластиковую крышку, отщелкнув фиксаторы.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При покупке адаптера ELM327 обращайте внимание на наличие переключателя напряжения. Установите его в положение 12V, чтобы не сжечь устройство при подключении к бортовой сети.</p></div>
+
+<h2 id="пошаговая-инструкция-по-подключению-и-первому-запуску">Пошаговая инструкция по подключению и первому запуску</h2>
+
+<p>Процесс начала работы с диагностическим оборудованием не требует специальных навыков, но требует внимательности. Сначала убедитесь, что зажигание автомобиля выключено. Вставьте адаптер в разъем <strong>OBD-II</strong> до щелчка. Только после этого включите зажигание (двигатель запускать не обязательно).</p>
+
+<p>Запустите выбранное приложение на смартфоне. В меню настроек выберите тип подключения (обычно <strong>Bluetooth</strong> или <strong>Wi-Fi</strong>). Найдите в списке доступных устройств ваш адаптер (часто называется <em>OBDII</em> или <strong>ELM327</strong>) и выполните сопряжение. Стандартный пин-код чаще всего <code>1234</code> или <code>0000</code>.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка перед диагностикой</h4><label class="check-item"><input type="checkbox"><span>Адаптер вставлен до упора</span></label><label class="check-item"><input type="checkbox"><span>Зажигание включено</span></label><label class="check-item"><input type="checkbox"><span>Bluetooth на телефоне активирован</span></label><label class="check-item"><input type="checkbox"><span>Приложение запущено</span></label><label class="check-item"><input type="checkbox"><span>Выбран правильный профиль авто</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>После соединения выберите профиль автомобиля. Для <em>Лада Веста</em> важно выбрать правильный тип двигателя (1.6 16кл или 1.8) и тип ЭБУ (чаще всего это <strong>Itelma M86</strong> или <em>M74</em>). Если выбор сделан верно, программа покажет статус соединения «Подключено» и начнет считывать данные.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Не оставляйте адаптер в разъеме на длительное время при выключенном автомобиле. Некоторые модели могут потреблять ток и разрядить аккумулятор за несколько дней простоя.</p>
+</blockquote>
+
+<p>Первый запуск может занять от 10 до 30 секунд. В это время происходит handshake — рукопожатие протоколов. Если соединение не устанавливается, попробуйте переподключить адаптер или проверить настройки брандмауэра на телефоне.</p>
+
+<h2 id="расшифровка-кодов-ошибок-и-мониторинг-параметров">Расшифровка кодов ошибок и мониторинг параметров</h2>
+
+<p>Одной из главных функций сканера является чтение кодов неисправностей. Они имеют стандартный формат <strong>OBD-II</strong>, начинающийся с буквы (P, B, C, U) и четырех цифр. Например, ошибка <code>P0300</code> указывает на случайные пропуски воспламенения, а <code>P0171</code> — на слишком бедную смесь.</p>
+
+<p>Однако сухие коды — это лишь верхушка айсберга.真正的 диагностика <em>Лада Веста</em> заключается в анализе текущих параметров. Вы можете наблюдать за работой <strong>лямбда-зонда</strong>, который в идеале должен выдавать синусоиду от 0.1 до 0.9 В. Если график прямой — датчик неисправен.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Нормальное значение</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Напряжение АКБ</td>
+<td>13.5 – 14.5 В</td>
+<td>При работающем двигателе</td>
+</tr>
+<tr>
+<td>Положение ДЗ</td>
+<td>0 – 15 %</td>
+<td>На холостом ходу</td>
+</tr>
+<tr>
+<td>ДМРВ</td>
+<td>7 – 10 кг/ч</td>
+<td>Расход воздуха на ХХ</td>
+</tr>
+<tr>
+<td>УОЗ</td>
+<td>8 – 12 град</td>
+<td>Угол опережения зажигания</td>
+</tr>
+</tbody>
+</table>
+
+<p>Также стоит обратить внимание на параметр «Коррекция подачи топлива». Если значения долгосрочной коррекции превышают <strong>±10%</strong>, это сигнал о проблеме с форсунками, подсосе воздуха или неисправности датчика массового расхода воздуха.</p>
+
+<details class="faq-item"><summary>Что означают буквы в коде ошибки?</summary><div class="faq-answer"><p>P — Powertrain (двигатель и трансмиссия), B — Body (кузов и комфорт), C — Chassis (ходовая часть), U — Network (сеть связи). Для Весты наиболее важны коды, начинающиеся на P.</p></div></details>
+
+<h2 id="адаптация-и-сброс-параметров-системы">Адаптация и сброс параметров системы</h2>
+
+<p>Электронный блок управления <em>Весты</strong> обладает способностью к самообучению. Он адаптируется под стиль вождения, износ деталей и качество топлива. Однако после замены узлов (например, <strong>дроссельной заслонки</strong> или аккумулятора) может потребоваться принудительный сброс адаптаций.</p>
+
+<p>Процедура адаптации педали газа выполняется через меню специальных функций в приложении. Необходимо выбрать пункт «Сброс адаптаций» или «Обнуление памяти». После этого требуется выполнить цикл: включить зажигание на 5 секунд, выключить на 5 секунд, повторить 3 раза и запустить двигатель.</p>
+
+<ul>
+<li>🔄 <strong>Сброс ошибок</strong> — удаляет сохраненные коды неисправностей после их устранения.</li>
+<li>⚙️ <strong>Адаптация ХХ</strong> — обучение холостого хода после чистки дросселя.</li>
+<li>🔋 <strong>Сброс ТО</strong> — отключение напоминания о сервисном обслуживании.</li>
+<li>📉 <strong>Калибровка ДМРВ</strong> — актуализация показаний датчика воздуха.</li>
+</ul>
+
+<p>Важно понимать, что простой сброс ошибки без устранения физической причины не имеет смысла. Лампочка <strong>Check Engine</strong> загорится снова через несколько циклов езды, как только ЭБУ зафиксирует повторение аномалии.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Адаптация — это не магия, а приведение базовых параметров ЭБУ в соответствие с текущим техническим состоянием автомобиля.</p></div>
+
+<h2 id="типичные-проблемы-лада-веста-и-их-диагностика">Типичные проблемы Лада Веста и их диагностика</h2>
+
+<p>Несмотря на современность, <em>Лада Веста</strong> имеет ряд характерных «болезней», которые легко выявляются сканером. Одна из частых проблем — плавающие обороты холостого хода. Диагностика часто показывает подсос неучтенного воздуха или загрязнение клапана <strong>адсорбера</strong>.</p>
+
+<p>Еще один распространенный случай — ошибки по катушкам зажигания. На сканере это видно по пропускам зажигания в конкретном цилиндре. Если при перестановке катушки на другой цилиндр ошибка «переезжает» вместе с ней, значит, проблема именно в этом элементе.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Частые ошибки по катализатору могут свидетельствовать о его разрушении. Эксплуатация автомобиля с забитым катализатором может привести к задирам в цилиндрах двигателя.</p>
+</blockquote>
+
+<p>Также владельцы сталкиваются с ошибками связи с блоком комфорта или ABS. Это может быть вызвано окислением контактов в разъемах, что особенно актуально после зимней эксплуатации. Сканер поможет точно определить, какой именно блок перестал отвечать по <strong>CAN-шине</strong>.</p>
+
+<h2 id="faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</h2>
+
+<details>
+<summary>Можно ли прошить ЭБУ Лада Веста через техинком?</summary>
+<p>Да, некоторые адаптеры (например, <strong>Scanmatik</strong> или <em>OpenPort</em>) и специализированный софт позволяют выполнять чип-тюнинг. Однако это сложная процедура, требующая знаний, и она может лишить гарантии.</p>
+</details>
+
+<details>
+<summary>Почему сканер не видит автомобиль?</summary>
+<p>Проверьте, включено ли зажигание. Убедитесь, что адаптер поддерживает протоколы <em>ВАЗ</em>. Попробуйте сменить приложение или переподключить Bluetooth. Иногда помогает перезагрузка смартфона.</p>
+</details>
+
+<details>
+<summary>Безопасно ли постоянно держать адаптер в разъеме?</summary>
+<p>Нет, не рекомендуется. Дешевые адаптеры могут иметь высокий ток покоя и разрядить аккумулятор за 3-5 дней. Лучше вынимать устройство после использования.</p>
+</details>
+
+<details>
+<summary>Какой адаптер лучше выбрать для новичка?</summary>
+<p>Для начала подойдет качественный <strong>ELM327</strong> версии 1.5 на чипе PIC. Он совместим с большинством бесплатных приложений и стоит недорого, позволяя освоить базовую диагностику.</p>
+</details>
+
+<details>
+<summary>Можно ли диагностировать коробку передач?</summary>
+<p>Да, если у <em>Весты</strong> роботизированная коробка (АМТ), сканер покажет ошибки актуатора и сцепления. С механикой дела обстоят сложнее — там диагностируется только электронная часть (датчики скорости).</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#что-такое-техинком-и-зачем-он-владельцу-весты">Что такое техинком и зачем он владельцу Весты</a></li><li><a href="#необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</a></li><li><a href="#пошаговая-инструкция-по-подключению-и-первому-запуску">Пошаговая инструкция по подключению и первому запуску</a></li><li><a href="#расшифровка-кодов-ошибок-и-мониторинг-параметров">Расшифровка кодов ошибок и мониторинг параметров</a></li><li><a href="#адаптация-и-сброс-параметров-системы">Адаптация и сброс параметров системы</a></li><li><a href="#типичные-проблемы-лада-веста-и-их-диагностика">Типичные проблемы Лада Веста и их диагностика</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-vesta-gfk110-chto-znachit.html" class="related-card">Код GFK110 в Лада Веста: расшифровка и проверка</a></li><li><a href="/articles/m/ma/maslosemnye-kolpachki-lada-vesta-16.html" class="related-card">Маслосъемные колпачки Лада Веста 1.6: выбор, замена и нюансы</a></li><li><a href="/articles/l/la/lada-vesta-shtatnaya-magnitola.html" class="related-card">Штатная магнитола Лада Веста: настройка, коды и установка</a></li><li><a href="/articles/u/us/ustanovka-podogreva-rulya-lada-vesta.html" class="related-card">Установка подогрева руля Лада Веста: пошаговая инструкция</a></li><li><a href="/articles/r/ry/rychag-perednej-podveski-lada-vesta.html" class="related-card">Рычаг передней подвески Lada Vesta: устройство, замена, цены</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-vesta-gfk110-chto-znachit.html" class="related-bottom-card"><span class="related-bottom-title">Код GFK110 в Лада Веста: расшифровка и проверка</span><span class="related-bottom-desc">Что означает код GFK110 в Лада Веста? Полный разбор комплектаций, технической документации и проверк</span></a><a href="/articles/m/ma/maslosemnye-kolpachki-lada-vesta-16.html" class="related-bottom-card"><span class="related-bottom-title">Маслосъемные колпачки Лада Веста 1.6: выбор, замена и нюансы</span><span class="related-bottom-desc">Подробный гид по замене маслосъемных колпачков на двигателе 1.6 Лада Веста. Выбор OEM и аналогов, си</span></a><a href="/articles/l/la/lada-vesta-shtatnaya-magnitola.html" class="related-bottom-card"><span class="related-bottom-title">Штатная магнитола Лада Веста: настройка, коды и установка</span><span class="related-bottom-desc">Полный обзор штатной мультимедиа Лада Веста (Lada EnjoY Pro). Настройка Bluetooth, коды активации, у</span></a><a href="/articles/u/us/ustanovka-podogreva-rulya-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Установка подогрева руля Лада Веста: пошаговая инструкция</span><span class="related-bottom-desc">Как установить подогрев руля на Лада Веста своими руками. Схемы, выбор кнопки, разборка подушки и по</span></a><a href="/articles/r/ry/rychag-perednej-podveski-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Рычаг передней подвески Lada Vesta: устройство, замена, цены</span><span class="related-bottom-desc">Подробный гайд по рычагам передней подвески Лада Веста: признаки неисправности, выбор запчастей, пош</span></a><a href="/articles/n/no/nomer-kuzova-lada-vesta-gde-nakhoditsya.html" class="related-bottom-card"><span class="related-bottom-title">Где найти номер кузова Лада Веста: все места нанесения VIN-кода</span><span class="related-bottom-desc">Подробный гид по поиску VIN-кода на Лада Веста. Разбор табличек на стойке, в багажнике и выбивке на </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Платформа Лада Веста: технические особенности, модификации — Лада Справка</title>
+    <meta name="description" content="На какой платформе построена Лада Веста? Полный разбор архитектуры LADA Vesta, B0 и B0+, сравнение с Renault, характеристики кузова и подвески.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/n/na/na-kakoj-platforme-postroena-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Платформа Лада Веста: технические особенности, модификации">
+    <meta property="og:description" content="На какой платформе построена Лада Веста? Полный разбор архитектуры LADA Vesta, B0 и B0+, сравнение с Renault, характеристики кузова и подвески.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Платформа Лада Веста: технические особенности, модификации</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Архитектура LADA Vesta: глубокий анализ платформенных решений</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#эволюция-шасси-от-renault-b0-до-lada-b0">Эволюция шасси: от Renault B0 до Lada B0+</a></li><li><a href="#передняя-подвеска-независимая-схема-макферсон">Передняя подвеска: независимая схема МакФерсон</a></li><li><a href="#задняя-подвеска-полунезависимая-балка-нового-типа">Задняя подвеска: полунезависимая балка нового типа</a></li><li><a href="#кузов-и-антикоррозийная-защита">Кузов и антикоррозийная защита</a></li><li><a href="#двигатели-и-трансмиссия-в-контексте-платформы">Двигатели и трансмиссия в контексте платформы</a></li><li><a href="#сравнение-с-конкурентами-и-модификации-кузова">Сравнение с конкурентами и модификации кузова</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Вопрос о том, на какой платформе построена <strong>Лада Веста</strong>, является одним из самых обсуждаемых среди отечественных автолюбителей и экспертов рынка. Это не просто праздное любопытство, а ключ к пониманию ресурса подвески, ремонтопригодности и потенциала тюнинга автомобиля. С момента премьеры в 2015 году модель претерпела значительные изменения, и путаница в терминах часто приводит к ошибочным выводам о надежности узлов.</p>
+
+<p>Изначально тольяттинский завод позиционировал новинку как полностью собственную разработку, уходя от франко-румынских корней <em>Renault Logan</em>. Однако технический анализ показывает сложную картину: автомобиль базируется на модернизированной версии шасси <em>B0</em>, которое получило внутреннее обозначение <mark>Lada B0</mark> или <em>B0+</em>. Именно этот факт определяет геометрию рычагов, точки крепления амортизаторов и общую кинематику ходовой части, делая её уникальной для сегмента бюджетных седанов.</p>
+
+<p>Понимание сути платформы необходимо каждому владельцу, планирующему долгосрочную эксплуатацию. От архитектурных решений зависит, какие запасные части подойдут при ремонте, как поведет себя машина на разбитой дороге и почему некоторые элементы подвески ходят дольше, чем у прямых конкурентов. Давайте разберем детально, что скрывается под кузовом популярного седана.</p>
+
+<h2 id="эволюция-шасси-от-renault-b0-до-lada-b0">Эволюция шасси: от Renault B0 до Lada B0+</h2>
+
+<p>Фундаментальным ответом на вопрос о происхождении является принадлежность к семейству платформ <strong>B0</strong>, разработанному альянсом Renault-Nissan. Однако называть Весту просто "логаном на стероидах" было бы грубой технической ошибкой. Инженеры АвтоВАЗа провели колоссальную работу по адаптации французской базы под российские реалии и новые стандарты безопасности, создав фактически новую архитектуру.</p>
+
+<p>Ключевым отличием стала схема подвески. Если классический <em>Renault Logan</em> первого поколения и многие бюджетники используют торсионную балку сзади даже в простых версиях, то для Весты была выбрана более прогрессивная схема. В передней части применен подрамник, что кардинально меняет характер управляемости и вибронагруженность кузова. Это решение перекочевало на модель с более старших платформ альянса, что стало приятным сюрпризом для покупателей.</p>
+
+<blockquote>
+<p>⚠️ Внимание: При покупке б/у автомобиля не стоит полагаться только на внешнее сходство с Renault. Крепления рычагов и геометрия лонжеронов у Lada B0+ отличаются, поэтому детали подвески от Logan I/II могут не подойти без доработок или вообще быть несовместимыми.</p>
+</blockquote>
+
+<p>Модернизация коснулась и материалов. В конструкции шасси активно применяется высокопрочная сталь, что позволило снизить общую массу конструкции без потери прочности. Это важный аспект, так как <strong>платформа Лада Веста</strong> должна выдерживать экстремальные нагрузки, характерные для российских дорог, сохраняя при этом заявленный ресурс в 350 000 километров до капитального ремонта кузова.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Как вы оцениваете надежность подвески Лада Веста?</strong><ul><li>Отличная, ходит долго</li><li>Средняя, требует внимания</li><li>Плохая, постоянные стуки</li><li>Не владею автомобилем</li></ul></div></div>
+
+<h2 id="передняя-подвеска-независимая-схема-макферсон">Передняя подвеска: независимая схема МакФерсон</h2>
+
+<p>Говоря о передней оси, нельзя не отметить внедрение подрамника. Это отдельный несущий элемент, который крепится к кузову в четырех точках через сайлентблоки. Такая конструкция, именуемая <strong>Lada B0+</strong>, позволяет эффективно гасить вибрации от двигателя и дороги, не передавая их на салон. В классической схеме B0 подрамник отсутствовал, и рычаги крепились непосредственно к кузову.</p>
+
+<p>Основным элементом здесь выступает стойка типа <em>МакФерсон</em>. Она сочетает в себе амортизатор, пружину и поворотный кулак. Инженеры увеличили ходы подвески, что положительно сказалось на энергоемкости. Машина стала лучше "глотать" ямы и неровности, сохраняя колеса в контакте с дорогой там, где конкуренты уже бы получили удар.</p>
+
+<ul>
+<li>🔧 Использование гидравлических опор двигателя снижает вибрации на руле.</li>
+<li>🛡️ Увеличенный клиренс (178 мм) защищен стальным листом защиты картера в дорогих комплектациях.</li>
+<li>📐 Развал передних колес регулируется эксцентриками на нижних рычагах, что упрощает сход-развал.</li>
+</ul>
+
+<p>Важно отметить применение сайлентблоков повышенной эластичности. Они рассчитаны на работу в широком температурном диапазоне, что критично для северных регионов. Однако, несмотря на усиленную конструкцию, владельцам стоит регулярно inspectровать (проверять) состояние пыльников шаровых опор, так как их разрыв может привести к быстрому выходу из строя всего узла.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При замене передних стоек рекомендуется менять и опорные подшипники вместе с опорными чашками. Это продлит жизнь новым амортизаторам и избавит от стуков в будущем.</p></div>
+
+<h2 id="задняя-подвеска-полунезависимая-балка-нового-типа">Задняя подвеска: полунезависимая балка нового типа</h2>
+
+<p>Задняя ось Лада Веста часто вызывает больше всего вопросов. Здесь установлена торсионная балка, но не обычная, а скручиваемого типа с вынесенными амортизаторами. Такая компоновка позволила разгрузить саму балку и повысить комфорт. Амортизаторы установлены вертикально или с небольшим наклоном, что улучшает их работу и отвод тепла.</p>
+
+<p>Конструкция балки имеет П-образное сечение, что обеспечивает необходимую жесткость на скручивание. Это означает, что в поворотах автомобиль ведет себя предсказуемо, не склонен к сильным кренам, но при этом на прямой сохраняет мягкость хода. Это компромиссное решение, которое для бюджетного сегмента является оптимальным по соотношению цена/качество/ресурс.</p>
+
+<p>В отличие от многорычажных схем, используемых на более дорогих автомобилях альянса (например, <em>Renault Megane</em>), балка проще в обслуживании. Здесь меньше сайлентблоков, нет сложных рычагов, которые требуют точной регулировки. Однако, есть нюанс: при сильных ударах может нарушаться геометрия балки, что потребует ее правки или замены.</p>
+
+<details class="faq-item"><summary>Секрет регулировки задних колес</summary><div class="faq-answer"><p>Задние колеса на Весте не имеют регулировки развала и схождения на заводе. Однако, опытные мастера используют установку отрицательных шайб (развальных пластин) между цаплой и балкой, чтобы улучшить устойчивость на трассе.</p></div></details>
+
+<p>Стоит упомянуть и о барабанных тормозах в базовых версиях. Они полностью удовлетворяют требованиям безопасности, но при активной езде в горах могут перегреваться быстрее дисковых аналогов. Для спокойной городской езды и трассы это не является критическим недостатком, учитывая общую массу автомобиля.</p>
+
+<h2 id="кузов-и-антикоррозийная-защита">Кузов и антикоррозийная защита</h2>
+
+<p>Кузов Весты — это отдельная гордость инженеров АвтоВАЗа. Платформа <strong>Lada B0+</strong> подразумевает использование большого количества горячештампованной высокопрочной стали (до 24% в конструкции). Это позволило достичь высоких показателей пассивной безопасности по стандартам Euro NCAP, что подтверждают краш-тесты.</p>
+
+<p>Особое внимание уделено антикоррозийной защите. Применяется двухсторонняя гальваническая обработка панелей, а в скрытых полостях используются восковые составы. Днище покрыто защитным слоем, который, однако, рекомендуется дополнительно укреплять при эксплуатации в агрессивных средах (соленые дороги, гравий).</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Значение / Описание</th>
+<th>Примечание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Доля высокопрочных сталей</td>
+<td>до 24%</td>
+<td>Повышает жесткость на скручивание</td>
+</tr>
+<tr>
+<td>Гарантия от сквозной коррозии</td>
+<td>6 лет</td>
+<td>При условии прохождения ТО</td>
+</tr>
+<tr>
+<td>Коэффициент аэродинамики (Cd)</td>
+<td>0.32</td>
+<td>Хороший показатель для седана</td>
+</tr>
+<tr>
+<td>Объем багажника</td>
+<td>480 литров</td>
+<td>Один из лучших в классе</td>
+</tr>
+</tbody>
+</table>
+
+<p>Геометрия кузова спроектирована так, чтобы минимизировать зоны скопления грязи и влаги. Однако, владельцам стоит обратить внимание на кромки дверей и пороги. Механические повреждения ЛКП в этих местах требуют немедленного восстановления, так как даже оцинкованная сталь не вечна при прямом контакте с реагентами.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Заводская антикоррозийная обработка хороша, но не идеальна для регионов с суровым климатом. Рекомендуется раз в 2-3 года проводить осмотр скрытых полостей и при необходимости наносить дополнительные защитные составы.</p>
+</blockquote>
+
+<h2 id="двигатели-и-трансмиссия-в-контексте-платформы">Двигатели и трансмиссия в контексте платформы</h2>
+
+<p>Платформа <em>Lada B0+</em> изначально проектировалась под установку различных силовых агрегатов. На Весте можно встретить как вазовские двигатели (1.6 и 1.8 литра), так и моторы Renault (H4M 1.6). Компоновка моторного отсека позволяет относительно легко производить замену узлов, что упрощает ремонт.</p>
+
+<p>Крепления двигателей выполнены на подрамнике, что снижает передачу вибраций. Коробки передач (механические JH3/JR5 и автомат Jatco) также имеют свои точки крепления, адаптированные под эту платформу. Важно отметить, что с 2022 года наблюдается процесс импортозамещения, и на смену французским агрегатам приходят китайские и отечественные аналоги, которые требуют перенастройки ЭБУ.</p>
+
+<ul>
+<li>🚗 Двигатель <em>VAZ-21129</em> (106 л.с.) — самый массовый, надежный и простой в обслуживании.</li>
+<li>⚙️ Мотор <em>VAZ-21179</em> (122 л.с.) имеет фазовращатель, что добавляет динамики, но сложнее в настройке.</li>
+<li>🇫🇷 Агрегат <em>H4M</em> (114 л.с.) с цепным приводом ГРМ зарекомендовал себя как очень надежный.</li>
+</ul>
+
+<p>Трансмиссионная линейка также эволюционирует. Если раньше "автоматом" комплектовалась только версия с мотором 1.6, то теперь ситуация меняется. Механические коробки передач получили тросовый привод переключения, что сделало ход рычага более четким и减少了 вибрации на кузове, что напрямую связано с общей архитектурой платформы.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка технического состояния перед покупкой</h4><label class="check-item"><input type="checkbox"><span>Проверить VIN-код на соответствие году выпуска</span></label><label class="check-item"><input type="checkbox"><span>Осмотреть днище на предмет коррозии и вмятин</span></label><label class="check-item"><input type="checkbox"><span>Проверить работу всех передач КПП</span></label><label class="check-item"><input type="checkbox"><span>Убедиться в отсутствии стуков в подвеске на неровностях</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<h2 id="сравнение-с-конкурентами-и-модификации-кузова">Сравнение с конкурентами и модификации кузова</h2>
+
+<p>На базе одной и той же платформы <strong>Lada B0+</strong> выпускается целое семейство автомобилей. Это не только седан, но и универсал <em>SW</em>, кросс-версии <em>SW Cross</em> и <em>Vesta Cross</em>. Главное отличие кросс-версий — увеличенный дорожный просвет, пластиковые накладки по периметру и иная настройка амортизаторов (они жестче).</p>
+
+<p>В сравнении с прямым конкурентом — <em>Renault Logan</em> нового поколения или <em>Solaris</em>, Веста выигрывает в комфорте подвески и просторе сзади. Платформа позволила сделать колесную базу достаточно большой (2635 мм), что обеспечивает отличную вместимость салона. Однако, по управляемости в предельных режимах она может уступать автомобилям с независимой многорычажной подвеской сзади.</p>
+
+<p>Интересно, что даже модель <em>Lada Largus</em> нового поколения (NG) также переходит на платформу B0+, что унифицирует производство и запасные части. Это говорит о том, что инженеры считают данную архитектуру проверенной и перспективной для дальнейших модернизаций.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Платформа Lada B0+ — это глубокая модернизация шасси Renault B0, адаптированная под российские дороги, с улучшенной геометрией кузова и усиленной антикоррозийной защитой.</p></div>
+
+<p>Не стоит забывать и о версии <em>Vesta Sport</em>. Здесь платформа получила еще более жесткие настройки, измененные рычаги и более широкую колею. Это доказывает, что базовая архитектура имеет высокий потенциал для тюнинга и создания спортивных модификаций.</p>
+
+<h2 id="faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</h2>
+
+<details>
+<summary>Можно ли установить на Весту двигатель от Renault?</summary>
+<p>Технически это возможно, так как платформа общая. Двигатели серии K4M или H4M имеют схожие точки крепления. Однако потребуется перепрошивка ЭБУ, замена проводки и, возможно, элементов выхлопной системы. Это сложная и дорогая процедура, которая может лишить гарантии.</p>
+</details>
+
+<details>
+<summary>Правда ли, что подвеска Весты гремит?</summary>
+<p>На ранних версиях (2015-2017 гг.) встречались нарекания на стуки задних амортизаторов и скрип сайлентблоков. В рестайлинговых версиях (после 2019 года) эти проблемы были устранены путем изменения конструкции узлов и применения других материалов.</p>
+</details>
+
+<details>
+<summary>Какой ресурс у кузова Лада Веста?</summary>
+<p>При правильной эксплуатации и своевременном восстановлении поврежденного лакокрасочного покрытия, ресурс кузова до появления сквозной коррозии оценивается в 10-12 лет и более. Гальваническая цинкование панелей значительно продлевает жизнь металлу.</p>
+</details>
+
+<details>
+<summary>Отличается ли платформа у Vesta Cross от обычного седана?</summary>
+<p>Базовая архитектура (расположение основных точек крепления, лонжероны) одинакова. Различия касаются только настроек пружин, амортизаторов и наличия пластикового обвеса. Геометрия подвески в версии Cross адаптирована под увеличенный клиренс.</p>
+</details>
+
+<details>
+<summary>Есть ли у Весты задний подрамник?</summary>
+<p>Нет, сзади используется торсионная балка, которая крепится непосредственно к кузову. Подрамник установлен только спереди, что является важным отличием от некоторых других платформ и влияет на характер управляемости.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#эволюция-шасси-от-renault-b0-до-lada-b0">Эволюция шасси: от Renault B0 до Lada B0+</a></li><li><a href="#передняя-подвеска-независимая-схема-макферсон">Передняя подвеска: независимая схема МакФерсон</a></li><li><a href="#задняя-подвеска-полунезависимая-балка-нового-типа">Задняя подвеска: полунезависимая балка нового типа</a></li><li><a href="#кузов-и-антикоррозийная-защита">Кузов и антикоррозийная защита</a></li><li><a href="#двигатели-и-трансмиссия-в-контексте-платформы">Двигатели и трансмиссия в контексте платформы</a></li><li><a href="#сравнение-с-конкурентами-и-модификации-кузова">Сравнение с конкурентами и модификации кузова</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/r/ra/razmer-rulya-lada-vesta-2017.html" class="related-card">Размер руля Лада Веста 2017: диаметр и особенности</a></li><li><a href="/articles/p/pr/prodat-lada-vesta.html" class="related-card">Как быстро и выгодно продать Lada Vesta: пошаговый гайд 2026</a></li><li><a href="/articles/l/la/lada-vesta-razval-zadnikh-koles.html" class="related-card">Развал задних колес Лада Веста: нормы, регулировка и нюансы</a></li><li><a href="/articles/z/za/zadnyaya-balka-lada-vesta-kross.html" class="related-card">Задняя балка Лада Веста Кросс: устройство, обслуживание и ремонт</a></li><li><a href="/articles/l/la/lada-vesta-kakie-korobki-peredach-stavyat.html" class="related-card">Какие коробки передач ставят на Лада Веста: типы и характеристики</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/r/ra/razmer-rulya-lada-vesta-2017.html" class="related-bottom-card"><span class="related-bottom-title">Размер руля Лада Веста 2017: диаметр и особенности</span><span class="related-bottom-desc">Узнайте точный размер руля Лада Веста 2017 года. Диаметр, особенности конструкции, совместимость с д</span></a><a href="/articles/p/pr/prodat-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Как быстро и выгодно продать Lada Vesta: пошаговый гайд 2026</span><span class="related-bottom-desc">Хотите продать Лада Веста? Узнайте оптимальную цену, лучшие площадки для объявлений, секреты подгото</span></a><a href="/articles/l/la/lada-vesta-razval-zadnikh-koles.html" class="related-bottom-card"><span class="related-bottom-title">Развал задних колес Лада Веста: нормы, регулировка и нюансы</span><span class="related-bottom-desc">Полный гид по регулировке развала задних колес Лада Веста. Нормы углов, причины нарушения схода-разв</span></a><a href="/articles/z/za/zadnyaya-balka-lada-vesta-kross.html" class="related-bottom-card"><span class="related-bottom-title">Задняя балка Лада Веста Кросс: устройство, обслуживание и ремонт</span><span class="related-bottom-desc">Полный разбор задней балки Лада Веста Кросс. Особенности конструкции, типичные неисправности, регули</span></a><a href="/articles/l/la/lada-vesta-kakie-korobki-peredach-stavyat.html" class="related-bottom-card"><span class="related-bottom-title">Какие коробки передач ставят на Лада Веста: типы и характеристики</span><span class="related-bottom-desc">Подробный обзор всех КПП Лада Веста: механика АМТ и Jatco, роботизированная коробка, вариатор CVT. Р</span></a><a href="/articles/n/no/novaya-lada-vesta-kross-universal.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста Кросс универсал: обзор, характеристики и комплектации</span><span class="related-bottom-desc">Полный обзор новой Лада Веста Кросс универсал. Технические характеристики, реальный расход, комплект</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

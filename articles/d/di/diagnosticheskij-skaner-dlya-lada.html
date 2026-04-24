@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Диагностический сканер для Лада: выбор, функции и ошибки — Лада Справка</title>
+    <meta name="description" content="Какой диагностический сканер выбрать для Лада? Обзор адаптеров ELM327, DDT4ALL и OpenPort. Как читать и сбрасывать ошибки ЭБУ своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/d/di/diagnosticheskij-skaner-dlya-lada.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Диагностический сканер для Лада: выбор, функции и ошибки">
+    <meta property="og:description" content="Какой диагностический сканер выбрать для Лада? Обзор адаптеров ELM327, DDT4ALL и OpenPort. Как читать и сбрасывать ошибки ЭБУ своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/drugoe/">Другое</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Диагностический сканер для Лада: выбор, функции и ошибки</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Диагностический сканер для Лада: выбор, функции и ошибки</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#принципы-работы-автомобильной-диагностики-lada">Принципы работы автомобильной диагностики Lada</a></li><li><a href="#типы-диагностических-адаптеров-для-автомобилей-ваз">Типы диагностических адаптеров для автомобилей ВАЗ</a></li><li><a href="#программное-обеспечение-для-диагностики-на-android-и-pc">Программное обеспечение для диагностики на Android и PC</a></li><li><a href="#основные-коды-ошибок-и-их-расшифровка">Основные коды ошибок и их расшифровка</a></li><li><a href="#практическая-инструкция-подключение-и-первый-запуск">Практическая инструкция: подключение и первый запуск</a></li><li><a href="#продвинутая-диагностика-и-адаптации">Продвинутая диагностика и адаптации</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современные автомобили АвтоВАЗ, будь то классическая <em>Niva Legend</em> или новейшая <em>Vesta NG</em>, представляют собой сложные электронные системы, требующие периодического контроля. Владельцы часто сталкиваются с загоревшимся индикатором <strong>Check Engine</strong> или нестабильной работой двигателя, что вызывает панику и желание немедленно обратиться в сервис. Однако наличие собственного диагностического оборудования позволяет мгновенно определить причину неисправности, сэкономив время и деньги.</p>
+
+<p>Рынок автомобильной электроники предлагает множество решений, от простых Bluetooth-адаптеров до профессиональных мультимарочных комплексов. Выбор правильного инструмента зависит от модели вашего автомобиля, глубины предполагаемого вмешательства и бюджета. Понимание различий между протоколами <strong>OBD-II</strong> и специфическими протоколами <em>K-Line</em> критически важно для успешной диагностики старых и новых моделей Лада.</p>
+
+<p>В этой статье мы детально разберем, как работает диагностический сканер для Лада, какие программные комплексы наиболее эффективны для российских автомобилей и как избежать распространенных ошибок при подключении. Вы узнаете, почему дешевые китайские адаптеры могут не подойти для работы с блоками <em>ME17.9.7</em> и какие функции доступны через смартфон.</p>
+
+<h2 id="принципы-работы-автомобильной-диагностики-lada">Принципы работы автомобильной диагностики Lada</h2>
+
+<p>Основой взаимодействия с электронным блоком управления (ЭБУ) является стандартизированный протокол <strong>OBD-II</strong> (On-Board Diagnostics). Однако, АвтоВАЗ исторически использовал различные реализации этого стандарта. Ранние модели, такие как <em>Priora</em> и <em>Kalina</em> первых поколений, часто использовали протокол <em>K-Line</em>, который требует специфической инициализации и более медленной передачи данных по сравнению с современными аналогами.</p>
+
+<p>Современные модели, включая <em>Granta</em>, <em>Largus</em> и <em>XRAY</em>, перешли на высокоскоростную шину <strong>CAN-bus</strong>. Это позволяет передавать значительно больше данных в реальном времени, включая параметры работы трансмиссии, системы комфорта и даже мультимедиа. Диагностический сканер для Лада должен уметь переключаться между этими протоколами, чтобы обеспечить полную совместимость с парком автомобилей разных лет выпуска.</p>
+
+<blockquote>⚠️ Внимание: Попытка подключения сканера, не поддерживающего протокол K-Line, к старым моделям ВАЗ может привести к невозможности установления связи, но не повредит ЭБУ. Однако использование некачественных адаптеров с нестабильным напряжением всегда несет риски.</blockquote>
+
+<p>Процесс диагностики начинается с подачи питания на разъем OBD-II, который в автомобилях Лада обычно расположен под рулевой колонкой или в нише для предохранителей. После сопряжения устройства со сканером происходит handshake (рукопожатие), в ходе которого определяется тип установленного контроллера: <em>Январь</em>, <em>Bosch</em> или <em>AvtoVAz</em>. Только после этого открывается доступ к чтению параметров.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Главная мысль: Для полного охвата парка ВАЗ (от классики до Весты) необходим адаптер, поддерживающий и K-Line, и CAN-протоколы.</p></div>
+
+<h2 id="типы-диагностических-адаптеров-для-автомобилей-ваз">Типы диагностических адаптеров для автомобилей ВАЗ</h2>
+
+<p>Выбор硬件 (hardware) является первым шагом к успешной диагностике. На рынке доминируют несколько типов устройств, каждое из которых имеет свои преимущества и ограничения. Для владельцев Лада наиболее актуальны следующие варианты:</p>
+
+<ul>
+<li>🔌 <strong>ELM327 (Bluetooth/Wi-Fi):</strong> Самый популярный и доступный вариант. Версии с чипом PIC18F25K80 лучше работают с российскими программами, но даже бюджетные китайские копии часто справляются с базовыми задачами на двигателях 1.6 и 1.8 литра.</li>
+<li>💻 <strong>OpenPort 2.0 (J2534):</strong> Профессиональный интерфейс, необходимый для глубокой перепрошивки ЭБУ и работы с иммобилайзерами. Требуется для моделей с блоками <em>ME17.9.7</em> и новее, где нужна стабильная связь.</li>
+<li>📱 <strong>Специализированные сканеры ДСТ/Scanmatik:</strong> Устройства, заточенные specifically под ВАЗ и ГАЗ. Часто имеют дополнительные провода для подключения напрямую к контактам ЭБУ, минуя разъем OBD, что полезно при обрыве проводки.</li>
+</ul>
+
+<p>При выборе между Wi-Fi и Bluetooth версией ELM327 стоит учитывать операционную систему вашего смартфона. Для iOS (iPhone) Bluetooth-модули часто не подходят из-за ограничений Apple, поэтому владельцам «яблочной» техники лучше искать версии с маркировкой <strong>iCar</strong> или использовать Wi-Fi адаптеры, хотя они и потребляют больше энергии от аккумулятора автомобиля.</p>
+
+<p>Качество сборки адаптера напрямую влияет на стабильность соединения. Дешевые платы с синим чипом часто теряют связь на высоких скоростях или при наличии помех в бортовой сети. Для регулярного использования рекомендуется приобретать устройства в герметичном корпусе с качественным разъемом, который плотно сидит в гнезде автомобиля, не расшатывая его.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой адаптер вы планируете использовать?</strong><ul><li>ELM327 Bluetooth</li><li>ELM327 Wi-Fi</li><li>OpenPort 2.0</li><li>Сканматик 2 Pro</li><li>Другой</li></ul></div></div>
+
+<h2 id="программное-обеспечение-для-диагностики-на-android-и-pc">Программное обеспечение для диагностики на Android и PC</h2>
+
+<p>Железо — это только половина уравнения. Вторая, не менее важная часть — это программное обеспечение (<strong>Software</strong>). Для платформы Android существует множество приложений, но не все они одинаково хорошо «дружат» с протоколами АвтоВАЗа. Лидером в этом сегменте остается программа <em>OpenDiag Mobile</em>, которая поддерживает большинство блоков управления, устанавливаемых на конвейере в Тольятти.</p>
+
+<p>Для владельцев ноутбуков и профессионалов доступен более широкий спектр возможностей через ПК. Программы вроде <em>DDT4ALL</em> (для Renault-Nissan и совместимых Lada) или <em>DiagBox</em> (для старых моделей) позволяют не только читать ошибки, но и проводить адаптации. Например, можно настроить чувствительность педали газа или проверить работу форсунок в тестовом режиме.</p>
+
+<p>Важно учитывать версию прошивки самого адаптера. Некоторые программы, такие как <strong>HobDrive</strong> или <em>Torque Pro</em>, могут некорректно отображать данные, если адаптер имеет урезанную прошивку. Для глубокой диагностики рекомендуется использовать специализированный софт, разработанный энтузиастами именно для ВАЗ, так как он содержит расширенные идентификаторы ошибок (DTC).</p>
+
+<blockquote>⚠️ Внимание: При использовании функций «Запись логов» или «Перепрошивка» убедитесь, что уровень заряда аккумулятора выше 70%. Прерывание процесса записи калибровок может привести к необходимости замены ЭБУ.</blockquote>
+
+<p>Интерфейс программ постоянно обновляется. В последних версиях <em>OpenDiag</em> появилась возможность построения графиков в реальном времени, что крайне удобно для поиска плавающих неисправностей. Вы можете отслеживать напряжение лямбда-зонда или положение дроссельной заслонки во время движения, что невозможно сделать статическим сканером в гараже.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Установите приложение OpenDiag Mobile и купите полную версию через встроенный магазин — это дешевле и надежнее, чем искать «взломанные» версии, которые могут содержать вирусы.</p></div>
+
+<h2 id="основные-коды-ошибок-и-их-расшифровка">Основные коды ошибок и их расшифровка</h2>
+
+<p>Когда на панели приборов загорается «Чек», ЭБУ сохраняет код неисправности. Понимание этих кодов позволяет быстро сориентироваться в проблеме. Ниже приведена таблица наиболее частых ошибок, встречающихся на автомобилях Лада с инжекторными двигателями:</p>
+
+<table>
+<thead>
+<tr>
+<th>Код ошибки</th>
+<th>Описание неисправности</th>
+<th>Возможная причина</th>
+<th>Метод устранения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>P0300</code></td>
+<td>Случайные пропуски воспламенения</td>
+<td>Свечи, катушки, низкое топливо</td>
+<td>Замена свечей, проверка катушек</td>
+</tr>
+<tr>
+<td><code>P0133</code></td>
+<td>Медленный отклик кислородного датчика</td>
+<td>Старый лямбда-зонд, подсос воздуха</td>
+<td>Замена датчика, поиск вакуумных leaks</td>
+</tr>
+<tr>
+<td><code>P0422</code></td>
+<td>Низкая эффективность катализатора</td>
+<td>Разрушенный катализатор, плохой бензин</td>
+<td>Замена катализатора или прошивка Евро-2</td>
+</tr>
+<tr>
+<td><code>P0117</code></td>
+<td>Низкий уровень сигнала ДТОЖ</td>
+<td>Обрыв цепи, неисправность датчика</td>
+<td>Проверка проводки, замена ДТОЖ</td>
+</tr>
+</tbody>
+</table>
+
+<p>Стоит отметить, что код ошибки — это не всегда диагноз. Например, ошибка по лямбда-зонду может возникнуть из-за банального подсоса воздуха через треснувший патрубок, а не из-за неисправности самого датчика. Поэтому <strong>диагностический сканер для Лада</strong> нужно использовать в связке с логическим мышлением и проверкой механической части двигателя.</p>
+
+<p>Особое внимание стоит уделить ошибкам, связанным с системой улавливания паров бензина (EVAP). На моделях <em>Vesta</em> и <em>XRAY</em> с двигателем 1.6 часто встречается ошибка клапана адсорбера. Сканер позволяет принудительно открыть клапан и послушать характерный щелчок, что подтверждает его работоспособность без снятия деталей.</p>
+
+<details class="faq-item"><summary>Что такое «Pending code»?</summary><div class="faq-answer"><p>Это ожидающая подтверждения ошибка. Она появляется, если неисправность была зафиксирована однократно, но для записи в постоянную память требуется повторение условия. Если ошибка не повторится, она исчезнет сама.</p></div></details>
+
+<h2 id="практическая-инструкция-подключение-и-первый-запуск">Практическая инструкция: подключение и первый запуск</h2>
+
+<p>Процесс подключения сканера не требует специальных навыков, но соблюдение последовательности действий гарантирует безопасность и успех. Сначала убедитесь, что зажигание в автомобиле выключено. Найдите диагностический разъем: в <em>Lada Granta</em> и <em>Kalina 2</em> он находится под рулем, в <em>Niva Travel</em> — часто в районе бардачка или под панелью.</p>
+
+<p>Вставьте адаптер в разъем до щелчка. Только после этого включите зажигание (двигатель запускать пока не нужно). Индикатор на адаптере должен загореться или замигать, сигнализируя о наличии питания. Если индикатор молчит, проверьте предохранитель цепи OBD или целостность самого разъема.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист подключения</h4><label class="check-item"><input type="checkbox"><span>Выключить зажигание</span></label><label class="check-item"><input type="checkbox"><span>Найти разъем OBD-II</span></label><label class="check-item"><input type="checkbox"><span>Вставить адаптер</span></label><label class="check-item"><input type="checkbox"><span>Включить зажигание</span></label><label class="check-item"><input type="checkbox"><span>Запустить приложение на телефоне</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Запустите выбранное приложение на смартфоне и нажмите кнопку подключения. В списке доступных устройств выберите ваш адаптер (обычно <code>OBDII</code> или <code>CH340</code>). Пин-код по умолчанию чаще всего <code>1234</code> или <code>0000</code>. После успешного сопряжения программа покажет версию протокола и VIN-код автомобиля (если ЭБУ поддерживает его чтение).</p>
+
+<p>Если connection не устанавливается с первой попытки, попробуйте перезапустить приложение или переподключить адаптер. На некоторых моделях, например <em>Largus</em> с ГБО, может потребоваться переключение в ручной режим выбора протокола в настройках программы, так как автоматическое определение иногда дает сбой.</p>
+
+<h2 id="продвинутая-диагностика-и-адаптации">Продвинутая диагностика и адаптации</h2>
+
+<p>Владельцам современных Лада доступны функции, ранее бывшие уделом дилерских центров. С помощью мощного сканера можно проводить адаптацию дроссельной заслонки после ее чистки. Это критически важная процедура: если не сбросить старые параметры, двигатель будет работать нестабильно, плавать обороты на холостом ходу.</p>
+
+<p>Также через диагностический интерфейс можно проверить состояние аккумулятора, не снимая клеммы. Многие ЭБУ Bosch и AvtoVAz передают данные о текущем напряжении в сети и даже о количестве циклов запуска двигателя. Это полезная информация при покупке подержанного автомобиля <em>Vesta</em> или <em>Granta</em>.</p>
+
+<blockquote>⚠️ Внимание: Не проводите эксперименты с параметрами «Степень сжатия» или «Угол опережения зажигания» без понимания последствий. Изменение калибровок может привести к детонации и разрушению поршневой группы.</blockquote>
+
+<p>Для автомобилей с автоматической трансмиссией ( Jatco) сканер позволяет проверить температуру масла в АКПП и наличие ошибок по соленоидам. Перегрев трансмиссии — частая проблема при активной езде, и своевременное обнаружение этой проблемы через сканер может спасти коробку от дорогостоящего ремонта.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Вывод: Регулярная проверка параметров (лог-файлов) помогает выявить износ деталей задолго до появления серьезных симптомов и поломки на дороге.</p></div>
+
+<details>
+<summary>Можно ли использовать диагностический сканер на работающем двигателе?</summary>
+<p>Да, большинство современных адаптеров и ЭБУ позволяют проводить диагностику в реальном времени при работающем двигателе. Это необходимо для оценки работы лямбда-зондов, топливных коррекций и пропусков зажигания под нагрузкой. Однако будьте осторожны с проводами в моторном отсеке.</p>
+</details>
+
+<details>
+<summary>Почему сканер не видит машину, хотя индикатор горит?</summary>
+<p>Частые причины: выбран неправильный протокол в приложении (нужно перебрать K-Line или CAN), неисправен сам разъем OBD (обрыв контактов), или ЭБУ находится в спящем режиме (нужно включить зажигание). Также возможно несовместимость версии адаптера с ПО.</p>
+</details>
+
+<details>
+<summary>Нужен ли специальный сканер для Lada Vesta с двигателем 1.8?</summary>
+<p>Двигатель ВАЗ-21179 (1.8) управляется блоком Bosch ME17.9.7, который работает по CAN-протоколу. Обычный ELM327 может работать медленно или некорректно. Рекомендуется использовать адаптеры с поддержкой CAN и приложения типа OpenDiag Pro или Scanmatik.</p>
+</details>
+
+<details>
+<summary>Сбросит ли сканер ошибки, если просто снять клемму аккумулятора?</summary>
+<p>Снятие клеммы сбрасывает адаптивные параметры и временные ошибки, но сохраненные в памяти (Hard errors) коды неисправностей, такие как P0300 или P0422, останутся до тех пор, пока неисправность не будет устранена и цикл проезда не будет завершен. Сканер позволяет сбросить их принудительно.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#принципы-работы-автомобильной-диагностики-lada">Принципы работы автомобильной диагностики Lada</a></li><li><a href="#типы-диагностических-адаптеров-для-автомобилей-ваз">Типы диагностических адаптеров для автомобилей ВАЗ</a></li><li><a href="#программное-обеспечение-для-диагностики-на-android-и-pc">Программное обеспечение для диагностики на Android и PC</a></li><li><a href="#основные-коды-ошибок-и-их-расшифровка">Основные коды ошибок и их расшифровка</a></li><li><a href="#практическая-инструкция-подключение-и-первый-запуск">Практическая инструкция: подключение и первый запуск</a></li><li><a href="#продвинутая-диагностика-и-адаптации">Продвинутая диагностика и адаптации</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/v/vs/vse-modeli-lada.html" class="related-card">Все модели Lada: полный список, характеристики и сравнение</a></li><li><a href="/articles/k/ka/kakim-vidom-mekhanicheskoj-energii-obladaet-zavedennaya-pruzhina-mekhanicheskoj-igrushki.html" class="related-card">Механическая энергия заведенной пружины: виды и свойства</a></li><li><a href="/articles/o/of/ofitsialnyj-diler-lada-v-bratske.html" class="related-card">Официальный дилер Лада в Братске: цены, наличие, сервис</a></li><li><a href="/articles/t/tt/tts-lada-ufa-zhukova.html" class="related-card">ТТС Лада Уфа на Жукова: цены, каталог авто и отзывы</a></li><li><a href="/articles/i/iz/iz-kakoj-strany-lada.html" class="related-card">Из какой страны Лада? История бренда и производство</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/v/vs/vse-modeli-lada.html" class="related-bottom-card"><span class="related-bottom-title">Все модели Lada: полный список, характеристики и сравнение</span><span class="related-bottom-desc">Обзор всех моделей Lada: от классики до новинок. Технические характеристики, сравнение поколений, це</span></a><a href="/articles/k/ka/kakim-vidom-mekhanicheskoj-energii-obladaet-zavedennaya-pruzhina-mekhanicheskoj-igrushki.html" class="related-bottom-card"><span class="related-bottom-title">Механическая энергия заведенной пружины: виды и свойства</span><span class="related-bottom-desc">Какой вид механической энергии имеет заведенная пружина игрушки? Полный разбор физики процесса, форм</span></a><a href="/articles/o/of/ofitsialnyj-diler-lada-v-bratske.html" class="related-bottom-card"><span class="related-bottom-title">Официальный дилер Лада в Братске: цены, наличие, сервис</span><span class="related-bottom-desc">Ищете официальный дилер Лада в Братске? Полный модельный ряд, честные цены, сервисное обслуживание и</span></a><a href="/articles/t/tt/tts-lada-ufa-zhukova.html" class="related-bottom-card"><span class="related-bottom-title">ТТС Лада Уфа на Жукова: цены, каталог авто и отзывы</span><span class="related-bottom-desc">Официальный дилер ТТС Лада Уфа на улице Жукова. Актуальный прайс-лист, наличие Granta и Vesta, услов</span></a><a href="/articles/i/iz/iz-kakoj-strany-lada.html" class="related-bottom-card"><span class="related-bottom-title">Из какой страны Лада? История бренда и производство</span><span class="related-bottom-desc">Узнайте, из какой страны Лада родом, как менялась география бренда и где сейчас собирают модели Vest</span></a><a href="/articles/l/la/lada-largus-obem-bagazhnika.html" class="related-bottom-card"><span class="related-bottom-title">Lada Largus: объем багажника 5 и 7 мест, размеры и особенности</span><span class="related-bottom-desc">Полный обзор объема багажника Lada Largus. Размеры кузова R90 в 5 и 7 местном вариантах, габариты по</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

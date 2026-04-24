@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Диагностика Лада Приора: коды ошибок, сканеры, ELM327 — Лада Справка</title>
+    <meta name="description" content="Полная диагностика Лада Приора своими руками. Расшифровка кодов ошибок, подключение ELM327, работа с ЭБУ Bosch и Janus. Советы экспертов.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-priora-diagnostika.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Диагностика Лада Приора: коды ошибок, сканеры, ELM327">
+    <meta property="og:description" content="Полная диагностика Лада Приора своими руками. Расшифровка кодов ошибок, подключение ELM327, работа с ЭБУ Bosch и Janus. Советы экспертов.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/priora/">Priora</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Диагностика Лада Приора: коды ошибок, сканеры, ELM327</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Профессиональная диагностика Лада Приора: полное руководство</h1>
+                    
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владение автомобилем семейства <em>ВАЗ-2170</em> требует от владельца не только базовых навыков вождения, но и понимания принципов работы бортовой электроники. Современная <strong>Лада Приора</strong> насыщена электронными системами управления, которые контролируют работу двигателя, трансмиссии и кузова. Своевременное выявление неисправностей позволяет избежать дорогостоящего ремонта и непредвиденных поломок на трассе.</p>
+
+<p>Компьютерная <strong>диагностика</strong> является ключевым инструментом для определения точной причины сбоя в работе агрегатов. Без специализированного оборудования поиск неисправности может занять часы, а результат часто оказывается ошибочным. В этой статье мы детально разберем, как провести глубокую проверку систем автомобиля, какие сканеры использовать и как правильно интерпретировать полученные данные.</p>
+
+<h2>Системы управления двигателем и их особенности</
+
+<p>Сердцем электронной части автомобиля является <strong>Электронный Блок Управления (ЭБУ)</strong>. На <em>Lada Priora</em> в зависимости от года выпуска и экологического класса устанавливались контроллеры разных производителей, чаще всего <em>Bosch</em> (M7.9.7, M7.9.7 E2, M7.9.7 E3) или <em>Janus</em> (Январь 7.2). Каждый из этих блоков имеет свои особенности протоколов обмена данными и специфические коды ошибок.</p>
+
+<p>Диагностический разъем стандарта <strong>OBD-II</strong> (или GM-12 в ранних версиях) предоставляет доступ к основным параметрам работы мотора. Через него можно считать показания датчиков в реальном времени, проверить состояние исполнительных механизмов и увидеть историю сохраненных ошибок. Важно понимать, что даже если лампа <code>Check Engine</code> не горит, в памяти ЭБУ могут сохранятьсяPending-ошибки, требующие внимания.</p>
+
+<blockquote>⚠️ Внимание: При подключении диагностического оборудования убедитесь, что зажигание выключено, чтобы избежать скачков напряжения, которые могут повредить контроллер.</blockquote>
+
+<p>Особое внимание следует уделить датчику положения дроссельной заслонки (ДПДЗ) и регулятору холостого хода (РХХ). Именно эти элементы чаще всего становятся причиной нестабильной работы двигателя на <em>Приоре</em>. Их параметры легко отслеживаются через диагностический сканер, что позволяет быстро выявить износ или загрязнение узлов.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При диагностике всегда сравнивайте текущие показания датчиков с эталонными значениями для конкретного типа ЭБУ, так как нормы могут отличаться в зависимости от прошивки.</p></div>
+
+<h2>Необходимое оборудование и программное обеспечение</
+
+<p>Для проведения качественной диагностики недостаточно просто купить адаптер. Вам потребуется комплекс оборудования, который обеспечит стабильную связь с автомобилем. Рынок предлагает множество решений, от профессиональных сканеров до бюджетных китайских аналогов.</p>
+
+<p>Для владельцев <em>Lada Priora</em> оптимальным выбором станут следующие инструменты:</p>
+<ul>
+<li>🔌 <strong>Адаптер ELM327</strong> (версии 1.5 или 2.1) — бюджетный вариант для подключения к смартфону или ноутбуку.</li>
+<li>💻 <strong>Сканер ДСТ-14Н</strong> — профессиональное оборудование, поддерживающее все протоколы ВАЗ.</li>
+<li>📱 <strong>Мобильные приложения</strong> — OpenDiag, Torque, Motordata для анализа данных.</li>
+<li>🔗 <strong>Кабель K-Line</strong> — специализированный шнур для старых версий ЭБУ Январь.</li>
+</ul>
+
+<p>Программное обеспечение играет критическую роль в процессе. Фирменная программа <strong>OpenDiag</strong> считается стандартом де-факто для автомобилей ВАЗ. Она позволяет не только считывать ошибки, но и проводить тесты исполнительных механизмов, например, включать бензонасос или форсунки по команде. Для ноутбуков также популярны программы <em>VAZ-Diag</em> и <em>DiagMaster</em>.</p>
+
+<details class="faq-item"><summary>Почему версия адаптера ELM327 имеет значение?</summary><div class="faq-answer"><p>Дешевые версии адаптеров 2.1 часто имеют урезанный функционал и могут некорректно работать с протоколами старых ЭБУ Январь. Версия 1.5 считается более надежной для глубокой диагностики российских автомобилей, так как поддерживает полный набор команд K-Line.</p></div></details>
+
+<h2>Процесс подключения и считывания данных</
+
+<p>Процедура подключения диагностического оборудования не требует сложных манипуляций, но требует внимательности. Разъем для подключения обычно находится под панелью приборов слева от рулевой колонки или в бардачке, в зависимости от комплектации салона.</p>
+
+<p>Последовательность действий должна быть строгой: сначала подключите адаптер к разъему автомобиля, затем запустите приложение на смартфоне или ноутбуке, и только после этого включите зажигание. Такая последовательность минимизирует риск программных сбоев в ЭБУ.</p>
+
+<div class="checklist-block"><h4>☑️ Алгоритм подключения сканера</h4><label class="check-item"><input type="checkbox"><span>Найти диагностический разъем</span></label><label class="check-item"><input type="checkbox"><span>Подключить адаптер OBD-II</span></label><label class="check-item"><input type="checkbox"><span>Запустить приложение на устройстве</span></label><label class="check-item"><input type="checkbox"><span>Включить зажигание (не запуская мотор)</span></label><label class="check-item"><input type="checkbox"><span>Дождаться соединения</span></label><label class="check-item"><input type="checkbox"><span>Считать коды ошибок</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 6</div></div>
+
+<p>После установления соединения программа покажет идентификационный номер блока и версию прошивки. Это важный момент для подтверждения совместимости. Если программа не видит блок, проверьте предохранитель цепи диагностики (обычно F3 или F15 в монтажном блоке) и целостность проводов в жгуте.</p>
+
+<blockquote>⚠️ Внимание: Не пытайтесь считывать данные во время работы стартера — пусковые токи могут вызвать помехи в линии связи и обрыв соединения.</blockquote>
+
+<h2>Расшифровка основных кодов ошибок и их устранение</
+
+<p>Полученные коды ошибок — это не приговор, а направление для поиска неисправности. Коды начинаются с буквы P (двигатель), B (кузов), C (шасси) или U (сеть). Для <em>Приоры</em> наиболее актуальны коды серии P0xxx и P1xxx.</p>
+
+<p>Рассмотрим таблицу наиболее часто встречающихся неисправностей:</p>
+
+<table>
+<thead>
+<tr>
+<th>Код ошибки</th>
+<th>Описание неисправности</th>
+<th>Вероятная причина</th>
+<th>Метод устранения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0102</td>
+<td>Низкий уровень сигнала ДМРВ</td>
+<td>Загрязнение датчика, обрыв цепи</td>
+<td>Чистка или замена ДМРВ</td>
+</tr>
+<tr>
+<td>P0133</td>
+<td>Медленный отклик лямбда-зонда</td>
+<td>Старение датчика, богатая смесь</td>
+<td>Замена кислородного датчика</td>
+</tr>
+<tr>
+<td>P0300</td>
+<td>Случайные пропуски воспламенения</td>
+<td>Свечи, катушки, форсунки</td>
+<td>Дефектовка системы зажигания</td>
+</tr>
+<tr>
+<td>P0422</td>
+<td>Низкая эффективность катализатора</td>
+<td>Выгорание катализатора</td>
+<td>Замена катализатора или прошивка</td>
+</tr>
+</tbody>
+</table>
+
+<p>Важно понимать, что удаление ошибки кнопкой <code>Clear</code> не устраняет физическую поломку. Если причина не найдена, ошибка вернется через несколько циклов работы двигателя. Например, ошибка P0300 часто требует проверки высоковольтных проводов и катушек зажигания, так как на <em>Приоре</em> они являются слабым местом.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Стирание ошибки без устранения её причины — временное решение, которое может привести к аварийной работе двигателя и повышенному расходу топлива.</p></div>
+
+<h2>Диагностика исполнительных механизмов и адаптация</
+
+<p>Современные ЭБУ позволяют не только считать ошибки, но и управлять узлами автомобиля в тестовом режиме. Это особенно полезно при поиске плавающих неисправностей, которые не проявляются постоянно. Функция тестирования исполнительных механизмов доступна в большинстве профессиональных сканеров и продвинутых приложениях.</p>
+
+<p>С помощью диагностического меню можно проверить:</p>
+<ul>
+<li>⚡ Работу бензонасоса (включение на 5 секунд).</li>
+<li>💨 Открытие клапана продувки адсорбера.</li>
+<li>🔥 Искрообразование на катушках (поочередно).</li>
+<li>🚗 Открытие электромагнитного клапана адсорбера.</li>
+</ul>
+
+<p>Отдельного внимания заслуживает процедура адаптации дроссельной заслонки. После чистки узла или замены ЭБУ необходимо провести обучение нулевому положению. Это делается через меню диагностики или определенным алгоритмом нажатия педали газа. Без адаптации возможны провалы тяги и нестабильный холостой ход.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой метод диагностики вы предпочитаете?</strong><ul><li>Поездка в сервис на стенд</li><li>Покупка личного сканера ELM327</li><li>Диагностика по лампочке Check Engine</li><li>Обращение к знакомому мастеру</li></ul></div></div>
+
+<h2>Проверка состояния АКБ и генератора через OBD</
+
+<p>Многие владельцы забывают, что через диагностический разъем можно мониторить состояние бортовой сети. Для <em>Лада Приора</em> это критически важно, так как скачки напряжения часто становятся причиной выхода из строя дорогого оборудования.</p>
+
+<p>В режиме реального времени (<strong>Live Data</strong>) необходимо следить за параметром "Напряжение бортсети". В норме при работающем двигателе оно должно находиться в диапазоне <code>13.5–14.5 Вольт</code>. Если значения ниже 13В, генератор не справляется с нагрузкой или ремень проскальзывает.</p>
+
+<p>Также стоит проверить ток утечки. Хотя напрямую через OBD его измерить сложно, косвенным признаком проблем с аккумулятором могут быть ошибки по низкому напряжению при запуске. Если стартер крутит вяло, а диагностика показывает напряжение ниже 10В в момент прокрутки, аккумулятор требует замены или зарядки.</p>
+
+<details class="faq-item"><summary>Как влияет плохой "минус" на диагностику?</summary><div class="faq-answer"><p>Плохой контакт массы двигателя с кузовом может вызывать хаотичные ошибки в ЭБУ, которые не имеют логического объяснения. Перед глубокой диагностикой всегда проверяйте и зачищайте основные точки заземления.</p></div></details>
+
+<h2>Частые вопросы по диагностике (FAQ)</
+
+<details>
+<summary>Можно ли диагностировать Приору без компьютера, только по миганию лампочки?</summary>
+<p>Да, в режиме самодиагностики приборной панели можно вывести коды ошибок на экран одометра. Для этого нужно зажать кнопку сброса суточного пробега, включить зажигание и отпустить кнопку. Коды будут отображаться в виде цифр, но расшифровка требует таблицы кодов для конкретной панели (Гамма, Штат или Приор).</p>
+</details>
+
+<details>
+<summary>Почему сканер не видит ЭБУ Январь 7.2?</summary>
+<p>Блоки Январь 7.2 используют протокол K-Line, который чувствителен к качеству адаптера. Дешевые китайские клоны ELM327 часто не поддерживают этот протокол или работают нестабильно. Рекомендуется использовать специализированные кабели K-Line или адаптеры с чипом PIC18F25K80.</p>
+</details>
+
+<details>
+<summary>Нужно ли сбрасывать ошибки после ремонта?</summary>
+<p>Да, сброс ошибок (<code>Clear DTC</code>) обязателен. Пока ошибка хранится в памяти, ЭБУ может использовать некорректные корректировки топливной смеси, что ухудшит работу двигателя. После сброса необходимо дать мотору поработать на холостых 2-3 минуты для адаптации.</p>
+</details>
+
+<details>
+<summary>Безопасно ли делать чип-тюнинг через диагностический разъем?</summary>
+<p>Процесс перепрошивки (чип-тюнинга) через разъем OBD возможен, но несет риски. При обрыве связи во время записи блок управления может быть заблокирован ("окирпичен"). Для <em>Приоры</em> безопаснее снимать ЭБУ и прошивать его на столе через программатор, например, <em>K-Line</em> или <em>BM9213</em>.</h2>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/s/sk/skachat-mod-na-dlya-bimendzhi-drajv-lada-priora.html" class="related-card">Мод на Бимендж Драйв Лада Приора: установка и обзор</a></li><li><a href="/articles/l/la/lada-priora-obd-razem-gde-nakhoditsya.html" class="related-card">Где находится разъем OBD на Лада Приора: схема и фото</a></li><li><a href="/articles/l/la/lada-priora-novaya.html" class="related-card">Lada Priora новая: стоит ли покупать в 2026 году?</a></li><li><a href="/articles/z/za/zamena-zamka-zazhiganiya-lada-priora-s-immobilajzerom.html" class="related-card">Замена замка зажигания Приоры с иммобилайзером: пошаговая инструкция 2026</a></li><li><a href="/articles/l/la/lada-127-motor.html" class="related-card">Лада 127 мотор: характеристики, ресурс и тюнинг ВАЗ-21127</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/s/sk/skachat-mod-na-dlya-bimendzhi-drajv-lada-priora.html" class="related-bottom-card"><span class="related-bottom-title">Мод на Бимендж Драйв Лада Приора: установка и обзор</span><span class="related-bottom-desc">Полный гид по установке мода Bimanji Drive для Лада Приора. Реалистичная физика, новые карты и тюнин</span></a><a href="/articles/l/la/lada-priora-obd-razem-gde-nakhoditsya.html" class="related-bottom-card"><span class="related-bottom-title">Где находится разъем OBD на Лада Приора: схема и фото</span><span class="related-bottom-desc">Подробный гид по поиску диагностического разъема OBD-II на Лада Приора. Расположение для разных ЭБУ,</span></a><a href="/articles/l/la/lada-priora-novaya.html" class="related-bottom-card"><span class="related-bottom-title">Lada Priora новая: стоит ли покупать в 2026 году?</span><span class="related-bottom-desc">Полный обзор Lada Priora: анализ рынка, цены, технические характеристики и причины популярности моде</span></a><a href="/articles/z/za/zamena-zamka-zazhiganiya-lada-priora-s-immobilajzerom.html" class="related-bottom-card"><span class="related-bottom-title">Замена замка зажигания Приоры с иммобилайзером: пошаговая инструкция 2026</span><span class="related-bottom-desc">Как самостоятельно поменять замок зажигания на Lada Priora с иммобилайзером: разборка, синхронизация</span></a><a href="/articles/l/la/lada-127-motor.html" class="related-bottom-card"><span class="related-bottom-title">Лада 127 мотор: характеристики, ресурс и тюнинг ВАЗ-21127</span><span class="related-bottom-desc">Подробный обзор двигателя ВАЗ-21127 для Лада Приора. Технические характеристики, реальный ресурс, ти</span></a><a href="/articles/p/pr/prokachka-tormozov-lada-priora.html" class="related-bottom-card"><span class="related-bottom-title">Прокачка тормозов Лада Приора: пошаговая инструкция с фото</span><span class="related-bottom-desc">Как правильно прокачать тормоза на Приоре своими руками: схема, инструменты, ошибки и советы. Подроб</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

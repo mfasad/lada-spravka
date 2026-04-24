@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Блок управления Лада Гранта: диагностика, коды ошибок и замена — Лада Справка</title>
+    <meta name="description" content="Подробный разбор ЭБУ Лада Гранта: расположение, коды ошибок, признаки неисправности и замена контроллера. Советы по диагностике и настройке.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-granta-blok-upravleniya.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Блок управления Лада Гранта: диагностика, коды ошибок и замена">
+    <meta property="og:description" content="Подробный разбор ЭБУ Лада Гранта: расположение, коды ошибок, признаки неисправности и замена контроллера. Советы по диагностике и настройке.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Блок управления Лада Гранта: диагностика, коды ошибок и замена</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Блок управления Лада Гранта: полное руководство по диагностике и ремонту</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#расположение-и-устройство-эбу-на-лада-гранта">Расположение и устройство ЭБУ на Лада Гранта</a></li><li><a href="#основные-признаки-неисправности-контроллера">Основные признаки неисправности контроллера</a></li><li><a href="#типичные-ошибки-и-коды-неисправностей">Типичные ошибки и коды неисправностей</a></li><li><a href="#диагностика-и-проверка-блока-управления">Диагностика и проверка блока управления</a></li><li><a href="#замена-и-адаптация-нового-эбу">Замена и адаптация нового ЭБУ</a></li><li><a href="#прошивка-и-чип-тюнинг-лада-гранта">Прошивка и чип-тюнинг Лада Гранта</a></li><li><a href="#профилактика-и-уход-за-электроникой">Профилактика и уход за электроникой</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный автомобиль невозможно представить без сложной электроники, и Лада Гранта здесь не исключение. Сердцем всей электрической схемы является <strong>блок управления двигателем</strong>, который автомобилисты часто называют "мозгами". Именно этот контроллер принимает сигналы от десятков датчиков и регулирует работу топливной системы, зажигания и выхлопа в реальном времени.</p>
+
+<p>Владельцы часто сталкиваются с ситуациями, когда машина начинает вести себя непредсказуемо: плавают обороты, загорается <em>Check Engine</em> или пропадает тяга. В большинстве случаев причина кроется именно в некорректной работе ЭБУ или ошибках в его программном обеспечении. Понимание принципов работы этого узла поможет вам быстрее найти неисправность и избежать лишней траты денег в сервисе.</p>
+
+<p>В этой статье мы детально разберем устройство электронного блока управления (ЭБУ) Лада Гранта, рассмотрим основные симптомы его выхода из строя и методы диагностики. Вы узнаете, как правильно считать ошибки, на что обратить внимание при выборе нового контроллера и как избежать распространенных ошибок при самостоятельном ремонте.</p>
+
+<h2 id="расположение-и-устройство-эбу-на-лада-гранта">Расположение и устройство ЭБУ на Лада Гранта</h2>
+
+<p>На автомобилях семейства Лада Гранта контроллер <strong>Электронной Системы Управления Двигателем</strong> (ЭСУД) расположен в салоне. Он находится под панелью приборов, со стороны переднего пассажира, в нише за бардачком. Такое размещение выбрано не случайно: внутри салона электроника меньше подвержена воздействию влаги и перепадов температур, чем под капотом.</p>
+
+<p>Доступ к блоку управления Лада Гранта часто требует демонтажа декоративных панелей. Конструкция представляет собой герметичный корпус из пластика и металла, внутри которого находится печатная плата с микропроцессором и памятью. К корпусу подходят два или три больших разъема, через которые осуществляется связь со всеми системами автомобиля.</p>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> При проведении любых работ с проводкой обязательно снимайте минусовую клемму с аккумулятора. Кратковременное замыкание в цепи ЭБУ может привести к необратимому сгоранию контроллера и смежных блоков.</p>
+</blockquote>
+
+<p>Внутри корпуса находятся ключевые компоненты: процессор, обрабатывающий данные, и энергонезависимая память, хранящая калибровочные данные и коды ошибок. На более новых моделях с <em>Е-газом</em> (электронной дроссельной заслонкой) управление становится еще более сложным, так как ЭБУ напрямую контролирует положение педали акселератора.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Для продления срока службы ЭБУ старайтесь не оставлять автомобиль с открытым капотом или снятыми заглушками в сырую погоду — влага может попасть в разъемы и вызвать коррозию контактов.</p></div>
+
+<h2 id="основные-признаки-неисправности-контроллера">Основные признаки неисправности контроллера</h2>
+
+<p>Диагностика ЭБУ Лада Гранта начинается с внимательного наблюдения за поведением автомобиля. Симптомы могут быть разнообразными, от едва заметных плавающих оборотов холостого хода до полного отказа двигателя заводиться. Часто водители игнорируют первые звоночки, что приводит к более серьезным поломкам.</p>
+
+<p>Если вы заметили, что машина начала потреблять больше топлива или динамика разгона ухудшилась, это может указывать на некорректные показания датчиков или сбои в <strong>программном обеспечении</strong> контроллера. Также стоит обратить внимание на работу вентилятора охлаждения радиатора: если он включается слишком поздно или не включается вовсе, проблема может быть в управлении реле через ЭБУ.</p>
+
+<p>Самым очевидным признаком является постоянно горящая лампа <em>Check Engine</em> на приборной панели. Однако не стоит забывать, что эта лампа загорается и при других неисправностях, например, при обрыве цепи датчика кислорода. Точный диагноз можно поставить только после компьютерной диагностики.</p>
+
+<ul>
+<li>🚗 Двигатель глохнет сразу после запуска или на холостых оборотах без видимых причин.</li>
+<li>🔥 Появление запаха гари или перегрев самого блока управления при касании (требует немедленного вмешательства).</li>
+<li>🔌 Отсутствие реакции на поворот ключа зажигания (стартер не крутит, бензонасос не включается).</li>
+<li>📉 Резкие провалы тяги при разгоне или рывки при движении накатом.</li>
+</ul>
+
+<p>В некоторых случаях неисправность может носить intermittent-характер, то есть появляться и исчезать. Это часто связано с плохим контактом в разъемах или микротрещинами на плате ЭБУ, которые расширяются при нагреве.</p>
+
+<h2 id="типичные-ошибки-и-коды-неисправностей">Типичные ошибки и коды неисправностей</h2>
+
+<p>Для точного определения проблемы необходимо считать коды ошибок, хранящиеся в памяти контроллера. На Лада Гранта используется стандарт OBD-II, что позволяет использовать большинство доступных сканеров и адаптеров (например, ELM327). Коды ошибок помогают сузить круг поиска до конкретного узла.</p>
+
+<p>Одной из самых частых проблем является ошибка <strong>P0422</strong> (неэффективность каталитического нейтрализатора) или ошибки по системе зажигания (пропуски воспламенения). Однако самой критичной для самого "железа" ЭБУ является ошибка связи или сбой внутренней памяти.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Как вы диагностируете автомобиль?</strong><ul><li>Еду в сервис</li><li>Использую свой сканер ELM327</li><li>Смотрю по миганию лампочки</li><li>Пока не диагностировал</li></ul></div></div>
+
+<p>Ниже приведена таблица с наиболее распространенными кодами, связанными с работой ЭБУ и его периферии:</p>
+
+<table>
+<thead>
+<tr>
+<th>Код ошибки</th>
+<th>Описание</th>
+<th>Вероятная причина</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0601</td>
+<td>Неверная контрольная сумма ПЗУ</td>
+<td>Сбой прошивки, повреждение памяти</td>
+</tr>
+<tr>
+<td>P0603</td>
+<td>Ошибка ОЗУ (RAM)</td>
+<td>Неисправность блока управления, скачки напряжения</td>
+</tr>
+<tr>
+<td>P0606</td>
+<td>Неисправность процессора ЭБУ</td>
+<td>Внутренний дефект контроллера</td>
+</tr>
+<tr>
+<td>P1602</td>
+<td>Пропадение напряжения бортовой сети</td>
+<td>Скачки напряжения, плохой контакт массы</td>
+</tr>
+<tr>
+<td>P0130</td>
+<td>Неисправность цепи датчика кислорода</td>
+<td>Обрыв проводки или выход из строя датчика</td>
+</tr>
+</tbody>
+</table>
+
+<p>Важно понимать, что наличие кода ошибки не всегда означает, что сломался именно датчик. Часто проблема кроется в проводке, окислившихся контактах или самом блоке управления. Например, ошибка по датчику положения дроссельной заслонки может возникать из-за перетертого провода в жгуте.</p>
+
+<details class="faq-item"><summary>Что такое "Checksum" и почему он важен?</summary><div class="faq-answer"><p>Контрольная сумма (Checksum) — это специальное значение, которое вычисляется при записи прошивки. При каждом запуске ЭБУ пересчитывает сумму данных и сравнивает её с эталонной. Если суммы не совпадают (ошибка P0601), блок понимает, что данные повреждены, и переходит в аварийный режим работы.</p></div></details>
+
+<h2 id="диагностика-и-проверка-блока-управления">Диагностика и проверка блока управления</h2>
+
+<p>Процесс проверки ЭБУ Лада Гранта требует определенного набора инструментов. Вам понадобится ноутбук с установленным программным обеспечением (например, OpenDiag или Scanmatik) и диагностический адаптер. Без специализированного софта глубокую диагностику провести не получится.</p>
+
+<p>Первым шагом всегда является визуальный осмотр. Необходимо извлечь блок, снять крышку (если позволяет конструкция и гарантия) и внимательно осмотреть плату на предмет следов коррозии, вздувшихся конденсаторов или обгоревших элементов. Часто причиной неработоспособности становятся окислившиеся контакты внутри разъемов.</p>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Никогда не пытайтесь "прозванивать" цепи ЭБУ обычным тестером в режиме проверки сопротивления, если не уверены в своих действиях. Подача напряжения на сигнальные входы гарантированно выведет контроллер из строя.</p>
+</blockquote>
+
+<p>Если визуальных дефектов нет, переходят к программной диагностике. Подключив сканер, обратите внимание на параметры в реальном времени: напряжение бортовой сети, положение дроссельной заслонки, показания ДМРВ. Резкие скачки значений или их отсутствие при работающем двигателе укажут на проблему.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист первичной диагностики</h4><label class="check-item"><input type="checkbox"><span>Проверить напряжение аккумулятора</span></label><label class="check-item"><input type="checkbox"><span>Осмотреть разъемы ЭБУ на окисление</span></label><label class="check-item"><input type="checkbox"><span>Считать коды ошибок сканером</span></label><label class="check-item"><input type="checkbox"><span>Проверить целостность предохранителей</span></label><label class="check-item"><input type="checkbox"><span>Сравнить показания датчиков с нормой</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Особое внимание следует уделить "массе" двигателя и кузова. Плохой контакт массы приводит к появлению паразитных токов, которые могут искажать сигналы датчиков и вызывать хаотичное поведение <strong>электронного блока</strong>. Зачистка контактов часто решает проблему плавающих оборотов.</p>
+
+<h2 id="замена-и-адаптация-нового-эбу">Замена и адаптация нового ЭБУ</h2>
+
+<p>Если диагностика показала, что блок управления Лада Гранта неисправен, его необходимо заменить. Покупка нового контроллера — это только половина дела. "Мозги" для Гранты часто продаются "пустыми" или с заводской прошивкой, не привязанной к конкретному автомобилю.</p>
+
+<p>Процесс замены включает в себя не только физическую установку, но и программную привязку. Вам потребуется согласовать новый ЭБУ с иммобилайзером (АПС) и блоком управления кузовом. Без этой процедуры автомобиль может завестись и сразу заглохнуть, либо стартер не будет реагировать на ключ.</p>
+
+<p>Для проведения работ по замене и прошивке часто требуются специальные навыки и оборудование, такое как загрузчик Combiloader или Gflash. Если у вас нет опыта в чип-тюнинге, лучше доверить эту процедуру профессионалам, чтобы не получить "кирпич" вместо рабочего блока.</p>
+
+<ul>
+<li>🛠️ Демонтаж старого ЭБУ и установка нового контроллера.</li>
+<li>💻 Загрузка актуальной версии прошивки, соответствующей нормам Евро-4 или Евро-5.</li>
+<li>🔑 Привязка ключей и синхронизация с иммобилайзером.</li>
+<li>🏁 Адаптация нуля дроссельной заслонки и сброс корректировок топливных смесей.</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Покупка б/у ЭБУ с рук — рискованное занятие. Блок может быть привязан к иммобилайзеру другого авто, и разблокировать его без специального оборудования будет невозможно.</p></div>
+
+<p>После установки нового блока необходимо выполнить процедуру адаптации. Она заключается в обучении контроллера минимальному и максимальному положению дроссельной заслонки, а также сбросу накопленных коррекций. Это делается через диагностическое меню или путем определенных манипуляций с педалью газа и зажиганием.</p>
+
+<h2 id="прошивка-и-чип-тюнинг-лада-гранта">Прошивка и чип-тюнинг Лада Гранта</h2>
+
+<p>Многие владельцы прибегают к перепрошивке ЭБУ не только при ремонте, но и для улучшения характеристик автомобиля. Чип-тюнинг Лада Гранта позволяет изменить алгоритмы работы двигателя, что может привести к увеличению мощности, снижению расхода топлива или устранению заводских "багов".</p>
+
+<p>Существует несколько популярных версий прошивок: "Евро-2" (отключение второго датчика кислорода и контроль катализатора), "Эконом" (оптимизация смеси для снижения расхода) и "Спорт" (изменение углов зажигания для максимальной отдачи). Выбор зависит от целей владельца.</p>
+
+<p> Кроме того, некачественная прошивка может привести к перегреву двигателя или детонации, что сократит ресурс мотора.</p>
+
+<p>Процесс перепрошивки занимает от 15 минут до часа. Главное условие — стабильное напряжение в бортовой сети. Для этого рекомендуется использовать зарядное устройство в режиме "Источник питания", чтобы избежать падения напряжения в критический момент записи.</p>
+
+<details class="faq-item"><summary>Можно ли вернуть заводскую прошивку?</summary><div class="faq-answer"><p>Да, если перед внесением изменений была сделана копия оригинального ПО (бэкап). Хороший тюнер всегда сохраняет исходный файл, чтобы в случае проблем или при продаже авто можно было вернуть все как было.</p></div></details>
+
+<h2 id="профилактика-и-уход-за-электроникой">Профилактика и уход за электроникой</h2>
+
+<p>Чтобы блок управления Лада Гранта служил долго, необходимо соблюдать простые правила эксплуатации. В первую очередь, следите за состоянием аккумулятора. Старый АКБ с нестабильным напряжением — главный враг любой электроники. Скачки напряжения при запуске могут повредить внутренние компоненты ЭБУ.</p>
+
+<p>Регулярно проверяйте чистоту подкапотного пространства и целостность изоляции проводов. Грызуны часто повреждают проводку, что приводит к коротким замыканиям. Также стоит periodically (раз в пару лет) проверять затяжку клемм и состояние "массовых" проводов.</p>
+
+<p>Не рекомендуется использовать "быстрый запуск" (спрей впуск) для запуска двигателя в мороз. Это может вызвать резкое повышение давления в цилиндре и скачок тока в форсунках, что ЭБУ может воспринять как неисправность. Лучше использовать качественные масла и исправные свечи зажигания.</p>
+
+<details>
+<summary>Как часто нужно делать диагностику ЭБУ?</summary>
+<p>Профилактическую диагностику рекомендуется проводить раз в год или при пробеге каждые 15-20 тысяч км. Это поможет выявить скрытые ошибки, которые еще не влияют на езду, но могут привести к поломке в будущем.</p>
+</details>
+
+<details>
+<summary>Можно ли ездить с горящим Check Engine?</summary>
+<p>Кратковременно — можно, если двигатель работает ровно. Однако длительная езда с активной ошибкой может привести к прогоранию клапанов или выходу из строя катализатора. Лучше尽快 устранить причину.</p>
+</details>
+
+<details>
+<summary>Сколько стоит новый блок управления на Гранту?</summary>
+<p>Цена нового ЭБУ варьируется от 5000 до 12000 рублей в зависимости от модели (М74, Итэлма) и комплектации. Б/у варианты можно найти дешевле, но риски велики.</p>
+</details>
+
+<details>
+<summary>Почему ЭБУ греется?</summary>
+<p>Небольшой нагрев корпуса нормален. Сильный нагрев может указывать на короткое замыкание в цепи исполнительных механизмов (например, катушек зажигания) или неисправность内部的них компонентов блока.</p>
+</details>
+
+<details>
+<summary>Нужно ли сбрасывать ошибки после ремонта?</summary>
+<p>Да, после устранения физической неисправности коды ошибок нужно стереть через сканер. Некоторые ошибки исчезают сами после 30-50 циклов запуска двигателя без рецидивов, но лучше сбросить их принудительно.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#расположение-и-устройство-эбу-на-лада-гранта">Расположение и устройство ЭБУ на Лада Гранта</a></li><li><a href="#основные-признаки-неисправности-контроллера">Основные признаки неисправности контроллера</a></li><li><a href="#типичные-ошибки-и-коды-неисправностей">Типичные ошибки и коды неисправностей</a></li><li><a href="#диагностика-и-проверка-блока-управления">Диагностика и проверка блока управления</a></li><li><a href="#замена-и-адаптация-нового-эбу">Замена и адаптация нового ЭБУ</a></li><li><a href="#прошивка-и-чип-тюнинг-лада-гранта">Прошивка и чип-тюнинг Лада Гранта</a></li><li><a href="#профилактика-и-уход-за-электроникой">Профилактика и уход за электроникой</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/d/di/diagnosticheskij-razem-lada-granta-2018.html" class="related-card">Диагностический разъем Лада Гранта 2018: где находится, распиновка</a></li><li><a href="/articles/r/ra/razboltovka-na-lada-granta.html" class="related-card">Разболтовка Лада Гранта: параметры, подбор дисков и шины</a></li><li><a href="/articles/k/ka/kak-prokachat-tormoza-lada-granta.html" class="related-card">Прокачка тормозов Лада Гранта: пошаговая инструкция</a></li><li><a href="/articles/u/ul/uluchshenie-sveta-lada-granta.html" class="related-card">Улучшение света Лада Гранта: установка LED, линз и полировка</a></li><li><a href="/articles/z/za/zamena-ruchki-lada-granta.html" class="related-card">Как поменять ручку двери на Лада Гранта: пошаговая инструкция</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/d/di/diagnosticheskij-razem-lada-granta-2018.html" class="related-bottom-card"><span class="related-bottom-title">Диагностический разъем Лада Гранта 2018: где находится, распиновка</span><span class="related-bottom-desc">Где расположен OBD2 на Лада Гранта 2018 года? Подробная схема распиновки, фото места установки и сов</span></a><a href="/articles/r/ra/razboltovka-na-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Разболтовка Лада Гранта: параметры, подбор дисков и шины</span><span class="related-bottom-desc">Какая разболтовка у Лада Гранта? Таблица совместимости дисков и шин, PCD, ET, DIA, рекомендации по п</span></a><a href="/articles/k/ka/kak-prokachat-tormoza-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Прокачка тормозов Лада Гранта: пошаговая инструкция</span><span class="related-bottom-desc">Как правильно прокачать тормоза на Лада Гранта. Схема, порядок действий, замена жидкости и советы эк</span></a><a href="/articles/u/ul/uluchshenie-sveta-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Улучшение света Лада Гранта: установка LED, линз и полировка</span><span class="related-bottom-desc">Полный гид по модернизации оптики Lada Granta. Сравнение LED и галогена, установка би-линз, полировк</span></a><a href="/articles/z/za/zamena-ruchki-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Как поменять ручку двери на Лада Гранта: пошаговая инструкция</span><span class="related-bottom-desc">Подробный гайд по замене дверной ручки на Lada Granta с фото, советами и типичными ошибками. Узнайте</span></a><a href="/articles/g/ga/gabarity-bagazhnika-lada-granta-universal.html" class="related-bottom-card"><span class="related-bottom-title">Габариты багажника Лада Гранта универсал: точные размеры</span><span class="related-bottom-desc">Полные габариты багажника Лада Гранта универсал. Объем, размеры проема, длина при сложенных сиденьях</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

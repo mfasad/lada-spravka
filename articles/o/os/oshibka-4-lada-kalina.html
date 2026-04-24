@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Ошибка 4 Лада Калина: диагностика и устранение — Лада Справка</title>
+    <meta name="description" content="Подробный разбор ошибки 4 на Лада Калина. Причины появления, диагностика ELM327, устранение неисправностей датчика кислорода и системы управления.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/o/os/oshibka-4-lada-kalina.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Ошибка 4 Лада Калина: диагностика и устранение">
+    <meta property="og:description" content="Подробный разбор ошибки 4 на Лада Калина. Причины появления, диагностика ELM327, устранение неисправностей датчика кислорода и системы управления.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/kalina/">Kalina</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Ошибка 4 Лада Калина: диагностика и устранение</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Ошибка 4 Лада Калина: причины, диагностика и методы устранения</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#интерпретация-кода-ошибки-в-разных-системах">Интерпретация кода ошибки в разных системах</a></li><li><a href="#диагностика-с-помощью-сканера-и-мультиметра">Диагностика с помощью сканера и мультиметра</a></li><li><a href="#основные-причины-появления-неисправности">Основные причины появления неисправности</a></li><li><a href="#влияние-ошибки-на-работу-двигателя-и-расход-топлива">Влияние ошибки на работу двигателя и расход топлива</a></li><li><a href="#пошаговая-инструкция-по-устранению">Пошаговая инструкция по устранению</a></li><li><a href="#профилактика-и-рекомендации-экспертов">Профилактика и рекомендации экспертов</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы автомобилей <em>ВАЗ-1118</em> и <em>ВАЗ-1119</em> часто сталкиваются с ситуацией, когда на приборной панели загорается индикатор «Check Engine», а диагностика показывает загадочный код. Особенно пугающей для неопытного водителя может показаться <strong>ошибка 4</strong>, которая в некоторых интерпретаторах сканеров или при ручной диагностике замыканием контактов воспринимается как критический сбой. На самом деле, в контексте систем управления двигателем <em>ВАЗ</em>, этот код часто указывает на конкретные проблемы с датчиками или цепями питания, требующие внимательного, но спокойного анализа.</p>
+
+<p>Не стоит паниковать, если ваш автомобиль <em>Лада Калина</em> перешел в аварийный режим или начал вести себя нестабильно. Понимание природы цифровых кодов позволяет сэкономить значительные средства на услугах автосервиса. В данной статье мы подробно разберем, что скрывается за четвертым кодом неисправности, как правильно считать данные с контроллера и какие шаги необходимо предпринять для восстановления штатной работы силового агрегата.</p>
+
+<p>Современная система управления двигателем, будь то <em>Январь 7.2</em>, <em>М74</em> или <em>М75</em>, постоянно мониторит состояние всех узлов. <strong>Ошибка 4</strong> может трактоваться по-разному в зависимости от того, какой протокол диагностики вы используете: стандартный OBD-II или специфический протокол <em>ВАЗ</em>. В большинстве случаев речь идет о неисправности цепи датчика массового расхода воздуха или датчика кислорода, что напрямую влияет на состав топливно-воздушной смеси.</p>
+
+<h2 id="интерпретация-кода-ошибки-в-разных-системах">Интерпретация кода ошибки в разных системах</h2>
+
+<p>Первое, что необходимо сделать владельцу <em>Лада Калина</em>, — это правильно расшифровать сигнал. В заводской документации <em>ВАЗ</em> и мануалах для контроллеров <em>Bosch</em> и <em>Avtoel</em> нумерация может отличаться. Если вы используете простой двухвыводной светодиодный тестер, замыкая контакты диагностической колодки, мигание «4» часто соответствует коду неисправности, связанному с датчиком положения дроссельной заслонки или датчиком температуры.</p>
+
+<p>Однако, при подключении более продвинутого сканера, работающего по протоколу <em>OBD-II</em>, код может трансформироваться. Например, ошибки, связанные с датчиком кислорода (лямбда-зондом), могут иметь префикс P0130-P0140, что в упрощенных диагностических программах иногда отображается как группа ошибок «4». Важно понимать, что <strong>ЭБУ</strong> (электронный блок управления) фиксирует именно отклонение напряжения в электрической цепи, а не механическую поломку.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Не пытайтесь сбрасывать ошибку многократным снятием клеммы аккумулятора без выяснения причины. В системах <em>Е-Газ</em> это может привести к рассинхронизации положения дроссельной заслонки, и автомобиль перестанет реагировать на педаль акселератора до проведения процедуры адаптации.</p>
+</blockquote>
+
+<p>Различия в трактовке также зависят от экологического класса вашего автомобиля. Для норм <em>Евро-2</em> и <em>Евро-3</em> алгоритмы диагностики отличаются. В более новых версиях ПО контроллера <em>М74</em>, устанавливаемых на рестайлинговые <em>Калины</em>, ошибка может указывать на проблемы с катушкой зажигания в четвертом цилиндре, если система диагностирует пропуски воспламенения именно в этой группе.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой контроллер установлен на вашей Калине?</strong><ul><li>Январь 7.2</li><li>Bosch M7.9.7</li><li>Avtoel M73</li><li>M74 (Е-газ)</li><li>Не знаю</li></ul></div></div>
+
+<h2 id="диагностика-с-помощью-сканера-и-мультиметра">Диагностика с помощью сканера и мультиметра</h2>
+
+<p>Для точного определения неисправности визуального осмотра недостаточно. Вам потребуется диагностический адаптер, например, популярный <em>ELM327</em> версии 1.5, и специализированное программное обеспечение, такое как <em>OpenDiag</em> или <em>Torque</em>. Подключившись к разъему <em>OBD-II</em>, расположенному под панелью приборов или под бардачком (в зависимости от года выпуска), вы сможете считать актуальный статус системы.</p>
+
+<p>Если сканер показывает ошибку, связанную с низкими или высокими показаниями датчика, переходите к инструментальной проверке. Вам понадобится мультиметр. Переведите его в режим измерения постоянного напряжения и сопротивления. Основные точки проверки — это разъемы датчиков и жгуты проводки, идущие от <strong>ЭБУ</strong>. Часто проблема кроется в окислившихся контактах или перетершихся проводах.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка электрической цепи</h4><label class="check-item"><input type="checkbox"><span>Визуальный осмотр жгута на предмет перетиров</span></label><label class="check-item"><input type="checkbox"><span>Замер напряжения на клеммах АКБ</span></label><label class="check-item"><input type="checkbox"><span>Проверка целостности предохранителя ЭБУ</span></label><label class="check-item"><input type="checkbox"><span>Прозвонка сигнального провода датчика</span></label><label class="check-item"><input type="checkbox"><span>Замер сопротивления цепи заземления</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>При проверке датчика массового расхода воздуха (<em>ДМРВ</em>) или датчика положения дроссельной заслонки (<em>ДПДЗ</em>) обращайте внимание на плавность изменения показаний. Резкие скачки напряжения свидетельствуют о износе дорожек или внутренней неисправности элемента. Также критически важно проверить «минусовой» провод, так как плохая «масса» на двигателе <em>ВАЗ-21116</em> или <em>ВАЗ-11186</em> вызывает хаотичные ошибки.</p>
+
+<h2 id="основные-причины-появления-неисправности">Основные причины появления неисправности</h2>
+
+<p>Анализ статистики сервисных центров показывает, что появление кода, идентифицируемого как ошибка 4, чаще всего вызвано тремя основными факторами. Первый и самый распространенный — это выход из строя самого датчика. Ресурс российских аналогов датчиков кислорода или ДМРВ часто не превышает 30-40 тысяч километров.</p>
+
+<p>Второй причиной является состояние электропроводки. Вибрации двигателя <em>Калины</em> со временем приводят к тому, что жгуты проводов перетираются о кузов или коллектор. Особенно уязвимы места выхода проводов из гофры. Третий фактор — неисправность самого блока управления или проблемы с питанием, например, просадки напряжения от генератора или стареющего аккумулятора.</p>
+
+<ul>
+<li>🔌 Окисление контактов в колодке соединения жгута проводов с датчиком.</li>
+<li>💧 Попадание влаги или антифриза на разъемы (часто при течи патрубков).</li>
+<li>⚡ Короткое замыкание сигнального провода на борт или на массу.</li>
+<li>📉 Износ резистивного слоя внутри потенциометра датчика.</li>
+</ul>
+
+<details class="faq-item"><summary>Влияние некачественного топлива</summary><div class="faq-answer"><p>Использование бензина с октановым числом ниже 95 или с высоким содержанием присадок может привести к быстрому выходу из строя каталитического нейтрализатора и датчика кислорода. Продукты сгорания такого топлива забивают соты и отравляют чувствительный элемент лямбда-зонда, что ЭБУ воспринимает как неисправность цепи.</p></div></details>
+
+<p>Стоит также упомянуть механические причины. Если впускной коллектор подсасывает неучтенный воздух через трещины в патрубках или прокладках, показания датчиков будут расходиться с расчетными значениями в <strong>ЭБУ</strong>. Это вызывает обогащение или обеднение смеси, что система расценивает как ошибку датчика, хотя сам датчик может быть исправен.</p>
+
+<h2 id="влияние-ошибки-на-работу-двигателя-и-расход-топлива">Влияние ошибки на работу двигателя и расход топлива</h2>
+
+<p>Игнорирование горящего индикатора «Check Engine» и сопутствующей ошибки приводит к негативным последствиям для силового агрегата <em>Лада Калина</em>. При неисправности датчика кислорода или ДМРВ блок управления переходит на аварийную программу работы. В этом режиме состав смеси формируется по усредненным таблицам, без коррекции по текущим показаниям.</p>
+
+<p>Это неизбежно ведет к увеличению расхода топлива. Двигатель может начать «троить», особенно на холостых оборотах, динамика разгона падает, а выхлоп становится более токсичным и черным. Длительная езда на богатой смеси опасна тем, что несгоревший бензин догорает в выпускном коллекторе, перегревая клапана и разрушая катализатор.</p>
+
+<table>
+<thead>
+<tr>
+<th>Симптом</th>
+<th>Вероятная причина</th>
+<th>Влияние на ресурс</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Плавающие обороты</td>
+<td>Подсос воздуха / ДМРВ</td>
+<td>Износ ЦПГ</td>
+</tr>
+<tr>
+<td>Черный дым из выхлопной</td>
+<td>Богатая смесь (Лямбда)</td>
+<td>Закоксовка свечей</td>
+</tr>
+<tr>
+<td>Провалы при разгоне</td>
+<td>ДПДЗ / Катушка</td>
+<td>Перегрев катализатора</td>
+</tr>
+<tr>
+<td>Глохнет на светофоре</td>
+<td>РХХ / ДМРВ</td>
+<td>Нагрузка на стартер</td>
+</tr>
+</tbody>
+</table>
+
+<p>Кроме того, постоянная работа в аварийном режиме сокращает срок службы свечей зажигания и катушек. Нагар, образующийся на электродах, может привести к пробоям высоковольтной части, что добавит к существующей проблеме еще и троение двигателя. Поэтому устранение ошибки 4 — это не просто вопрос комфорта, но и экономии денег в долгосрочной перспективе.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При замене датчика кислорода на Калине используйте только специальный антизадирный состав для резьбы. Обычная медная смазка может содержать металл, который со временем выгорит и «прикипит» датчик, сделав его замену невозможной без высверливания.</p></div>
+
+<h2 id="пошаговая-инструкция-по-устранению">Пошаговая инструкция по устранению</h2>
+
+<p>Процесс устранения неисправности начинается с локализации проблемного узла. Если диагностика указала на датчик, не спешите покупать новый. Сначала проверьте целостность проводов, идущих к нему. Часто достаточно зачистить контакты или заменить участок провода, чтобы ошибка исчезла. Убедитесь, что разъем плотно защелкнут.</p>
+
+<p>Если проводка цела, производится замена датчика. Для <em>Лада Калина</em> характерно использование датчиков <em>Bosch</em> или <em>Simens</em>. При установке нового элемента убедитесь, что вы покупаете датчик с нужным количеством проводов и разъемом под ваш тип проводки. После физической замены необходимо сбросить накопленные ошибки через диагностический сканер.</p>
+
+<blockquote>
+<p>⚠️ Внимание: При замене датчика положения дроссельной заслонки на системах с <em>Е-Газ</em> обязательно выполните процедуру адаптации нуля. Для этого включите зажигание, подождите 30 секунд (будет слышен звук работы мотора дросселя), затем выключите зажигание. После этого можно запускать двигатель.</p>
+</blockquote>
+
+<p>Завершающим этапом является тестовый заезд. Проедьтесь на автомобиле в разных режимах: холостой ход, разгон, движение накатом. Если индикатор «Check Engine» не загорается повторно, а работа двигателя стала ровной, значит, <strong>ремонт</strong> прошел успешно. Если ошибка вернулась, проблема может быть глубже — в самом блоке управления или в скрытых дефектах проводки.</p>
+
+<h2 id="профилактика-и-рекомендации-экспертов">Профилактика и рекомендации экспертов</h2>
+
+<p>Чтобы ошибка 4 на <em>Лада Калина</em> не беспокоила вас в будущем, следует придерживаться нескольких правил эксплуатации. Регулярно проверяйте состояние воздушного фильтра. Грязный фильтр нарушает поток воздуха, что сбивает показания <strong>ДМРВ</strong> и заставляет датчик работать в некорректном диапазоне.</p>
+
+<p>Также важно следить за качеством топлива. Заправляйтесь только на проверенных АЗС. Плохой бензин — главная причина быстрого выхода из строя датчиков кислорода и катализатора. Периодически, раз в 10-15 тысяч километров, полезно проводить профилактическую очистку топливной системы и дроссельного узла специальными жидкостями.</p>
+
+<ul>
+<li>⛽ Используйте топливо с октановым числом не ниже рекомендованного производителем.</li>
+<li>🧹 Меняйте воздушный фильтр каждые 15 000 км или чаще в пыльных условиях.</li>
+<li>🔋 Следите за натяжением ремня генератора и состоянием клемм АКБ.</li>
+<li>🧴 Раз в год проводите чистку дроссельной заслонки от масляного нагара.</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Своевременная замена воздушного фильтра и использование качественного топлива продлевают жизнь датчика массового расхода воздуха в 2-3 раза, предотвращая появление ошибок системы управления двигателем.</p></div>
+
+<p>Не забывайте про визуальный осмотр подкапотного пространства. Ищите потеки масла, трещины на патрубках и следы грызунов, которые часто грызут провода. Раннее обнаружение мелкой проблемы, такой как перетершийся проводок, спасет вас от сложного ремонта и дорогостоящей замены узлов в будущем.</p>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли ездить с горящей лампой Check Engine и ошибкой 4?</summary>
+<p>Кратковременная езда до сервиса возможна, если двигатель работает ровно и нет посторонних звуков. Однако длительная эксплуатация в аварийном режиме приведет к повышенному расходу топлива и возможному повреждению каталитического нейтрализатора, поэтому затягивать с ремонтом не стоит.</p>
+</details>
+
+<details>
+<summary>Поможет ли снятие клеммы аккумулятора для сброса ошибки?</summary>
+<p>Снятие клеммы на 10-15 минут может временно погасить лампу, сбросив адаптации <strong>ЭБУ</strong>. Но если физическая неисправность (обрыв провода, смерть датчика) не устранена, ошибка 4 появится снова после нескольких циклов работы двигателя, как только система проведет повторную самодиагностику.</p>
+</details>
+
+<details>
+<summary>Какой датчик чаще всего вызывает ошибку 4 на Калине 8 клапанов?</summary>
+<p>На 8-клапанных двигателях <em>ВАЗ-11186</em> чаще всего проблемы вызывает датчик положения дроссельной заслонки (<em>ДПДЗ</em>) или датчик массового расхода воздуха (<em>ДМРВ</em>). Также частой причиной является неисправность катушки зажигания, если ошибка трактуется как пропуски воспламенения.</p>
+</details>
+
+<details>
+<summary>Нужно ли программировать новый датчик после замены?</summary>
+<p>В большинстве случаев для <em>Лада Калина</em> программирование нового датчика не требуется. Достаточно заменить элемент, сбросить ошибки сканером и дать двигателю поработать на холостых оборотах 2-3 минуты для стабилизации параметров. Исключение составляют случаи замены самого блока управления.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#интерпретация-кода-ошибки-в-разных-системах">Интерпретация кода ошибки в разных системах</a></li><li><a href="#диагностика-с-помощью-сканера-и-мультиметра">Диагностика с помощью сканера и мультиметра</a></li><li><a href="#основные-причины-появления-неисправности">Основные причины появления неисправности</a></li><li><a href="#влияние-ошибки-на-работу-двигателя-и-расход-топлива">Влияние ошибки на работу двигателя и расход топлива</a></li><li><a href="#пошаговая-инструкция-по-устранению">Пошаговая инструкция по устранению</a></li><li><a href="#профилактика-и-рекомендации-экспертов">Профилактика и рекомендации экспертов</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/z/za/zamena-rulevoj-rejki-lada-kalina.html" class="related-card">Замена рулевой рейки Лада Калина: цена, симптомы и инструкция</a></li><li><a href="/articles/s/si/sistema-okhlazhdeniya-lada-kalina-1.html" class="related-card">Система охлаждения Лада Калина 1: Схема, замена, прокачка</a></li><li><a href="/articles/l/la/lada-kalina-2007-goda.html" class="related-card">Лада Калина 2007 года: технические характеристики, двигатели и отзывы</a></li><li><a href="/articles/p/pe/perednyaya-stojka-lada-kalina.html" class="related-card">Передняя стойка Лада Калина: выбор, замена и нюансы</a></li><li><a href="/articles/l/la/lada-kalina-v-novom-kuzove.html" class="related-card">Лада Калина в новом кузове: обзор обновленного хэтчбека</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/z/za/zamena-rulevoj-rejki-lada-kalina.html" class="related-bottom-card"><span class="related-bottom-title">Замена рулевой рейки Лада Калина: цена, симптомы и инструкция</span><span class="related-bottom-desc">Подробный гид по замене рулевой рейки на Лада Калина. Разбор симптомов стука, выбор запчасти, пошаго</span></a><a href="/articles/s/si/sistema-okhlazhdeniya-lada-kalina-1.html" class="related-bottom-card"><span class="related-bottom-title">Система охлаждения Лада Калина 1: Схема, замена, прокачка</span><span class="related-bottom-desc">Подробный разбор системы охлаждения Лада Калина 1. Схема работы, устранение воздушных пробок, замена</span></a><a href="/articles/l/la/lada-kalina-2007-goda.html" class="related-bottom-card"><span class="related-bottom-title">Лада Калина 2007 года: технические характеристики, двигатели и отзывы</span><span class="related-bottom-desc">Полный обзор Лада Калина 2007 года. Технические характеристики, выбор между 8 и 16 клапанным двигате</span></a><a href="/articles/p/pe/perednyaya-stojka-lada-kalina.html" class="related-bottom-card"><span class="related-bottom-title">Передняя стойка Лада Калина: выбор, замена и нюансы</span><span class="related-bottom-desc">Полный гид по передней стойке Лада Калина: артикулы, выбор производителя, пошаговая замена, прокачка</span></a><a href="/articles/l/la/lada-kalina-v-novom-kuzove.html" class="related-bottom-card"><span class="related-bottom-title">Лада Калина в новом кузове: обзор обновленного хэтчбека</span><span class="related-bottom-desc">Подробный обзор Лады Калины в новом кузове. Характеристики, отличия от предыдущих версий, анализ сал</span></a><a href="/articles/l/la/lada-kalina-2-kross.html" class="related-bottom-card"><span class="related-bottom-title">Лада Калина 2 Кросс: характеристики, плюсы и минусы, отзывы владельцев</span><span class="related-bottom-desc">Подробный обзор Lada Kalina 2 Cross: технические параметры, сравнение с седаном, реальные отзывы, со</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

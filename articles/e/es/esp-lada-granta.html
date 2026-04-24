@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>ESP Лада Гранта: что это, как отключить и настроить — Лада Справка</title>
+    <meta name="description" content="Подробный разбор системы ESP на Лада Гранта. Назначение кнопки, коды ошибок, отключение, настройка датчиков и устранение неисправностей ABS.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/e/es/esp-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="ESP Лада Гранта: что это, как отключить и настроить">
+    <meta property="og:description" content="Подробный разбор системы ESP на Лада Гранта. Назначение кнопки, коды ошибок, отключение, настройка датчиков и устранение неисправностей ABS.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">ESP Лада Гранта: что это, как отключить и настроить</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>ESP Лада Гранта: устройство, настройка и отключение системы</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#принцип-работы-и-назначение-системы-esp">Принцип работы и назначение системы ESP</a></li><li><a href="#кнопка-отключения-esp-когда-и-зачем-она-нужна">Кнопка отключения ESP: когда и зачем она нужна</a></li><li><a href="#индикация-неисправностей-и-коды-ошибок">Индикация неисправностей и коды ошибок</a></li><li><a href="#датчики-и-компоненты-системы-на-лада-гранта">Датчики и компоненты системы на Лада Гранта</a></li><li><a href="#процедура-самостоятельной-диагностики-и-сброса">Процедура самостоятельной диагностики и сброса</a></li><li><a href="#частые-проблемы-и-их-решения">Частые проблемы и их решения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный автомобиль — это сложный комплекс электронных систем, призванных обеспечить максимальную безопасность водителя и пассажиров. На автомобилях <em>ВАЗ-2190</em>, известных как Лада Гранта, одной из ключевых опций стала система курсовой устойчивости, именуемая <strong>ESP</strong> (Electronic Stability Program) или <strong>ESC</strong> (Electronic Stability Control). Многие владельцы сталкиваются с непонятными сигналами на приборной панели или желанием полностью деактивировать вмешательство электроники в управление машиной.</p>
+
+<p>В этой статье мы детально разберем, как работает <em>ESP</em> на Лада Гранта, зачем нужна кнопка отключения и что делать, если загорелся индикатор неисправности. Понимание принципов работы этой системы позволит вам увереннее чувствовать себя за рулем и правильно реагировать на аварийные ситуации. Электроника не заменяет навыки вождения, но в критический момент может спасти жизнь.</p>
+
+<p>Стоит отметить, что <strong>ABS</strong> (антиблокировочная система) и <strong>ESP</strong> тесно связаны между собой. <mark>На Лада Гранта система курсовой устойчивости активируется автоматически при каждом запуске двигателя и начинает работать только на скоростях выше 50 км/ч</mark>. Это программное ограничение создано для того, чтобы система не мешала маневрам на парковке или при движении в плотном потоке с низкой скоростью.</p>
+
+<h2 id="принцип-работы-и-назначение-системы-esp">Принцип работы и назначение системы ESP</h2>
+
+<p>Главная задача <strong>ESP</strong> — предотвращение заноса и сноса автомобиля при резких маневрах или на скользком покрытии. Система постоянно анализирует данные с датчиков угловой скорости вращения колес, датчика положения рулевого колеса и датчика поперечного ускорения. Если компьютер (<em>ECU</em>) замечает расхождение между тем, куда водитель повернул руль, и тем, куда фактически движется кузов, вмешивается электроника.</p>
+
+<p>В отличие от простой <strong>ABS</strong>, которая лишь предотвращает блокировку колес при торможении, <strong>ESC</strong> может выборочно подтормаживать определенные колеса и снижать обороты двигателя. Например, при начале заноса задней оси система притормозит внешнее переднее колесо, чтобы вернуть автомобиль на траекторию. Это происходит за доли секунды, часто незаметно для водителя, если не считать мигания индикатора на панели.</p>
+
+<ul>
+    <li>🛑 Автоматическое подтормаживание отдельных колес для стабилизации траектории.</li>
+    <li>⚙️ Снижение крутящего момента двигателя при обнаружении потери сцепления.</li>
+    <li>🔄 Работа в связке с системой <em>ABS</em> и <strong>EBD</strong> (распределение тормозных усилий).</li>
+</ul>
+
+<blockquote>⚠️ Внимание: Система <strong>ESP</strong> не всесильна. При превышении физических пределов сцепления шин с дорогой (например, на льду при резком повороте на высокой скорости) электроника не сможет удержать автомобиль на полосе.</blockquote>
+
+<p>Важно понимать, что работа системы основана на математических моделях поведения автомобиля. Компьютер сравнивает фактические параметры движения с эталонными. Если разница превышает допустимые значения, активируется <strong>алгоритм стабилизации</strong>. На Лада Гранта реализована довольно мягкая настройка, которая позволяет водителю чувствовать габариты машины, но мягко корректирует ошибки.</p>
+
+<h2 id="кнопка-отключения-esp-когда-и-зачем-она-нужна">Кнопка отключения ESP: когда и зачем она нужна</h2>
+
+<p>На центральной панели Лада Гранта, обычно в районе регулятора корректора фар или рядом с кнопкой обогрева стекла, расположена клавиша с изображением автомобиля и следящих линий. Это кнопка принудительного отключения системы курсовой устойчивости. По умолчанию <strong>ESP</strong> всегда включена, но бывают ситуации, когда ее вмешательство нежелательно или даже вредно.</p>
+
+<p>Чаще всего отключение требуется при попытке выехать из сугроба, грязи или песка. Когда колеса начинают буксовать, <strong>ESP</strong> воспринимает это как потерю стабльности и «душит» двигатель, не давая раскрутиться и выбраться из ловушки. В таких случаях кратковременное нажатие кнопки позволяет колесам вращаться свободно, что помогает расчистить грунт и набрать инерцию.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 В какой ситуации вы отключали ESP на Гранте?</strong><ul><li>Застревание в снегу/грязи</li><li>Дрифт на закрытой площадке</li><li>Просто проверял работу</li><li>Никогда не отключал</li></ul></div></div>
+
+<p>Также отключение системы может быть полезным при использовании цепей противоскольжения или при движении по глубоко раскатанной снежной колее. В этих условиях система может ошибочно интерпретировать проскальзывание колес как занос и начать хаотично подтормаживать колеса, что только ухудшит проходимость.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Для полного отключения системы на некоторых версиях прошивки может потребоваться удерживать кнопку более 3 секунд, однако на большинстве Лада Гранта достаточно однократного нажатия, о чем сигнализирует горящий индикатор на панели приборов.</p></div>
+
+<ul>
+    <li>🚙 Застревание в снегу, грязи или песке для раскрутки колес.</li>
+    <li>❄️ Движение по глубокой снежной колее или целине.</li>
+    <li>🏁 Спортивное вождение на закрытых треках (дрифт, автокросс).</li>
+</ul>
+
+<p>После того как вы выбрались из сложного участка, не забудьте снова активировать систему. На панели приборов погаснет желтый индикатор с изображением скользящей машины. Помните, что на скользкой дороге в дождь или гололед наличие активной <strong>ESP</strong> значительно снижает риск попадания в ДТП.</p>
+
+<h2 id="индикация-неисправностей-и-коды-ошибок">Индикация неисправностей и коды ошибок</h2>
+
+<p>Диагностика системы курсовой устойчивости на Лада Гранта производится через стандартный разъем <em>OBD-II</em>. При возникновении неисправности загорается лампочка <strong>ESP</strong> или <strong>ABS</strong> на приборной панели. Часто эти системы работают в паре, поэтому поломка одного датчика может привести к отключению обеих функций.</p>
+
+<p>Для считывания кодов ошибок можно использовать как дилерский сканер <em>Dialog</em>, так и популярные мультимарочные адаптеры <em>ELM327</em> в связке со смартфоном. Наиболее часто встречающиеся коды ошибок указывают на проблемы с датчиками скорости вращения колес (ДСК) или неисправность самого гидроблока <strong>ABS/ESP</strong>.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Код ошибки</th>
+            <th>Описание неисправности</th>
+            <th>Вероятная причина</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>C1140</td>
+            <td>Неисправность датчика переднего правого колеса</td>
+            <td>Обрыв проводки, загрязнение гребенки</td>
+        </tr>
+        <tr>
+            <td>C1145</td>
+            <td>Неисправность датчика переднего левого колеса</td>
+            <td>Повреждение разъема, окисление контактов</td>
+        </tr>
+        <tr>
+            <td>C0035</td>
+            <td>Неисправность цепи датчика скорости колеса</td>
+            <td>Проблемы с проводкой до ЭБУ</td>
+        </tr>
+        <tr>
+            <td>C1230</td>
+            <td>Сбой в работе насоса ABS/ESP</td>
+            <td>Низкое напряжение, износ насоса</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Если на панели горит лампа <strong>ESP</strong>, но автомобиль ведет себя обычно, это может означать, что система временно отключена из-за низкого напряжения в бортовой сети. Проверьте состояние аккумулятора и генератора. Также частой причиной ложных срабатываний является разный диаметр колес или установка шин с отличающимся рисунком протектора.</p>
+
+<blockquote>⚠️ Внимание: Если вместе с лампой <strong>ESP</strong> загорелся красный индикатор тормозной системы (!), эксплуатация автомобиля запрещена. Это может свидетельствовать о критическом падении уровня тормозной жидкости или отказе тормозов.</blockquote>
+
+<h2 id="датчики-и-компоненты-системы-на-лада-гранта">Датчики и компоненты системы на Лада Гранта</h2>
+
+<p>Основу <strong>ESP</strong> составляют четыре датчика скорости вращения колес, расположенные в ступичных узлах. На Лада Гранта с ABS эти датчики магнитные и считывают информацию с гребенки, расположенной на внутреннем ШРУСе или в ступице (в зависимости от года выпуска и типа тормозов). Чистота этих элементов критически важна для корректной работы.</p>
+
+<p>Центральным элементом является электронный блок управления (<strong>ECU</strong>), который объединен с гидравлическим модулятором в единый узел. Именно он обрабатывает сигналы и отдает команды на электромагнитные клапаны. Также в системе участвует датчик положения рулевого колеса, который сообщает компьютеру о намерениях водителя.</p>
+
+<details class="faq-item"><summary>Как проверить датчик ABS мультиметром?</summary><div class="faq-answer"><p>Для проверки необходимо снять разъем с датчика и прозвонить контакты. Сопротивление исправного датчика обычно составляет от 800 до 1500 Ом. Однако более точный результат дает осциллограф или проверка сигнала при вращении колеса.</p></div></details>
+
+<p>При замене подшипников ступицы или тормозных дисков важно не повредить проводку датчиков. На Гранте провода часто проходят в непосредственной близости от горячих тормозных механизмов, поэтому состояние изоляции нужно проверять регулярно. Окисление контактов в разъемах под днищем автомобиля — еще одна распространенная проблема.</p>
+
+<ul>
+    <li>📡 Четыре датчика скорости вращения колес (передние и задние).</li>
+    <li>🧠 Гидравлический блок <strong>ABS/ESP</strong> с электронным модулем.</li>
+    <li>🎛️ Датчик угла поворота рулевого колеса в рулевой колонке.</li>
+</ul>
+
+<p>Стоит отметить, что на некоторых комплектациях Лада Гранта может отсутствовать кнопка отключения <strong>ESP</strong> физически, хотя программно система присутствует. В таком случае отключение возможно только через перепрошивку ЭБУ или отключение разъема, что не рекомендуется делать без профессиональных знаний.</p>
+
+<h2 id="процедура-самостоятельной-диагностики-и-сброса">Процедура самостоятельной диагностики и сброса</h2>
+
+<p>Если вы столкнулись с загоревшейся лампой неисправности, первым делом попробуйте выполнить программный сброс ошибки. Иногда сбой происходит из-за скачка напряжения или временного загрязнения датчика. Для этого можно воспользоваться простым алгоритмом действий, который часто помогает убрать ложную ошибку.</p>
+
+<p>Для начала убедитесь, что все колеса имеют одинаковое давление и размерность шин. Затем заглушите двигатель, откройте и закройте дверь водителя, после чего снова запустите мотор. Если лампа <strong>ESP</strong> погасла после начала движения со скоростью более 20 км/ч, значит, система исправна, а ошибка была временной.</p>
+
+<div class="checklist-block"><h4>☑️ Алгоритм первичной проверки ESP</h4><label class="check-item"><input type="checkbox"><span>Замерить давление в шинах</span></label><label class="check-item"><input type="checkbox"><span>Осмотреть целостность проводки датчиков</span></label><label class="check-item"><input type="checkbox"><span>Проверить уровень заряда АКБ</span></label><label class="check-item"><input type="checkbox"><span>Проехать 1-2 км со скоростью 40-50 км/ч</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>В случае, если лампа продолжает гореть, потребуется более глубокая диагностика. Необходимо считать код ошибки через диагностический разъем. После устранения физической причины (замены датчика, ремонта проводки) ошибку необходимо стереть из памяти контроллера. Без этого лампа на панели не погаснет, даже если неисправность устранена.</p>
+
+<pre><code>Процедура сброса через адаптер ELM327:
+<p>1. Подключить адаптер в разъем OBD-II.</p>
+<p>2. Запустить приложение (например, Torque или OpenDiag).</p>
+<p>3. Выбрать блок ABS/ESP.</p>
+<p>4. Считать коды ошибок (Read DTC).</p>
+<p>5. Устранить неисправность.</p>
+<p>6. Стереть коды ошибок (Clear DTC).</code></pre></p>
+
+<p>Помните, что постоянная езда с горящей лампой <strong>ABS/ESP</strong> небезопасна. В экстренной ситуации система экстренного торможения может не сработать корректно, а риск заноса на мокрой дороге значительно возрастает. Если самостоятельная диагностика не дала результатов, обратитесь к специалистам.</p>
+
+<h2 id="частые-проблемы-и-их-решения">Частые проблемы и их решения</h2>
+
+<p>Владельцы Лада Гранта часто сталкиваются с ситуацией, когда система <strong>ESP</strong> ведет себя неадекватно. Например, при проезде неровностей или ям может кратковременно загораться индикатор, а иногда система «душит» двигатель на ровной дороге. Чаще всего это связано с плохим контактом в проводке или загрязнением гребенок датчиков.</p>
+
+<p>Одной из специфических проблем является выход из строя ступичных подшипников. В конструкции Гранты магнитная гребенка часто встроена в сальник или сам подшипник. При разрушении подшипника гребенка теряет свои магнитные свойства или деформируется, что приводит к отсутствию сигнала скорости колеса и, как следствие, отключению <strong>ESP</strong> и <strong>ABS</strong>.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>В 80% случаев проблемы с ESP на Лада Гранта решаются заменой датчика скорости колеса или восстановлением целостности проводки в жгуте около колеса.</p></div>
+
+<p>Также стоит обратить внимание на состояние аккумулятора. Электронный блок управления <strong>ABS/ESP</strong> очень чувствителен к перепадам напряжения. Если генератор выдает «скачущее» напряжение или батарея изношена, система может уходить в ошибку, фиксируя ложные сигналы от датчиков.</p>
+
+<ul>
+    <li>🔋 Скачки напряжения в бортовой сети (неисправность генератора/АКБ).</li>
+    <li>🦿 Разрушение магнитной гребенки в ступичном подшипнике.</li>
+    <li>🔌 Окисление контактов в разъемах под колесными арками.</li>
+</ul>
+
+<p>Регулярный визуальный осмотр проводки, идущей к колесам, поможет избежать внезапных отказов системы. Провода часто перетираются о элементы подвески или повреждаются грызунами в зимний период. Своевременная изоляция и фиксация жгутов хомутами продлит жизнь системе безопасности вашего автомобиля.</p>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+    <summary>Можно ли ездить, если горит лампа ESP?</summary>
+    <p>Ехать можно, автомобиль не потеряет управление, но система стабилизации и антиблокировочная система тормозов работать не будут. Это повышает риск заноса на скользкой дороге и увеличивает тормозной путь. Рекомендуется尽快 (как можно скорее) обратиться в сервис.</p>
+</details>
+
+<details>
+    <summary>Почему ESP отключается сама на ходу?</summary>
+    <p>Самопроизвольное отключение обычно свидетельствует о неисправности одного из датчиков (чаще всего датчика колеса) или о критическом снижении напряжения в бортовой сети. Электроника отключает систему, чтобы не получать ложных сигналов.</p>
+</details>
+
+<details>
+    <summary>Влияет ли размер шин на работу ESP?</summary>
+    <p>Да, влияет значительно. Если на осях установлены шины разного размера, рисунка протектора или степени износа, датчики будут фиксировать разную скорость вращения колес. Компьютер воспримет это как аварийную ситуацию и отключит систему, выдав ошибку.</p>
+</details>
+
+<details>
+    <summary>Как навсегда отключить ESP на Гранте?</summary>
+    <p>Физически отключать систему не рекомендуется. Программно это можно сделать через перепрошивку ЭБУ двигателя (отключение в прошивке), но это лишит автомобиль заводской гарантии и может нарушить работу других систем. Для повседневной езды лучше использовать штатную кнопку.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#принцип-работы-и-назначение-системы-esp">Принцип работы и назначение системы ESP</a></li><li><a href="#кнопка-отключения-esp-когда-и-зачем-она-нужна">Кнопка отключения ESP: когда и зачем она нужна</a></li><li><a href="#индикация-неисправностей-и-коды-ошибок">Индикация неисправностей и коды ошибок</a></li><li><a href="#датчики-и-компоненты-системы-на-лада-гранта">Датчики и компоненты системы на Лада Гранта</a></li><li><a href="#процедура-самостоятельной-диагностики-и-сброса">Процедура самостоятельной диагностики и сброса</a></li><li><a href="#частые-проблемы-и-их-решения">Частые проблемы и их решения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/p/pe/pechka-lada-granta-ustrojstvo.html" class="related-card">Печка Лада Гранта: устройство, схема и принцип работы системы</a></li><li><a href="/articles/s/st/starter-lada-granta-8.html" class="related-card">Стартер Лада Гранта 8 клапанов: замена, цена и диагностика</a></li><li><a href="/articles/f/fi/filtr-lada-granta-toplivnyj.html" class="related-card">Топливный фильтр Лада Гранта: замена, артикулы и нюансы</a></li><li><a href="/articles/s/sk/skhema-predokhranitelej-lada-granta-sedan.html" class="related-card">Схема предохранителей Лада Гранта седан: полный разбор блоков</a></li><li><a href="/articles/l/la/lampochki-blizhnego-sveta-lada-granta-fl.html" class="related-card">Лампочки ближнего света Лада Гранта ФЛ: какие выбрать и как заменить</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/p/pe/pechka-lada-granta-ustrojstvo.html" class="related-bottom-card"><span class="related-bottom-title">Печка Лада Гранта: устройство, схема и принцип работы системы</span><span class="related-bottom-desc">Подробный разбор системы отопления Лада Гранта: устройство печки, схема воздуховодов, работа заслоно</span></a><a href="/articles/s/st/starter-lada-granta-8.html" class="related-bottom-card"><span class="related-bottom-title">Стартер Лада Гранта 8 клапанов: замена, цена и диагностика</span><span class="related-bottom-desc">Полный гид по стартеру Лада Гранта 8 клапанов. Артикулы, признаки неисправности, пошаговая инструкци</span></a><a href="/articles/f/fi/filtr-lada-granta-toplivnyj.html" class="related-bottom-card"><span class="related-bottom-title">Топливный фильтр Лада Гранта: замена, артикулы и нюансы</span><span class="related-bottom-desc">Полный гид по топливному фильтру Лада Гранта. Артикулы, схемы подключения, пошаговая замена модуля в</span></a><a href="/articles/s/sk/skhema-predokhranitelej-lada-granta-sedan.html" class="related-bottom-card"><span class="related-bottom-title">Схема предохранителей Лада Гранта седан: полный разбор блоков</span><span class="related-bottom-desc">Подробная схема предохранителей Лада Гранта седан. Расположение блоков F1, F2, F3. Таблица номиналов</span></a><a href="/articles/l/la/lampochki-blizhnego-sveta-lada-granta-fl.html" class="related-bottom-card"><span class="related-bottom-title">Лампочки ближнего света Лада Гранта ФЛ: какие выбрать и как заменить</span><span class="related-bottom-desc">Подробный разбор цоколя H7 для Лада Гранта ФЛ. Рейтинг лучших ламп, пошаговая инструкция замены, сов</span></a><a href="/articles/d/do/domkrat-na-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Домкрат на Лада Гранта: выбор, установка и замена</span><span class="related-bottom-desc">Полный гид по домкратам для Лада Гранта. Как правильно установить штатный механизм, выбрать надежную</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

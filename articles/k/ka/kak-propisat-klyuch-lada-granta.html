@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Как прописать ключ Лада Гранта: полная инструкция по ELM327 — Лада Справка</title>
+    <meta name="description" content="Подробный гайд, как прописать ключ Лада Гранта с иммобилайзером АПС-6. Методы через ELM327, Openport и без сканера. Ошибки и решения.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/k/ka/kak-propisat-klyuch-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Как прописать ключ Лада Гранта: полная инструкция по ELM327">
+    <meta property="og:description" content="Подробный гайд, как прописать ключ Лада Гранта с иммобилайзером АПС-6. Методы через ELM327, Openport и без сканера. Ошибки и решения.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Как прописать ключ Лада Гранта: полная инструкция по ELM327</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Как прописать ключ Лада Гранта: от АПС-6 до современных систем</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#определение-типа-иммобилайзера-на-лада-гранта">Определение типа иммобилайзера на Лада Гранта</a></li><li><a href="#необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</a></li><li><a href="#программирование-ключа-через-elm327-и-программу-альтернатива">Программирование ключа через ELM327 и программу Альтернатива</a></li><li><a href="#особенности-прописки-ключей-на-эбу-м74-и-м75">Особенности прописки ключей на ЭБУ М74 и М75</a></li><li><a href="#таблица-совместимости-адаптеров-и-по">Таблица совместимости адаптеров и ПО</a></li><li><a href="#типичные-ошибки-и-методы-их-устранения">Типичные ошибки и методы их устранения</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы автомобилей <em>АвтоВАЗ</em> часто сталкиваются с необходимостью добавления нового брелока или полной перепрошивки иммобилайзера. Ситуация, когда машина перестает видеть метку, может застать врасплох, но решить её можно самостоятельно, обладая минимальным набором оборудования. В этой статье мы детально разберем, <strong>как прописать ключ Лада Гранта</strong>, используя доступные диагностические адаптеры и специализированный софт.</p>
+
+<p>Процесс привязки зависит от года выпуска вашего автомобиля и установленного на заводе <strong>иммобилайзера</strong>. Ранние модели комплектовались системой АПС-6, тогда как более свежие версии Грант оснащаются контроллерами М74 или М75 с встроенной защитой. Понимание типа вашей системы защиты — это первый и самый важный шаг перед началом любых манипуляций с электроникой.</p>
+
+<p>Не стоит бояться сложной терминологии, так как алгоритм действий, по сути, сводится к синхронизации кода метки с блоком управления двигателем (ЭБУ). Мы рассмотрим как программные методы с использованием ноутбука, так и варианты ручной активации, если у вас нет доступа к дорогостоящему оборудованию. Главное — соблюдать последовательность и не прерывать процесс записи данных.</p>
+
+<h2 id="определение-типа-иммобилайзера-на-лада-гранта">Определение типа иммобилайзера на Лада Гранта</h2>
+
+<p>Прежде чем искать адаптер, необходимо точно знать, какая система охраны установлена на вашем автомобиле. На Лада Гранта чаще всего встречаются два типа систем: классический АПС-6 (АПС-11) и более современные встроенные в ЭБУ блоки. Определить тип можно визуально по наличию отдельного блока или по поведению индикатора на панели приборов.</p>
+
+<p>Если у вас стоит АПС-6, то в салоне обычно расположен отдельный блок, а в комплект ключей входит черная мастер-метка (красная) и рабочие ключи. В более новых моделях, где применяется <strong>система М74/М75</strong>, отдельного блока нет, а функции иммобилайзера встроены непосредственно в "мозги" двигателя. Это существенно меняет подход к прописке ключей.</p>
+
+<p>Для точной диагностики рекомендуется использовать любой OBDII сканер, даже простейший <em>ELM327</em>. Подключившись к автомобилю, вы сможете считать информацию о типе ЭБУ и наличии активной защиты. Это позволит выбрать правильную стратегию действий и избежать ошибок совместимости программаторов.</p>
+
+<ul>
+<li>🔍 Визуальный осмотр: наличие отдельного черного блока под панелью приборов указывает на АПС-6.</li>
+<li>🔍 Анализ ключей: наличие красной метки-мастер ключа характерно для старых версий Грант.</li>
+<li>🔍 Диагностика ПО: сканер покажет тип контроллера (Итэлма М74, М75 или Январь 7.2).</li>
+</ul>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой у вас установлен иммобилайзер?</strong><ul><li>АПС-6 (с красной меткой)</li><li>Встроен в ЭБУ (М74/М75)</li><li>Не знаю, нужна диагностика</li><li>У меня кнопка Старт-Стоп</li></ul></div></div>
+
+<h2 id="необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</h2>
+
+<p>Для успешной прописки ключа вам потребуется специфический набор инструментов. Универсальные сканеры для чтения ошибок здесь могут не подойти, так как требуется доступ к защищенным областям памяти иммобилайзера. Базовым инструментом для большинства гаражных мастеров становится адаптер <strong>ELM327</strong> версии 1.5 или 2.1 с поддержкой протокола K-Line.</p>
+
+<p>Кроме железа, критически важно подобрать правильный софт. Для старых систем АПС-6 идеально подходит программа <em>Альтернатива</em> или специализированные версии <strong>OpenBox</strong>. Для новых ЭБУ М74/М75 часто требуется более продвинутый софт, такой как <em>Scanmatik</em> или платные версии <strong>Diagnost</strong>, умеющие работать с протоколами CAN/K-Line.</p>
+
+<p>Также вам понадобится ноутбук с операционной системой Windows, так как большинство профессиональных утилит не имеют версий для Android или iOS. Убедитесь, что на компьютере установлены драйверы для вашего адаптера и настроено правильное подключение COM-порта.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте адаптер ELM327 только с чипом PIC18F25K80 — дешевые китайские клоны на чипе CH340 могут оборвать связь в критический момент записи, что приведет к блокировке ЭБУ.</p></div>
+
+<p>Отдельное внимание уделите состоянию аккумулятора автомобиля. Процесс программирования может занять от 5 до 15 минут, и падение напряжения бортовой сети ниже 11.5 Вольт недопустимо. Подключите внешнее зарядное устройство в режиме стабилизации напряжения перед началом работ.</p>
+
+<h2 id="программирование-ключа-через-elm327-и-программу-альтернатива">Программирование ключа через ELM327 и программу Альтернатива</h2>
+
+<p>Наиболее доступный способ для владельцев Грант с АПС-6 — использование связки адаптера ELM327 и бесплатной программы "Альтернатива". Этот метод позволяет не только прописать новые ключи, но и активировать или деактивировать иммобилайзер полностью. Процесс требует внимательности, но не требует глубоких знаний программирования.</p>
+
+<p>Сначала подключите адаптер в диагностический разъем OBDII, который на Лада Гранта находится под декоративной заглушкой слева от руля или под бардачком (в зависимости от года выпуска). Включите зажигание, но не запускайте двигатель. Запустите программу и выберите тип соединения — обычно это COM-порт с максимальной скоростью, которую поддерживает адаптер.</p>
+
+<p>В меню программы выберите вкладку "Иммобилайзер" и нажмите кнопку "Считать". Если связь с блоком установлена, вы увидите идентификационный код (ID) вашего иммобилайзера и количество уже прописанных ключей. Если поле пустое, возможно, блок не активирован или связь не настроена.</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к прописке ключа</h4><label class="check-item"><input type="checkbox"><span>Зарядить аккумулятор автомобиля</span></label><label class="check-item"><input type="checkbox"><span>Подключить адаптер ELM327</span></label><label class="check-item"><input type="checkbox"><span>Установить драйверы COM-порта</span></label><label class="check-item"><input type="checkbox"><span>Закрыть все лишние программы на ПК</span></label><label class="check-item"><input type="checkbox"><span>Приготовить все ключи (мастер и рабочие)</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Для записи нового ключа нажмите кнопку "Записать" или "Добавить". Программа попросит приложить мастер-ключ (красную метку) к считывателю в районе рычага КПП или рулевой колонки. После успешного считывания мастер-ключа, система потребует приложить рабочий ключ. Важно выполнить эти действия быстро, обычно у вас есть около 10 секунд между операциями.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Если вы потеряли все ключи и мастер-ключ, программа "Альтернатива" не поможет. Вам потребуется метод "грузовика" (замена EEPROM) или обращение к дилеру с документами на авто для сброса через заводские коды.</p>
+</blockquote>
+
+<p>После успешной записи всех ключей программа выдаст сообщение об успехе. Выключите зажигание, отсоедините адаптер и попробуйте завести автомобиль новым ключом. Если двигатель запускается и через 3-5 секунд глохнет — иммобилайзер не видит ключ. Если машина заводится и работает — процедура прошла успешно.</p>
+
+<h2 id="особенности-прописки-ключей-на-эбу-м74-и-м75">Особенности прописки ключей на ЭБУ М74 и М75</h2>
+
+<p>Ситуация кардинально меняется, если ваша Лада Гранта оснащена современным контроллером <strong>М74</strong> или <strong>М75</strong>. В этих системах нет отдельного блока АПС-6, а вся логика защиты вшита в сам ЭБУ. Простая программа "Альтернатива" здесь уже не справится, так как требуется доступ к таблицам EEPROM внутри процессора двигателя.</p>
+
+<p>Для работы с такими системами часто используют программу <em>Loader</em> или специализированные модули в <strong>Scanmatik 2</strong>. Процесс выглядит сложнее: необходимо считать дамп (полную копию прошивки) из ЭБУ, отредактировать таблицу ключей в HEX-редакторе или специализированном калькуляторе, и записать измененный дамп обратно.</p>
+
+<p>Главная опасность при работе с М74/М75 — риск "окирпичивания" блока управления. Если во время записи дампа пропадет питание или связь, ЭБУ может перестать отвечать на запросы. Поэтому использование стабилизатора питания и надежного интерфейса (например, <em>OpenPort 2.0</em>) здесь является не просто рекомендацией, а необходимостью.</p>
+
+<details class="faq-item"><summary>Можно ли обойтись без замены EEPROM?</summary><div class="faq-answer"><p>Да, если у вас есть доступ к заводскому софту (eLADA) и учетная запись дилера, можно попробовать запросить код разблокировки по VIN, но для частных лиц этот путь практически закрыт.</p></div></details>
+
+<p>Существует также метод "виртуального груза", когда в память ЭБУ прописывается специальный код, разрешающий работу без проверки метки, или эмулирующий наличие правильного ключа. Однако это считается вмешательством в работу охранных систем и может быть незаконным в ряде случаев, поэтому мы рассматриваем только легальную привязку новых меток.</p>
+
+<h2 id="таблица-совместимости-адаптеров-и-по">Таблица совместимости адаптеров и ПО</h2>
+
+<p>Чтобы не запутаться в многообразии оборудования, мы составили сводную таблицу, которая поможет подобрать правильный инструмент для вашей конкретной модели Лада Гранта и типа иммобилайзера.</p>
+
+<table>
+<thead>
+<tr>
+<th>Тип системы</th>
+<th>Рекомендуемый адаптер</th>
+<th>Программное обеспечение</th>
+<th>Сложность</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>АПС-6 (Классика)</td>
+<td>ELM327 (PIC18F25K80)</td>
+<td>Альтернатива, OpenBox</td>
+<td>Низкая</td>
+</tr>
+<tr>
+<td>ЭБУ М74 (CAN)</td>
+<td>OpenPort 2.0 / Scanmatik 2</td>
+<td>Loader, Scanmatik</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>ЭБУ М75 (CAN)</td>
+<td>OpenPort 2.0 / J2534</td>
+<td>Diagnost, Scanmatik</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>АПС-12 (Редкий)</td>
+<td>Специализированный программатор</td>
+<td>ППО (Прибор Программирования Опций)</td>
+<td>Средняя</td>
+</tr>
+</tbody>
+</table>
+
+<p>Как видно из таблицы, для старых систем достаточно бюджетного решения, тогда как новые модели требуют более серьезного подхода. Использование неподходящего адаптера может привести к тому, что вы просто не увидите блок управления в списке доступных устройств.</p>
+
+<p>Обращайте внимание на версию прошивки самого адаптера. Для работы с <strong>K-Line</strong> (протокол старых Грант) подходят многие версии ELM327, но для работы по <strong>CAN</strong> (новые Гранты) требуются адаптеры с поддержкой CAN-шины и соответствующим ПО.</p>
+
+<h2 id="типичные-ошибки-и-методы-их-устранения">Типичные ошибки и методы их устранения</h2>
+
+<p>В процессе программирования пользователи часто сталкиваются с ошибками связи. Самая распространенная из них — "Нет ответа от ИММО" или "Ошибка записи". Чаще всего это связано с плохим контактом в разъеме OBDII или нестабильным напряжением в бортовой сети.</p>
+
+<p>Если программа пишет ошибку CRC (контрольная сумма), значит, данные были записаны некорректно. В этом случае ни в коем случае не пытайтесь сразу повторить запись. Сначала проверьте надежность подключения, перезагрузите ЭБУ (снимите клемму аккумулятора на 10 минут) и попробуйте считать данные снова.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>90% ошибок при прописке ключа связаны с плохим контактом "массы" или низким зарядом аккумулятора автомобиля, а не с неисправностью самого оборудования.</p></div>
+
+<p>Еще одна частая проблема — таймаут соединения. Это может происходить, если вы слишком медленно переставляете ключи в замке зажигания или прикладываете метку к считывателю. Алгоритм АПС-6 требует четких и быстрых действий. Если вы не успеваете, попробуйте потренироваться с выключенным зажиганием, имитируя движения.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Если после неудачной попытки прописки автомобиль перестал заводиться совсем (крутит, но не схватывает), возможно, вы стерли все ключи из памяти. В этом случае поможет только полный сброс ЭБУ к заводским настройкам или замена блока управления с привязкой.</p>
+</blockquote>
+
+<p>Также стоит упомянуть проблему совместимости чипов. Некоторые универсальные чипы (например, <em>PCF7936</em>) могут некорректно работать с российскими иммобилайзерами. Лучше использовать оригинальные ключи <em>АвтоВАЗ</em> или проверенные аналоги, специально предназначенные для систем АПС-6.</p>
+
+<h2 id="faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</h2>
+
+<details>
+<summary>Можно ли прописать ключ Лада Гранта без компьютера?</summary>
+<p>Только если у вас сохранился мастер-ключ (красная метка). В таком случае можно использовать алгоритм "обучающей" поездки: включить зажигание мастер-ключом, дождаться сигнала, выключить, быстро включить рабочим ключом и т.д. Точную последовательность миганий лампы нужно смотреть в мануале для вашей модели АПС.</p>
+</details>
+
+<details>
+<summary>Сколько ключей максимум можно прописать в память?</summary>
+<p>Система АПС-6 позволяет хранить в памяти до 4-х рабочих ключей. При попытке записать пятый ключ, первый в списке будет автоматически удален. Поэтому при обучении важно прописывать сразу весь комплект, который планируете использовать.</p>
+</details>
+
+<details>
+<summary>Что делать, если потеряна красная метка (мастер-ключ)?</summary>
+<p>Без мастер-ключи стандартными методами (через "Альтернативу") добавить новый ключ нельзя. Потребуется либо наличие хотя бы одного рабочего ключа для процедуры "переобучения" (если система позволяет), либо полный сброс иммобилайзера ("груз") с заменой ПО в ЭБУ.</p>
+</details>
+
+<details>
+<summary>Подойдет ли ключ от Калины или Приоры на Гранту?</summary>
+<p>Физически жало ключа может отличаться, но электронная начинка (чип) и частота радиоканала у <em>ВАЗ</em> часто унифицированы. Ключ с чипом АПС-6 от Приоры или Калины можно прописать на Гранту того же года выпуска, если совпадает тип иммобилайзера.</p>
+</details>
+
+<p>Процесс прописки ключа на Лада Гранта — это задача, требующая технической грамотности, но вполне решаемая в гаражных условиях. Главное — не спешить, подготовить оборудование и четко следовать инструкциям для вашего типа системы. Помните, что <mark>сохранение оригинального мастер-ключа</mark> в надежном месте (не в машине!) спасет вас от многих проблем в будущем.</p></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#определение-типа-иммобилайзера-на-лада-гранта">Определение типа иммобилайзера на Лада Гранта</a></li><li><a href="#необходимое-оборудование-и-программное-обеспечение">Необходимое оборудование и программное обеспечение</a></li><li><a href="#программирование-ключа-через-elm327-и-программу-альтернатива">Программирование ключа через ELM327 и программу Альтернатива</a></li><li><a href="#особенности-прописки-ключей-на-эбу-м74-и-м75">Особенности прописки ключей на ЭБУ М74 и М75</a></li><li><a href="#таблица-совместимости-адаптеров-и-по">Таблица совместимости адаптеров и ПО</a></li><li><a href="#типичные-ошибки-и-методы-их-устранения">Типичные ошибки и методы их устранения</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-v-salone-voda.html" class="related-card">Вода в салоне Лада Гранта: как найти и устранить течь</a></li><li><a href="/articles/l/la/lada-granta-kross-komplektatsiya-komfort.html" class="related-card">Лада Гранта Кросс комплектация Комфорт: полный обзор 2026</a></li><li><a href="/articles/l/la/lada-granta-vilka-stsepleniya.html" class="related-card">Лада Гранта: вилка сцепления — признаки неисправности и замена</a></li><li><a href="/articles/f/fo/forsunki-lada-granta-8-klapannaya.html" class="related-card">Замена форсунки Лада Гранта 8 клапанная: признаки, артикулы, чистка</a></li><li><a href="/articles/l/la/lada-granta-pavlodar.html" class="related-card">Лада Гранта Павлодар: цены, комплектации и выбор дилера</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-v-salone-voda.html" class="related-bottom-card"><span class="related-bottom-title">Вода в салоне Лада Гранта: как найти и устранить течь</span><span class="related-bottom-desc">Почему в Лада Гранта вода в салоне? Разбор причин, поиск течи, методы устранения и защита от влаги с</span></a><a href="/articles/l/la/lada-granta-kross-komplektatsiya-komfort.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта Кросс комплектация Комфорт: полный обзор 2026</span><span class="related-bottom-desc">Подробный разбор Лада Гранта Кросс в комплектации Комфорт. Технические характеристики, оснащение, ра</span></a><a href="/articles/l/la/lada-granta-vilka-stsepleniya.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта: вилка сцепления — признаки неисправности и замена</span><span class="related-bottom-desc">Как определить поломку вилки сцепления на Лада Гранта? Признаки износа, пошаговая инструкция по заме</span></a><a href="/articles/f/fo/forsunki-lada-granta-8-klapannaya.html" class="related-bottom-card"><span class="related-bottom-title">Замена форсунки Лада Гранта 8 клапанная: признаки, артикулы, чистка</span><span class="related-bottom-desc">Полный гид по топливным форсункам Лада Гранта 8 кл. Симптомы неисправности, артикулы, методы чистки </span></a><a href="/articles/l/la/lada-granta-pavlodar.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта Павлодар: цены, комплектации и выбор дилера</span><span class="related-bottom-desc">Полный гид по покупке Лада Гранта в Павлодаре. Актуальные цены, сравнение комплектаций, советы по оф</span></a><a href="/articles/o/ob/obem-baka-lada-granta-sedan-2022.html" class="related-bottom-card"><span class="related-bottom-title">Объем бака Lada Granta седан 2022: точные данные и советы</span><span class="related-bottom-desc">Узнайте реальный объем топливного бака Лада Гранта седан 2022 года, как правильно заправляться и изб</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

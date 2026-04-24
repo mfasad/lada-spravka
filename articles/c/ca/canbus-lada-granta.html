@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>CAN-Bus в Lada Granta: схема, диагностика и подключение устройств — Лада Справка</title>
+    <meta name="description" content="Разбираем CAN-шину Лада Гранта: где находится, как проверить мультиметром, распиновка разъёма OBD-II и подключение дополнительных устройств без ошибок.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/c/ca/canbus-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="CAN-Bus в Lada Granta: схема, диагностика и подключение устройств">
+    <meta property="og:description" content="Разбираем CAN-шину Лада Гранта: где находится, как проверить мультиметром, распиновка разъёма OBD-II и подключение дополнительных устройств без ошибок.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">CAN-Bus в Lada Granta: схема, диагностика и подключение устройств</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>CAN-Bus в Lada Granta: полное руководство по диагностике и модификациям</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#что-такое-can-bus-и-зачем-он-нужен-в-lada-granta">Что такое CAN-Bus и зачем он нужен в Lada Granta</a></li><li><a href="#схема-can-шины-lada-granta-где-находятся-провода-и-разъёмы">Схема CAN-шины Lada Granta: где находятся провода и разъёмы</a></li><li><a href="#распиновка-obd-ii-разъёма-lada-granta-где-какие-контакты">Распиновка OBD-II разъёма Lada Granta: где какие контакты</a></li><li><a href="#подключение-дополнительных-устройств-к-can-шине-сигнализация-мультимедия-бортовой-компьютер">Подключение дополнительных устройств к CAN-шине: сигнализация, мультимедия, бортовой компьютер</a></li><li><a href="#типичные-ошибки-can-шины-в-lada-granta-и-как-их-исправить">Типичные ошибки CAN-шины в Lada Granta и как их исправить</a></li><li><a href="#модификации-can-шины-как-добавить-дополнительные-функции">Модификации CAN-шины: как добавить дополнительные функции</a></li><li><a href="#faq-частые-вопросы-по-can-bus-в-lada-granta">FAQ: Частые вопросы по CAN-Bus в Lada Granta</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>CAN-шина (<strong>Controller Area Network</strong>) в <em>Lada Granta</em> — это нервная система автомобиля, связывающая электронные блоки управления (ЭБУ) в единую сеть. Без неё не работают ни датчики, ни подушки безопасности, ни даже простая индикация на приборной панели. Однако для большинства владельцев <em>Гранты</em> (особенно моделей после 2018 года) CAN-Bus остаётся «чёрным ящиком» — пока не возникает необходимость подключить автосканер, сигнализацию с автозапуском или мультимедийную систему.</p>
+
+<p>В этой статье мы разберём <strong>физическую схему CAN-шины</strong> в <em>Lada Granta</em> (включая <em>Granta FL</em>, <em>Granta Sport</em> и <em>Cross</em>), покажем, как проверить её работоспособность мультиметром, и объясним, почему подключение сторонних устройств часто приводит к ошибкам <code>U0100</code> или <code>U0121</code>. Также вы узнаете, как избежать конфликтов при интеграции дополнительных модулей — от <em>StarLine</em> до <em>Android Auto</em>.</p>
+
+<h2 id="что-такое-can-bus-и-зачем-он-нужен-в-lada-granta">Что такое CAN-Bus и зачем он нужен в Lada Granta</h2>
+
+<p>CAN-шина (<em>Controller Area Network</em>) — это протокол обмена данными между электронными блоками автомобиля, разработанный компанией <em>Bosch</em> ещё в 1980-х. В <em>Lada Granta</em> она отвечает за:</p>
+<ul>
+  <li>🔹 <strong>Связь между ЭБУ двигателя</strong> (<em>М74, М75, М86</em>) и коробкой передач (если это <em>АМТ</em>).</li>
+  <li>🔹 <strong>Работу приборной панели</strong> (спидометр, тахометр, индикаторы).</li>
+  <li>🔹 <strong>Управление системами безопасности</strong>: подушки, ABS, ESP (на <em>Granta FL</em> с 2021 года).</li>
+  <li>🔹 <strong>Интеграцию мультимедийных систем</strong> (например, <em>ММС с Android Auto</em>).</li>
+</ul>
+
+<p>В <em>Granta</em> используется <strong>двухпроводная CAN-шина</strong> (<code>CAN-H</code> и <code>CAN-L</code>) с номинальным напряжением <code>2.5V</code> на каждом проводе в состоянии покоя. Скорость обмена данными — <code>500 кбит/с</code> (у старых моделей до 2015 года мог быть <code>125 кбит/с</code>). Главное отличие от классической проводки — <strong>отсутствие центрального компьютера</strong>: каждый блок сам «решает», когда передавать данные, что снижает нагрузку на сеть.</p>
+
+<p>Почему это важно для владельца? Потому что любое вмешательство в CAN-шину — будь то установка сигнализации, подключение бортового компьютера или даже замена магнитолы — может <strong>нарушить обмен данными</strong> и вызвать ошибки типа <code>U0100</code> («Потеря связи с ЭБУ»). Например, неправильное подключение <em>StarLine A93</em> часто приводит к тому, что автомобиль перестаёт видеть обороты двигателя или скорость.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какую модификацию Lada Granta вы эксплуатируете?</strong><ul><li>Стандарт (до 2018)</li><li>FL (рестайлинг 2018+)</li><li>Cross</li><li>Sport</li><li>Другая</li></ul></div></div>
+
+<h2 id="схема-can-шины-lada-granta-где-находятся-провода-и-разъёмы">Схема CAN-шины Lada Granta: где находятся провода и разъёмы</h2>
+
+<p>В <em>Lada Granta</em> CAN-шина проходит через несколько ключевых узлов. Основные компоненты:</p>
+
+<ul>
+  <li>🔧 <strong>Диагностический разъём OBD-II</strong> (расположен под рулём, слева от педали тормоза). Здесь доступны контакты <code>CAN-H (6)</code> и <code>CAN-L (14)</code>.</li>
+  <li>🔧 <strong>Блок управления двигателем (ЭБУ)</strong> — обычно <em>Bosch M7.9.7</em> или <em>Итэлма М74</em>. Находится под капотом, рядом с аккумулятором.</li>
+  <li>🔧 <strong>Комбинация приборов</strong> (панель приборов) — подключена к шине через <code>лин-шину</code> (не путать с CAN!).</li>
+  <li>🔧 <strong>Блок управления кузовом (BCM)</strong> — отвечает за свет, стеклоподъёмники, центральный замок.</li>
+</ul>
+
+<p>Ниже — упрощённая схема подключения CAN-шины для <em>Lada Granta FL</em> (2018–2023):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Узел</th>
+      <th>Расположение</th>
+      <th>Контакты CAN</th>
+      <th>Примечания</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>OBD-II разъём</td>
+      <td>Под рулём, слева</td>
+      <td><code>6 (CAN-H)</code>, <code>14 (CAN-L)</code></td>
+      <td>Используется для диагностики сканерами (<em>ELM327, Launch X431</em>)</td>
+    </tr>
+    <tr>
+      <td>ЭБУ двигателя</td>
+      <td>Под капотом, у лобового стекла</td>
+      <td><code>CAN-H (оранжевый)</code>, <code>CAN-L (оранжево-чёрный)</code></td>
+      <td>На <em>Granta Sport</em> может быть дополнительно экранирован</td>
+    </tr>
+    <tr>
+      <td>Панель приборов</td>
+      <td>За рулём, под декоративной панелью</td>
+      <td><code>CAN-H (белый)</code>, <code>CAN-L (синий)</code></td>
+      <td>Связь идёт через <em>лин-шину</em> (не CAN!</td>
+    </tr>
+    <tr>
+      <td>Блок BCM</td>
+      <td>Под торпедой, со стороны пассажира</td>
+      <td><code>CAN-H (зелёный)</code>, <code>CAN-L (жёлтый)</code></td>
+      <td>Отвечает за кузовные функции</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><mark>Важно: на Granta до 2015 года CAN-шина могла быть реализована по упрощённой схеме без экранирования, что увеличивало помехи от высоковольтных цепей (например, от катушек зажигания).</mark> Если у вас проблемы с диагностикой, сначала проверьте целостность экрана проводов near ЭБУ.</p>
+
+<details class="faq-item"><summary>Как отличить CAN-H и CAN-L визуально?</summary><div class="faq-answer"><p>CAN-H обычно имеет более яркую оплётку (оранжевую или белую), а CAN-L — тёмную (чёрную или синюю). Однако лучше ориентироваться на схему, так как цвета могут отличаться в зависимости от года выпуска и комплектации.</p></div></details>
+
+<h2>Как проверить CAN-шину мультиметром: пошаговая инструкция</p>
+
+<p>Если ваша <em>Lada Granta</em> выдаёт ошибки типа <code>U0100</code> («Потеря связи с ЭБУ») или <code>U0121</code> («Неисправность CAN-шины»), первым делом нужно проверить физическое состояние проводов. Для этого понадобится мультиметр с режимом измерения постоянного напряжения (<code>DC 20V</code>).</p>
+
+<p><strong>Шаг 1. Подготовка</strong></p>
+<ul>
+  <li>🔧 Выключите зажигание, но не отключайте массу аккумулятора (иначе ошибки сбросятся).</li>
+  <li>🔧 Найдите разъём OBD-II и подключите к нему щупы мультиметра:</li>
+  <li>🔴 Красный щуп — <code>контакт 6 (CAN-H)</code>.</li>
+  <li>⚫ Чёрный щуп — <code>контакт 14 (CAN-L)</code>.</li>
+</ul>
+
+<p><strong>Шаг 2. Измерение напряжения</strong></p>
+<p>Включите зажигание (но не запускайте двигатель). Нормальные показатели:</p>
+<ul>
+  <li>🔹 <code>CAN-H</code> → <code>2.5–3.5V</code> (относительно массы).</li>
+  <li>🔹 <code>CAN-L</code> → <code>1.5–2.5V</code> (относительно массы).</li>
+  <li>🔹 <strong>Разница между CAN-H и CAN-L</strong> → <code>1.5–2.5V</code>.</li>
+</ul>
+
+
+<p>Выключить зажигание, но не сбрасывать массу|</p>
+<p>Подключить щупы к контактам 6 и 14 OBD-II|</p>
+<p>Включить зажигание и измерить напряжение на CAN-H|</p>
+<p>Измерить напряжение на CAN-L|</p>
+<p>Проверьте сопротивление между CAN-H и CAN-L (должно быть 54–66 Ом)--></p>
+
+<p><strong>Шаг 3. Проверка сопротивления</strong></p>
+<p>Отключите зажигание и измерьте сопротивление между <code>CAN-H</code> и <code>CAN-L</code>. Нормальное значение — <code>54–66 Ом</code>. Если сопротивление:</h2>
+<ul>
+  <li>🔹 <code>0 Ом</code> → <strong>короткое замыкание</strong> в шине.</li>
+  <li>🔹 <code>Более 100 Ом</code> → <strong>обрыв</strong> или плохой контакт.</li>
+  <li>🔹 <code>Менее 50 Ом</code> → возможно, подключено слишком много устройств (например, сигнализация + бортовой компьютер).</li>
+</ul>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Если при измерении напряжения на <code>CAN-H</code> или <code>CAN-L</code> мультиметр показывает <code>0V</code> или <code>12V</code>, это означает обрыв или замыкание на питание. В этом случае требуется <strong>прозвонка проводов</strong> от OBD-II до ЭБУ.</blockquote>
+
+<h2 id="распиновка-obd-ii-разъёма-lada-granta-где-какие-контакты">Распиновка OBD-II разъёма Lada Granta: где какие контакты</h2>
+
+<p>Диагностический разъём <em>OBD-II</em> в <em>Lada Granta</em> стандартизирован, но не все контакты задействованы. Ниже — полная распиновка для моделей 2013–2023 годов:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Контакт</th>
+      <th>Назначение</th>
+      <th>Цвет провода</th>
+      <th>Примечания</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>1</code></td>
+      <td>—</td>
+      <td>—</td>
+      <td>Не используется</td>
+    </tr>
+    <tr>
+      <td><code>2</code></td>
+      <td><code>J1850 Bus+</code></td>
+      <td>—</td>
+      <td>Не используется в <em>Granta</em></td>
+    </tr>
+    <tr>
+      <td><code>4</code></td>
+      <td><code>Масса кузова</code></td>
+      <td>Чёрный</td>
+      <td>Общая масса</td>
+    </tr>
+    <tr>
+      <td><code>5</code></td>
+      <td><code>Масса сигнальная</code></td>
+      <td>Чёрный</td>
+      <td>Для диагностики</td>
+    </tr>
+    <tr>
+      <td><code>6</code></td>
+      <td><code>CAN-H (High)</code></td>
+      <td>Оранжевый</td>
+      <td>Основная CAN-шина</td>
+    </tr>
+    <tr>
+      <td><code>14</code></td>
+      <td><code>CAN-L (Low)</code></td>
+      <td>Оранжево-чёрный</td>
+      <td>Основная CAN-шина</td>
+    </tr>
+    <tr>
+      <td><code>16</code></td>
+      <td><code>+12V от АКБ</code></td>
+      <td>Красный</td>
+      <td>Постоянное питание</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Для диагностики сканером (<em>ELM327, Launch, Autel</em>) используются только контакты <code>4 (масса)</code>, <code>6 (CAN-H)</code>, <code>14 (CAN-L)</code> и <code>16 (+12V)</code>. Если сканер не подключается, проверьте:</p>
+<ul>
+  <li>🔧 Наличие <code>12V</code> на контакте <code>16</code> (если нет — проблема в предохранителе <code>F31 (10A)</code> в монтажном блоке).</li>
+  <li>🔧 Целостность <code>CAN-H</code> и <code>CAN-L</code> (см. предыдущий раздел).</li>
+  <li>🔧 Совместимость протокола: <em>Granta</em> использует <code>ISO 15765-4 (CAN 11/29 bit)</code>.</li>
+</ul>
+
+<blockquote>⚠️ <strong>Внимание:</strong> На <em>Granta FL 2021+</em> с системой <em>ERA-GLONASS</em> может быть дополнительная CAN-шина для модуля экстренного вызова. Не путайте её с основной — подключение к ней сторонних устройств <strong>заблокирует работу ERA-GLONASS</strong>!</blockquote>
+
+<h2 id="подключение-дополнительных-устройств-к-can-шине-сигнализация-мультимедия-бортовой-компьютер">Подключение дополнительных устройств к CAN-шине: сигнализация, мультимедия, бортовой компьютер</h2>
+
+<p>Одно из самых частых применений CAN-шины в <em>Lada Granta</em> — интеграция сторонних устройств: автосигнализаций (<em>StarLine, Pandora, Scher-Khan</em>), мультимедийных систем (<em>Android Auto, Apple CarPlay</em>) или бортового компьютера (<em>Multitronics, Штат</em>). Однако неправильное подключение может привести к:</p>
+<ul>
+  <li>🚨 <strong>Ошибкам <code>U0100</code>, <code>U0121</code>, <code>U0140</code></strong> (потеря связи с блоками).</li>
+  <li>🚨 <strong>Самопроизвольному срабатыванию сигнализации</strong>.</li>
+  <li>🚨 <strong>Некорректной работе спидометра или тахометра</strong>.</li>
+</ul>
+
+<p><strong>Правила безопасного подключения:</strong></p>
+<ol>
+  <li>🔧 Используйте <strong>разветвители CAN-шины</strong> (например, <em>CAN-Hub</em>), а не врезайтесь напрямую в провода.</li>
+  <li>🔧 Подключайтесь только к <code>CAN-H</code> и <code>CAN-L</code> в <strong>разъёме OBD-II</strong> (не в других местах!).</li>
+  <li>🔧 Для сигнализаций с автозапуском (<em>StarLine A93, Pandora DXL 3900</em>) используйте <strong>модуль обхода иммобилайзера</strong> (например, <em>BP-03</em>), чтобы не блокировать CAN-шину.</li>
+  <li>🔧 После подключения <strong>обязательно проверьте сопротивление</strong> между <code>CAN-H</code> и <code>CAN-L</code> (должно остаться в пределах <code>54–66 Ом</code>).</li>
+</ol>
+
+<p><strong>Пример подключения сигнализации <em>StarLine A93</strong>:</em></p>
+<pre><code>1. Подключите CAN-H к контакту 6 OBD-II (оранжевый провод).
+<p>2. Подключите CAN-L к контакту 14 OBD-II (оранжево-чёрный провод).</p>
+<p>3. Подключите +12V (контакт 16) и массу (контакт 4 или 5).</p>
+<p>4. Настройте протокол в меню сигнализации: выберите "Lada Granta (CAN)".</p>
+<p>5. Проведите тест: проверьте, корректно ли отображаются обороты и скорость в мобильном приложении.</code></pre></p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если после подключения устройства загорелся <code>Check Engine</code>, но сканер не видит ошибок, попробуйте отключить устройство и сбросить ошибки через <code>Сброс адаптаций</code> в диагностическом софте (например, <em>OpenDiag</em>).</p></div>
+
+<h2 id="типичные-ошибки-can-шины-в-lada-granta-и-как-их-исправить">Типичные ошибки CAN-шины в Lada Granta и как их исправить</h2>
+
+<p>Ошибки, связанные с CAN-шиной, обычно имеют коды серии <code>Uxxxx</code>. Ниже — самые распространённые проблемы и способы их устранения:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Код ошибки</th>
+      <th>Описание</th>
+      <th>Возможная причина</th>
+      <th>Решение</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>U0100</code></td>
+      <td>Потеря связи с ЭБУ двигателя</td>
+      <td>Обрыв CAN-H/CAN-L, неисправность ЭБУ</td>
+      <td>Прозвонить провода от OBD-II до ЭБУ, проверить предохранитель <code>F3</code> (10A)</td>
+    </tr>
+    <tr>
+      <td><code>U0121</code></td>
+      <td>Неисправность CAN-шины</td>
+      <td>Короткое замыкание, низкое сопротивление</td>
+      <td>Отключить все сторонние устройства, измерить сопротивление между CAN-H и CAN-L</td>
+    </tr>
+    <tr>
+      <td><code>U0140</code></td>
+      <td>Потеря связи с BCM (блок управления кузовом)</td>
+      <td>Проблемы с питанием BCM или обрыв шины</td>
+      <td>Проверьте предохранитель <code>F10</code> (7.5A), прозвоните CAN до BCM</td>
+    </tr>
+    <tr>
+      <td><code>U0415</code></td>
+      <td>Неверные данные от ABS</td>
+      <td>Конфликт устройств на шине (например, сигнализация + ММС)</td>
+      <td>Отключить одно из устройств, проверить совместимость протоколов</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Если ошибка появляется после установки нового устройства (например, <em>Android-магнитолы</em>), выполните следующие шаги:</p>
+<ol>
+  <li>🔧 Отключите устройство и проверьте, исчезла ли ошибка.</li>
+  <li>🔧 Убедитесь, что устройство поддерживает протокол <code>CAN 2.0B</code> (большинство современных сигнализаций и ММС его поддерживают).</li>
+  <li>🔧 Проверьте, не подключено ли к шине слишком много устройств (максимум — 3–4, иначе падает скорость обмена данными).</li>
+</ol>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если после подключения устройства появляется ошибка <code>U0121</code>, первым делом отключите его и проверьте сопротивление CAN-шины. Если оно ниже <code>50 Ом</code>, значит, устройство «садит» шину и его нельзя использовать без дополнительного резистора (120 Ом).</p></div>
+
+<h2 id="модификации-can-шины-как-добавить-дополнительные-функции">Модификации CAN-шины: как добавить дополнительные функции</h2>
+
+<p>CAN-шина в <em>Lada Granta</em> позволяет не только диагностировать автомобиль, но и <strong>расширять его функциональность</strong>. Например:</p>
+<ul>
+  <li>🔧 <strong>Подключение круиз-контроля</strong> (даже если он не был в базовой комплектации).</li>
+  <li>🔧 <strong>Интеграция камеры заднего вида</strong> с выводом на штатную магнитолу.</li>
+  <li>🔧 <strong>Установка климат-контроля</strong> (требуется доработка CAN-сообщений).</li>
+  <li>🔧 <strong>Активация скрытых функций</strong> (например, отображение температуры масла на приборной панели).</li>
+</ul>
+
+<p><strong>Пример 1: Подключение круиз-контроля</strong></p>
+<p>Для активации круиз-контроля на <em>Granta FL</em> (2018+) потребуется:</p>
+<ol>
+  <li>🔧 Установить <strong>блок управления круиз-контролем</strong> (например, от <em>Kalina 2</em>).</li>
+  <li>🔧 Подключить его к CAN-шине через <code>CAN-H</code> и <code>CAN-L</code> (можно взять питание с предохранителя <code>F15</code>).</li>
+  <li>🔧 Прописать новый блок в CAN-сеть с помощью диагностического софта (<em>OpenDiag, DiagRA</em>).</li>
+  <li>🔧 Установить кнопки управления на руль (можно использовать от <em>Priora</em>).</li>
+</ol>
+
+<p><strong>Пример 2: Активация скрытых функций приборной панели</strong></p>
+<p>Некоторые функции <em>Lada Granta</em> скрыты по умолчанию, но их можно активировать через CAN-шину. Например, отображение <strong>температуры масла</strong> на панели приборов:</p>
+<pre><code>1. Подключите диагностический сканер (например, ELM327).
+<p>2. Запустите программу OpenDiag или DiagRA.</p>
+<p>3. Перейдите в раздел "Адаптации" → "Комбинация приборов".</p>
+<p>4. Найдите параметр "Display Oil Temperature" и установите значение "1".</p>
+<p>5. Сохраните настройки и перезагрузите панель приборов (снять клемму АКБ на 10 секунд).</code></pre></p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Не все функции можно активировать программно. Например, на <em>Granta Standard</em> до 2018 года отсутствует датчик температуры масла, поэтому его показания будут всегда <code>0°C</code>, даже после активации в меню.</blockquote>
+
+<h2 id="faq-частые-вопросы-по-can-bus-в-lada-granta">FAQ: Частые вопросы по CAN-Bus в Lada Granta</h2>
+
+<details>
+  <summary>Можно ли подключить Android Auto к штатной магнитоле через CAN-шину?</summary>
+  <p>Нет, штатная магнитола <em>Lada Granta</em> (даже в <em>Lux</em> комплектации) не поддерживает <em>Android Auto</em> или <em>Apple CarPlay</em> на аппаратном уровне. Однако можно:</p>
+  <ul>
+    <li>🔧 Установить <strong>мультимедийную систему с CAN-адаптером</strong> (например, <em>Pioneer SPH-DA130DAB</em>).</li>
+    <li>🔧 Использовать <strong>беспроводной адаптер</strong> (например, <em>Carlinkit</em>), но он будет работать только с телефоном, а не через CAN-шину.</li>
+  </ul>
+  <p>Подключение к CAN-шине в этом случае нужно только для отображения данных с приборной панели (обороты, скорость) на экране магнитолы.</p>
+</details>
+
+<details>
+  <summary>Почему после установки сигнализации перестал работать спидометр?</summary>
+  <p>Эта проблема возникает, если сигнализация (<em>StarLine, Pandora</em>) неправильно подключена к CAN-шине и «глушит» сообщения от блока ABS. Решения:</p>
+  <ol>
+    <li>🔧 Проверьте <strong>правильность подключения CAN-H и CAN-L</strong> (не перепутаны ли провода).</li>
+    <li>🔧 Обновите прошивку сигнализации (на сайте производителя часто выкладывают патчи для <em>Granta</em>).</li>
+    <li>🔧 Установите <strong>разветвитель CAN-шины</strong> (например, <em>CAN-Hub</em>), чтобы уменьшить нагрузку.</li>
+  </ol>
+  <p>Если проблема остаётся — отключите сигнализацию и проверьте, восстановится ли работа спидометра. Если да, то проблема точно в ней.</p>
+</details>
+
+<details>
+  <summary>Как сбросить ошибки CAN-шины без сканера?</summary>
+  <p>Сбросить ошибки типа <code>U0100</code> или <code>U0121</code> можно двумя способами:</p>
+  <ol>
+    <li>🔧 <strong>Снять клемму аккумулятора</strong> на 10–15 минут (это сбросит все ошибки, но также обнулит настройки магнитолы и климат-контроля).</li>
+    <li>🔧 <strong>Использовать комбинацию кнопок</strong> (работает не на всех версиях):
+      <pre><code>1. Выключите зажигание.
+<p>2. Нажмите и удерживайте кнопку сброса суточного пробега.</p>
+<p>3. Поверните ключ в положение "Зажигание" (не запуская двигатель).</p>
+<p>4. Удерживайте кнопку 10 секунд, пока не погаснет Check Engine.</code></pre></p>
+    </li>
+  </ol>
+  <p>Если ошибка появляется снова — проблема не устранена (например, остаётся обрыв в шине).</p>
+</details>
+
+<details>
+  <summary>Можно ли подключить CAN-шину Granta к ноутбуку для диагностики?</summary>
+  <p>Да, для этого понадобится:</p>
+  <ul>
+    <li>🔧 <strong>Адаптер OBD-II → USB</strong> (например, <em>ELM327</em> или <em>STN1110</em>).</li>
+    <li>🔧 <strong>Программное обеспечение</strong>: <em>OpenDiag</em>, <em>DiagRA</em>, <em>ScanTool</em>.</li>
+    <li>🔧 <strong>Драйверы</strong> для адаптера (обычно идут в комплекте).</li>
+  </ul>
+  <p>Подключение:</p>
+  <ol>
+    <li>Вставьте адаптер в OBD-II разъём.</li>
+    <li>Подключите его к ноутбуку via USB.</li>
+    <li>Запустите программу и выберите протокол <code>ISO 15765-4 (CAN 11/29 bit)</code>.</li>
+  </ol>
+  <p>Для глубокой диагностики (например, прошивки ЭБУ) лучше использовать профессиональные сканеры типа <em>Launch X431</em> или <em>Autel MaxiCOM</em>.</p>
+</details>
+
+<details>
+  <summary>Какое сопротивление должно быть между CAN-H и CAN-L в Granta?</summary>
+  <p>Нормальное сопротивление между <code>CAN-H</code> и <code>CAN-L</code> в <em>Lada Granta</em> — <code>54–66 Ом</code>. Если оно:</p>
+  <ul>
+    <li>🔹 <code>0 Ом</code> → короткое замыкание (проверьте провода на повреждения).</li>
+    <li>🔹 <code>Более 100 Ом</code> → обрыв или плохой контакт в разъёмах.</li>
+    <li>🔹 <code>Менее 50 Ом</code> → к шине подключено слишком много устройств (нужно отключить лишние).</li>
+  </ul>
+  <p>Для измерения используйте мультиметр в режиме <code>200 Ом</code>, предварительно отключив зажигание.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#что-такое-can-bus-и-зачем-он-нужен-в-lada-granta">Что такое CAN-Bus и зачем он нужен в Lada Granta</a></li><li><a href="#схема-can-шины-lada-granta-где-находятся-провода-и-разъёмы">Схема CAN-шины Lada Granta: где находятся провода и разъёмы</a></li><li><a href="#распиновка-obd-ii-разъёма-lada-granta-где-какие-контакты">Распиновка OBD-II разъёма Lada Granta: где какие контакты</a></li><li><a href="#подключение-дополнительных-устройств-к-can-шине-сигнализация-мультимедия-бортовой-компьютер">Подключение дополнительных устройств к CAN-шине: сигнализация, мультимедия, бортовой компьютер</a></li><li><a href="#типичные-ошибки-can-шины-в-lada-granta-и-как-их-исправить">Типичные ошибки CAN-шины в Lada Granta и как их исправить</a></li><li><a href="#модификации-can-шины-как-добавить-дополнительные-функции">Модификации CAN-шины: как добавить дополнительные функции</a></li><li><a href="#faq-частые-вопросы-по-can-bus-в-lada-granta">FAQ: Частые вопросы по CAN-Bus в Lada Granta</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-granta-otsinkovannaya-ili-net.html" class="related-card">Лада Гранта оцинкованная или нет: полный анализ кузова</a></li><li><a href="/articles/n/ne/ne-rabotaet-obogrev-zadnego-stekla-lada-granta.html" class="related-card">Не работает обогрев заднего стекла Лада Гранта: причины и ремонт</a></li><li><a href="/articles/n/ne/ne-rabotaet-avarijka-lada-granta.html" class="related-card">Не работает аварийка Лада Гранта: причины и ремонт</a></li><li><a href="/articles/p/po/podshipnik-stupichnyj-perednij-lada-granta.html" class="related-card">Подшипник ступичный передний Лада Гранта: выбор, замена и артикулы</a></li><li><a href="/articles/c/ch/chekhol-na-rul-lada-granta-fl.html" class="related-card">Чехол на руль Лада Гранта ФЛ: виды, размеры, установка</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-granta-otsinkovannaya-ili-net.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта оцинкованная или нет: полный анализ кузова</span><span class="related-bottom-desc">Подробный разбор: оцинкована ли Лада Гранта. Статистика коррозии, слабые места кузова, толщина ЛКП и</span></a><a href="/articles/n/ne/ne-rabotaet-obogrev-zadnego-stekla-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Не работает обогрев заднего стекла Лада Гранта: причины и ремонт</span><span class="related-bottom-desc">Почему не греет заднее стекло на Гранте? Диагностика неисправностей, проверка предохранителя, реле и</span></a><a href="/articles/n/ne/ne-rabotaet-avarijka-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Не работает аварийка Лада Гранта: причины и ремонт</span><span class="related-bottom-desc">Почему не работает аварийка на Лада Гранта? Разбор причин: реле, кнопка, проводка. Инструкция по диа</span></a><a href="/articles/p/po/podshipnik-stupichnyj-perednij-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Подшипник ступичный передний Лада Гранта: выбор, замена и артикулы</span><span class="related-bottom-desc">Как выбрать и заменить ступичный подшипник на Лада Гранта. Артикулы, признаки износа, пошаговая инст</span></a><a href="/articles/c/ch/chekhol-na-rul-lada-granta-fl.html" class="related-bottom-card"><span class="related-bottom-title">Чехол на руль Лада Гранта ФЛ: виды, размеры, установка</span><span class="related-bottom-desc">Обзор лучших чехлов на руль для Лада Гранта ФЛ. Сравнение материалов, таблица размеров, пошаговая ус</span></a><a href="/articles/a/av/avtodom-na-baze-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Автодом на базе Лада Гранта: чертежи, цены и этапы сборки</span><span class="related-bottom-desc">Как сделать кемпер из Лада Гранта своими руками. Подробный гид по переделке салона, расчету веса, ус</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Установка Teyes CC3L на Лада Веста: пошаговая инструкция и советы — Лада Справка</title>
+    <meta name="description" content="Полный гид по установке мультимедиа Teyes CC3L в Лада Веста. Разбор пинов, CAN-bus, калибровка экрана и настройка звука без ошибок.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/u/us/ustanovka-magnitoly-teyes-cc3l-na-lada-vesta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Установка Teyes CC3L на Лада Веста: пошаговая инструкция и советы">
+    <meta property="og:description" content="Полный гид по установке мультимедиа Teyes CC3L в Лада Веста. Разбор пинов, CAN-bus, калибровка экрана и настройка звука без ошибок.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/vesta/">Vesta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Установка Teyes CC3L на Лада Веста: пошаговая инструкция и советы</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Установка магнитолы Teyes CC3L на Лада Веста: экспертное руководство</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#подготовка-оборудования-и-демонтаж-штатной-системы">Подготовка оборудования и демонтаж штатной системы</a></li><li><a href="#схема-подключения-и-работа-с-can-bus">Схема подключения и работа с CAN-bus</a></li><li><a href="#калибровка-экрана-и-первичная-настройка">Калибровка экрана и первичная настройка</a></li><li><a href="#настройка-звука-и-эквалайзера">Настройка звука и эквалайзера</a></li><li><a href="#решение常见问题-фоновый-шум-и-проблемы-с-микрофоном">Решение常见问题: фоновый шум и проблемы с микрофоном</a></li><li><a href="#финальная-сборка-и-проверка-функционала">Финальная сборка и проверка функционала</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Замена штатного головного устройства на современном Android-планшете <em>Teyes CC3L</em> для владельцев Лада Веста — это не просто апгрейд мультимедиа, а фактическое переосмысление всего функционала автомобиля. Штатные системы часто страдают от медлительности интерфейса, отсутствия навигации Яндекс и проблем с воспроизведением видеоформатов, тогда как решение от <strong>Teyes</strong> превращает салон в цифровой хаб. Процесс инсталляции требует внимательности, но при грамотном подходе доступен любому автолюбителю с базовым набором инструментов.</p>
+<p>Ключевым преимуществом модели <em>CC3L</em> является её адаптивность под архитектуру Lada Vesta, включая поддержку штатных камер и кнопок руля через CAN-bus шину. Однако, чтобы избежать проблем со звуком или потерей управления климатом, необходимо строго соблюдать последовательность действий и правильно настроить программную часть после физического подключения. В этой статье мы детально разберем все этапы, от демонтажа панели до тонкой настройки <strong>аудио-эквалайзера</strong>.</p>
+
+<h2 id="подготовка-оборудования-и-демонтаж-штатной-системы">Подготовка оборудования и демонтаж штатной системы</h2>
+<p>Перед началом работ необходимо убедиться в комплектации приобретенного устройства. В коробке с <em>Teyes CC3L</em> помимо самого планшета должны находиться переходная рамка под Лада Веста, набор кабелей и, возможно, внешний микрофон. Вам также понадобятся пластиковая лопатка для снятия декоративных накладок, крестовая отвертка и изолента или стяжки для фиксации проводов. Убедитесь, что аккумулятор автомобиля заряжен, так как процесс может занять от 40 минут до часа.</p>
+<p>Демонтаж начинается с аккуратного снятия декоративной рамки вокруг блока климата и магнитолы. Действовать нужно без фанатизма, используя пластиковый инструмент, чтобы не повредить мягкие пятаки приборной панели. После снятия рамки вы увидите четыре самореза, фиксирующих штатное ГУ. Их выкручиваем, извлекаем головное устройство и отсоединяем два основных разъема: питания и антенный. На этом этапе важно не уронить магнитолу внутрь торпедо.</p>
+<blockquote>⚠️ Внимание: Перед отключением разъемов обязательно снимите минусовую клемму с аккумулятора, чтобы избежать короткого замыкания или сгорания предохранителей CAN-шины.</blockquote>
+<p>Особое внимание уделите сохранению штатных разъемов. Даже если вы планируете использовать переходники из комплекта <strong>Teyes</strong>, оригинальные фишки лучше не резать, а использовать метод пайки с последующей изоляцией или специальные обжимные коннекторы. Это позволит в будущем вернуть автомобиль в заводское состояние без потери гарантии или проблем при продаже.</p>
+
+<h2 id="схема-подключения-и-работа-с-can-bus">Схема подключения и работа с CAN-bus</h2>
+<p>Самый ответственный этап — коммутация проводов. В комплектации для Лада Веста обычно идет готовый жгут, который подключается "в разрыв" или напрямую в штатные фишки. Основное внимание нужно уделить проводам CAN-bus (обычно это оранжевый и черно-оранжевый провода, но цвета могут варьироваться в зависимости от года выпуска авто). Именно через них магнитола считывает данные о температуре, уровне топлива и положении регуляторов климата.</p>
+<p>Если ваша Веста оснащена штатной камерой заднего вида, её провод питания (часто красный) необходимо подключить к соответствующему выходу на кабеле <em>Teyes</em>, помеченному как "Rear Camera Power" или аналогично. Это обеспечит автоматическое включение камеры при переключении в режим заднего хода без дополнительных реле.</p>
+<details class="faq-item"><summary>Нюансы подключения для разных комплектаций</summary><div class="faq-answer"><p>В автомобилях с комплектацией Luxe и Multimedиа 2.0 схема может отличаться количеством контактов в фишке. Всегда сверяйтесь с актуальной схемой в инструкции, идущей в комплекте с конкретной версией прошивки Teyes, так как распиновка может меняться от партии к партии.</p></div></details>
+<p>Для корректной работы всех функций в инженерном меню андроида необходимо выбрать правильный тип CAN-bus. В модели <em>CC3L</em> это обычно делается через приложение <code>Z-Car</code> или <code>CanBus</code>. Неправильный выбор протокола приведет к тому, что магнитола не будет выключаться вместе с зажиганием или перестанет отображать заряд батареи.</p>
+
+<h2 id="калибровка-экрана-и-первичная-настройка">Калибровка экрана и первичная настройка</h2>
+<p>После сборки панели и первого включения устройства вас встретит приветственное меню. Первым делом система может запросить калибровку сенсорного экрана. Это критически важная процедура, так как заводские настройки могут не совпадать с физическими границами дисплея <em>CC3L</em>. Следуйте инструкциям на экране, точно нажимая на появляющиеся точки.</p>
+<p>Далее следует настройка разрешения и ориентации. Для Лада Веста стандартным является разрешение <code>1024x600</code>, однако в некоторых версиях прошивок может потребоваться ручной выбор. Если изображение выглядит растянутым или обрезанным, проверьте настройки в разделе <code>Factory Settings</code> (пароль часто бывает <code>8888</code> или <code>1234</code>, уточняйте в инструкции).</p>
+<div class="attention-box attention-info"><div><strong>📊 Какая версия Лада Веста у вас?</strong><ul><li>Седан (2015-2019)</li><li>Седан (2019-2023)</li><li>SW Cross</li><li>Vesta NG (New Generation)</li></ul></div></div>
+<p>Не забудьте подключить внешний микрофон, идущий в комплекте, и вывести его к торпце панели или стойке лобового стекла. Встроенный в магнитолу микрофон часто дает худшее качество звука при разговоре по громкой связи из-за экранирования корпусом и шума двигателя.</p>
+
+<h2 id="настройка-звука-и-эквалайзера">Настройка звука и эквалайзера</h2>
+<p>Штатная акустика Лада Веста имеет свои особенности, которые требуют грамотной настройки встроенного DSP-процессора в <em>Teyes CC3L</em>. Базовые настройки часто звучат плоско, поэтому рекомендуется сразу зайти в раздел звуковых эффектов. Здесь можно настроить срезы частот для сабвуфера (если он установлен) и скорректировать ВЧ и НЧ динамики.</p>
+<p>Особое внимание уделите функции <strong>Time Delay</strong> (временная задержка). Правильная настройка задержек позволяет создать эффект "сцены" перед водителем, синхронизируя приход звука от разных динамиков. Это превращает обычный прослушивание музыки в концертный опыт.</p>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Рекомендуемое значение</th>
+<th>Описание влияния</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bass (Низкие)</td>
+<td>+2...+4 дБ</td>
+<td>Добавляет глубины звуку, полезно для штатных динамиков</td>
+</tr>
+<tr>
+<td>Middle (Средние)</td>
+<td>0 дБ</td>
+<td>Отвечает за вокал, лучше не трогать без опыта</td>
+</tr>
+<tr>
+<td>Treble (Высокие)</td>
+<td>+1...+3 дБ</td>
+<td>Добавляет детальности и "воздуха" звучанию</td>
+</tr>
+<tr>
+<td>Fader/Balance</td>
+<td>Центр</td>
+<td>Баланс распределения звука по салону</td>
+</tr>
+</tbody>
+</table>
+<p>Владельцам Вест с аудиосистемой <em>Yamaha</em> (в редких комплектациях) или усиленной штатной системой стоит быть осторожнее с增益 (усилением), чтобы не вызвать хрипы динамиков. В таких случаях лучше использовать внешний усилитель.</p>
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте тестовые треки с широким частотным диапазоном при настройке эквалайзера, чтобы услышать все артефакты звучания.</p></div>
+
+<h2 id="решение常见问题-фоновый-шум-и-проблемы-с-микрофоном">Решение常见问题: фоновый шум и проблемы с микрофоном</h2>
+<p>Одной из распространенных проблем при установке <em>Teyes CC3L</em> на Лада Веста является появление фонового гула или свита, особенно при работающем двигателе. Это явление, известное как "ground loop" (петля заземления), возникает из-за разности потенциалов между кузовом и головным устройством.</p>
+<p>Для устранения шума проверьте качество контакта провода заземления (черный провод GND). Он должен быть прикручен к зачищенному металлу кузова, а не к пластиковым элементам или окрашенным поверхностям. Иногда помогает установка шумоподавителя в цепь питания.</p>
+<blockquote>⚠️ Внимание: Если микрофон работает тихо или с эхом, проверьте, не пережат ли его провод при сборке торпедо. Также в настройках звука андроида нужно выбрать "External Mic" вместо "Internal".</blockquote>
+<p>Если пропал звук после обновления прошивки, проверьте настройки выхода аудио. В некоторых версиях ПО для <strong>CC3L</strong> нужно вручную переключить выход с AUX на I2S или наоборот в заводских настройках.</p>
+
+<h2 id="финальная-сборка-и-проверка-функционала">Финальная сборка и проверка функционала</h2>
+<p>Прежде чем окончательно защелкивать все клипсы, проведите тест-драйв системы. Проверьте работу кнопок на руле, переключение треков, громкость, работу климат-контроля (если поддерживается через CAN) и, конечно, навигацию. Убедитесь, что Wi-Fi и Bluetooth ловят сигнал стабильно.</p>
+<p>Укладка проводов должна быть выполнена так, чтобы они не болтались и не касались движущихся частей или горячих элементов. Используйте пластиковые хомуты и гофру для защиты жгутов. Лишнюю длину проводов лучше аккуратно свернуть и зафиксировать за магнитолой, но не уплотнять их слишком сильно, чтобы не нарушить вентиляцию.</p>
+<div class="checklist-block"><h4>☑️ Финальная проверка установки</h4><label class="check-item"><input type="checkbox"><span>Работа кнопок руля</span></label><label class="check-item"><input type="checkbox"><span>Корректное отображение климата</span></label><label class="check-item"><input type="checkbox"><span>Звук без помех</span></label><label class="check-item"><input type="checkbox"><span>Работа камеры заднего хода</span></label><label class="check-item"><input type="checkbox"><span>Стабильный GPS сигнал</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+<p>После успешного тестирования установите магнитолу в посадочное место, закрутите крепежные винты и смонтируйте декоративную рамку. Теперь ваша Лада Веста оснащена современной мультимедийной системой, которая делает поездки комфортнее и интереснее.</p>
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Качественная установка Teyes CC3L требует не только правильного подключения проводов, но и тщательной программной настройки под конкретную комплектацию автомобиля.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+<details>
+<summary>Нужно ли резать провода штатной проводки при установке Teyes CC3L?</summary>
+<p>В большинстве случаев для Лада Веста используются специальные переходники (Plug&Play), которые позволяют подключиться без пайки и резки штатных проводов. Однако, если переходника нет в комплекте или он не подходит под вашу год выпуска, может потребоваться соединение скруткой или пайкой.</p>
+</details>
+<details>
+<summary>Почему магнитола не выключается при выключении зажигания?</summary>
+<p>Скорее всего, неверно выбран тип CAN-bus в настройках или неправильно подключен провод ACC. Проверьте настройки приложения Z-Car и выберите протокол, соответствующий вашей Весте, или проверьте наличие напряжения на проводе ACC при повороте ключа.</p>
+</details>
+<details>
+<summary>Можно ли оставить штатный USB-порт или нужно использовать новый?</summary>
+<p>Штатный USB-порт Лада Веста часто не совместим с Android-магнитолами по протоколам передачи данных. Рекомендуется использовать USB-кабель, идущий в комплекте с Teyes, выведя его в удобный отсек, так как через штатный разъем могут не работать флешки или CarPlay/Android Auto.</p>
+</details>
+<details>
+<summary>Как обновить прошивку на Teyes CC3L?</summary>
+<p>Обновление производится через меню "Настройки" -> "Об устройстве" -> "Обновление системы". Файл прошивки скачивается с официального сайта производителя, записывается на флешку (в корень карты) и устанавливается через USB-порт магнитолы. Важно не прерывать процесс питания во время обновления.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#подготовка-оборудования-и-демонтаж-штатной-системы">Подготовка оборудования и демонтаж штатной системы</a></li><li><a href="#схема-подключения-и-работа-с-can-bus">Схема подключения и работа с CAN-bus</a></li><li><a href="#калибровка-экрана-и-первичная-настройка">Калибровка экрана и первичная настройка</a></li><li><a href="#настройка-звука-и-эквалайзера">Настройка звука и эквалайзера</a></li><li><a href="#решение常见问题-фоновый-шум-и-проблемы-с-микрофоном">Решение常见问题: фоновый шум и проблемы с микрофоном</a></li><li><a href="#финальная-сборка-и-проверка-функционала">Финальная сборка и проверка функционала</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-vesta-morda.html" class="related-card">Лада Веста: морда 2026 — фото, тюнинг, отличия рестайлинга</a></li><li><a href="/articles/d/da/daet-li-lada-podmennyj-avtomobil.html" class="related-card">Дает ли Lada подменный автомобиль в 2026 году: условия, сроки, отзывы</a></li><li><a href="/articles/l/la/lada-klub-ofitsialnyj-sajt.html" class="related-card">Официальный сайт Lada Club: функции, регистрация и возможности</a></li><li><a href="/articles/l/la/lada-vesta-ne-otkryvaetsya-kapot-kak-otkryt.html" class="related-card">Не открывается капот Лада Веста: способы открыть и не сломать</a></li><li><a href="/articles/k/kl/klyuchi-ot-lada-vesta.html" class="related-card">Ключи от Лада Веста: виды, дубликат и как открыть без ключа</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-vesta-morda.html" class="related-bottom-card"><span class="related-bottom-title">Лада Веста: морда 2026 — фото, тюнинг, отличия рестайлинга</span><span class="related-bottom-desc">Все о передней части Lada Vesta: сравнение до/после рестайлинга, варианты тюнинга бампера, решетки р</span></a><a href="/articles/d/da/daet-li-lada-podmennyj-avtomobil.html" class="related-bottom-card"><span class="related-bottom-title">Дает ли Lada подменный автомобиль в 2026 году: условия, сроки, отзывы</span><span class="related-bottom-desc">Узнайте, предоставляет ли АвтоВАЗ подменный автомобиль при ремонте по гарантии или отзывной кампании</span></a><a href="/articles/l/la/lada-klub-ofitsialnyj-sajt.html" class="related-bottom-card"><span class="related-bottom-title">Официальный сайт Lada Club: функции, регистрация и возможности</span><span class="related-bottom-desc">Как пользоваться официальным сайтом Lada Club: регистрация, личный кабинет, сервисные функции и бону</span></a><a href="/articles/l/la/lada-vesta-ne-otkryvaetsya-kapot-kak-otkryt.html" class="related-bottom-card"><span class="related-bottom-title">Не открывается капот Лада Веста: способы открыть и не сломать</span><span class="related-bottom-desc">Капот Лада Веста не открывается? Подробная инструкция: как разблокировать тросик, открыть через реше</span></a><a href="/articles/k/kl/klyuchi-ot-lada-vesta.html" class="related-bottom-card"><span class="related-bottom-title">Ключи от Лада Веста: виды, дубликат и как открыть без ключа</span><span class="related-bottom-desc">Полный гид по ключам Лада Веста. Как сделать дубликат, настроить пульт, заменить батарейку и открыть</span></a><a href="/articles/t/to/to-6-lada.html" class="related-bottom-card"><span class="related-bottom-title">Топ 6 Лада: рейтинг лучших моделей АвтоВАЗа для покупки</span><span class="related-bottom-desc">Составили объективный топ 6 Лада. Узнайте, какие модели АвтоВАЗа самые надежные, популярные и ликвид</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

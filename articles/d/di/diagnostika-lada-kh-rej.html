@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Диагностика Лада Х-Рей: коды ошибок, сканеры и параметры — Лада Справка</title>
+    <meta name="description" content="Полная диагностика Лада Х-Рей своими руками. Разбор кодов ошибок, настройка ELM327, параметры ЭБУ и таблица неисправностей двигателей 1.6 и 1.8.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/d/di/diagnostika-lada-kh-rej.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Диагностика Лада Х-Рей: коды ошибок, сканеры и параметры">
+    <meta property="og:description" content="Полная диагностика Лада Х-Рей своими руками. Разбор кодов ошибок, настройка ELM327, параметры ЭБУ и таблица неисправностей двигателей 1.6 и 1.8.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/xray/">Xray</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Диагностика Лада Х-Рей: коды ошибок, сканеры и параметры</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Профессиональная диагностика Лада Х-Рей: от сканера до расшифровки кодов</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#подготовительный-этап-и-выбор-оборудования">Подготовительный этап и выбор оборудования</a></li><li><a href="#алгоритм-подключения-и-считывания-ошибок">Алгоритм подключения и считывания ошибок</a></li><li><a href="#расшифровка-основных-кодов-ошибок-двигателя">Расшифровка основных кодов ошибок двигателя</a></li><li><a href="#диагностика-систем-безопасности-и-abs">Диагностика систем безопасности и ABS</a></li><li><a href="#анализ-параметров-работы-в-реальном-времени">Анализ параметров работы в реальном времени</a></li><li><a href="#частые-проблемы-электрики-и-их-выявление">Частые проблемы электрики и их выявление</a></li><li><a href="#faq-часто-задаваемые-вопросы-по-диагностике">FAQ: Часто задаваемые вопросы по диагностике</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный кроссовер <em>Лада Х-Рей</em> представляет собой сложную систему, где электроника управляет большинством процессов, от впрыска топлива до работы систем безопасности. Для владельца это означает, что любая неисправность часто сопровождается появлением сигнала <strong>Check Engine</strong> на приборной панели. Игнорирование этого индикатора может привести к серьезным последствиям для двигателя или трансмиссии, поэтому своевременная и грамотная диагностика становится критически важной процедурой.</p>
+
+<p>В отличие от классических моделей ВАЗ, где проблемы часто решались методом "тыка" или визуальным осмотром, здесь требуется подключение специализированного оборудования к диагностическому разъему. <strong>Электронный блок управления</strong> (ЭБУ) хранит в памяти не только текущие ошибки, но и историю их возникновения, а также текущие параметры работы датчиков в реальном времени. Понимание этих данных позволяет точно локализовать проблему, будь то банально подсос воздуха или критический отказ катализатора.</p>
+
+<p>Эта статья детально разбирает процесс подключения сканера, расшифровку основных кодов неисправностей для двигателей 1.6 и 1.8, а также нюансы работы с программным обеспечением. Мы рассмотрим, какие параметры необходимо мониторить в первую очередь, чтобы избежать дорогостоящего ремонта в сервисе. Владение этими знаниями дает водителю уверенность и возможность контролировать техническое состояние своего <em>Lada XRAY</em>.</p>
+
+<h2 id="подготовительный-этап-и-выбор-оборудования">Подготовительный этап и выбор оборудования</h2>
+
+<p>Первым шагом в процессе диагностики является выбор подходящего интерфейсного устройства. Для автомобилей <em>АвтоВАЗ</em>, включая Х-Рей, стандартом де-факто стал адаптер <strong>ELM327</strong> версии 1.5 или 2.1, работающий через Bluetooth или Wi-Fi. Важно понимать, что дешевые китайские клоны могут некорректно работать с протоколами CAN-шины, которые активно используются в этом автомобиле, поэтому лучше выбирать проверенные бренды.</p>
+
+<p>Помимо "железа", вам потребуется программное обеспечение, устанавливаемое на смартфон или ноутбук. Для Android наиболее популярны приложения <em>OpenDiag</em>, <em>MotorData</em> или <em>HobDrive</em>. Эти программы умеют считывать не только стандартные OBD2 коды, но и специфические для <strong>ВАЗ</strong> параметры, такие как коррекции топливоподачи и положение дроссельной заслонки в процентах.</p>
+
+<p>Перед началом процедуры убедитесь, что зажигание выключено, и только после подключения адаптера в разъем включайте его. <mark>Диагностический разъем в Лада Х-Рей расположен под рулевой колонкой, слева, и часто закрыт декоративной заглушкой, которую нужно аккуратно снять.</mark> Неправильное подключение или использование некачественного переходника может привести к сбоям в работе ЭБУ.</p>
+
+<blockquote>⚠️ Внимание: Не оставляйте Bluetooth-адаптер в разъеме OBD-II на длительное время, когда автомобиль стоит без движения. Некоторые версии адаптеров не имеют функции автоотключения и могут полностью разрядить аккумуляторную батарею за 2-3 дня простоя.</blockquote>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой тип подключения сканера вы предпочитаете?</strong><ul><li>Bluetooth</li><li>Wi-Fi</li><li>USB-кабель</li><li>Только в автосервисе</li></ul></div></div>
+
+<h2 id="алгоритм-подключения-и-считывания-ошибок">Алгоритм подключения и считывания ошибок</h2>
+
+<p>Процесс считывания информации с ЭБУ требует четкой последовательности действий. Сначала необходимо вставить адаптер в разъем, затем включить зажигание (двигатель заводить не обязательно, но для проверки некоторых параметров в реальном времени это потребуется). После этого запускается приложение на смартфоне, где производится поиск и сопряжение устройства.</p>
+
+<p>В меню программы следует выбрать тип двигателя, установленного на вашем <em>Лада Х-Рей</em>. Чаще всего это ВАЗ-21129 (1.6 л, 106 л.с.) или ВАЗ-21179 (1.8 л, 122 л.с.). От правильного выбора зависит корректность отображаемых графиков и возможность проведения некоторых тестов исполнительных механизмов. Ошибка в выборе может привести к неверной интерпретации данных.</p>
+
+<p>После соединения с блоком управления система предложит провести сканирование. В этот момент на экране появятся коды неисправностей, если они есть в памяти. Коды делятся на текущие (активные прямо сейчас) и сохраненные (были в прошлом). Для полной картины необходимо считать и те, и другие, а затем провести их расшифровку.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист перед диагностикой</h4><label class="check-item"><input type="checkbox"><span>Проверить заряд аккумулятора</span></label><label class="check-item"><input type="checkbox"><span>Найти разъем OBD-II под рулем</span></label><label class="check-item"><input type="checkbox"><span>Установить приложение OpenDiag/MotorData</span></label><label class="check-item"><input type="checkbox"><span>Включить Bluetooth на телефоне</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>Стоит отметить, что наличие кода ошибки не всегда означает поломку узла. Часто проблема кроется в плохом контакте, окислении разъемов или кратковременном скачке напряжения. Поэтому после устранения предполагаемой причины ошибки необходимо выполнить команду <strong>Сброс ошибок</strong> и проверить, появится ли она снова после нескольких циклов работы двигателя.</p>
+
+<h2 id="расшифровка-основных-кодов-ошибок-двигателя">Расшифровка основных кодов ошибок двигателя</h2>
+
+<p>Список возможных неисправностей, которые фиксирует ЭБУ, достаточно велик. Ниже приведена таблица с наиболее часто встречающимися кодами ошибок для двигателей <em>ВАЗ-21129</em> и <em>ВАЗ-21179</em>, которые могут встретиться владельцам Лада Х-Рей.</p>
+
+<table>
+<thead>
+<tr>
+<th>Код ошибки</th>
+<th>Описание неисправности</th>
+<th>Возможная причина</th>
+<th>Срочность ремонта</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0300</td>
+<td>Случайные/множественные пропуски зажигания</td>
+<td>Свечи, катушки, низкое качество топлива</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>P0171</td>
+<td>Слишком бедная смесь</td>
+<td>Подсос воздуха, неисправность ДМРВ</td>
+<td>Средняя</td>
+</tr>
+<tr>
+<td>P0133</td>
+<td>Медленный отклик датчика кислорода (банк 1)</td>
+<td>Старение лямбда-зонда, загрязнение</td>
+<td>Низкая</td>
+</tr>
+<tr>
+<td>P0420</td>
+<td>Эффективность каталитического нейтрализатора ниже порога</td>
+<td>Разрушение катализатора, неисправность второго ДК</td>
+<td>Средняя</td>
+</tr>
+<tr>
+<td>P2135</td>
+<td>Несогласованность показаний датчиков положения дроссельной заслонки</td>
+<td>Неисправность электронной дроссельной заслонки</td>
+<td>Высокая</td>
+</tr>
+</tbody>
+</table>
+
+<p>Код <strong>P0300</strong> является одним из самых тревожных сигналов. Он указывает на то, что в цилиндрах не происходит воспламенение топливовоздушной смеси. Эксплуатация автомобиля с такой ошибкой категорически запрещена, так как несгоревшее топливо попадает в выхлопную систему, что может быстро вывести из строя катализатор и кислородные датчики.</p>
+
+<p>Ошибки, связанные с датчиком кислорода (<em>P0133, P0420</em>), часто появляются на пробегах свыше 80-100 тысяч километров. Это естественный процесс старения чувствительного элемента. Однако перед заменой дорогостоящего катализатора стоит проверить состояние свечей и катушек, так как их неисправность могла спровоцировать ошибку по выхлопу.</p>
+
+<details class="faq-item"><summary>Что такое адаптации ЭБУ?</summary><div class="faq-answer"><p>Адаптации — это настроенные блоком управления параметры работы двигателя под конкретный экземпляр автомобиля с учетом износа. При сбросе ошибок адаптации также часто сбрасываются, и автомобиль может временно работать нестабильно, пока ЭБУ не обучится заново.</p></div></details>
+
+<h2 id="диагностика-систем-безопасности-и-abs">Диагностика систем безопасности и ABS</h2>
+
+<p>Лада Х-Рей оснащена современной системой курсовой устойчивости <em>ESC</em> и антиблокировочной системой тормозов <strong>ABS</strong>. Диагностика этих узлов требует более глубокого погружения, так как стандартные OBD2 сканеры часто видят только двигатель. Для работы с ABS и ESC нужны приложения с расширенным функционалом, поддерживающие протоколы <em>Bosch ESP 9.0</em>.</p>
+
+<p>Частой причиной загорания лампы ABS является неисправность датчиков скорости вращения колес. Грязь, металлическая стружка на магнитном кольце или обрыв проводки — вот основные враги этой системы. При диагностике важно смотреть не только на наличие ошибки, но и на скорость вращения каждого колеса в реальном времени.</p>
+
+<blockquote>⚠️ Внимание: Если горит лампа ABS и ESC, система стабилизации и антиблокировка тормозов не работают. Торможение будет происходить в обычном режиме, но без предотвращения блокировки колес, что опасно на скользкой дороге.</blockquote>
+
+<p>Также стоит обратить внимание на датчик положения рулевого угла. Если после замены аккумулятора или снятия клемм загорелась желтая лампа руля, возможно, потребуется калибровка. Она выполняется путем вращения руля от упора до упора при заведенном двигателе, но точный алгоритм зависит от версии программного обеспечения блока.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Для полноценной диагностики ABS и подушек безопасности на Лада Х-Рей обычного дешевого сканера ELM327 может быть недостаточно, требуется профессиональное оборудование или продвинутые версии ПО.</p></div>
+
+<h2 id="анализ-параметров-работы-в-реальном-времени">Анализ параметров работы в реальном времени</h2>
+
+<p>Самая ценная часть диагностики — это наблюдение за параметрами в реальном времени. Именно графики позволяют увидеть проблему, которую не фиксируют коды ошибок. Например, <strong>коррекции топливоподачи</strong> (Long Term и Short Term Fuel Trim) показывают, насколько ЭБУ вынужден изменять состав смеси для стабильной работы.</p>
+
+<p>Если долгосрочная коррекция уходит в плюс более чем на 10-15%, это свидетельствует о подсосе неучтенного воздуха или низком давлении топлива. Если в минус — проблема с форсунками (льют) или регулятором давления. Нормальным считается диапазон от -10% до +10%. Выход за эти пределы говорит о необходимости вмешательства.</p>
+
+<p>Также критически важно следить за временем впрыска и углом опережения зажигания. На прогретом двигателе на холостом ходу время впрыска должно быть стабильным. Резкие скачки могут указывать на неисправность <em>ДМРВ</em> (датчик массового расхода воздуха) или регулятора холостого хода, если он конструктивно предусмотрен (на Х-Рее дроссель электронный, РХХ отдельного нет).</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Для точной диагностики ДМРВ сравните его показания с эталонными таблицами для вашего объема двигателя при разных оборотах. Заниженные показания часто являются причиной повышенного расхода топлива.</p></div>
+
+<h2 id="частые-проблемы-электрики-и-их-выявление">Частые проблемы электрики и их выявление</h2>
+
+<p>Электрическая схема Лада Х-Рей, несмотря на современность, имеет свои "болевые точки". Часто владельцы сталкиваются с проблемами работы стеклоподъемников, центрального замка или освещения. Диагностика здесь начинается с проверки предохранителей и реле в монтажном блоке, расположенном в салоне.</p>
+
+<p>Одной из специфических проблем является некорректная работа мультимедийной системы <em>Lada EnjoY</em>. Она может зависать или самопроизвольно перезагружаться. В большинстве случаев это программный сбой, требующий обновления прошивки или сброса настроек до заводских. Аппаратная диагностика требуется редко.</p>
+
+<p>Если сканер показывает ошибки связи с различными блоками (U-коды), это указывает на проблемы с CAN-шиной. Причиной может быть окисление контактов, повреждение проводки грызунами или выход из строя одного из блоков управления, который "вешает" всю сеть. В таком случае диагностику лучше проводить методом исключения, отключая блоки по очереди.</p>
+
+<h2 id="faq-часто-задаваемые-вопросы-по-диагностике">FAQ: Часто задаваемые вопросы по диагностике</h2>
+
+<details>
+<summary>Можно ли диагностировать Лада Х-Рей через телефон без интернета?</summary>
+<p>Да, большинство приложений, таких как OpenDiag или MotorData, позволяют считывать и сбрасывать ошибки без доступа к сети, так как связь идет напрямую с ЭБУ автомобиля через Bluetooth. Интернет потребуется только для первичной загрузки справочников кодов ошибок или обновления базы данных приложения.</p>
+</details>
+
+<details>
+<summary>Почему после сброса ошибок лампа Check Engine загорается снова через несколько километров?</summary>
+<p>Это означает, что неисправность носит постоянный характер и не была устранена физически. ЭБУ проводит циклы самотестирования, и если параметры датчиков снова выходят за допустимые пределы, он повторно заносит ошибку в память и зажигает индикатор.</p>
+</details>
+
+<details>
+<summary>Какой адаптер лучше выбрать для постоянного использования с Ладой?</summary>
+<p>Для владельцев <em>Лада Х-Рей</em> оптимальным выбором будут адаптеры на чипе ELM327 версии 1.5 (PIC18F25K80) с поддержкой протокола CAN. Они обеспечивают стабильную связь и чтение всех блоков. Версии 2.1 часто бывают урезанными и могут не видеть специфические параметры ВАЗ.</p>
+</details>
+
+<details>
+<summary>Влияет ли диагностика на гарантию автомобиля?</summary>
+<p>Само по себе подключение диагностического сканера для чтения ошибок не является основанием для снятия с гарантии. Однако, если в ходе самостоятельных манипуляций будет поврежден разъем OBD или внесены изменения в программное обеспечение ЭБУ (чип-тюнинг), дилер может отказать в гарантийном обслуживании.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#подготовительный-этап-и-выбор-оборудования">Подготовительный этап и выбор оборудования</a></li><li><a href="#алгоритм-подключения-и-считывания-ошибок">Алгоритм подключения и считывания ошибок</a></li><li><a href="#расшифровка-основных-кодов-ошибок-двигателя">Расшифровка основных кодов ошибок двигателя</a></li><li><a href="#диагностика-систем-безопасности-и-abs">Диагностика систем безопасности и ABS</a></li><li><a href="#анализ-параметров-работы-в-реальном-времени">Анализ параметров работы в реальном времени</a></li><li><a href="#частые-проблемы-электрики-и-их-выявление">Частые проблемы электрики и их выявление</a></li><li><a href="#faq-часто-задаваемые-вопросы-по-диагностике">FAQ: Часто задаваемые вопросы по диагностике</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/k/ka/kak-snyat-ruchku-kpp-lada-kh-rej.html" class="related-card">Как снять ручку КПП Лада XRAY: пошаговая инструкция</a></li><li><a href="/articles/l/la/lada-iks-rej-otzyvy-vladeltsev.html" class="related-card">Лада Икс Рей: отзывы владельцев, реальные проблемы и плюсы</a></li><li><a href="/articles/l/la/lada-kh-rej-predokhranitel-prikurivatelya-gde-nakhoditsya.html" class="related-card">Лада XRAY: где находится предохранитель прикуривателя</a></li><li><a href="/articles/p/pa/parametry-diskov-lada-kh-rej.html" class="related-card">Параметры дисков Лада Х-Рей: размеры, вылет и сверловка</a></li><li><a href="/articles/s/sh/shchetki-stekloochistitelya-lada-iks-rej.html" class="related-card">Щетки стеклоочистителя Лада Икс Рей: размеры, выбор и замена</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/k/ka/kak-snyat-ruchku-kpp-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Как снять ручку КПП Лада XRAY: пошаговая инструкция</span><span class="related-bottom-desc">Подробный гид, как снять ручку КПП Лада Х Рей. Разбор механики и робота, замена чехла и рычага. Сове</span></a><a href="/articles/l/la/lada-iks-rej-otzyvy-vladeltsev.html" class="related-bottom-card"><span class="related-bottom-title">Лада Икс Рей: отзывы владельцев, реальные проблемы и плюсы</span><span class="related-bottom-desc">Честные отзывы владельцев Лада Икс Рей. Разбор частых поломок, расход топлива, нюансы коробки переда</span></a><a href="/articles/l/la/lada-kh-rej-predokhranitel-prikurivatelya-gde-nakhoditsya.html" class="related-bottom-card"><span class="related-bottom-title">Лада XRAY: где находится предохранитель прикуривателя</span><span class="related-bottom-desc">Подробная инструкция по поиску и замене предохранителя прикуривателя Лада XRAY. Схема блока FUSMC, т</span></a><a href="/articles/p/pa/parametry-diskov-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Параметры дисков Лада Х-Рей: размеры, вылет и сверловка</span><span class="related-bottom-desc">Полный справочник по колесам Lada XRAY. Таблицы размеров шин, разболтовка, вылет (ET) и допустимые д</span></a><a href="/articles/s/sh/shchetki-stekloochistitelya-lada-iks-rej.html" class="related-bottom-card"><span class="related-bottom-title">Щетки стеклоочистителя Лада Икс Рей: размеры, выбор и замена</span><span class="related-bottom-desc">Полный гид по щеткам стеклоочистителя Лада Икс Рей. Размеры каркасных, бескаркасных и гибридных двор</span></a><a href="/articles/o/ob/obem-bagazhnika-lada-kh-rej-v-litrakh.html" class="related-bottom-card"><span class="related-bottom-title">Объем багажника Lada XRAY: сколько литров в разных модификациях</span><span class="related-bottom-desc">Подробный разбор объема багажника Lada XRAY в литрах: сравнение с конкурентами, практические советы </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

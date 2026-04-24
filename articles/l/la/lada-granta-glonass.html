@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>ГЛОНАСС на Лада Гранта: как работает, настройка и проблемы — Лада Справка</title>
+    <meta name="description" content="Разбираем систему ГЛОНАСС на Lada Granta: принципы работы, активация, типичные ошибки и способы решения. Полное руководство для владельцев.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/l/la/lada-granta-glonass.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="ГЛОНАСС на Лада Гранта: как работает, настройка и проблемы">
+    <meta property="og:description" content="Разбираем систему ГЛОНАСС на Lada Granta: принципы работы, активация, типичные ошибки и способы решения. Полное руководство для владельцев.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">ГЛОНАСС на Лада Гранта: как работает, настройка и проблемы</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>ГЛОНАСС на Лада Гранта: всё, что нужно знать владельцу</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#что-такое-глонасс-на-лада-гранта-и-зачем-он-нужен">Что такое ГЛОНАСС на Лада Гранта и зачем он нужен</a></li><li><a href="#где-находится-глонасс-модуль-на-лада-гранта">Где находится ГЛОНАСС-модуль на Лада Гранта</a></li><li><a href="#как-проверить-работоспособность-глонасс-на-лада-гранта">Как проверить работоспособность ГЛОНАСС на Лада Гранта</a></li><li><a href="#типичные-ошибки-глонасс-на-лада-гранта-и-их-устранение">Типичные ошибки ГЛОНАСС на Лада Гранта и их устранение</a></li><li><a href="#можно-ли-отключить-глонасс-на-лада-гранта">Можно ли отключить ГЛОНАСС на Лада Гранта</a></li><li><a href="#глонасс-и-сигнализация-конфликты-и-решения">ГЛОНАСС и сигнализация: конфликты и решения</a></li><li><a href="#обновление-прошивки-глонасс-на-лада-гранта">Обновление прошивки ГЛОНАСС на Лада Гранта</a></li><li><a href="#faq-частые-вопросы-о-глонасс-на-лада-гранта">FAQ: Частые вопросы о ГЛОНАСС на Лада Гранта</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body"><p>Система <strong>ГЛОНАСС</strong> на <em>Lada Granta</em> — это не просто опция комфорта, а обязательный элемент безопасности, прописанный в законодательстве для новых автомобилей. С 2015 года все машины, выпущенные в России, должны оснащаться устройствами экстренного реагирования при авариях (ЭРА-ГЛОНАСС). Однако многие владельцы <em>Гранты</em> до сих пор не понимают, как эта система работает, как её проверить и что делать, если она не функционирует.</p>
+
+<p>В этой статье мы разберёмся, как устроен <strong>ГЛОНАСС-модуль</strong> на разных поколениях <em>Lada Granta</em> (включая <em>Granta FL</em> и <em>Granta Cross</em>), как его активировать, какие ошибки могут возникать и как их устранить. Также вы узнаете, можно ли отключить систему, если она мешает, и что будет, если ездить с неработающим модулем. Информация актуальна для моделей 2018–2026 годов, но часть советов подойдёт и для более старых версий.</p>
+
+<h2 id="что-такое-глонасс-на-лада-гранта-и-зачем-он-нужен">Что такое ГЛОНАСС на Лада Гранта и зачем он нужен</h2>
+
+<p>Система <strong>ЭРА-ГЛОНАСС</strong> (она же <strong>ERA-GLONASS</strong>) — это российский аналог европейской <em>eCall</em>, предназначенный для автоматического оповещения спасательных служб о ДТП. В отличие от обычных трекеров, этот модуль интегрирован в электронику автомобиля и срабатывает при срабатывании подушек безопасности или резком ударе.</p>
+
+<p>На <em>Lada Granta</em> система работает так:</p>
+<ul>
+  <li>📡 При аварии модуль автоматически отправляет сигнал на сервер ЭРА-ГЛОНАСС с координатами, временем и данными о машине.</li>
+  <li>🚑 Спасатели получают информацию и связываются с водителем через встроенный микрофон (если он в сознании).</li>
+  <li>🔧 Если связь не установлена, на место выезжает бригада скорой помощи или МЧС.</li>
+  <li>📱 В некоторых версиях <em>Гранты</em> есть кнопка SOS для ручного вызова помощи.</li>
+</ul>
+
+<p>Важно: система <strong>не является трекером для отслеживания</strong> (как <em>StarLine</em> или <em>Pandora</em>) и не передаёт данные о вашем маршруте. Она активируется только в экстренных ситуациях. Однако с 2023 года в России обсуждается расширение функций ЭРА-ГЛОНАСС для мониторинга транспортных средств в реальном времени — но пока это не реализовано.</p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Отключение или удаление ГЛОНАСС-модуля на <em>Lada Granta</em> после 2017 года выпуска является нарушением закона. При прохождении техосмотра это может стать причиной отказа в выдаче диагностической карты.</blockquote>
+
+<h2 id="где-находится-глонасс-модуль-на-лада-гранта">Где находится ГЛОНАСС-модуль на Лада Гранта</h2>
+
+<p>Расположение блока зависит от года выпуска и комплектации автомобиля. В большинстве случаев его можно найти в следующих местах:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Модель/год</th>
+      <th>Место установки</th>
+      <th>Примечания</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>Granta (2015–2018)</em></td>
+      <td>Под центральной консолью, рядом с блоком предохранителей</td>
+      <td>Часто закрыт пластиковой крышкой</td>
+    </tr>
+    <tr>
+      <td><em>Granta FL (2018–2021)</em></td>
+      <td>За бардачком, справа от блока управления печкой</td>
+      <td>Требуется снятие облицовки</td>
+    </tr>
+    <tr>
+      <td><em>Granta Cross (2020–2026)</em></td>
+      <td>Под рулевой колонкой, рядом с иммобилайзером</td>
+      <td>Может быть совмещён с блоком <em>АБС</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Чтобы точно определить местоположение модуля на вашей <em>Гранте</em>, проверьте <code>руководство по эксплуатации</code> (раздел "Система экстренного реагирования") или воспользуйтесь сканером <em>ELM327</em> для диагностики. В некоторых случаях модуль может быть спрятан под обшивкой потолка (редко, но встречается на ранних партиях).</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Где у вас установлен ГЛОНАСС-модуль?</strong><ul><li>Под консолью</li><li>За бардачком</li><li>Под рулём</li><li>Не знаю</li><li>Другой вариант</li></ul></div></div>
+
+<p>Если вы не можете найти блок самостоятельно, обратитесь в сервис <em>Лада</em> — мастера используют специальные схемы электропроводки, где указано точное расположение. Самостоятельный демонтаж без знания схемы может привести к <strong>повреждению проводки</strong> или срабатыванию сигнализации.</p>
+
+<h2 id="как-проверить-работоспособность-глонасс-на-лада-гранта">Как проверить работоспособность ГЛОНАСС на Лада Гранта</h2>
+
+<p>Проверить, работает ли система, можно несколькими способами. Самый простой — визуальная индикация:</p>
+<ul>
+  <li>🔴 На приборной панели должен загораться <strong>красный индикатор SOS</strong> при включении зажигания (на 2–3 секунды). Если он не горит или горит постоянно — есть проблема.</li>
+  <li>📱 В некоторых комплектациях (например, <em>Granta Luxe</em>) есть кнопка SOS на потолке — при нажатии должен раздаться звуковой сигнал.</li>
+  <li>📊 Через диагностический разъём <code>OBD-II</code> можно прочитать ошибки модуля с помощью программы <em>OpenDiag</em> или <em>ScanTool</em>.</li>
+</ul>
+
+<p>Для глубокой проверки выполните следующие шаги:</p>
+
+
+<p>1. Включите зажигание (не запуская двигатель)</p>
+<p>2. Посмотрите на индикатор SOS на панели приборов</p>
+<p>3. Нажмите кнопку SOS (если есть) — должен прозвучать сигнал</p>
+<p>4. Подключите диагностический сканер и проверьте ошибки по протоколу <code>UDS</code></p>
+<p>5. Если есть ошибки, запишите их коды (например, <code>U110E</code> — нет связи с модулем)--></p>
+
+<p>Если индикатор не загорается вообще, возможны следующие причины:</p>
+<ul>
+  <li>⚡ Перегорел предохранитель (обычно <code>F30</code> на 10А в блоке под капотом).</li>
+  <li>🔌 Отошёл разъём питания модуля (частая проблема после ремонта консоли).</li>
+  <li>📡 Неисправна антенна ГЛОНАСС (установлена на крыше, рядом с антенной радио).</li>
+  <li>🔧 Сбой прошивки модуля (решается перепрошивкой в сервисе).</li>
+</ul>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Если после ДТП система не сработала, но подушки безопасности сработали, это может означать <strong>повреждение проводки</strong> между блоком <em>Аирбэг</em> и ГЛОНАСС-модулем. В этом случае требуется диагностика в автосервисе с проверкой цепи <code>CAN-шины</code>.</blockquote>
+
+<h2 id="типичные-ошибки-глонасс-на-лада-гранта-и-их-устранение">Типичные ошибки ГЛОНАСС на Лада Гранта и их устранение</h2>
+
+<p>Наиболее распространённые коды ошибок, которые выдаёт система ЭРА-ГЛОНАСС на <em>Granta</em>, и способы их исправления:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Код ошибки</th>
+      <th>Описание</th>
+      <th>Причина</th>
+      <th>Решение</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>U110E</code></td>
+      <td>Нет связи с модулем ГЛОНАСС</td>
+      <td>Обрыв провода, неисправность блока</td>
+      <td>Проверьте предохранитель, разъёмы, при необходимости замените модуль</td>
+    </tr>
+    <tr>
+      <td><code>B1180</code></td>
+      <td>Ошибка антенны GPS/ГЛОНАСС</td>
+      <td>Повреждение антенны или кабеля</td>
+      <td>Прозвоните цепь, замените антенну (артикул <code>8450006850</code>)</td>
+    </tr>
+    <tr>
+      <td><code>U0100</code></td>
+      <td>Потеря связи по CAN-шине</td>
+      <td>Проблемы с проводкой или блоком управления</td>
+      <td>Диагностика сканером, проверка цепи <code>CAN-H</code> и <code>CAN-L</code></td>
+    </tr>
+    <tr>
+      <td><code>B1185</code></td>
+      <td>Некорректные данные о местоположении</td>
+      <td>Сбой в модуле или плохой сигнал со спутников</td>
+      <td>Перезагрузите систему (снять клемму аккумулятора на 10 минут)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Если сканер показывает ошибку <code>U110E</code>,首先 проверьте предохранитель <code>F30</code> (10А) в монтажном блоке под капотом. Если он цел, осмотрите разъём модуля — часто контакты окисляются или отходят. Для очистки используйте <strong>контактную жидкость</strong> (например, <em>CRC Contact Cleaner</em>).</p>
+
+<p>Ошибка <code>B1180</code> обычно связана с антенной. На <em>Lada Granta</em> она установлена на крыше, под пластиковой накладкой. Проверьте целостность кабеля и разъёма. Если антенна повреждена, её можно заменить самостоятельно (стоимость оригинальной — около 2 500 рублей, аналогов — от 1 200 рублей).</p>
+
+<details class="faq-item"><summary>Как проверить антенну ГЛОНАСС без сканера?</summary><div class="faq-answer"><p>
+<p>Если у вас нет диагностического оборудования, можно приблизительно проверить работу антенны следующим образом:</p>
+<p>1. Включите зажигание.</p>
+<p>2. Нажмите кнопку SOS (если есть) — если система пытается соединиться (слышны щелчки в динамиках), антенна скорее всего исправна.</p>
+<p>3. Если реакции нет, попробуйте слегка пошевелить разъём антенны (он находится рядом с модулем). Если индикатор SOS замигает — проблема в контакте.</p></div></details></p>
+
+<p>Для сброса ошибок после ремонта можно использовать <em>ELM327</em>-адаптер и программу <em>OpenDiag</em> (бесплатная версия). Однако некоторые ошибки (например, <code>U0100</code>) требуют профессиональной диагностики, так как связаны с <code>CAN-шиной</code>.</p>
+
+<h2 id="можно-ли-отключить-глонасс-на-лада-гранта">Можно ли отключить ГЛОНАСС на Лада Гранта</h2>
+
+<p>Технически отключить систему можно, но <strong>это противоречит закону</strong>. Согласно Постановлению Правительства РФ № 1213 от 2014 года, все автомобили, выпущенные после 2017 года, должны быть оснащены рабочей системой ЭРА-ГЛОНАСС. При прохождении техосмотра инспектор может проверить её работоспособность.</p>
+
+<p>Тем не менее, некоторые владельцы <em>Lada Granta</em> идут на этот шаг по следующим причинам:</p>
+<ul>
+  <li>🔋 Модуль разряжает аккумулятор (актуально для машин, которые долго стоят без движения).</li>
+  <li>📡 Система ложно срабатывает (например, при резком торможении).</li>
+  <li>🔧 Модуль конфликтует с сигнализацией или другим оборудованием.</li>
+</ul>
+
+<p>Если вы всё же решили отключить ГЛОНАСС, есть три способа:</p>
+<ol>
+  <li>Снять предохранитель <code>F30</code> (10А) — система перестанет работать, но ошибка на панели останется.</li>
+  <li>Отсоединить разъём модуля — требует демонтажа консоли.</li>
+  <li>Перепрошить блок, чтобы он не отправлял сигналы (делается в специализированных сервисах).</li>
+</ol>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Отключение ГЛОНАСС может привести к <mark>отказу в страховой выплате при ДТП</mark>, если страховая компания сочтёт, что система была деактивирована умышленно. Также это может стать причиной проблем при продаже автомобиля — новый владелец имеет право потребовать восстановления работоспособности.</blockquote>
+
+<p>Если ваша цель — сэкономить заряд аккумулятора, лучше установить <strong>выключатель массы</strong> или использовать <em>подзарядку от солнечной панели</em>. Это безопаснее, чем вмешательство в штатную электронику.</p>
+
+<h2 id="глонасс-и-сигнализация-конфликты-и-решения">ГЛОНАСС и сигнализация: конфликты и решения</h2>
+
+<p>Многие владельцы <em>Lada Granta</em> сталкиваются с тем, что после установки сигнализации (<em>StarLine</em>, <em>Pandora</em>, <em>Alligator</em>) система ГЛОНАСС начинает глючить: самопроизвольно срабатывает SOS, пропадает связь со спутниками или появляются ошибки на панели. Это связано с тем, что обе системы используют <code>CAN-шину</code> для обмена данными.</p>
+
+<p>Чтобы избежать конфликтов, следуйте этим рекомендациям:</p>
+<ul>
+  <li>🔌 Устанавливайте сигнализацию только в проверенных сервисах, где есть опыт работы с <em>Грантой</em>.</li>
+  <li>📡 Используйте <strong>CAN-модули</strong> с поддержкой <em>Lada</em> (например, <em>StarLine B9</em> или <em>Pandora DXL 4700</em>).</li>
+  <li>🔧 После установки выполните сброс настроек ГЛОНАСС-модуля (снять клемму аккумулятора на 15 минут).</li>
+  <li>📊 Проверьте наличие ошибок сканером и удалите их.</li>
+</ul>
+
+<p>Если конфликт уже возник, попробуйте следующие шаги:</p>
+<ol>
+  <li>Отключите сигнализацию и проверьте, исчезли ли ошибки ГЛОНАСС.</li>
+  <li>Если да — проблема в подключении сигнализации. Обратитесь к установщику для перенастройки <code>CAN-интерфейса</code>.</li>
+  <li>Если ошибки остались — возможно, повреждена <code>CAN-шина</code>. Требуется диагностика в автосервисе.</li>
+</ol>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Если после установки сигнализации ГЛОНАСС начал ложно срабатывать, попробуйте откалибровать датчик удара. Для этого включите зажигание, нажмите кнопку <code>Valet</code> на брелке сигнализации 3 раза и следуйте голосовым инструкциям.</p></div>
+
+<p>В некоторых случаях помогает <strong>прошивка ГЛОНАСС-модуля</strong> до последней версии. Например, в <em>Granta FL</em> 2019–2020 годов выпуска были баги, из-за которых система конфликтовала с сигнализациями. Обновление ПО решало проблему.</p>
+
+<h2 id="обновление-прошивки-глонасс-на-лада-гранта">Обновление прошивки ГЛОНАСС на Лада Гранта</h2>
+
+<p>Производитель периодически выпускает обновления для ГЛОНАСС-модулей, исправляющие баги и улучшающие стабильность. На <em>Lada Granta</em> прошивка обновляется через диагностический разъём <code>OBD-II</code> с помощью специального софта.</p>
+
+<p>Вам понадобится:</p>
+<ul>
+  <li>💻 Ноутбук с Windows 7/10.</li>
+  <li>🔌 Адаптер <em>ELM327</em> (версия 1.5) или <em>OpenPort 2.0</em>.</li>
+  <li>📁 Прошивка для вашей версии модуля (скачать можно на сайте <a href="https://era-glonass.ru" target="_blank">ЭРА-ГЛОНАСС</a>).</li>
+  <li>🔧 Программа <em>OpenDiag</em> или <em>DiagRA</em>.</li>
+</ul>
+
+<p>Пошаговая инструкция:</p>
+<ol>
+  <li>Подключите адаптер к разъёму <code>OBD-II</code> и к ноутбуку.</li>
+  <li>Запустите программу и выберите модель <em>Lada Granta</em>.</li>
+  <li>Перейдите в раздел <code>ГЛОНАСС → Обновление ПО</code>.</li>
+  <li>Выберите файл прошивки (например, <code>ERA_GLONASS_V3.12.bin</code>).</li>
+  <li>Дождитесь завершения процесса (около 10–15 минут).</li>
+  <li>Выключите зажигание, затем включите снова и проверьте ошибки.</li>
+</ol>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Не прерывайте процесс обновления — это может привести к <strong>полному выходу модуля из строя</strong>. Если прошивка слетела, восстановить её можно только в сервисном центре <em>Лада</em> с помощью паяльного оборудования.</blockquote>
+
+<p>После обновления рекомендуется:</p>
+<ul>
+  <li>Сбросить настройки модуля (снять клемму аккумулятора на 10 минут).</li>
+  <li>Проверить работоспособность кнопки SOS (если есть).</li>
+  <li>Удалить старые ошибки через диагностический сканер.</li>
+</ul>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Обновление прошивки ГЛОНАСС решает большинство проблем с ложными срабатываниями и конфликтами с сигнализацией. Однако если модуль старше 2018 года, может потребоваться его замена на новую версию.</p></div>
+
+<h2 id="faq-частые-вопросы-о-глонасс-на-лада-гранта">FAQ: Частые вопросы о ГЛОНАСС на Лада Гранта</h2>
+
+<details>
+  <summary>Можно ли установить ГЛОНАСС на старую Гранту (до 2015 года)?</summary>
+  <p>Технически да, но это не имеет смысла. Система ЭРА-ГЛОНАСС обязательна только для машин, выпущенных после 2017 года. На более старые модели её устанавливают редко, так как это требует серьезной переделки электропроводки и интеграции с блоком управления подушками безопасности. Стоимость такого апгрейда соизмерима с покупкой новой машины.</p>
+</details>
+
+<details>
+  <summary>Что будет, если ездить с неработающим ГЛОНАСС?</summary>
+  <p>С 2023 года при прохождении техосмотра проверяют работоспособность системы. Если она неисправна, вам могут отказать в выдаче диагностической карты. Кроме того, в случае ДТП спасательные службы не получат автоматический сигнал о происшествии, что может замедлить их прибытие. Страховые компании также могут усомниться в обстоятельствах аварии, если система была отключена.</p>
+</details>
+
+<details>
+  <summary>Как часто нужно обновлять прошивку ГЛОНАСС?</summary>
+  <p>Обновления выходят раз в 1–2 года. Если у вас нет проблем с системой, обновлять прошивку необязательно. Однако если появились ошибки (например, <code>B1180</code> или <code>U0100</code>), обновление может их устранить. Проверяйте актуальные версии на сайте <a href="https://era-glonass.ru" target="_blank">ЭРА-ГЛОНАСС</a>.</p>
+</details>
+
+<details>
+  <summary>Может ли ГЛОНАСС следить за мной?</summary>
+  <p>Нет, штатная система ЭРА-ГЛОНАСС на <em>Lada Granta</em> не передаёт данные о вашем местоположении в реальном времени. Она активируется только при ДТП или нажатии кнопки SOS. Однако с 2023 года обсуждается внедрение функции мониторинга для коммерческого транспорта, но для легковых автомобилей это пока не актуально.</p>
+</details>
+
+<details>
+  <summary>Сколько стоит замена ГЛОНАСС-модуля на Гранте?</summary>
+  <p>Стоимость оригинального модуля — от 8 000 до 12 000 рублей (в зависимости от версии). Замена в сервисе обойдётся в 1 500–3 000 рублей. Можно найти аналоги дешевле (от 5 000 рублей), но они могут некорректно работать с блоком управления автомобиля. При покупке проверьте совместимость по VIN-коду.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#что-такое-глонасс-на-лада-гранта-и-зачем-он-нужен">Что такое ГЛОНАСС на Лада Гранта и зачем он нужен</a></li><li><a href="#где-находится-глонасс-модуль-на-лада-гранта">Где находится ГЛОНАСС-модуль на Лада Гранта</a></li><li><a href="#как-проверить-работоспособность-глонасс-на-лада-гранта">Как проверить работоспособность ГЛОНАСС на Лада Гранта</a></li><li><a href="#типичные-ошибки-глонасс-на-лада-гранта-и-их-устранение">Типичные ошибки ГЛОНАСС на Лада Гранта и их устранение</a></li><li><a href="#можно-ли-отключить-глонасс-на-лада-гранта">Можно ли отключить ГЛОНАСС на Лада Гранта</a></li><li><a href="#глонасс-и-сигнализация-конфликты-и-решения">ГЛОНАСС и сигнализация: конфликты и решения</a></li><li><a href="#обновление-прошивки-глонасс-на-лада-гранта">Обновление прошивки ГЛОНАСС на Лада Гранта</a></li><li><a href="#faq-частые-вопросы-о-глонасс-на-лада-гранта">FAQ: Частые вопросы о ГЛОНАСС на Лада Гранта</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/k/ko/kod-oshibki-335-lada-granta.html" class="related-card">Код ошибки 335 Лада Гранта: расшифровка и устранение</a></li><li><a href="/articles/l/la/lada-granta-regulirovka-rulya.html" class="related-card">Регулировка руля Лада Гранта: пошаговая инструкция</a></li><li><a href="/articles/u/us/ustanovka-remnya-grm-lada-granta-8-klapanov.html" class="related-card">Установка ремня ГРМ Лада Гранта 8 клапанов: пошаговая инструкция</a></li><li><a href="/articles/l/la/lada-granta-ttkh.html" class="related-card">Лада Гранта ТТХ: Полный обзор характеристик и двигателей</a></li><li><a href="/articles/t/tu/turbo-kit-lada-granta.html" class="related-card">Турбо кит Лада Гранта: установка, выбор и расчет мощности</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/k/ko/kod-oshibki-335-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Код ошибки 335 Лада Гранта: расшифровка и устранение</span><span class="related-bottom-desc">Горит ошибка 335 на Лада Гранта? Узнайте, почему датчик кислорода не работает, как проверить проводк</span></a><a href="/articles/l/la/lada-granta-regulirovka-rulya.html" class="related-bottom-card"><span class="related-bottom-title">Регулировка руля Лада Гранта: пошаговая инструкция</span><span class="related-bottom-desc">Как настроить рулевую колонку на Лада Гранта? Инструкция по регулировке вылета и наклона, устранение</span></a><a href="/articles/u/us/ustanovka-remnya-grm-lada-granta-8-klapanov.html" class="related-bottom-card"><span class="related-bottom-title">Установка ремня ГРМ Лада Гранта 8 клапанов: пошаговая инструкция</span><span class="related-bottom-desc">Подробная инструкция по замене ремня ГРМ на 8-клапанной Лада Гранта. Моменты затяжки, метки, инструм</span></a><a href="/articles/l/la/lada-granta-ttkh.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта ТТХ: Полный обзор характеристик и двигателей</span><span class="related-bottom-desc">Подробный разбор Лада Гранта ТТХ: мощность, расход, динамика разгона и технические особенности всех </span></a><a href="/articles/t/tu/turbo-kit-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Турбо кит Лада Гранта: установка, выбор и расчет мощности</span><span class="related-bottom-desc">Полный гид по турбированию Лада Гранта. Выбор турбо кита, этапы установки, прошивка ЭБУ и расчет сто</span></a><a href="/articles/r/ra/razborka-lada-granta-fl.html" class="related-bottom-card"><span class="related-bottom-title">Разборка Lada Granta FL: пошаговая инструкция и советы эксперта</span><span class="related-bottom-desc">Подробный гайд по разборке Лада Гранта FL: инструменты, порядок действий, нюансы и частые ошибки. Сх</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

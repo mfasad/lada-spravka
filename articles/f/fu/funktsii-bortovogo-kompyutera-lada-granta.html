@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Функции бортового компьютера Лада Гранта: полное руководство — Лада Справка</title>
+    <meta name="description" content="Подробный обзор штатного маршрутизатора Лада Гранта. Настройка часов, диагностика ошибок, сброс расхода топлива и скрытые функции ЭБУ.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/f/fu/funktsii-bortovogo-kompyutera-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Функции бортового компьютера Лада Гранта: полное руководство">
+    <meta property="og:description" content="Подробный обзор штатного маршрутизатора Лада Гранта. Настройка часов, диагностика ошибок, сброс расхода топлива и скрытые функции ЭБУ.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Функции бортового компьютера Лада Гранта: полное руководство</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Функции бортового компьютера Лада Гранта: руководство</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#интерфейс-и-навигация-по-меню-приборной-панели">Интерфейс и навигация по меню приборной панели</a></li><li><a href="#основные-функции-отображения-и-диагностики">Основные функции отображения и диагностики</a></li><li><a href="#расчет-расхода-топлива-и-запаса-хода">Расчет расхода топлива и запаса хода</a></li><li><a href="#настройка-времени-даты-и-параметров-отображения">Настройка времени, даты и параметров отображения</a></li><li><a href="#скрытые-функции-и-сервисные-режимы">Скрытые функции и сервисные режимы</a></li><li><a href="#типичные-ошибки-и-методы-их-устранения">Типичные ошибки и методы их устранения</a></li><li><a href="#влияние-комплектаций-на-функционал-компьютера">Влияние комплектаций на функционал компьютера</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный автомобиль, даже в бюджетном сегменте, представляет собой сложный комплекс электронных систем, управление которыми часто ложится на плечи водителя. Лада Гранта, являясь одним из самых массовых автомобилей на российском рынке, оснащается штатным <strong>маршрутным компьютером</strong>, который выводит на экран приборной панели или мультимедийной системы важную техническую информацию. Понимание принципов работы этого устройства позволяет не только экономить топливо, но и оперативно реагировать на изменения в работе двигателя.</p>
+
+<p>Многие владельцы воспринимают дисплей лишь как цифровые часы или простой счетчик километров, упуская из виду диагностический потенциал системы. <em>Электронный блок управления</em> (ЭБУ) собирает данные с десятков датчиков по всему кузову и агрегатам, обрабатывает их и транслирует в понятном виде. Грамотное использование этих данных помогает избежать дорогостоящего ремонта, так как водитель замечает аномалии задолго до появления критических симптомов.</p>
+
+<p>В этой статье мы детально разберем функционал штатного компьютера, методы настройки и способы активации скрытых возможностей. Вы узнаете, как правильно интерпретировать коды ошибок и почему показатели расхода могут отличаться от паспортных данных.</p>
+
+<h2 id="интерфейс-и-навигация-по-меню-приборной-панели">Интерфейс и навигация по меню приборной панели</h2>
+
+<p>Управление функциями бортового компьютера в Лада Гранта реализовано через кнопки на подрулевом переключателе или через сенсорный экран, в зависимости от комплектации автомобиля. В базовых версиях с монохромным дисплеем навигация осуществляется кнопкой <code>Reset</code>, расположенной на торце левого рычага под рулем. Короткое нажатие переключает режимы отображения, а длительное — сбрасывает текущие показания или входит в меню настроек.</p>
+
+<p>В более дорогих комплектациях, таких как <em>Lux</em> или <em>Norma</em> с мультимедийной системой, интерфейс становится графически насыщеннее. Здесь доступны цветные дисплеи, где информация структурирована по вкладкам. Водитель может выбирать между отображением мгновенных параметров и накопительной статистикой. Важно понимать, что логика работы меню едина для всех версий, меняется лишь способ визуализации данных.</p>
+
+<ul>
+<li>🚗 <strong>Режим времени и даты</strong> — базовый экран, отображающий текущее время, дату и, при наличии GPS-антенны, точное положение.</li>
+<li>⛽ <strong>Топливная статистика</strong> — показывает средний и мгновенный расход, а также расчетный запас хода на оставшемся топливе.</li>
+<li>🔧 <strong>Диагностический режим</strong> — вывод кодов неисправностей и текущих параметров работы двигателя в реальном времени.</li>
+</ul>
+
+<p>Навигация по меню требует определенной сноровки, особенно на ходу. Чтобы не отвлекаться от дороги, рекомендуется производить настройку только на остановленном автомобиле. Система имеет защиту от случайных нажатий, но она не исключает человеческий фактор. При длительном удержании кнопки <code>Reset</code> (более 3 секунд) происходит вход в режим настройки часов, где короткими нажатиями выбирается изменяемый параметр.</p>
+
+<h2 id="основные-функции-отображения-и-диагностики">Основные функции отображения и диагностики</h2>
+
+<p>Центральное место в функционале занимает мониторинг технических параметров автомобиля. Бортовой компьютер непрерывно считывает сигналы с датчиков массового расхода воздуха, положения дроссельной заслонки и лямбда-зонда. Эти данные используются для формирования смеси и коррекции зажигания. Водителю доступна часть этой информации, которая помогает оценить состояние машины.</p>
+
+<p>Одной из ключевых функций является контроль напряжения бортовой сети. При работающем двигателе нормальным считается значение в диапазоне <mark>13.5–14.5 В</mark>. Если компьютер показывает значения ниже 12 В при работающем моторе, это прямой сигнал о неисправности генератора или регулятора напряжения. Игнорирование этого параметра может привести к разряду аккумулятора и остановке двигателя в пути.</p>
+
+<p>Также система отслеживает температуру охлаждающей жидкости. Хотя на приборной панели есть стрелочный указатель, цифровой бортовой компьютер дает более точное значение в градусах Цельсия. Это особенно важно при эксплуатации в пробках или при буксировке грузов, когда риск перегрева максимален. Превышение температуры выше <code>105°C</code> требует немедленной остановки и проверки системы охлаждения.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой тип дисплея у вашей Лада Гранта?</strong><ul><li>Монохромный (черно-белый)</li><li>Мультимедиа 2DIN</li><li>Нет дисплея (только стрелки)</li><li>Не знаю / Другое</li></ul></div></div>
+
+<p>Диагностический режим позволяет выявлять ошибки без подключения стороннего сканера <em>OBD-II</em>. При возникновении сбоев в работе систем на экране появляется соответствующий код, например, <code>P0300</code> (пропуски зажигания) или <code>P0171</code> (слишком бедная смесь). Расшифровка этих кодов позволяет принять решение: можно ли продолжать движение или необходим вызов эвакуатора.</p>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Не все коды ошибок, отображаемые бортовым компьютером, требуют немедленного ремонта. Некоторые из них могут быть вызваны временным скачком напряжения или использованием топлива низкого качества. Однако игнорирование повторяющихся ошибок может привести к выходу из строя катализатора.</p>
+</blockquote>
+
+<h2 id="расчет-расхода-топлива-и-запаса-хода">Расчет расхода топлива и запаса хода</h2>
+
+<p>Функция расчета экономичности является одной из самых востребованных среди владельцев Лада Гранта. Компьютер анализирует количество впрыскиваемого топлива и пройденное расстояние, выдавая средний расход в литрах на 100 км.需要注意的是, этот параметр является расчетным и зависит от калибровки форсунок, заложенной в прошивке ЭБУ.</p>
+
+<p>Мгновенный расход топлива отображается в литрах в час (<code>л/ч</code>) при стоянке или в литрах на 100 км при движении. Этот показатель помогает выработать экономичный стиль вождения. Например, плавное нажатие на педаль акселератора позволяет держать расход в минимальных значениях. Резкие разгоны и торможения двигателем значительно увеличивают потребление бензина.</p>
+
+<p>Запас хода — это прогнозируемое расстояние, которое автомобиль может проехать на оставшемся в баке топливе, исходя из текущего стиля езды. Если вы двигались по трассе с постоянной скоростью, компьютер покажет большой запас. При попадании в городскую пробку этот показатель резко уменьшится, так как алгоритм пересчитает данные на основе возросшего расхода.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Для сброса статистики расхода после заправки зажмите кнопку Reset на 5 секунд в режиме отображения пробега. Это позволит отслеживать экономичность от бака до бака.</p></div>
+
+<p>Точность показаний зависит от качества топлива и состояния топливной системы. Засоренные форсунки или неисправный датчик кислорода могут искажать данные, показывая расход выше реального. Регулярная диагностика и обслуживание двигателя помогают поддерживать точность расчетов на высоком уровне.</p>
+
+<h2 id="настройка-времени-даты-и-параметров-отображения">Настройка времени, даты и параметров отображения</h2>
+
+<p>Корректная установка времени необходима не только для комфорта водителя, но и для правильной работы некоторых функций, таких как планировщик поездок или журналирование ошибок. В Лада Гранта настройка производится вручную, так как не все комплектации оснащены модулем GPS для синхронизации времени.</p>
+
+<p>Процесс настройки времени выглядит следующим образом: необходимо войти в режим регулировки, выбрать формат отображения (12 или 24 часа), установить часы и минуты. В автомобилях с мультимедийной системой <em>Lada Enjoy Pro</em> или аналогичными, время может синхронизироваться автоматически при подключении смартфона.</p>
+
+<p>Помимо времени, пользователь может настраивать яркость подсветки дисплея. Это особенно актуально в ночное время, чтобы яркий экран не слепил водителя. Регулировка обычно доступна через меню настроек или комбинацией клавиш на подрулевом переключателе.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Диапазон значений</th>
+<th>Влияние на работу</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Яркость дисплея</td>
+<td>0–100%</td>
+<td>Комфорт восприятия, энергопотребление</td>
+</tr>
+<tr>
+<td>Единицы температуры</td>
+<td>°C / °F</td>
+<td>Отображение данных о климате</td>
+</tr>
+<tr>
+<td>Формат времени</td>
+<td>12ч / 24ч</td>
+<td>Удобство чтения</td>
+</tr>
+<tr>
+<td>Язык интерфейса</td>
+<td>RU / EN</td>
+<td>Понимание меню и ошибок</td>
+</tr>
+</tbody>
+</table>
+
+<p>Изменение некоторых параметров, таких как единицы измерения температуры, может потребовать перезагрузки системы. Для этого достаточно выключить и снова включить зажигание. Все пользовательские настройки сохраняются в энергонезависимой памяти и не сбрасываются при отключении аккумулятора.</p>
+
+<h2 id="скрытые-функции-и-сервисные-режимы">Скрытые функции и сервисные режимы</h2>
+
+<p>Штатный бортовой компьютер Лада Гранта обладает рядом скрытых возможностей, доступных через инженерное меню. Попасть в него можно с помощью определенной последовательности нажатий кнопок, которая зависит от версии приборной панели. В сервисном режиме отображаются raw-данные с датчиков, которые не выводятся в обычном меню.</p>
+
+<p>Одной из полезных скрытых функций является тест ламп и сегментов дисплея. При активации этого режима загораются все индикаторы на приборной панели, что позволяет быстро выявить перегоревшие лампы или битые пиксели на экране. Это удобно проводить перед покупкой подержанного автомобиля или после замены проводки.</p>
+
+<details class="faq-item"><summary>Как войти в сервисный режим?</summary><div class="faq-answer"><p>Для входа в сервисное меню на некоторых версиях панели Gamma или штатной необходимо: 1. Выключить зажигание. 2. Зажать кнопку сброса суточного пробега. 3. Включить зажигание, не отпуская кнопку. 4. Отпустить кнопку после появления тестового экрана. Точная комбинация может отличаться в зависимости от года выпуска и типа панели приборов.</p></div></details>
+
+<p>Также в скрытом меню доступна версия программного обеспечения ЭБУ и контроллера пакета данных. Эта информация необходима при принятии решения о перепрошивке ("чип-тюнинге") автомобиля. Зная точную версию ПО, можно подобрать корректную калибровочную таблицу для улучшения динамических характеристик.</p>
+
+<p> Например, сброс адаптаций топливной коррекции без необходимости заставит ЭБУ заново обучаться, что временно увеличит расход топлива и ухудшит стабильность холостого хода.</p>
+
+<h2 id="типичные-ошибки-и-методы-их-устранения">Типичные ошибки и методы их устранения</h2>
+
+<p>В процессе эксплуатации водители могут сталкиваться с различными ошибками, которые выводит бортовой компьютер. Понимание их природы помогает избежать паники и лишних трат на СТО. Ошибки делятся на критические, требующие остановки, и информационные, которые можно игнорировать до планового обслуживания.</p>
+
+<p>Часто встречающаяся ошибка связана с датчиком уровня топлива. Стрелка может хаотично прыгать или показывать полный бак при его пустоте. Это часто вызвано окислением контактов на бензобаке или неисправностью самого датчика. Бортовой компьютер в этом случае может показывать неверный запас хода.</p>
+
+<ul>
+<li>🔋 <strong>Низкое напряжение</strong> — появляется при запуске двигателя зимой или при неисправном генераторе.</li>
+<li>💨 <strong>Ошибка системы зажигания</strong> — свидетельствует о проблемах со свечами, катушками или высоковольтными проводами.</li>
+<li>🌡️ <strong>Перегрев двигателя</strong> — критический сигнал, требующий немедленной реакции во избежание заклинивания мотора.</li>
+</ul>
+
+<p>Для устранения многих ошибок достаточно выполнить сброс. Однако, если неисправность физически присутствует, ошибка появится снова после нескольких циклов работы двигателя. Сброс производится через меню или путем кратковременного снятия клеммы с аккумулятора.</p>
+
+<div class="checklist-block"><h4>☑️ Действия при появлении ошибки Check Engine</h4><label class="check-item"><input type="checkbox"><span>Остановиться в безопасном месте</span></label><label class="check-item"><input type="checkbox"><span>Проверить уровень масла и антифриза</span></label><label class="check-item"><input type="checkbox"><span>Считать код ошибки</span></label><label class="check-item"><input type="checkbox"><span>Принять решение о дальнейшей поездке</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Если горит индикатор давления масла, продолжать движение категорически запрещено. Это может привести к капитальному ремонту двигателя. В отличие от ошибок электроники, механические проблемы часто не имеют кода, но сигнализируются красными индикаторами.</p>
+</blockquote>
+
+<h2 id="влияние-комплектаций-на-функционал-компьютера">Влияние комплектаций на функционал компьютера</h2>
+
+<p>Функционал бортового компьютера напрямую зависит от комплектации Лада Гранта. В версии <em>Standard</em> с классической панелью приборов возможности ограничены базовым одометром и индикатором топлива. Здесь нет цифрового отображения параметров, и диагностика возможна только через внешние сканеры.</p>
+
+<p>Комплектации <em>Classic</em> и <em>Comfort</em> уже оснащаются более продвинутыми панелями с монохромным дисплеем. Здесь доступен маршрутник, часы и базовая диагностика. Это "золотая середина" для тех, кто ценит функциональность, но не хочет переплачивать за мультимедиа.</p>
+
+<p>Топовые версии <em>Lux</em> и <em>Luxe</em> предлагают максимальный набор функций, интегрированный с мультимедийной системой. Здесь водитель получает расширенную телеметрию, возможность настройки звуковых сигналов и интеграцию со смартфоном. Разница в программном обеспечении может быть существенной, поэтому владельцам разных версий стоит ориентироваться на свои мануалы.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Полноценный бортовой компьютер с диагностикой доступен только в комплектациях с электронным управлением стеклопакетом и центральной панелью нового образца.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Как сбросить ошибку на бортовом компьютере Лада Гранта?</summary>
+<p>Для сброса ошибки можно использовать кнопку <code>Reset</code> на подрулевом переключателе. Зайдите в режим отображения ошибок (если доступно) и зажмите кнопку на несколько секунд. Альтернативный способ — снять минусовую клемму с аккумулятора на 10-15 минут, но это также сбросит настройки времени и радио.</p>
+</details>
+
+<details>
+<summary>Почему бортовой компьютер показывает разный расход топлива?</summary>
+<p>Расход зависит от множества факторов: стиля вождения, пробок, качества топлива, давления в шинах и даже включенного кондиционера. Компьютер усредняет данные, поэтому кратковременные скачки нормальны. Для получения объективной картины сравнивайте расход на длинных дистанциях.</p>
+</details>
+
+<details>
+<summary>Можно ли установить бортовой компьютер на Гранту Стандарт?</summary>
+<p>Да, это возможно. Существует два пути: замена приборной панели на версию с дисплеем (требует программирования и согласования с иммобилайзером) или установка внешнего маршрутизатора, который подключается в разъем OBD-II или врезается в проводку.</p>
+</details>
+
+<details>
+<summary>Что означает мигающий индикатор Check Engine?</summary>
+<p>Мигающий индикатор <em>Check Engine</em> свидетельствует о пропусках зажигания, которые могут привести к повреждению каталитического нейтрализатора. В отличие от постоянно горящего индикатора, мигание требует снижения нагрузки на двигатель и скорейшей диагностики.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#интерфейс-и-навигация-по-меню-приборной-панели">Интерфейс и навигация по меню приборной панели</a></li><li><a href="#основные-функции-отображения-и-диагностики">Основные функции отображения и диагностики</a></li><li><a href="#расчет-расхода-топлива-и-запаса-хода">Расчет расхода топлива и запаса хода</a></li><li><a href="#настройка-времени-даты-и-параметров-отображения">Настройка времени, даты и параметров отображения</a></li><li><a href="#скрытые-функции-и-сервисные-режимы">Скрытые функции и сервисные режимы</a></li><li><a href="#типичные-ошибки-и-методы-их-устранения">Типичные ошибки и методы их устранения</a></li><li><a href="#влияние-комплектаций-на-функционал-компьютера">Влияние комплектаций на функционал компьютера</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/s/sh/shesternya-2-peredachi-lada-granta.html" class="related-card">Шестерня 2 передачи Лада Гранта: выбор, замена, ресурс</a></li><li><a href="/articles/p/po/poddomkratnik-lada-granta.html" class="related-card">Поддомкратник Лада Гранта: размеры, установка и усиление</a></li><li><a href="/articles/c/ch/chistka-drosselnoj-zaslonki-lada-granta.html" class="related-card">Чистка дроссельной заслонки Лада Гранта: пошаговая инструкция</a></li><li><a href="/articles/k/ka/kak-snyat-ruchku-kpp-lada-granta-fl.html" class="related-card">Как снять ручку КПП Лада Гранта ФЛ: полная инструкция</a></li><li><a href="/articles/z/za/zamena-tormoznykh-kolodok-lada-granta.html" class="related-card">Замена тормозных колодок Лада Гранта: полная инструкция и цены</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/s/sh/shesternya-2-peredachi-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Шестерня 2 передачи Лада Гранта: выбор, замена, ресурс</span><span class="related-bottom-desc">Все о шестерне 2 передачи Лада Гранта: признаки износа, коды деталей, ресурс МКПП, нюансы замены и с</span></a><a href="/articles/p/po/poddomkratnik-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Поддомкратник Лада Гранта: размеры, установка и усиление</span><span class="related-bottom-desc">Полный гид по поддомкратнику Лада Гранта. Как правильно установить, размеры штатной площадки, способ</span></a><a href="/articles/c/ch/chistka-drosselnoj-zaslonki-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Чистка дроссельной заслонки Лада Гранта: пошаговая инструкция</span><span class="related-bottom-desc">Подробное руководство по чистке дроссельной заслонки на Лада Гранта. Признаки загрязнения, пошаговая</span></a><a href="/articles/k/ka/kak-snyat-ruchku-kpp-lada-granta-fl.html" class="related-bottom-card"><span class="related-bottom-title">Как снять ручку КПП Лада Гранта ФЛ: полная инструкция</span><span class="related-bottom-desc">Пошаговое руководство по демонтажу рычага переключения передач на Лада Гранта лифтбек. Разборка кожу</span></a><a href="/articles/z/za/zamena-tormoznykh-kolodok-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Замена тормозных колодок Лада Гранта: полная инструкция и цены</span><span class="related-bottom-desc">Подробная инструкция по замене передних и задних колодок на Лада Гранта. Выбор запчастей, артикулы, </span></a><a href="/articles/l/la/lada-granta-snyat-bamper.html" class="related-bottom-card"><span class="related-bottom-title">Как снять бампер на Лада Гранта: пошаговая инструкция</span><span class="related-bottom-desc">Подробное руководство по снятию переднего и заднего бампера на Lada Granta. Фото, инструменты, совет</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

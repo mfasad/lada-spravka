@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Датчик температуры Лада Х Рей: диагностика, коды ошибок, замена — Лада Справка</title>
+    <meta name="description" content="Почему не работает датчик температуры Лада Х Рей? Разбор причин, коды ошибок ECU, проверка цепи и пошаговая инструкция по замене ДТОЖ своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/d/da/datchik-temperatury-lada-kh-rej.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Датчик температуры Лада Х Рей: диагностика, коды ошибок, замена">
+    <meta property="og:description" content="Почему не работает датчик температуры Лада Х Рей? Разбор причин, коды ошибок ECU, проверка цепи и пошаговая инструкция по замене ДТОЖ своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/xray/">Xray</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Датчик температуры Лада Х Рей: диагностика, коды ошибок, замена</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Датчик температуры Лада Х Рей: полная диагностика и замена</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#симптомы-неисправности-и-влияние-на-работу-двигателя">Симптомы неисправности и влияние на работу двигателя</a></li><li><a href="#расположение-датчика-и-устройство-узла-на-лада-х-рей">Расположение датчика и устройство узла на Лада Х Рей</a></li><li><a href="#диагностика-коды-ошибок-и-проверка-мультиметром">Диагностика: коды ошибок и проверка мультиметром</a></li><li><a href="#инструкция-по-замене-датчика-температуры-на-xray">Инструкция по замене датчика температуры на XRAY</a></li><li><a href="#проверка-цепи-и-устранение-окисления-контактов">Проверка цепи и устранение окисления контактов</a></li><li><a href="#выбор-охлаждающей-жидкости-и-обслуживание-системы">Выбор охлаждающей жидкости и обслуживание системы</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Владельцы кроссовера <em>Lada XRAY</em> часто сталкиваются с ситуацией, когда стрелка указателя на приборной панели ведет себя непредсказуемо, либо бортовой компьютер выдает ошибку, связанную с перегревом или некорректными показаниями системы охлаждения. <strong>Датчик температуры</strong> в автомобиле — это не просто индикатор для водителя, а критически важный элемент управления работой двигателя, от которого зависит расход топлива, динамика разгона и ресурс силового агрегата. В современных инжекторных моторах, устанавливаемых на <em>XRAY</em>, информация от этого сенсора напрямую влияет на состав топливно-воздушной смеси.</p>
+
+<p>Неисправность этого узла может привести к тому, что электронный блок управления (ЭБУ) перейдет в аварийный режим работы, игнорируя реальные тепловые параметры антифриза. <mark>На двигателях ВАЗ-21129 и ВАЗ-11189, устанавливаемых на Лада Х Рей, используется двухконтактный датчик с отрицательным температурным коэффициентом сопротивления (NTC).</mark> Это означает, что при нагреве его сопротивление падает, а при остывании — растет. Понимание этого принципа необходимо для правильной диагностики цепи без дорогостоящего оборудования.</p>
+
+<p>В этой статье мы подробно разберем, как выявить неисправность, какие коды ошибок могут появиться на экране маршрутного компьютера и как самостоятельно произвести замену элемента. Вам не обязательно быть профессиональным автомехаником, чтобы провести первичную проверку. Однако важно соблюдать технику безопасности и понимать, что работа с системой охлаждения горячего двигателя опасна.</p>
+
+<h2 id="симптомы-неисправности-и-влияние-на-работу-двигателя">Симптомы неисправности и влияние на работу двигателя</h2>
+
+<p>Первым признаком, который должен насторожить владельца <em>Лада Х Рей</em>, является нестабильная работа двигателя на холостом ходу. Если <strong>датчик температуры охлаждающей жидкости</strong> (ДТОЖ) передает неверные данные, ЭБУ может "думать", что мотор холодный, и продолжать обогащать смесь, что характерно для режима прогрева. В результате обороты плавают, а расход топлива резко возрастает, даже когда автомобиль уже прогрет.</p>
+
+<p>Другим явным симптомом является отсутствие показаний температуры на приборной панели или, наоборот, постоянные максимальные значения. Иногда стрелка может хаотично скакать от 50 до 100 градусов и обратно в течение нескольких секунд. Это часто указывает на плохой контакт в разъеме или обрыв цепи, а не на саму поломку сенсора. В таких случаях система может принудительно включить вентилятор радиатора, чтобы предотвратить реальный перегрев, создавая постоянный шум под капотом.</p>
+
+<p>Влияние неисправного ДТОЖ на динамику <em>XRAY</em> может быть существенным. Машина становится вялой при разгоне, наблюдаются провалы тяги. Это происходит потому, что блок управления не может корректно рассчитать угол опережения зажигания. Если датчик показывает, что двигатель холодный, хотя он уже горячий, зажигание будет слишком ранним, что может привести к детонации.</p>
+
+<ul>
+<li>🚗 Плавающие обороты холостого хода и затрудненный запуск "на горячую".</li>
+<li>🔥 Постоянно работающий вентилятор системы охлаждения или его полное отсутствие при перегреве.</li>
+<li>📉 Резкое увеличение расхода топлива и потеря мощности при разгоне.</li>
+<li>💡 Загорание индикатора Check Engine на приборной панели.</li>
+</ul>
+
+<blockquote>
+<p>⚠️ Внимание: Эксплуатация автомобиля с неисправным датчиком температуры может привести к реальным последствиям, таким как деформация головки блока цилиндров из-за локального перегрева, так как ЭБУ не скорректирует работу двигателя.</p>
+</blockquote>
+
+<h2 id="расположение-датчика-и-устройство-узла-на-лада-х-рей">Расположение датчика и устройство узла на Лада Х Рей</h2>
+
+<p>На автомобилях семейства <em>Lada XRAY</em> с двигателями 1.6 и 1.8 литра <strong>датчик температуры</strong> ввинчен непосредственно в корпус термостата. Термостатный узел расположен на передней части двигателя, со стороны коробки передач (если смотреть сверху), ближе к выпускному коллектору. Доступ к нему затруднен наличием пластиковых декоративных экранов и впускного ресивера, что требует аккуратности при демонтаже.</p>
+
+<p>Конструктивно датчик представляет собой латунный корпус с резьбой и пластиковую головку с двумя контактами. Внутри находится терморезистор, заключенный в герметичный стакан. Именно этот стакан контактирует с антифризом. Важно понимать, что на <em>Х Рей</em> используется именно двухконтактная версия, в отличие от одноконтактных датчиков включения вентилятора на старых моделях ВАЗ.</p>
+
+<p>Электрический разъем, подключаемый к датчику, фиксируется пластиковой защелкой. Со временем пластик может стать хрупким от температурных перепадов, поэтому при проведении работ с электрикой под капотом <em>XRAY</em> необходимо действовать осторожно, чтобы не сломать фиксаторы проводки.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При покупке нового датчика обращайте внимание на цвет маркировки головки: для двигателей ВАЗ чаще всего используются датчики с зеленой или черной маркировкой, в то время как красные могут иметь другие характеристики сопротивления.</p></div>
+
+<p>Ниже приведена таблица зависимости сопротивления исправного датчика от температуры, что является ключевым параметром для проверки мультим4етром.</p>
+
+<table>
+<thead>
+<tr>
+<th>Температура среды (°C)</th>
+<th>Сопротивление (Ом) - мин.</th>
+<th>Сопротивление (Ом) - макс.</th>
+<th>Статус двигателя</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20</td>
+<td>3400</td>
+<td>3600</td>
+<td>Холодный</td>
+</tr>
+<tr>
+<td>40</td>
+<td>1400</td>
+<td>1550</td>
+<td>Прогретый</td>
+</tr>
+<tr>
+<td>80</td>
+<td>310</td>
+<td>330</td>
+<td>Рабочая температура</td>
+</tr>
+<tr>
+<td>100</td>
+<td>170</td>
+<td>190</td>
+<td>Горячий</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="диагностика-коды-ошибок-и-проверка-мультиметром">Диагностика: коды ошибок и проверка мультиметром</h2>
+
+<p>Современная система управления двигателем <em>Лада Х Рей</em> (чаще всего ЭБУ Итэлма или Автрон) постоянно мониторит состояние цепи ДТОЖ. При выходе значений за пределы допустимого диапазона (обычно это обрыв цепи или короткое замыкание) в памяти контроллера сохраняется соответствующая ошибка. Считать её можно через диагностический разъем OBD-II, используя сканер ELM327 или специализированный софт на ноутбуке.</p>
+
+<p>Наиболее часто встречающиеся коды неисправностей, связанные с температурой:</p>
+<ul>
+<li>🛑 <strong>P0117</strong> — Низкий уровень сигнала датчика температуры (короткое замыкание на массу). ЭБУ видит сопротивление близкое к нулю.</li>
+<li>⚡ <strong>P0118</strong> — Высокий уровень сигнала датчика температуры (обрыв цепи). Сопротивление стремится к бесконечности.</li>
+<li>🌡️ <strong>P0116</strong> — Неверный сигнал датчика (выход за пределы диапазона или логическая ошибка).</li>
+</ul>
+
+<p>Для физической проверки вам понадобится цифровой мультиметр, переведенный в режим измерения сопротивления (Ом). Процедура требует снятия датчика с автомобиля, так как проверить его "на месте" без отключения разъема и знания точных параметров цепи сложно. После снятия датчика, его необходимо погрузить в емкость с водой, нагретой до определенной температуры, и замерить сопротивление между контактами.</p>
+
+<details class="faq-item"><summary>Как проверить датчик без снятия?</summary><div class="faq-answer"><p>Можно попытаться прозвонить цепь от разъема ЭБУ до фишки датчика, исключив обрыв проводов. Однако проверить сам терморезистор без демонтажа и нагрева/охлаждения невозможно.</p></div></details>
+
+<p>Если показания мультиметра при определенной температуре воды кардинально отличаются от табличных значений, или если сопротивление не меняется при нагреве, <strong>датчик температуры</strong> подлежит замене. Также стоит внимательно осмотреть контакты на предмет окисления — иногда проблема кроется в плохом контакте "массы".</p>
+
+<h2 id="инструкция-по-замене-датчика-температуры-на-xray">Инструкция по замене датчика температуры на XRAY</h2>
+
+<p>Замена <strong>ДТОЖ</strong> на <em>Лада Х Рей</em> — процедура средней сложности, требующая частичного слива охлаждающей жидкости. Работы проводятся только на полностью остывшем двигателе, чтобы избежать ожогов паром и антифризом. Перед началом работ убедитесь, что у вас под рукой есть свежая охлаждающая жидкость для долива и новый уплотнитель (если он не идет в комплекте).</p>
+
+<p>Процесс начинается с демонтажа пластикового кожуха двигателя, если он установлен. Затем необходимо обеспечить доступ к термостату. В некоторых комплектациях может потребоваться снятие корпуса воздушного фильтра для удобства доступа, хотя опытные мастера умудряются подлезть и так. Далее следует стравить давление в системе охлаждения, аккуратно приоткрыв крышку расширительного бачка (на холодную!).</p>
+
+<div class="checklist-block"><h4>☑️ Подготовка к замене ДТОЖ</h4><label class="check-item"><input type="checkbox"><span>Остудить двигатель</span></label><label class="check-item"><input type="checkbox"><span>Снять минусовую клемму АКБ</span></label><label class="check-item"><input type="checkbox"><span>Подготовить емкость для антифриза</span></label><label class="check-item"><input type="checkbox"><span>Купить новый датчик и жидкость для долива</span></label><label class="check-item"><input type="checkbox"><span>Найти чистую ветошь</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>После частичного слива антифриза (уровень должен быть ниже уровня датчика) отсоедините электрический разъем. Для этого нажмите на фиксатор и потяните колодку вверх. Выкрутите старый датчик подходящим ключом (обычно это рожковый ключ на 19 или головка). Установите новый элемент, предварительно смазав резьбу и уплотнение тонким слоем герметика (если нет резиновой прокладки) или просто установив новую прокладку. Затяжка производится с умеренным усилием, чтобы не повредить корпус термостата.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Не используйте для герметизации резьбы датчика температуры обычную паклю или герметики, проводящие ток. Это может исказить показания сопротивления и привести к ошибочной работе ЭБУ.</p>
+</blockquote>
+
+<p>После установки заверните датчик, подключите разъем и залейте антифриз до необходимого уровня. Обязательно удалите воздушные пробки из системы охлаждения, прогрев двигатель с открытой крышкой расширительного бачка (или открутив специальный винт прокачки, если он предусмотрен конструкцией конкретного термостата на вашей версии <em>XRAY</em>).</p>
+
+<h2 id="проверка-цепи-и-устранение-окисления-контактов">Проверка цепи и устранение окисления контактов</h2>
+
+<p>Часто проблема кроется не в самом датчике, а в проводке. Вибрация и влага под капотом <em>Лада Х Рей</em> делают свое дело. Внимательно осмотрите жгут проводов, идущий к термостату. На проводах не должно быть трещин изоляции, а внутри разъема — следов зеленой окиси. Если контакты окислены, их необходимо зачистить специальным спреем для контактов (Contact Cleaner) или аккуратно механическим способом.</p>
+
+<p>Проверка целостности проводов осуществляется прозвонкой мультиметром в режиме измерения сопротивления или проверки диодов. Один щуп ставится на контакт в фишке датчика, другой — на соответствующий пин в разъеме ЭБУ (требуется схема распиновки для вашего типа контроллера). Сопротивление исправного провода должно быть близким к нулю (менее 1 Ома).</p>
+
+<p>Особое внимание уделите контакту "массы". Если провод заземления датчика имеет плохой контакт с кузовом или блоком двигателя, показания будут скакать. В таких случаях рекомендуется зачистить место крепления массового провода до металла и обработать защитной смазкой.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Сталкивались ли вы с проблемами системы охлаждения на Lada XRAY?</strong><ul><li>Да, менял датчик</li><li>Были проблемы с термостатом</li><li>Вентилятор работал постоянно</li><li>Пока проблем не было</li></ul></div></div>
+
+<h2 id="выбор-охлаждающей-жидкости-и-обслуживание-системы">Выбор охлаждающей жидкости и обслуживание системы</h2>
+
+<p>Для стабильной работы системы охлаждения и корректных показаний <strong>датчика температуры</strong> критически важно использовать качественную охлаждающую жидкость. На заводе в <em>Лада Х Рей</em> обычно заливают карбоксилатные антифризы класса G12+ или G12++. Они имеют длительный срок службы и не образуют обильного осадка, который мог бы забить чувств-
+<p>ительные элементы датчика.</p></p>
+
+<p>Использование дешевых тосолов или некачественных антифризов может привести к коррозии алюминиевых деталей термостата и самого датчика. Продукты коррозии могут осаждаться на чувствительном элементе, создавая изолирующую пленку, из-за чего датчик начинает "врать", показывая температуру с запозданием.</p>
+
+<p>Менять антифриз на <em>XRAY</em> рекомендуется каждые 60-90 тысяч километров или раз в 3-5 лет, в зависимости от того, что наступит раньше. При каждой замене желательно проводить визуальный осмотр патрубков и мест соединения на предмет подтеканий.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Использование оригинального антифриза или его качественного аналога с допуском Renault 72-00-014 продлевает жизнь не только радиатору, но и обеспечивает точность работы датчиков температуры.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Какой артикул у датчика температуры для Лада Х Рей?</summary>
+<p>Оригинальный артикул датчика температуры для двигателей ВАЗ на XRAY чаще всего обозначается как <code>21120-3851010-00</code> или <code>21120-3851010-01</code>. Также подходят аналоги с маркировкой <code>42.3845</code> или <code>23.3845</code> (последний часто имеет зеленый корпус). Перед покупкой лучше сверить номер на вашем старом датчике.</p>
+</details>
+
+<details>
+<summary>Почему после замены датчика температура не показывает?</summary>
+<p>Это может указывать на несколько проблем: 1) Не до конца вставлен электрический разъем (не до щелчка). 2) В системе осталась воздушная пробка, и антифриз не омывает датчик. 3) Неисправна сама приборная панель или проводка до ЭБУ. 4) Новый датчик бракованный. Необходимо провести повторную диагностику и проверку цепи.</p>
+</details>
+
+<details>
+<summary>Можно ли ездить с неисправным датчиком температуры?</summary>
+<p>Кратковременно — да, если вы будете внимательно следить за температурой двигателя визуально (на ощупь патрубка) и не допускать перегрева. Однако长期ная езда с неверными показаниями приведет к повышенному износу двигателя, увеличению расхода топлива и возможному выходу из строя катализатора из-за переобогащенной смеси.</p>
+</details>
+
+<details>
+<summary>Нужно ли сбрасывать ошибки после замены датчика?</summary>
+<p>В большинстве случаев ЭБУ <em>Лада Х Рей</em> самостоятельно обновит данные после нескольких циклов запуска двигателя и прогрева. Однако для мгновенного удаления ошибки из памяти и гашения лампы Check Engine рекомендуется подключиться к диагностическому сканеру и выполнить команду "Сброс ошибок" (Clear DTC).</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#симптомы-неисправности-и-влияние-на-работу-двигателя">Симптомы неисправности и влияние на работу двигателя</a></li><li><a href="#расположение-датчика-и-устройство-узла-на-лада-х-рей">Расположение датчика и устройство узла на Лада Х Рей</a></li><li><a href="#диагностика-коды-ошибок-и-проверка-мультиметром">Диагностика: коды ошибок и проверка мультиметром</a></li><li><a href="#инструкция-по-замене-датчика-температуры-на-xray">Инструкция по замене датчика температуры на XRAY</a></li><li><a href="#проверка-цепи-и-устранение-окисления-контактов">Проверка цепи и устранение окисления контактов</a></li><li><a href="#выбор-охлаждающей-жидкости-и-обслуживание-системы">Выбор охлаждающей жидкости и обслуживание системы</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/r/re/rejlingi-na-lada-iks-rej.html" class="related-card">Рейлинги на Лада Икс Рей: выбор, установка и грузоподъемность</a></li><li><a href="/articles/l/la/lada-kh-rej-predokhraniteli-v-salone.html" class="related-card">Лада Х-Рей предохранители в салоне: схема, расшифровка, замена</a></li><li><a href="/articles/b/bl/blizhnij-svet-lada-kh-rej.html" class="related-card">Ближний свет на Lada XRAY: неисправности, замена, настройка</a></li><li><a href="/articles/u/us/ustanovka-farkopa-na-lada-kh-rej.html" class="related-card">Установка фаркопа на Лада Х Рей: пошаговая инструкция и нюансы</a></li><li><a href="/articles/l/la/lada-kh-rej-khomut-glushitelya.html" class="related-card">Хомут глушителя Лада XRAY: выбор, замена и размеры</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/r/re/rejlingi-na-lada-iks-rej.html" class="related-bottom-card"><span class="related-bottom-title">Рейлинги на Лада Икс Рей: выбор, установка и грузоподъемность</span><span class="related-bottom-desc">Подробный гид по установке рейлингов на Лада Икс Рей. Сравнение моделей, инструкция по монтажу своим</span></a><a href="/articles/l/la/lada-kh-rej-predokhraniteli-v-salone.html" class="related-bottom-card"><span class="related-bottom-title">Лада Х-Рей предохранители в салоне: схема, расшифровка, замена</span><span class="related-bottom-desc">Полная схема блока предохранителей Лада Х-Рей. Инструкция по замене, расшифровка номиналов, поиск не</span></a><a href="/articles/b/bl/blizhnij-svet-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Ближний свет на Lada XRAY: неисправности, замена, настройка</span><span class="related-bottom-desc">Как проверить, заменить и отрегулировать лампы ближнего света на Lada XRAY? Типы ламп, причины перег</span></a><a href="/articles/u/us/ustanovka-farkopa-na-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Установка фаркопа на Лада Х Рей: пошаговая инструкция и нюансы</span><span class="related-bottom-desc">Подробный гид по монтажу ТСУ на Lada XRAY. Выбор модели, снятие бампера, врезка усилителя и подключе</span></a><a href="/articles/l/la/lada-kh-rej-khomut-glushitelya.html" class="related-bottom-card"><span class="related-bottom-title">Хомут глушителя Лада XRAY: выбор, замена и размеры</span><span class="related-bottom-desc">Полный гид по хомутам выхлопной системы Лада XRAY. Размеры, артикулы, пошаговая инструкция замены и </span></a><a href="/articles/g/gd/gde-nakhoditsya-salonnyj-filtr-lada-iks-rej.html" class="related-bottom-card"><span class="related-bottom-title">Где находится салонный фильтр Лада Икс Рей: схема и замена</span><span class="related-bottom-desc">Подробная инструкция: где расположен салонный фильтр Лада Икс Рей, как его поменять своими руками, а</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

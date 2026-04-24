@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Чип-тюнинг Лада Гранта FL: этапы, софт и результаты — Лада Справка</title>
+    <meta name="description" content="Подробный разбор тюнинга ЭБУ Лада Гранта ФЛ. Отключение экологии, прошивка Паулюс, I-VTEC и реальный прирост мощности. Инструкция по калибровке.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/y/yu/yurol-tyuning-lada-granta-fl.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Чип-тюнинг Лада Гранта FL: этапы, софт и результаты">
+    <meta property="og:description" content="Подробный разбор тюнинга ЭБУ Лада Гранта ФЛ. Отключение экологии, прошивка Паулюс, I-VTEC и реальный прирост мощности. Инструкция по калибровке.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Чип-тюнинг Лада Гранта FL: этапы, софт и результаты</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Профессиональный тюнинг Лада Гранта FL: от теории до практики</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#технические-особенности-двигателей-лада-гранта-фл">Технические особенности двигателей Лада Гранта ФЛ</a></li><li><a href="#этапы-подготовки-и-необходимое-оборудование">Этапы подготовки и необходимое оборудование</a></li><li><a href="#основные-виды-доработок-программного-обеспечения">Основные виды доработок программного обеспечения</a></li><li><a href="#популярные-прошивки-паулюс-i-vtec-и-другие">Популярные прошивки: Паулюс, I-VTEC и другие</a></li><li><a href="#влияние-тюнинга-на-ресурс-и-расход-топлива">Влияние тюнинга на ресурс и расход топлива</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+<p>Современный российский автопром, несмотря на активное развитие, все еще оставляет значительный простор для улучшений базовых характеристик автомобилей. <strong>Лада Гранта ФЛ</strong> (Facelift) является ярким примером машины, которая после грамотной доработки способна раскрыть свой скрытый потенциал, заложенный инженерами, но ограниченный экологическими нормами и маркетинговой политикой. Владелец, решившийся на <em>чип-тюнинг</em>, получает не просто прирост лошадиных сил, а fundamentally иное ощущение от вождения, где педаль газа становится отзывчивой, а двигатель перестает «задыхаться» на высоких оборотах.</p>
+
+<p>Основная цель вмешательства в работу электронного блока управления (ЭБУ) заключается в оптимизации карт впрыска топлива и угла опережения зажигания. Заводские настройки всегда имеют огромный запас прочности и адаптированы под топливо низкого качества, что неизбежно ведет к потере динамики. <mark>Оптимальная дельта крутящего момента на Гранте ФЛ после качественного тюнинга составляет 10-15% в зависимости от типа двигателя.</mark> Это позволяет увереннее чувствовать себя при обгонах на трассе и более резво стартовать со светофоров, что в условиях плотного городского трафика становится решающим фактором комфорта.</p>
+
+<p>Стоит отметить, что тюнинг — это не только прошивка «мозгов», но и комплексный подход к состоянию автомобиля. Перед внесением изменений в программное обеспечение необходимо убедиться в исправности систем зажигания, подачи воздуха и отсутствии критических ошибок. <strong>ЭБУ</strong> — это сложный вычислительный центр, который управляет сотнями параметров в секунду, и его некорректная работа может привести к нестабильности холостого хода или повышенному расходу топлива, если калибровка выполнена непрофессионально.</p>
+
+<h2 id="технические-особенности-двигателей-лада-гранта-фл">Технические особенности двигателей Лада Гранта ФЛ</h2>
+<p>Автомобиль <em>Лада Гранта</em> в кузове лифтбек или седан обновленной версии оснащается несколькими вариантами силовых агрегатов, каждый из которых имеет свои уникальные особенности тюнинга. Наиболее распространенным является 8-клапанный двигатель объемом 1.6 литра (модели 11186, 11183), который отличается простотой конструкции и высокой ремонтопригодностью. Однако именно эти моторы сильнее всего страдают от заводских «задушек» в угоду нормам Евро-4/Евро-5, что делает их первыми кандидатами на доработку.</p>
+
+<p>Более современные 16-клапанные версии, такие как <strong>ВАЗ-21127</strong> с изменяемой геометрией впускного коллектора, обладают лучшим потенциалом для форсировки. Система <em>I-VTEC</em> (в терминологии АвтоВАЗа — фазовращатель на впуске) позволяет эффективно наполнять цилиндры на разных оборотах, но штатная прошивка часто не использует все возможности механизма. При перепрошивке удается сдвинуть фазы газораспределения программно, добиваясь более ровной полки крутящего момента.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой двигатель установлен на вашей Гранте ФЛ?</strong><ul><li>8-клапанный 87 л.с.</li><li>16-клапанный 98 л.с.</li><li>16-клапанный 106 л.с.</li><li>Другой/Не знаю</li></ul></div></div>
+
+<p>Отдельного внимания заслуживает система питания и управления. На Грантах ФЛ чаще всего устанавливаются блоки управления <strong>Итэлма М86</strong> или <em>M74</em>, которые отлично поддаются чтению и записи через диагностический разъем OBD-II без необходимости вскрытия корпуса. Это упрощает процесс тюнинга и позволяет в любой момент вернуть заводские настройки, что особенно важно для сохранения гарантии или при прохождении технического осмотра.</p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> При работе с 16-клапанными моторами критически важно учитывать состояние ремня ГРМ. Агрессивные настройки зажигания могут повысить температурную нагрузку на двигатель, поэтому перед тюнингом обязательно проверьте систему охлаждения и целостность ремня.</blockquote>
+
+<h2 id="этапы-подготовки-и-необходимое-оборудование">Этапы подготовки и необходимое оборудование</h2>
+<p>Качественный <strong>чип-тюнинг</strong> невозможен без предварительной диагностики. Первым шагом всегда должна быть полная компьютерная диагностика всех систем автомобиля с помощью сканера и специализированного программного обеспечения, например, <em>OpenBox</em> или <strong>Scanmatik</strong>. Необходимо считать и проанализировать все имеющиеся ошибки, даже те, которые не горят на панели приборов, но записаны в историю. Это позволит выявить скрытые неисправности датчиков, которые могут исказить результат прошивки.</p>
+
+<p>Далее следует проверить механическую часть. Замер компрессии во всех цилиндрах должен показывать разброс не более 1 бар, иначе программные изменения не смогут компенсировать износ поршневой группы. Также проверяется состояние <strong>свечей зажигания</strong>, катушек и высоковольтных проводов. На старых свечах искра может быть слабой, что при обогащенной тюнинговой смеси приведет к пропускам зажигания и троению двигателя.</p>
+
+<div class="checklist-block"><h4>☑️ Чек-лист перед прошивкой</h4><label class="check-item"><input type="checkbox"><span>Считать все ошибки ЭБУ</span></label><label class="check-item"><input type="checkbox"><span>Замерить компрессию в цилиндрах</span></label><label class="check-item"><input type="checkbox"><span>Проверить состояние свечей и катушек</span></label><label class="check-item"><input type="checkbox"><span>Убедиться в заряде аккумулятора выше 12.5В</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 4</div></div>
+
+<p>Для самого процесса перепрограммирования потребуется надежное оборудование. Чаще всего используются адаптеры <em>Scanmatik 2 Pro</em> или <strong>OpenPort 2.0</strong>, которые обеспечивают стабильную связь с блоком управления. Важно использовать только лицензионное программное обеспечение для записи, так как «крякнутые» версии могут содержать ошибки в алгоритмах контрольных сумм, что приведет к некорректной работе ЭБУ или его полному выходу из строя («кирпичу»).</p>
+
+<h2 id="основные-виды-доработок-программного-обеспечения">Основные виды доработок программного обеспечения</h2>
+<p>Существует несколько направлений тюнинга, каждое из которых решает конкретные задачи владельца. Самый популярный вариант — это <strong>Stage 1</strong>, который подразумевает работу исключительно с программным обеспечением без замены «железа». В рамках этого этапа производится отключение систем, ограничивающих мощность, и оптимизация топливных карт под качественный бензин.</p>
+
+<p>Одной из самых востребованных функций является программное <em>отключение катализатора</em> и второго лямбда-зонда. Заводской катализатор со временем забивается, создавая высокое противодавление в выпускной системе, что душит двигатель. Удаление его контроля позволяет выхлопным газам выходить свободнее, а двигатель начинает «дышать». Также часто отключается система <strong>EGR</strong> (рециркуляция выхлопных газов), что предотвращает попадание сажи во впускной коллектор и сохраняет чистоту клапанов.</p>
+
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Заводская настройка</th>
+<th>Тюнинг (Stage 1)</th>
+<th>Изменение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Мощность (л.с.)</td>
+<td>87 / 98 / 106</td>
+<td>95 / 108 / 118</td>
+<td>+8-12%</td>
+</tr>
+<tr>
+<td>Крутящий момент (Нм)</td>
+<td>140 / 145 / 148</td>
+<td>155 / 160 / 165</td>
+<td>+10%</td>
+</tr>
+<tr>
+<td>Отклик педали газа</td>
+<td>Задержан (эко-режим)</td>
+<td>Мгновенный</td>
+<td>Улучшен</td>
+</tr>
+<tr>
+<td>Обороты отсечки</td>
+<td>5800-6000 об/мин</td>
+<td>6500-7000 об/мин</td>
+<td>Поднят</td>
+</tr>
+</tbody>
+</table>
+
+<p>Еще одним важным аспектом является коррекция <strong>УОЗ</strong> (угла опережения зажигания). Заводские настройки часто слишком консервативны, особенно на переходных режимах. Корректировка таблиц зажигания позволяет сжигать топливо более эффективно, повышая КПД двигателя. Однако здесь важно не уйти в детонацию, поэтому профессиональные калибровщики всегда оставляют запас по детонационным датчикам.</p>
+
+<details class="faq-item"><summary>Что такое откатная прошивка?</summary><div class="faq-answer"><p>Откатная прошивка — это копия заводского программного обеспечения, считанная с вашего конкретного автомобиля перед началом работ. Она хранится у мастера и клиента, чтобы в любой момент (например, при продаже авто или проблемах) можно было вернуть машину в полностью стоковое состояние.</p></div></details>
+
+<h2 id="популярные-прошивки-паулюс-i-vtec-и-другие">Популярные прошивки: Паулюс, I-VTEC и другие</h2>
+<p>На рынке тюнинга Лада Гранта ФЛ сформировалось несколько именитых авторов калибровок, чьи работы зарекомендовали себя с лучшей стороны. Прошивки от <strong>Паулюса</strong> (Paulus) считаются эталоном надежности и гражданской эксплуатации. Они не рассчитаны на трековые рекорды, но обеспечивают идеальную тягу в городском режиме, плавную работу на холостых и отсутствие провалов при резком нажатии на газ.</p>
+
+<p>Для любителей более динамичной езды существуют варианты от <em>I-VTEC</em> и <strong>Адакт</strong>. Эти калибровки часто имеют более агрессивные карты наполнения и смещенные фазы газораспределения (для 16-клапанных моторов). Они позволяют двигателю активнее набирать обороты во второй половине тахометра, что делает обгоны на трассе более безопасными и предсказуемыми. Однако такие прошивки могут быть чуть более требованы к качеству топлива.</p>
+
+<blockquote>⚠️ <strong>Внимание:</strong> Использование агрессивных гоночных прошивок на автомобиле с пробегом более 100 000 км не рекомендуется без предварительной дефектовки двигателя. Повышенные нагрузки могут ускорить износ шатунно-поршневой группы.</blockquote>
+
+<p>Выбор конкретного автора прошивки зависит от стиля вождения и ожиданий владельца. Кому-то важнее экономия и эластичность, а кому-то — максимальная динамика. Хороший тюнер всегда сможет подобрать или настроить вариант, который устроит именно вас, учитывая техническое состояние конкретного экземпляра <em>Гранты</em>.</p>
+
+<h2 id="влияние-тюнинга-на-ресурс-и-расход-топлива">Влияние тюнинга на ресурс и расход топлива</h2>
+<p>Один из самых частых вопросов: не убьет ли чип-тюнинг двигатель? Правильно выполненная калибровка <strong>Stage 1</strong> не сокращает ресурс, а в некоторых случаях даже продлевает жизнь мотору. Дело в том, что заводские настройки часто создают условия для неполного сгорания топлива (слишком бедная смесь на некоторых режимах ради экологии), что ведет к перегреву и детонации. Оптимизированная смесь сгорает более полно и с меньшей температурой.</p>
+
+<p>Что касается расхода топлива, то здесь ситуация неоднозначная. Динамический расход (при активной езде) практически всегда снижается на 0.5–1.5 литра, так как для разгона теперь требуется меньше времени и меньшее открытие дроссельной заслонки. Однако статический расход (в пробках, на холостых) может остаться прежним или даже незначительно вырасти, если стиль вождения станет более агрессивным из-за появившейся мощности.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Для максимальной экономии топлива после чип-тюнинга измените стиль вождения: старайтесь держать обороты в диапазоне 2000–3000 об/мин и используйте инерцию автомобиля, так как отклик на педаль газа стал острее.</p></div>
+
+<p>Важно понимать, что ресурс двигателя теперь больше зависит от качества обслуживания. Своевременная замена масла, использование качественных фильтров и хорошего бензина становятся критически важными. <strong>Тюнингованный двигатель</strong> работает в более эффективном режиме, но и нагрузки на него могут быть выше, если водитель постоянно использует новую динамику.</p>
+
+<h2 id="faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</h2>
+<details>
+<summary>Слетит ли гарантия на автомобиль после прошивки ЭБУ?</summary>
+<p>Формально дилер может отказать в гарантийном ремонте двигателя и систем управления, если обнаружит факт вмешательства в ПО. Однако современные методы записи часто не оставляют явных следов в логах ошибок, если прошивка сделана грамотно. Для сохранения гарантии рекомендуется делать откат на заводскую прошивку перед посещением сервисного центра.</p>
+</details>
+
+<details>
+<summary>Почувствую ли я разницу, если у меня 8-клапанный мотор?</summary>
+<p>Да, разница будет ощутима в первую очередь в эластичности. Машина перестанет «клевать носом» при переключении передач, уйдут провалы при разгоне, и станет легче трогаться в горку без перехода на пониженную передачу. Прирост в лошадиных силах на 8-клапаннике меньше, но улучшение отзывчивости заметно сразу.</p>
+</details>
+
+<details>
+<summary>Можно ли сделать чип-тюнинг Гранты ФЛ самостоятельно?</summary>
+<p>Теоретически возможно при наличии оборудования (адаптер, ноутбук, лицензионный софт) и знаний. Однако риск «положить» блок управления или записать некорректную калибровку очень высок. Ошибка в контрольной сумме или прерывание записи могут привести к неработоспособности автомобиля. Лучше доверить это профессионалам.</p>
+</details>
+
+<details>
+<summary>Нужно ли менять свечи или масло после чип-тюнинга?</summary>
+<p>Менять масло и свечи специально перед прошивкой не обязательно, если они в нормальном состоянии. Однако, если пробег на текущих свечах уже близок к предельному, их лучше заменить до тюнинга, чтобы новый софт работал с исправными компонентами зажигания.</p>
+</details>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Грамотный чип-тюнинг — это баланс между мощностью, экологией и ресурсом. Главное преимущество для владельца Гранты ФЛ — это не столько рекордные цифры на бумаге, сколько комфорт и предсказуемость поведения автомобиля в любых дорожных условиях.</p></div></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#технические-особенности-двигателей-лада-гранта-фл">Технические особенности двигателей Лада Гранта ФЛ</a></li><li><a href="#этапы-подготовки-и-необходимое-оборудование">Этапы подготовки и необходимое оборудование</a></li><li><a href="#основные-виды-доработок-программного-обеспечения">Основные виды доработок программного обеспечения</a></li><li><a href="#популярные-прошивки-паулюс-i-vtec-и-другие">Популярные прошивки: Паулюс, I-VTEC и другие</a></li><li><a href="#влияние-тюнинга-на-ресурс-и-расход-топлива">Влияние тюнинга на ресурс и расход топлива</a></li><li><a href="#faq-часто-задаваемые-вопросы">FAQ: Часто задаваемые вопросы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/o/os/oshibka-na-lada-granta.html" class="related-card">Ошибка на Лада Гранта: расшифровка кодов и способы устранения</a></li><li><a href="/articles/l/la/lada-granta-vid-sboku.html" class="related-card">Лада Гранта вид сбоку: размеры, особенности кузова и дизайн</a></li><li><a href="/articles/l/la/lada-granta-v-trejd-in.html" class="related-card">Лада Гранта в трейд-ин: выгодный обмен в 2026 году</a></li><li><a href="/articles/d/da/datchik-pedali-stsepleniya-lada-granta.html" class="related-card">Датчик педали сцепления Лада Гранта: признаки поломки, замена и регулировка</a></li><li><a href="/articles/m/ma/makhovik-lada-granta-8-klapannaya.html" class="related-card">Маховик Лада Гранта 8 клапанная: выбор, замена, признаки износа</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/o/os/oshibka-na-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Ошибка на Лада Гранта: расшифровка кодов и способы устранения</span><span class="related-bottom-desc">Горит Check Engine на Лада Гранта? Разбираем основные коды ошибок, причины их появления и методы диа</span></a><a href="/articles/l/la/lada-granta-vid-sboku.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта вид сбоку: размеры, особенности кузова и дизайн</span><span class="related-bottom-desc">Подробный анализ Лада Гранта вид сбоку: габариты, аэродинамика, различия между лифтбеком и седаном. </span></a><a href="/articles/l/la/lada-granta-v-trejd-in.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта в трейд-ин: выгодный обмен в 2026 году</span><span class="related-bottom-desc">Как сдать Ладу Гранту в трейд-ин и получить максимальную доплату? Полный гид по оценке, документам и</span></a><a href="/articles/d/da/datchik-pedali-stsepleniya-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Датчик педали сцепления Лада Гранта: признаки поломки, замена и регулировка</span><span class="related-bottom-desc">Подробный разбор неисправностей датчика педали сцепления на Лада Гранта. Инструкция по замене, диагн</span></a><a href="/articles/m/ma/makhovik-lada-granta-8-klapannaya.html" class="related-bottom-card"><span class="related-bottom-title">Маховик Лада Гранта 8 клапанная: выбор, замена, признаки износа</span><span class="related-bottom-desc">Полный гид по маховику для Лада Гранта 8 клапанов. Симптомы поломки, артикулы, цена, процесс замены </span></a><a href="/articles/k/ko/kolodki-zadnie-lada-granta-s-abs-artikul.html" class="related-bottom-card"><span class="related-bottom-title">Колодки задние Лада Гранта с АБС: артикулы и замена</span><span class="related-bottom-desc">Полный обзор задних тормозных колодок для Лада Гранта с ABS. Оригинальные артикулы, выбор аналогов, </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

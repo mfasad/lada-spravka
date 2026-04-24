@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Краш-тест Лада Икс Рей: анализ безопасности по ARCAP — Лада Справка</title>
+    <meta name="description" content="Подробный разбор краш-теста Lada XRAY. Анализ прочности кузова, подушек безопасности и систем защиты. Реальные цифры ARCAP и EuroNCAP.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/k/kr/krash-test-lada-iks-rej.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Краш-тест Лада Икс Рей: анализ безопасности по ARCAP">
+    <meta property="og:description" content="Подробный разбор краш-теста Lada XRAY. Анализ прочности кузова, подушек безопасности и систем защиты. Реальные цифры ARCAP и EuroNCAP.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/xray/">Xray</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Краш-тест Лада Икс Рей: анализ безопасности по ARCAP</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Краш-тест Лада Икс Рей: детальный разбор безопасности</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#методология-испытаний-и-условия-проведения-тестов">Методология испытаний и условия проведения тестов</a></li><li><a href="#анализ-фронтального-удара-и-деформация-кузова">Анализ фронтального удара и деформация кузова</a></li><li><a href="#защита-пассажиров-при-боковом-столкновении">Защита пассажиров при боковом столкновении</a></li><li><a href="#работа-систем-активной-безопасности-и-эра-глонасс">Работа систем активной безопасности и ЭРА-ГЛОНАСС</a></li><li><a href="#сравнение-с-конкурентами-и-место-в-рейтинге-arcap">Сравнение с конкурентами и место в рейтинге ARCAP</a></li><li><a href="#практические-выводы-для-владельцев-и-покупателей">Практические выводы для владельцев и покупателей</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Вопрос безопасности пассажиров для владельцев бюджетных кроссоверов всегда стоит на первом месте, и модель от <em>АвтоВАЗ</em> не стала исключением. Многочисленные краш-тесты Лада Икс Рей стали своего рода лакмусовой бумажкой для всей современной линейки тольяттинского автогиганта, демонстрируя реальный уровень инженерной школы. Результаты независимых проверок позволили сформировать объективное мнение о том, насколько надежно защищает водителя и пассажиров <strong>каркас кузова</strong> в экстренной ситуации.</p>
+
+<p>Многие до сих пор с опаской относятся к отечественному автопрому, вспоминая старые модели, однако статистика показывает, что <em>XRAY</em> создавался с учетом современных требований. Испытания проводились в различных условиях: от фронтального удара о жесткий барьер до бокового столкновения с движущимся препятствием. Именно комплексный подход позволил выявить слабые места конструкции и подтвердить наличие зон программируемой деформации, которые гасят энергию удара.</p>
+
+<p>В данной статье мы детально разберем, как вела себя машина в момент столкновения, какие системы сработали штатно, а где инженерам есть над чем работать. Вы узнаете, почему наличие <strong>двух подушек безопасности</strong> в базе — это не просто маркетинг, а реальная необходимость, подтвержденная цифрами.</p>
+
+<h2 id="методология-испытаний-и-условия-проведения-тестов">Методология испытаний и условия проведения тестов</h2>
+<p>Процедура проверки безопасности <em>Lada XRAY</em> проводилась в специализированных лабораториях, где воссоздаются реальные дорожные аварийные ситуации. Основным стандартом для оценки выступили протоколы <strong>ARCAP</strong>, которые максимально приближены к европейским нормам EuroNCAP. Это означает, что манекены оснащались десятками датчиков, фиксирующих нагрузку на каждую часть тела в момент удара.</p>
+
+<p>Скорость удара при фронтальном столкновении составляла 64 км/ч, что является стандартным требованием для симуляции лобового удара со смещением. Важно отметить, что тестировались не только взрослые манекены, но и детские, что позволило оценить эффективность <strong>крепления ISOFIX</strong> и работу ремней безопасности при резком торможении.</p>
+
+<p>Отдельное внимание уделялось состоянию стекол и целостности дверных проемов после удара. Если двери заклинит, спасатели не смогут быстро извлечь пострадавших, поэтому этот параметр критически важен для итоговой оценки. В ходе испытаний также проверялась работа автоматического оповещения <strong>ЭРА-ГЛОНАСС</strong>, которое должно мгновенно передавать координаты и данные о тяжести аварии.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Результаты краш-теста актуальны для конкретной комплектации и года выпуска. Изменения в конструкции кузова более поздних моделей могут повлиять на итоговые показатели безопасности.</p>
+</blockquote>
+
+<h2 id="анализ-фронтального-удара-и-деформация-кузова">Анализ фронтального удара и деформация кузова</h2>
+<p>При лобовом столкновении со смещением 40% на скорости 64 км/ч <em>Лада Икс Рей</em> продемонстрировала предсказуемое поведение. Передняя часть кузова, включая лонжероны и подрамник, приняла на себя основной удар, смявшись в соответствии с заложенной программой. Это позволило снизить перегрузки, передаваемые на салон, где находились манекены.</p>
+
+<p>Однако анализ видеозаписей показал, что деформация пола в районе педалей оказалась значительной. Это создает риск травм нижних конечностей водителя, так как пространство для ног сокращается критически. <strong>Рулевая колонка</strong> сместилась вверх и в сторону, но не достигла опасной зоны, что можно считать положительным результатом работы инженеров.</p>
+
+<p>Стекла остались целыми, что предотвратило выпадение пассажиров, а дверные проемы сохранили геометрию, позволяя открыть двери без спец инструмента. Тем не менее, нагрузка на грудную клетку манекена водителя была зафиксирована на граничном уровне, что указывает на необходимость доработки системы пассивной безопасности.</p>
+
+<ul>
+<li>🚗 Лонжероны смялись равномерно, погасив основную энергию удара.</li>
+<li>🦵 Зафиксирован риск перелома голени из-за смещения педального узла.</li>
+<li>🚪 Двери открылись без заеданий после остановки автомобиля.</li>
+<li>🛡️ Подушка безопасности водителя раскрылась полностью и вовремя.</li>
+</ul>
+
+<div class="attention-box attention-info"><div><strong>📊 Насколько для вас важен результат краш-теста при выборе авто?</strong><ul><li>Безопасность важнее всего (5 звезд)</li><li>Достаточно 3-4 звезд</li><li>Не обращаю внимания, главное цена</li><li>Смотрю только на наличие подушек</li></ul></div></div>
+
+<h2 id="защита-пассажиров-при-боковом-столкновении">Защита пассажиров при боковом столкновении</h2>
+<p>Боковой удар считается одним из самых опасных для человека, так как у дверей нет больших зон деформации для гашения энергии. В ходе испытаний <em>XRAY</em> подвергся удару тележкой на скорости 50 км/ч. Конструкция стоек и порогов выдержала нагрузку, однако датчики, установленные в ребрах манекена, зафиксировали высокое давление.</p>
+
+<p>Критическим моментом стало отсутствие боковых подушек безопасности в базовых комплектациях, что существенно снизило итоговый балл. Без дополнительной защиты <strong>грудная клетка</strong> и голова принимают на себя прямой контакт с твердыми элементами интерьера или ударной тележкой.</p>
+
+<p>Стойки крыши не деформировались, что говорит о хорошем запасе прочности силового каркаса. Это означает, что при опрокидывании автомобиля салон сохранит жизненное пространство. Однако отсутствие штор безопасности в некоторых версиях оставляет голову пассажира незащищенной от осколков и ударов.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>При покупке подержанного XRAY обязательно проверяйте наличие штор безопасности в комплектации, так как визуально их присутствие в базовых версиях может отсутствовать.</p></div>
+
+<p>В таблице ниже приведены сравнительные данные нагрузки на манекены при различных типах ударов, полученные в ходе лабораторных исследований.</p>
+
+<table>
+<thead>
+<tr>
+<th>Тип удара</th>
+<th>Скорость (км/ч)</th>
+<th>Нагрузка на голову</th>
+<th>Нагрузка на грудь</th>
+<th>Риск для ног</th>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td>Фронтальный (40%)</td>
+<td>64</td>
+<td>Низкий</td>
+<td>Средний</td>
+<td>Высокий</td>
+</tr>
+<tr>
+<td>Боковой (тележка)</td>
+<td>50</td>
+<td>Средний</td>
+<td>Высокий</td>
+<td>Низкий</td>
+</tr>
+<tr>
+<td>Удар сзади</td>
+<td>50</td>
+<td>Низкий</td>
+<td>Низкий</td>
+<td>Низкий</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="работа-систем-активной-безопасности-и-эра-глонасс">Работа систем активной безопасности и ЭРА-ГЛОНАСС</h2>
+<p>Современный автомобиль — это не только металл, но и электроника. В <em>Лада Икс Рей</em> установлена система <strong>ЭРА-ГЛОНАСС</strong>, которая при серьезном ударе автоматически связывается с оператором. В ходе краш-теста сигнал был отправлен успешно, координаты определены верно, что может спасти жизнь в безлюдной местности.</p>
+
+<p>Антиблокировочная система тормозов (<strong>ABS</strong>) и система распределения тормозных усилий (<strong>EBD</strong>) работают в связке, помогая водителю сохранить траекторию перед неизбежным столкновением. Хотя в самом моменте удара они не играют роли, именно они позволяют избежать аварии или снизить скорость перед ней.</p>
+
+<p>К сожалению, более продвинутые системы, такие как автоматическое торможение или контроль слепых зон, доступны только в топовых версиях или отсутствуют вовсе. Это ставит <em>XRAY</em> в положение догоняющего по сравнению с конкурентами из Кореи и Европы, где такие опции становятся стандартом.</p>
+
+<blockquote>
+<p>⚠️ Внимание: Не полагайтесь полностью на автоматику. Система ЭРА-ГЛОНАСС срабатывает при сильном ударе, но при легких столкновениях вызов диспетчера придется осуществлять вручную кнопкой SOS.</p>
+</blockquote>
+
+<h2 id="сравнение-с-конкурентами-и-место-в-рейтинге-arcap">Сравнение с конкурентами и место в рейтинге ARCAP</h2>
+<p>По итогам всех испытаний <em>Лада Икс Рей</em> получила 3 звезды из 5 возможных по методологии ARCAP. Это средний результат для бюджетного сегмента, но он уступает лидерам класса, таким как <em>Hyundai Creta</em> или <em>Renault Kaptur</em>, которые стабильно набирают 4 и 5 звезд.</p>
+
+<p>Основными扣分 (потеря баллами) стали риски для ног водителя при фронтальном ударе и недостаточная защита при боковом столкновении в базовых версиях. Тем не менее, наличие <strong>системы стабилизации (ESC)</strong> во всех комплектациях выравнивает ситуацию и помогает избежать заносов.</p>
+
+<p>Для своего ценового диапазона автомобиль показывает приемлемый уровень безопасности, но инженерам <em>АвтоВАЗ</em> есть над чем работать. Укрепление педального узла и расширение списка базовых подушек безопасности могли бы легко поднять рейтинг до 4 звезд.</p>
+
+<details class="faq-item"><summary>Почему 3 звезды — это неплохо?</summary><div class="faq-answer"><p>Три звезды означают, что автомобиль прошел минимально необходимые требования для допуска к продажам и обеспечивает базовый уровень выживаемости. Это не "отлично", но и не "опасно".</p></div></details>
+
+<h2 id="практические-выводы-для-владельцев-и-покупателей">Практические выводы для владельцев и покупателей</h2>
+<p>Что может сделать владелец, чтобы повысить свою безопасность, учитывая результаты краш-теста? В первую очередь, необходимо правильно настроить <strong>ремни безопасности</strong>. Они должны плотно прилегать к телу, проходя через плечо и бедра, а не через шею или живот.</p>
+
+<p>Детей следует перевозить только в сертифицированных креслах, соответствующих их весу и росту. Использование штатных ремней для детей ростом ниже 135 см категорически не рекомендуется, так как при ударе ремень может повредить внутренние органы.</p>
+
+<p>Регулярно проверяйте исправность всех систем автомобиля. Даже одна перегоревшая лампочка стоп-сигнала может привести к тому, что водитель сзади не успеет среагировать, и ваш идеальный кузов получит вмятину.</p>
+
+<ul>
+<li>🔧 Регулярно проверяйте затяжку болтов крепления сидений.</li>
+<li>👶 Используйте детские кресла с системой ISOFIX.</li>
+<li>👀 Следите за исправностью световых приборов.</li>
+<li>🛑 Соблюдайте дистанцию, помня о рисках для ног при ударе.</li>
+</ul>
+
+<div class="checklist-block"><h4>☑️ Проверка безопасности перед дальней дорогой</h4><label class="check-item"><input type="checkbox"><span>Проверить давление в шинах</span></label><label class="check-item"><input type="checkbox"><span>Убедиться в работе всех фар</span></label><label class="check-item"><input type="checkbox"><span>Проверить уровень тормозной жидкости</span></label><label class="check-item"><input type="checkbox"><span>Закрепить груз в багажнике</span></label><label class="check-item"><input type="checkbox"><span>Проверить работу стеклоочистителей</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Главный вывод: Лада Икс Рей обеспечивает базовый уровень безопасности, но требует от водителя повышенной внимательности и соблюдения ПДД для компенсации конструктивных особенностей.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Сколько звезд безопасности получила Лада Икс Рей в краш-тесте?</summary>
+<p>Автомобиль получил 3 звезды из 5 возможных по национальной методике ARCAP. Это обусловлено рисками травм ног водителя и недостаточной боковой защитой в базовых комплектациях.</p>
+</details>
+
+<details>
+<summary>Есть ли в Икс Рей боковые подушки безопасности?</summary>
+<p>В базовых комплектациях боковые подушки и шторки часто отсутствуют. Они доступны в более дорогих версиях или как опция, поэтому при покупке б/у автомобиля этот момент нужно уточнять визуально.</p>
+</details>
+
+<details>
+<summary>Насколько прочен кузов Лада Икс Рей?</summary>
+<p>Кузов изготовлен из высокопрочных сталей. Стойки крыши и дверные проемы выдерживают серьезные нагрузки, сохраняя жизненное пространство салона при опрокидывании или боковом ударе.</p>
+</details>
+
+<details>
+<summary>Работает ли система ЭРА-ГЛОНАСС при ударе?</summary>
+<p>Да, система автоматически отправляет сигнал бедствия при сильном ударе. Также есть кнопка ручного вызова экстренных служб, расположенная на потолке автомобиля.</p>
+</details>
+
+<details>
+<summary>Безопасно ли перевозить детей в Лада Икс Рей?</summary>
+<p>Да, при условии использования сертифицированных детских кресел. Автомобиль оснащен креплениями ISOFIX, что позволяет надежно зафиксировать сиденье ребенка.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#методология-испытаний-и-условия-проведения-тестов">Методология испытаний и условия проведения тестов</a></li><li><a href="#анализ-фронтального-удара-и-деформация-кузова">Анализ фронтального удара и деформация кузова</a></li><li><a href="#защита-пассажиров-при-боковом-столкновении">Защита пассажиров при боковом столкновении</a></li><li><a href="#работа-систем-активной-безопасности-и-эра-глонасс">Работа систем активной безопасности и ЭРА-ГЛОНАСС</a></li><li><a href="#сравнение-с-конкурентами-и-место-в-рейтинге-arcap">Сравнение с конкурентами и место в рейтинге ARCAP</a></li><li><a href="#практические-выводы-для-владельцев-и-покупателей">Практические выводы для владельцев и покупателей</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/z/za/zamena-magnitoly-lada-kh-rej.html" class="related-card">Замена магнитолы Лада Х Рей: инструкция, совместимость и схемы</a></li><li><a href="/articles/l/la/lada-xray-obzor.html" class="related-card">Lada Xray обзор: стоит ли покупать хэтчбек 2026</a></li><li><a href="/articles/m/ma/massa-lada-iks-rej.html" class="related-card">Масса Lada XRAY: полные технические данные 2026 года</a></li><li><a href="/articles/l/la/lada-kh-rej-otzyvy-vladeltsev.html" class="related-card">Лада XRAY отзывы владельцев: честный разбор проблем и плюсов</a></li><li><a href="/articles/f/fi/filtr-salonnyj-lada-iks-rej.html" class="related-card">Фильтр салонный Лада Икс Рей: выбор, замена и артикулы</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/z/za/zamena-magnitoly-lada-kh-rej.html" class="related-bottom-card"><span class="related-bottom-title">Замена магнитолы Лада Х Рей: инструкция, совместимость и схемы</span><span class="related-bottom-desc">Как заменить штатную магнитолу на Лада Х Рей? Полный гид по выбору мультимедиа, распиновке, подключе</span></a><a href="/articles/l/la/lada-xray-obzor.html" class="related-bottom-card"><span class="related-bottom-title">Lada Xray обзор: стоит ли покупать хэтчбек 2026</span><span class="related-bottom-desc">Полный обзор Lada Xray: технические характеристики, реальный расход топлива, надежность двигателя 1.</span></a><a href="/articles/m/ma/massa-lada-iks-rej.html" class="related-bottom-card"><span class="related-bottom-title">Масса Lada XRAY: полные технические данные 2026 года</span><span class="related-bottom-desc">Официальные данные о весе Lada XRAY всех модификаций (2016-2026): снаряженная, полная масса, грузопо</span></a><a href="/articles/l/la/lada-kh-rej-otzyvy-vladeltsev.html" class="related-bottom-card"><span class="related-bottom-title">Лада XRAY отзывы владельцев: честный разбор проблем и плюсов</span><span class="related-bottom-desc">Реальные отзывы владельцев Лада XRAY: анализ надежности двигателя, расход топлива, типичные поломки </span></a><a href="/articles/f/fi/filtr-salonnyj-lada-iks-rej.html" class="related-bottom-card"><span class="related-bottom-title">Фильтр салонный Лада Икс Рей: выбор, замена и артикулы</span><span class="related-bottom-desc">Как правильно выбрать и заменить салонный фильтр Лада Икс Рей. Артикулы оригиналов и аналогов, пошаг</span></a><a href="/articles/l/la/lada-xray-cross-kharakteristiki-tekhnicheskie.html" class="related-bottom-card"><span class="related-bottom-title">Лада XRAY Cross: полные технические характеристики</span><span class="related-bottom-desc">Подробный разбор Lada XRAY Cross: технические характеристики, габариты, двигатели, расход топлива, к</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

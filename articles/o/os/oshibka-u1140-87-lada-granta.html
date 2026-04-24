@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Ошибка U1140 87 Лада Гранта: причины и устранение — Лада Справка</title>
+    <meta name="description" content="Подробный разбор ошибки U1140 87 на Лада Гранта. Что значит отсутствие связи с BCM, как диагностировать CAN-шину и устранить неисправность своими руками.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/o/os/oshibka-u1140-87-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Ошибка U1140 87 Лада Гранта: причины и устранение">
+    <meta property="og:description" content="Подробный разбор ошибки U1140 87 на Лада Гранта. Что значит отсутствие связи с BCM, как диагностировать CAN-шину и устранить неисправность своими руками.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Ошибка U1140 87 Лада Гранта: причины и устранение</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Ошибка U1140 87 Лада Гранта: диагностика и ремонт</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#расшифровка-кода-неисправности-и-влияние-на-системы">Расшифровка кода неисправности и влияние на системы</a></li><li><a href="#основные-причины-появления-u1140-на-лада-гранта">Основные причины появления U1140 на Лада Гранта</a></li><li><a href="#диагностика-can-шины-мультиметром-и-сканером">Диагностика CAN-шины мультиметром и сканером</a></li><li><a href="#поиск-проблем-в-электропроводке-и-разъемах">Поиск проблем в электропроводке и разъемах</a></li><li><a href="#неисправности-самого-модуля-bcm-и-эбу">Неисправности самого модуля BCM и ЭБУ</a></li><li><a href="#влияние-внешних-факторов-и-дополнительного-оборудования">Влияние внешних факторов и дополнительного оборудования</a></li><li><a href="#алгоритм-самостоятельного-устранения-ошибки">Алгоритм самостоятельного устранения ошибки</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Появление на приборной панели или диагностическом сканере кода <strong>U1140 87</strong> часто застает владельцев врасплох. Этот код указывает на потерю связи с модулем кузовной электроники (BCM) по CAN-шине. Владельцы автомобилей <em>Лада Гранта</em> могут заметить, что перестали работать стеклоподъемники, центральный замок или указатели поворота, хотя двигатель продолжает работать штатно.</p>
+
+<p>Ситуация требует немедленного внимания, так как современные автомобили семейства <em>ВАЗ</em> завязаны на единую сеть обмена данными. Отсутствие сигнала от одного узла может привести к некорректной работе других систем, включая иммобилайзер и генератор. Понимание природы этой ошибки позволит избежать дорогостоящего ремонта в сервисе.</p>
+
+<h2 id="расшифровка-кода-неисправности-и-влияние-на-системы">Расшифровка кода неисправности и влияние на системы</h2>
+
+<p>Код <strong>U1140</strong> в классификаторе OBD-II относится к классу ошибок связи (Network Communication). Цифра <strong>87</strong> уточняет состояние: "Отсутствует сообщение" (Missing Message). Это означает, что ЭБУ (электронный блок управления двигателем или кузовом) перестал получать пакеты данных от BCM в установленный временной интервал.</p>
+
+<p>Фактически, "мозги" автомобиля кричат о том, что потеряли контакт с диспетчером кузовной электрики. В автомобиле <em>Лада Гранта</em> за кузовные функции часто отвечает отдельный блок, который координирует работу световых приборов и комфорта.</p>
+
+<p>Последствия игнорирования этой неисправности могут варьироваться от простого дискомфорта до полной остановки автомобиля. Например, если BCM не передаст сигнал о разрешении запуска, стартер может не крутить, даже если аккумулятор полностью заряжен.</p>
+
+<ul>
+<li>🔴 Полное отключение центрального замка и невозможность закрыть двери с брелока.</li>
+<li>🟡 Хаотичное мигание указателей поворота или габаритных огней.</li>
+<li>🔵 Отказ в работе стеклоподъемников и дворников.</li>
+</ul>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> Не пытайтесь сбрасывать ошибку многократным снятием клеммы аккумулятора. Это может привести к рассинхронизации иммобилайзера и потребовать поездки к дилеру для привязки ключей.</p>
+</blockquote>
+
+<h2 id="основные-причины-появления-u1140-на-лада-гранта">Основные причины появления U1140 на Лада Гранта</h2>
+
+<p>Поиск根源 проблемы следует начинать с анализа электрической цепи. Чаще всего сбой происходит не из-за выхода из строя самого дорогостоящего блока, а по причине банального нарушения контакта. Вибрации, перепады температур и влага делают свое дело.</p>
+
+<p>Первой причиной является <strong>обрыв или короткое замыкание</strong> в линии CAN-шины. Провода High и Low могут перетереться о кузов или быть повреждены грызунами. Также часто встречается окисление контактов в разъемах, особенно если автомобиль эксплуатировался в условиях повышенной влажности или мойки под давлением.</p>
+
+<p>Второй распространенной причиной является <strong>просадка напряжения</strong> в бортовой сети. Если генератор не выдает достаточного напряжения или аккумулятор имеет "севшую" банку, модули могут переходить в аварийный режим и переставать общаться по шине.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Проверьте состояние клемм аккумулятора и основного жгута проводов, идущего к блоку предохранителей. Часто проблема кроется в окислившемся контакте "массы".</p></div>
+
+<p>Третьим фактором может стать программный сбой самого BCM. В редких случаях "зависание" программного обеспечения модуля приводит к прекращению передачи пакетов данных. Это лечится перепрошивкой или заменой блока.</p>
+
+<h2 id="диагностика-can-шины-мультиметром-и-сканером">Диагностика CAN-шины мультиметром и сканером</h2>
+
+<p>Для точного определения места разрыва или замыкания необходимо использовать диагностическое оборудование. Простого сброса ошибок здесь недостаточно, нужно видеть физическое состояние линии. Вам потребуется мультиметр и, желательно, осциллограф или специализированный CAN-тестер.</p>
+
+<p>Начните с измерения сопротивления между проводами CAN-High и CAN-Low при выключенном зажигании. В исправной сети terminated-резисторы дают суммарное сопротивление около <strong>60 Ом</strong>. Если прибор показывает 120 Ом, значит, один из резисторов не подключен или блок отключен. Показатель в 0 Ом свидетельствует о коротком замыкании.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Как вы диагностируете электрику в авто?</strong><ul><li>Мультиметром дома</li><li>Заказываю диагностику в сервисе</li><li>Покупаю ELM327 и смотрю в телефоне</li><li>Методом тыка и замены свечей</li></ul></div></div>
+
+<p>Далее проверьте напряжение на каждом проводе относительно корпуса при включенном зажигании. На CAN-High должно быть около 2.5–3.5 В, а на CAN-Low — 1.5–2.5 В. Если напряжения одинаковые или равны нулю, ищите обрыв или замыкание на массу.</p>
+
+<pre><code>Нормальные значения напряжения CAN-шины:
+<p>CAN-High: 2.5 - 3.5 В</p>
+<p>CAN-Low: 1.5 - 2.5 В</p>
+<p>Разница: ~1.0 - 2.0 В</code></pre></p>
+
+<h2 id="поиск-проблем-в-электропроводке-и-разъемах">Поиск проблем в электропроводке и разъемах</h2>
+
+<p>Визуальный осмотр жгутов проводов — обязательный этап. На <em>Лада Гранта</strong> есть несколько критических зон, где проводка наиболее уязвима. Часто переламываются провода в гофре между дверью и кузовом, а также в месте входа жгута в салон через моторный щит.</p>
+
+<p>Особое внимание уделите разъему самого блока BCM. Он может находиться под панелью приборов или в монтажном блоке. Выньте фишку и внимательно осмотрите контакты на предмет <strong>зеленого налета</strong> или влаги. Даже микроскопическая капелька воды способна нарушить передачу высокочастотного сигнала.</p>
+
+<div class="checklist-block"><h4>☑️ Проверка проводки CAN-шины</h4><label class="check-item"><input type="checkbox"><span>Осмотреть гофры дверей на перелом</span></label><label class="check-item"><input type="checkbox"><span>Проверить разъем BCM на окисление</span></label><label class="check-item"><input type="checkbox"><span>Прозвонить целостность проводов до ЭБУ</span></label><label class="check-item"><input type="checkbox"><span>Проверить массу на кузове</span></label><label class="check-item"><input type="checkbox"><span>Осмотреть жгут под ковриками пассажира</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+
+<p>Используйте метод "шевеления". При подключенном сканере, который показывает текущие ошибки связи, аккуратно шевелите жгуты проводов. Если в момент воздействия ошибка пропадает или появляется снова, вы нашли место плохого контакта.</p>
+
+<table>
+<thead>
+<tr>
+<th>Зона проверки</th>
+<th>Вероятная проблема</th>
+<th>Метод устранения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Гофра водительской двери</td>
+<td>Перелом проводов стеклоподъемника/CAN</td>
+<td>Замена участка провода, пайка</td>
+</tr>
+<tr>
+<td>Разъем BCM</td>
+<td>Окисление контактов</td>
+<td>Чистка контактным спреем, просушка</td>
+</tr>
+<tr>
+<td>Монтажный блок</td>
+<td>Плохой контакт предохранителя</td>
+<td>Замена предохранителя, чистка гнезда</td>
+</tr>
+<tr>
+<td>Подкапотное пространство</td>
+<td>Повреждение грызунами</td>
+<td>Восстановление жгута, установка защиты</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="неисправности-самого-модуля-bcm-и-эбу">Неисправности самого модуля BCM и ЭБУ</h2>
+
+<p>Если проводка цела, а напряжение в сети в норме, подозрение падает на сами электронные блоки. Модуль <strong>BCM</strong> (Body Control Module) — это сердце кузовной электрики. Внутри него могут высохнуть конденсаторы или сгореть транзисторы, отвечающие за связь по CAN-протоколу.</p>
+
+<p>Часто на <em>Грантах</em> встречается проблема с "глюком" прошивки блока комфорта. В этом случае блок физически исправен, но программно некорректно обрабатывает очередь сообщений, игнорируя запросы от ЭБУ двигателя.</p>
+
+<details class="faq-item"><summary>Можно ли ездить с ошибкой U1140?</summary><div class="faq-answer"><p>Ездить можно, но с ограничениями. Вы можете потерять контроль над светом в темное время суток или не сможете заблокировать автомобиль, что опасно для сохранности имущества.</p></div></details>
+
+<p>Диагностика самого блока требует подключения к его выводам напрямую. Если на контактах CAN-шины, выходящих из блока, нет сигнала, а питание и масса приходят — блок неисправен. В таком случае требуется его замена или профессиональный ремонт в лаборатории.</p>
+
+<blockquote>
+<p>⚠️ <strong>Внимание:</strong> При замене BCM на <em>Лада Гранта</em> обязательно требуется привязка нового блока к иммобилайзеру и ЭБУ. Без этой процедуры автомобиль не заведется.</p>
+</blockquote>
+
+<h2 id="влияние-внешних-факторов-и-дополнительного-оборудования">Влияние внешних факторов и дополнительного оборудования</h2>
+
+<p>Не стоит сбрасывать со счетов влияние установленного дополнительного оборудования. Сигнализации, нештатные магнитолы, ксенон или дополнительные фары, подключенные с нарушением технологии, могут "забивать" CAN-шину лишним шумом.</p>
+
+<p>Если ошибка <strong>U1140 87</strong> появилась сразу после посещения установочного центра или самостоятельной установки гаджетов, ищите причину именно там. Некорректное подключение может создавать паразитные токи, которые дестабилизируют работу всей сети.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Отключение нештатной сигнализации часто помогает локализовать источник помех в CAN-шине автомобиля.</p></div>
+
+<p>Также причиной может стать статическое электричество, особенно в зимний период. Сухой воздух и синтетическая одежда способствуют накоплению заряда, который при разряде может кратковременно нарушать работу электроники.</p>
+
+<h2 id="алгоритм-самостоятельного-устранения-ошибки">Алгоритм самостоятельного устранения ошибки</h2>
+
+<p>Для тех, кто решил бороться с проблемой своими руками, существует четкий алгоритм действий. Следование ему поможет исключить простые причины и не наделать лишнего. Главное — действовать последовательно и не спешить с покупкой новых дорогих блоков.</p>
+
+<p>1.  Проверьте заряд аккумулятора и состояние клемм.</p>
+<p>2.  Сбросьте ошибки через сканер и проверьте, возвращаются ли они сразу.</p>
+<p>3.  Осмотрите визуально доступные разъемы и жгуты.</p>
+<p>4.  Прозвоните CAN-шину мультиметром.</p>
+
+<details class="faq-item"><summary>Сброс адаптаций</summary><div class="faq-answer"><p>После замены проводов или блоков иногда требуется сброс адаптаций ЭБУ путем отключения питания на 15-20 минут.</p></div></details>
+
+<p>Если простые методы не помогли, возможно, потребуется более глубокая диагностика с осциллографом для просмотра формы сигнала. Искаженная форма "пилы" на осциллограмме укажет на неисправность трансивера в одном из блоков.</p>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли игнорировать ошибку U1140, если машина заводится?</summary>
+<p>Технически автомобиль будет ехать, но вы рискуете остаться без света, поворотников или блокировки дверей в неподходящий момент. Кроме того, ошибка может мешать корректной работе других систем, например, отображению пробега или температуры.</p>
+</details>
+
+<details>
+<summary>Сколько стоит замена блока BCM на Лада Гранта?</summary>
+<p>Стоимость нового блока варьируется от 3000 до 8000 рублей в зависимости от производителя и комплектации. Дополнительно потребуется оплата работ по установке и программной привязке блока к автомобилю у дилера или специалиста.</p>
+</details>
+
+<details>
+<summary>Поч ошибка появляется только в мороз?</summary>
+<p>Это классический признак плохого контакта или микротрещины в плате блока. При низкой температуре металл сжимается, контакт пропадает. При прогреве расширяется и контакт восстанавливается. Требуется дефектовка разъемов и блоков.</p>
+</details>
+
+<details>
+<summary>Может ли ошибка U1140 возникнуть из-за плохого бензина?</summary>
+<p>Нет, качество топлива влияет на работу двигателя и состав выхлопных газов, но не может вызвать потерю связи в цифровой CAN-шине между блоками управления кузовом.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#расшифровка-кода-неисправности-и-влияние-на-системы">Расшифровка кода неисправности и влияние на системы</a></li><li><a href="#основные-причины-появления-u1140-на-лада-гранта">Основные причины появления U1140 на Лада Гранта</a></li><li><a href="#диагностика-can-шины-мультиметром-и-сканером">Диагностика CAN-шины мультиметром и сканером</a></li><li><a href="#поиск-проблем-в-электропроводке-и-разъемах">Поиск проблем в электропроводке и разъемах</a></li><li><a href="#неисправности-самого-модуля-bcm-и-эбу">Неисправности самого модуля BCM и ЭБУ</a></li><li><a href="#влияние-внешних-факторов-и-дополнительного-оборудования">Влияние внешних факторов и дополнительного оборудования</a></li><li><a href="#алгоритм-самостоятельного-устранения-ошибки">Алгоритм самостоятельного устранения ошибки</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/g/gd/gde-sobirayut-lada-granta.html" class="related-card">Где собирают Лада Гранта: заводы и география сборки</a></li><li><a href="/articles/s/sh/shrus-naruzhnyj-lada-granta-s-abs-artikul.html" class="related-card">ШРУС наружный Лада Гранта с АБС: артикул, выбор, замена</a></li><li><a href="/articles/l/la/lada-granta-novosti.html" class="related-card">Лада Гранта: последние новости, обзоры и перспективы модели</a></li><li><a href="/articles/a/av/avtozvuk-lada-granta.html" class="related-card">Автозвук Лада Гранта: схемы, установка и выбор динамиков</a></li><li><a href="/articles/g/ga/garantijnyj-talon-lada-granta.html" class="related-card">Гарантийный талон Лада Гранта: правила, сроки и условия</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/g/gd/gde-sobirayut-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Где собирают Лада Гранта: заводы и география сборки</span><span class="related-bottom-desc">Подробный разбор: где собирают Лада Гранта. История локализации, заводы Тольятти и Ижевск, этапы про</span></a><a href="/articles/s/sh/shrus-naruzhnyj-lada-granta-s-abs-artikul.html" class="related-bottom-card"><span class="related-bottom-title">ШРУС наружный Лада Гранта с АБС: артикул, выбор, замена</span><span class="related-bottom-desc">Подробный гайд по выбору и замене наружного ШРУСа на Лада Гранта с АБС: оригинальные артикулы, анало</span></a><a href="/articles/l/la/lada-granta-novosti.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта: последние новости, обзоры и перспективы модели</span><span class="related-bottom-desc">Актуальные новости Лада Гранта: планы автозавода, новые комплектации, изменения цен и технические ха</span></a><a href="/articles/a/av/avtozvuk-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Автозвук Лада Гранта: схемы, установка и выбор динамиков</span><span class="related-bottom-desc">Полное руководство по улучшению звука в Лада Гранта. Схемы динамиков, выбор магнитолы, шумоизоляция </span></a><a href="/articles/g/ga/garantijnyj-talon-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Гарантийный талон Лада Гранта: правила, сроки и условия</span><span class="related-bottom-desc">Всё о гарантии на Лада Гранта: что покрывает талон, сроки действия, условия продления и список работ</span></a><a href="/articles/r/ro/romashki-lada-granta-artikul.html" class="related-bottom-card"><span class="related-bottom-title">Ромашки Лада Гранта: артикулы, схема подключения, установка</span><span class="related-bottom-desc">Полный гид по противотуманным фарам Лада Гранта. Артикулы, схемы проводки, пошаговая установка и сов</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

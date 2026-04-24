@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Диагностика Лада Гранта: коды ошибок, сканеры и нормы — Лада Справка</title>
+    <meta name="description" content="Полная инструкция по диагностике Лада Гранта. Разбор кодов ошибок ЭБУ, адаптация дросселя, выбор сканера и нормы давления в топливной рампе.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/d/di/diagnostika-lada-granta.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Диагностика Лада Гранта: коды ошибок, сканеры и нормы">
+    <meta property="og:description" content="Полная инструкция по диагностике Лада Гранта. Разбор кодов ошибок ЭБУ, адаптация дросселя, выбор сканера и нормы давления в топливной рампе.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/granta/">Granta</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Диагностика Лада Гранта: коды ошибок, сканеры и нормы</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Диагностика Лада Гранта: коды ошибок, сканеры и нормы</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#необходимое-оборудование-для-диагностики">Необходимое оборудование для диагностики</a></li><li><a href="#расположение-диагностического-разъема">Расположение диагностического разъема</a></li><li><a href="#алгоритм-проведения-проверки-двигателя">Алгоритм проведения проверки двигателя</a></li><li><a href="#основные-коды-ошибок-и-их-расшифровка">Основные коды ошибок и их расшифровка</a></li><li><a href="#диагностика-системы-зажигания-и-дросселя">Диагностика системы зажигания и дросселя</a></li><li><a href="#проверка-топливной-системы-и-лямбда-зонда">Проверка топливной системы и лямбда-зонда</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Современный автомобиль, даже бюджетного класса, представляет собой сложный электронный механизм, где <strong>диагностика Лада Гранта</strong> становится не просто прихотью, а необходимостью для поддержания исправного состояния. Владельцы часто сталкиваются с загоревшейся лампой Check Engine или нестабильной работой двигателя на холостых оборотах, что требует немедленного вмешательства. Без специального оборудования и понимания принципов работы систем управления двигателем найти причину неисправности практически невозможно.</p>
+<p>Электронный блок управления (ЭБУ) постоянно опрашивает датчики и в случае отклонения параметров от нормы записывает ошибку в память. Однако не каждая запись в реестре ошибок означает поломку узла; иногда это сигнал о некачественном топливе или временном сбое напряжения. <em>ВАЗ-2190</em> и его модификации оснащаются разными контроллерами, такими как Итэлма М74 или Январь 7.2, и подход к их чтению может отличаться.</p>
+<p>Своевременное выявление проблем позволяет избежать дорогостоящего ремонта и продлить ресурс силового агрегата. В этой статье мы детально разберем процесс подключения сканера, расшифровку основных кодов неисправностей и методы их устранения. Вы научитесь отличать программные сбои от реальных механических повреждений, что сэкономит ваше время и деньги.</p>
+
+<h2 id="необходимое-оборудование-для-диагностики">Необходимое оборудование для диагностики</h2>
+<p>Для проведения качественной проверки технического состояния автомобиля вам потребуется специализированный инструмент. Базовым элементом является <strong>OBDII сканер</strong>, который подключается к диагностическому разъему. Для владельцев смартфонов отличным решением станут адаптеры ELM327 версий 1.5 или 2.1, работающие по протоколам Bluetooth или Wi-Fi. Более профессиональный подход подразумевает использование мультимарочных сканеров типа Launch или Autel, которые умеют работать с заводскими протоколами АвтоВАЗ.</p>
+<p>Помимо аппаратной части, критически важно программное обеспечение. Для Андроид-устройств наиболее популярны приложения Torque Pro, OpenDiag Mobile и Motordata. Компьютерная диагностика обычно проводится через ноутбук с программами Scanmatik или k-wline. <em>Интерфейс связи</em> должен соответствовать установленному на автомобиле блоку управления, иначе connection не состоится.</p>
+<blockquote>
+<p>⚠️ Внимание: Дешевые китайские адаптеры ELM327 версии 2.0 часто некорректно работают с отечественными блоками управления. Используйте проверенные версии 1.5 на чипе PIC18F25K80 для стабильной связи.</p>
+</blockquote>
+<p>Выбор инструмента зависит от глубины планируемого вмешательства. Если вам нужно просто считать и сбросить ошибку — хватит простого адаптера. Для проведения адаптации дроссельной заслонки или просмотра осциллограмм датчиков потребуется более серьезный софт.</p>
+<ul>
+<li>📱 Адаптер ELM327 (Bluetooth/Wi-Fi) для базовой проверки параметров.</li>
+<li>💻 Ноутбук с установленным специализированным ПО для глубокого анализа.</li>
+<li>🔋 Мультиметр для проверки целостности проводки и напряжения на клеммах.</li>
+<li>📖 Справочник кодов неисправностей для конкретной версии ЭБУ.</li>
+</ul>
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Перед покупкой адаптера уточните у продавца совместимость с протоколами АвтоВАЗ, так как универсальные версии могут не видеть специфические параметры вроде угла опережения зажигания.</p></div>
+
+<h2 id="расположение-диагностического-разъема">Расположение диагностического разъема</h2>
+<p>Поиск точки подключения — первый шаг, с которого начинается <strong>диагностика Лада Гранта</strong>. В зависимости от года выпуска и комплектации, разъем OBDII может находиться в разных местах. На большинстве автомобилей семейства Гранта, включая лифтбеки и седаны, диагностическая колодка расположена под панелью приборов со стороны переднего пассажира.</p>
+<p>Чтобы получить доступ к разъему, необходимо открыть бардачок и отжать фиксаторы или снять декоративную заглушку в нижней части торпедо. В некоторых модификациях, особенно ранних годов выпуска, разъем может быть спрятан за обшивкой центральной консоли рядом с рычагом переключения передач или под вещевым ящиком. Стандартный разъем имеет 16 контактов и выполнен по规范у OBDII.</p>
+<p>При подключении оборудования убедитесь, что зажигание выключено, чтобы избежать скачков напряжения, которые могут повредить адаптер. После физического соединения можно включать зажигание и запускать программное обеспечение на смартфоне или ноутбуке. <em>Контакт с массой</em> обычно осуществляется через кузов автомобиля, поэтому важно, чтобы соединение было надежным.</p>
+<details class="faq-item"><summary>Что делать, если разъем не найден?</summary><div class="faq-answer"><p>В редких случаях, при установке дополнительного оборудования (сигнализации, ГБО), штатный разъем мог быть перенесен установщиками. Проверьте пространство под рулевой колонкой или обратитесь к электрику, который врезался в проводку.</p></div></details>
+
+<h2 id="алгоритм-проведения-проверки-двигателя">Алгоритм проведения проверки двигателя</h2>
+<p>Процесс диагностики должен быть системным, чтобы не упустить важные детали. Сначала производится визуальный осмотр подкапотного пространства на предмет поврежденной проводки, окисленных контактов и целостности вакуумных шлангов. Затем подключается сканер, и считываются сохраненные в памяти ЭБУ коды ошибок.</p>
+<p>После получения списка кодов необходимо проанализировать текущие параметры работы двигателя в режиме реального времени. Особое внимание уделяется коррекции топливоподачи, положению дроссельной заслонки и показаниям лямбда-зонда. <strong>Адаптивные параметры</strong> показывают, насколько блок управления корректирует работу мотора для компенсации износа.</p>
+<div class="checklist-block"><h4>☑️ Порядок действий при диагностике</h4><label class="check-item"><input type="checkbox"><span>Визуальный осмотр проводки и патрубков</span></label><label class="check-item"><input type="checkbox"><span>Подключение сканера и чтение кодов</span></label><label class="check-item"><input type="checkbox"><span>Анализ параметров в режиме реального времени</span></label><label class="check-item"><input type="checkbox"><span>Сравнение показаний с эталонными значениями</span></label><label class="check-item"><input type="checkbox"><span>Сброс ошибок и тестовый заезд</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 5</div></div>
+<p>Важно не просто сбросить ошибку, а понять причину её возникновения. Если после сброса параметр снова выходит за пределы нормы, значит, неисправность носит физический характер. Это может быть выход из строя датчика, обрыв цепи или механическая проблема в двигат.</p>
+
+<h2 id="основные-коды-ошибок-и-их-расшифровка">Основные коды ошибок и их расшифровка</h2>
+<p>Блок управления фиксирует неисправности в виде буквенно-цифровых кодов. Наиболее часто владельцы Гранты сталкиваются с ошибками в диапазоне P0300-P0304, что означает пропуски зажигания в цилиндрах. Это может быть вызвано свечами, катушками или низком压缩сией. Ошибки P0171 и P0172 указывают на слишком бедную или слишком богатую смесь соответственно.</p>
+<p>Отдельного внимания заслуживают ошибки датчика кислорода (P0130-P0138) и датчика массового расхода воздуха (P0100-P0103). Они напрямую влияют на расход топлива и динамику разгона. Также часто встречается ошибка P0422, говорящая о низкой эффективности каталитического нейтрализатора, что актуально для автомобилей с большим пробегом.</p>
+<div class="attention-box attention-info"><div><strong>📊 С какой ошибкой вы сталкивались чаще всего?</strong><ul><li>P0300 (Пропуски зажигания)</li><li>P0130 (Лямбда-зонд)</li><li>P0171 (Бедная смесь)</li><li>P0422 (Катализатор)</li><li>Другая</li></ul></div></div>
+<p>Ниже приведена таблица с наиболее распространенными кодами неисправностей для ЭБУ Итэлма М74, установленного на большинство Грант с 2013 года.</p>
+<table>
+<thead>
+<tr>
+<th>Код ошибки</th>
+<th>Описание неисправности</th>
+<th>Вероятная причина</th>
+<th>Метод устранения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0102</td>
+<td>Низкий уровень сигнала ДМРВ</td>
+<td>Обрыв цепи, грязный датчик</td>
+<td>Чистка или замена ДМРВ</td>
+</tr>
+<tr>
+<td>P0112</td>
+<td>Низкий уровень сигнала ДТВ</td>
+<td>Короткое замыкание</td>
+<td>Проверка проводки датчика</td>
+</tr>
+<tr>
+<td>P0133</td>
+<td>Медленный отклик ДК1</td>
+<td>Старение датчика кислорода</td>
+<td>Замена лямбда-зонда</td>
+</tr>
+<tr>
+<td>P0340</td>
+<td>Ошибка датчика фаз</td>
+<td>Неисправность ДФ или цепи</td>
+<td>Замена датчика фаз</td>
+</tr>
+<tr>
+<td>P0441</td>
+<td>Неверный поток через клапан адсорбера</td>
+<td>Негерметичность системы</td>
+<td>Проверка клапана и шлангов</td>
+</tr>
+</tbody>
+</table>
+<p>При расшифровке кодов всегда учитывайте контекст. Одиночная ошибка может быть случайностью, но комбинация из нескольких кодов часто указывает на одну корневую проблему, например, подсос воздуха или проблемы с питанием.</p>
+
+<h2 id="диагностика-системы-зажигания-и-дросселя">Диагностика системы зажигания и дросселя</h2>
+<p>Система зажигания на <em>Лада Гранта</em> с 8-клапанным двигателем оснащена индивидуальными катушками, а на 16-клапанных версиях — модулем зажигания. <strong>Диагностика</strong> этих узлов позволяет выявить пропуски искры, которые не всегда видны визуально. Сканер показывает пропуски по каждому цилиндру отдельно, что упрощает поиск виновника.</p>
+<p>Дроссельная заслонка с электронным управлением (Е-газ) требует периодической адаптации. Если вы заметили плавающие обороты холостого хода или рывки при нажатии на педаль, возможно, сбились настройки положения заслонки. Процедура адаптации проводится через диагностический разъем с помощью специального меню в приложении.</p>
+<blockquote>
+<p>⚠️ Внимание: Перед адаптацией дроссельной заслонки обязательно прогрейте двигатель до рабочей температуры и убедитесь, что все потребители энергии (фары, печка) выключены.</p>
+</blockquote>
+<p>Процесс адаптации занимает несколько минут и заключается в обучении ЭБУ крайним положениям заслонки. После процедуры обороты могут первое время держаться повышенными, пока блок не скорректирует топливные карты под новые параметры.</p>
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Адаптация дроссельной заслонки обязательна после чистки узла, замены педали газа или снятия клеммы аккумулятора на длительное время.</p></div>
+
+<h2 id="проверка-топливной-системы-и-лямбда-зонда">Проверка топливной системы и лямбда-зонда</h2>
+<p>Топливная система Гранты включает в себя бензонасос, фильтр, рампу с форсунками и регулятор давления. <strong>Давление в топливной рампе</strong> — ключевой параметр, который можно косвенно оценить по времени работы насоса при включении зажигания и по коррекции топливоподачи. Нормальное давление составляет около 3.8-4.0 бар.</p>
+<p>Лямбда-зонд (датчик кислорода) играет роль корректора смеси. На прогретом двигателе его сигнал должен быстро меняться от 0.1 до 0.9 Вольт. Если график на осциллограмме превращается в прямую линию или медленно ползет, датчик требует замены. <em>Катализатор</em> также проверяется по разнице показаний верхнего и нижнего датчиков.</p>
+<p>Частой проблемой является загрязнение форсунок, что приводит к неравномерному распылу топлива. Это проявляется в увеличении расхода и потере тяги. Промывка форсунок без снятия или на стенде часто решает проблему, если износ не критический.</p>
+<ul>
+<li>🛢️ Проверьте давление топлива манометром для исключения проблем с насосом.</li>
+<li>⚡ Прозвоните форсунки на сопротивление катушки (обычно 11-15 Ом).</li>
+<li>🌡️ Следите за температурой выхлопных газов для оценки работы катализатора.</li>
+</ul>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+<details>
+<summary>Можно ли ездить с горящей лампой Check Engine?</summary>
+<p>Кратковременная поездка до сервиса возможна, если двигатель работает ровно и не греется. Однако длительная эксплуатация с активной ошибкой, особенно связанной с mixture или ignition, может привести к прогару клапанов или выходу из строя катализатора.</p>
+</details>
+<details>
+<summary>Почему сканер не видит автомобиль?</summary>
+<p>Причин может быть несколько: несовместимость адаптера с протоколом ЭБУ, отсутствие питания на диагностическом разъеме (сгорел предохранитель), или выключенное зажигание. Проверьте целостность предохранителей F1 и F3 в монтажном блоке.</p>
+</details>
+<details>
+<summary>Как сбросить ошибку без сканера?</summary>
+<p>Существует метод сброса снятием клеммы аккумулятора на 15-20 минут, но это также сбросит настройки радио и часы. Более надежный способ — использование приложения на смартфоне с функцией "Сброс ошибок", даже в бесплатной версии.</p>
+</details>
+<details>
+<summary>Влияет ли качество бензина на появление ошибок?</summary>
+<p>Да, <mark>плохое топливо с высоким содержанием серы или низким октановым числом</mark> может вызвать детонацию и временные ошибки по датчику детонации и лямбда-зонду. После заправки качественным бензином ошибки могут исчезнуть сами после нескольких циклов прогрева.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#необходимое-оборудование-для-диагностики">Необходимое оборудование для диагностики</a></li><li><a href="#расположение-диагностического-разъема">Расположение диагностического разъема</a></li><li><a href="#алгоритм-проведения-проверки-двигателя">Алгоритм проведения проверки двигателя</a></li><li><a href="#основные-коды-ошибок-и-их-расшифровка">Основные коды ошибок и их расшифровка</a></li><li><a href="#диагностика-системы-зажигания-и-дросселя">Диагностика системы зажигания и дросселя</a></li><li><a href="#проверка-топливной-системы-и-лямбда-зонда">Проверка топливной системы и лямбда-зонда</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/s/sk/skolko-zalivaetsya-masla-v-korobku-lada-granta.html" class="related-card">Сколько масла в коробке Лада Гранта: объемы для 5МКПП и АМТ</a></li><li><a href="/articles/r/re/rejlingi-na-kryshu-avtomobilya-lada-granta-liftbek.html" class="related-card">Рейлинги на крышу Лада Гранта лифтбек: обзор, выбор и монтаж</a></li><li><a href="/articles/u/us/ustrojstvo-zadnikh-tormozov-lada-granta.html" class="related-card">Устройство задних тормозов Лада Гранта: схема, устройство, диагностика</a></li><li><a href="/articles/l/la/lada-granta-kak-snyat-ruchku-zadnej-dveri.html" class="related-card">Как снять ручку задней двери Лада Гранта: пошаговая инструкция</a></li><li><a href="/articles/k/ko/korpus-vozdushnogo-filtra-lada-granta-8-klapanov.html" class="related-card">Корпус воздушного фильтра Лада Гранта 8 клапанов: выбор и замена</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/s/sk/skolko-zalivaetsya-masla-v-korobku-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Сколько масла в коробке Лада Гранта: объемы для 5МКПП и АМТ</span><span class="related-bottom-desc">Точный объем масла в КПП Лада Гранта. Сколько литров лить в механику и АМТ. Выбор трансмиссионной жи</span></a><a href="/articles/r/re/rejlingi-na-kryshu-avtomobilya-lada-granta-liftbek.html" class="related-bottom-card"><span class="related-bottom-title">Рейлинги на крышу Лада Гранта лифтбек: обзор, выбор и монтаж</span><span class="related-bottom-desc">Полный гид по установке рейлингов на Lada Granta лифтбек. Сравнение моделей, пошаговый монтаж, допус</span></a><a href="/articles/u/us/ustrojstvo-zadnikh-tormozov-lada-granta.html" class="related-bottom-card"><span class="related-bottom-title">Устройство задних тормозов Лада Гранта: схема, устройство, диагностика</span><span class="related-bottom-desc">Подробный разбор конструкции задних тормов Lada Granta. Устройство барабанного механизма, особенност</span></a><a href="/articles/l/la/lada-granta-kak-snyat-ruchku-zadnej-dveri.html" class="related-bottom-card"><span class="related-bottom-title">Как снять ручку задней двери Лада Гранта: пошаговая инструкция</span><span class="related-bottom-desc">Подробное руководство по демонтажу ручки задней двери Lada Granta с фото, советами и частыми ошибкам</span></a><a href="/articles/k/ko/korpus-vozdushnogo-filtra-lada-granta-8-klapanov.html" class="related-bottom-card"><span class="related-bottom-title">Корпус воздушного фильтра Лада Гранта 8 клапанов: выбор и замена</span><span class="related-bottom-desc">Полный гид по корпусу воздушного фильтра Лада Гранта 8 клапанов. Как выбрать, заменить и избежать ош</span></a><a href="/articles/l/la/lada-granta-prokachennaya.html" class="related-bottom-card"><span class="related-bottom-title">Лада Гранта прокаченная: тюнинг двигателя, подвески и экстерьера</span><span class="related-bottom-desc">Как прокачать Ладу Гранту: лучшие варианты тюнинга двигателя, подвески, салона и экстерьера. Советы </span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>

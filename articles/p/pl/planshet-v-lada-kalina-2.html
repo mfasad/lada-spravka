@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🛠</text></svg>">
+    <title>Планшет в Лада Калина 2: установка, выбор и настройка — Лада Справка</title>
+    <meta name="description" content="Подробный гайд по установке планшета в Лада Калина 2. Выбор устройства, изготовление рамки, подключение к CAN-шине и настройка звука.">
+    <link rel="canonical" href="https://lada-spravka.vercel.app/articles/p/pl/planshet-v-lada-kalina-2.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Планшет в Лада Калина 2: установка, выбор и настройка">
+    <meta property="og:description" content="Подробный гайд по установке планшета в Лада Калина 2. Выбор устройства, изготовление рамки, подключение к CAN-шине и настройка звука.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=1777034569">
+    <style>
+    .site-footer-premium {
+        margin-top: 60px; padding: 40px 0 0; background: #1e293b; color: #94a3b8;
+    }
+    .footer-grid {
+        display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+        padding-bottom: 32px; border-bottom: 1px solid #334155;
+    }
+    .footer-brand { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 12px; }
+    .footer-about { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-updated { font-size: 0.8rem; color: #64748b; }
+    .footer-col h4 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #94a3b8; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #60a5fa; }
+    .footer-bottom { padding: 20px 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 640px) {
+        .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .cookie-popup {
+        position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; color: #fff;
+        padding: 16px; transition: transform 0.5s ease; z-index: 9999; border-top: 2px solid #2563eb;
+        transform: translateY(100%);
+    }
+    .cookie-popup.visible { transform: translateY(0); }
+    .cookie-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.9rem; }
+    .cookie-btn { background: #2563eb; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .cookie-btn:hover { background: #1d4ed8; }
+    @media (max-width: 640px) {
+        .cookie-inner { flex-direction: column; text-align: center; }
+    }
+</style>
+    
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+<body>
+        <!--#include virtual="/ssi/body_top.html" -->
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .dropdown-toggle {
+        background: none; border: none; cursor: pointer;
+        font: inherit; color: inherit; padding: 8px 12px;
+        border-radius: 8px; transition: background 0.2s;
+    }
+    .dropdown-toggle:hover { background: rgba(0,0,0,0.05); }
+    .dropdown-menu {
+        display: none; position: absolute; right: 0; top: 100%;
+        min-width: 240px; max-height: 70vh; overflow-y: auto;
+        background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        padding: 8px 0; z-index: 1000;
+    }
+    .nav-dropdown::after {
+        content: ''; position: absolute; left: 0; right: 0;
+        top: 100%; height: 12px;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu { display: block; }
+    .dropdown-item {
+        display: block; padding: 10px 20px; color: var(--text, #1f2937);
+        text-decoration: none; font-size: 0.95rem; transition: background 0.15s;
+        white-space: nowrap;
+    }
+    .dropdown-item:hover { background: rgba(37,99,235,0.06); color: var(--primary, #2563eb); }
+    @media (max-width: 768px) {
+        .main-nav > .nav-link { display: none; }
+        .dropdown-toggle { display: none; }
+        .dropdown-menu {
+            display: block !important; position: static;
+            box-shadow: none; border: none; border-radius: 0;
+            min-width: auto; max-height: none; padding: 0;
+            background: transparent;
+        }
+        .dropdown-item {
+            padding: 8px 0; font-size: 1rem;
+        }
+    }
+    </style>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛠</span>
+                <span>Лада Справка</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Меню" id="menuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
+                <a href="/category/granta/" class="nav-link">📁 Granta</a>
+<a href="/category/vesta/" class="nav-link">📁 Vesta</a>
+<a href="/category/largus/" class="nav-link">📁 Largus</a>
+<a href="/category/kalina/" class="nav-link">📁 Kalina</a>
+<div class="nav-dropdown">
+            <button class="nav-link dropdown-toggle">📂 Все разделы ▾</button>
+            <div class="dropdown-menu"><a href="/category/granta/" class="dropdown-item">📁 Granta</a>
+<a href="/category/vesta/" class="dropdown-item">📁 Vesta</a>
+<a href="/category/largus/" class="dropdown-item">📁 Largus</a>
+<a href="/category/kalina/" class="dropdown-item">📁 Kalina</a>
+<a href="/category/priora/" class="dropdown-item">📁 Priora</a>
+<a href="/category/xray/" class="dropdown-item">📁 Xray</a>
+<a href="/category/niva-legend/" class="dropdown-item">📁 Niva Legend</a>
+<a href="/category/samara/" class="dropdown-item">📁 Samara</a>
+<a href="/category/niva-travel/" class="dropdown-item">📁 Niva Travel</a>
+<a href="/category/жигули/" class="dropdown-item">📁 Жигули</a>
+<a href="/category/iskra/" class="dropdown-item">📁 Iskra</a>
+<a href="/category/aura/" class="dropdown-item">📁 Aura</a>
+<a href="/category/drugoe/" class="dropdown-item">📁 Другое</a></div>
+        </div>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Навигация">
+        <div class="container"><a href="/">Главная</a><span class="breadcrumb-sep">›</span><a href="/category/kalina/">Kalina</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Планшет в Лада Калина 2: установка, выбор и настройка</span></div>
+    </nav>
+
+    <main class="site-main">
+        <div class="container">
+            <div class="article-layout">
+                <article class="article-main">
+                    
+                    <h1>Установка планшета в Лада Калина 2 своими руками</h1>
+                    <nav class="mobile-toc"><details><summary>📋 Содержание</summary><ul><li><a href="#выбор-подходящего-планшета-для-автомобиля">Выбор подходящего планшета для автомобиля</a></li><li><a href="#изготовление-переходной-рамки-и-монтаж">Изготовление переходной рамки и монтаж</a></li><li><a href="#схема-подключения-к-бортовой-сети">Схема подключения к бортовой сети</a></li><li><a href="#организация-звукового-тракта">Организация звукового тракта</a></li><li><a href="#настройка-программного-обеспечения">Настройка программного обеспечения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></details></nav>
+                    <!--#include virtual="/ssi/article_before.html" -->
+                    <div class="article-body">
+
+<p>Модернизация салона отечественного автомобиля — процесс, который часто начинается именно с замены штатной головной единицы. Владельцы <em>Лада Калина 2</em> (ВАЗ-2192/2194) часто сталкиваются с ограниченным функционалом заводской магнитолы, которая не поддерживает современные навигационные системы и мультимедийные приложения. Установка планшета становится логичным решением для интеграции навигатора <em>Яндекс.Навигатор</em>, видеорегистратора и музыкального плеера в единую систему.</p>
+
+<p>Основная сложность заключается не в покупке устройства, а в его эстетичном размещении и грамотном подключении к бортовой сети. Стандартные посадочные места 1DIN или 2DIN не всегда подходят для крупных экранов современных гаджетов. Поэтому <strong>индивидуальный подход</strong> к изготовлению переходной рамки является ключевым этапом проекта. Правильно подобранный <strong>Android-планшет</strong> способен превратить бюджетный автомобиль в современный мультимедийный комплекс.</p>
+
+<p>В этой статье мы рассмотрим технические нюансы выбора оборудования, методы крепления и схемы подключения. Особое внимание уделим вопросам питания, так как штатная электросеть автомобиля не предназначена для прямой зарядки мощных устройств без дополнительной защиты. Грамотная реализация проекта позволит сохранить функциональность штатных кнопок управления и обеспечит стабильную работу системы в любых условиях.</p>
+
+<h2 id="выбор-подходящего-планшета-для-автомобиля">Выбор подходящего планшета для автомобиля</h2>
+
+<p>Первым шагом является подбор аппаратной части. Рынок предлагает множество вариантов, но для условий эксплуатации в автомобиле <em>Лада Калина 2</em> подходят далеко не все модели. Критически важным параметром является наличие слота <strong>SIM-карты</strong> для раздачи интернета, так как навигация и онлайн-сервисы требуют постоянного соединения. Также стоит обратить внимание на наличие встроенного <strong>GPS-модуля</strong>, хотя внешние приемники часто работают стабильнее.</p>
+
+<p>Размер экрана диктуется габаритами торпедо. Оптимальным решением считаются диагонали от 7 до 10 дюймов. Более крупные устройства могут перекрывать обзор или дефлекторы обдува. Важно учитывать яркость матрицы: в солнечный день экран должен оставаться читаемым, поэтому запас по <strong>нитам яркости</strong> не помешает. Операционная система должна быть актуальной, чтобы поддерживать последние версии навигационного софта.</p>
+
+<blockquote>⚠️ Внимание: Не используйте старые планшеты с изношенными аккумуляторами. В условиях летнего нагрева салона (до +60°C и выше на панели) литий-полимерные батареи могут вздуваться или воспламеняться. Рекомендуется выбирать модели с возможностью работы без батареи или извлекать АКБ при стационарной установке.</blockquote>
+
+<p>Для обеспечения плавной работы навигации и мультимедиа процессор устройства должен иметь не менее 4 ядер, а объем оперативной памяти — от 2 ГБ. Слабые модели будут долго загружать карты и могут зависать при переключении треков. Наличие порта <em>USB Type-C</em> или <em>Micro-USB</em> с поддержкой OTG позволит подключить внешние периферийные устройства, такие как флешки или 3G-модемы.</p>
+
+<div class="attention-box attention-info"><div><strong>📊 Какой размер экрана вы считаете оптимальным для Калины 2?</strong><ul><li>7 дюймов</li><li>8 дюймов</li><li>10 дюймов</li><li>Более 10 дюймов</li></ul></div></div>
+
+<h2 id="изготовление-переходной-рамки-и-монтаж">Изготовление переходной рамки и монтаж</h2>
+
+<p>Штатное отверстие в торпедо <em>Лада Калина 2</em> рассчитано на магнитолу формата 1DIN или 2DIN. Планшеты имеют совершенно иные геометрические пропорции. Для установки требуется изготовление индивидуальной рамки-переходника. Материалом может служить <strong>ABS-пластик</strong>, оргстекло или даже фанера с последующей оклейкой карпетом. Точность замеров здесь играет реша роль для avoidance зазоров.</p>
+
+<p>Процесс начинается с демонтажа штатной панели и снятия размеров. Рамка должна надежно фиксировать планшет, но не перекрывать камеры, динамики и порты зарядки. Часто используется метод послойного склеивания пластика или 3D-печать модели. Крепление самой конструкции к торпедо осуществляется на саморезы с внутренней стороны или на качественный <strong>двусторонний скотч</strong> 3M, если вес устройства позволяет.</p>
+
+<div class="checklist-block"><h4>☑️ Этапы изготовления рамки</h4><label class="check-item"><input type="checkbox"><span>Снятие размеров ниши магнитолы:Заготовка материала (пластик/оргстекло):Вырезка отверстия по контуру планшета:Финальная подгонка и покраска</span></label><div class="check-progress">Выполнено: <span class="check-count">0</span> / 1</div></div>
+
+<p>Важно предусмотреть вентиляцию. Планшеты греются при работе навигации и зарядки одновременно. Если закрыть заднюю крышку устройства глухой рамкой без зазоров, возможен <strong>троттлинг</strong> (снижение производительности) или перегрев. В идеале нужно оставить доступ воздуха к задней панели или просверлить отверстия в местах выхода тепла.</p>
+
+<details class="faq-item"><summary>Использование 3D-печати для рамок</summary><div class="faq-answer"><p>Современные технологии позволяют напечатать рамку любой формы. Однако обычный PLA-пластик может деформироваться на солнце. Для авто лучше использовать PETG или ABS-пластик, которые устойчивы к высоким температурам.</p></div></details>
+
+<h2 id="схема-подключения-к-бортовой-сети">Схема подключения к бортовой сети</h2>
+
+<p>Подключение планшета к сети <em>Лада Калина 2</em> требует осторожности. Напряжение в бортовой сети колеблется от 12 до 14.5 Вольт, а при запуске двигателя возможны скачки. Прямое подключение через простой USB-кабель недопустимо — это приведет к выходу из строя контроллера питания гаджета. Необходимо использовать <strong>DC-DC преобразователь</strong> (step-down модуль), который стабилизирует напряжение до 5 Вольт.</p>
+
+<p>Для реализации автоматического включения и выключения вместе с зажиганием потребуется реле или специализированный контроллер питания. Простейшая схема involves подключение через реле, управляемое сигналом с замка зажигания или блока <strong>BCM</strong>. Это избавит владельца от необходимости каждый раз вручную включать устройство и предотвратит разряд аккумулятора при стоянке.</p>
+
+<pre><code>Схема подключения DC-DC преобразователя:
+<p>Вход (+) -> Аккумулятор (через предохранитель 5А)</p>
+<p>Вход (-) -> Масса кузова</p>
+<p>Выход (+) -> USB-кабель планшета (VCC)</p>
+<p>Выход (-) -> USB-кабель планшета (GND)</code></pre></p>
+
+<p>Проводку следует выполнять медными проводами сечением не менее 0.75 мм². Все соединения должны быть надежно изолированы термоусадкой. Прокладывать провода лучше вдоль штатных жгутов, фиксируя их пластиковыми стяжками, чтобы избежать перетирания и дребезжания на виражах. Особое внимание уделите месту прохождения проводов через металлические перегородки.</p>
+
+<table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Функция</th>
+<th>Рекомендуемый ток</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DC-DC Преобразователь</td>
+<td>Стабилизация 12В в 5В</td>
+<td>мин. 3А</td>
+</tr>
+<tr>
+<td>Предохранитель</td>
+<td>Защита от КЗ</td>
+<td>5А</td>
+</tr>
+<tr>
+<td>Реле управления</td>
+<td>Авто-старт по зажиганию</td>
+<td>10-15А</td>
+</tr>
+<tr>
+<td>USB-кабель</td>
+<td>Передача данных и тока</td>
+<td>мин. 2А</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="организация-звукового-тракта">Организация звукового тракта</h2>
+
+<p>Встроенные динамики планшетов крайне слабы и не подходят для автомобиля. Для получения качественного звука в <em>Лада Калина 2</em> необходимо вывести аудиосигнал на внешнюю акустическую систему. Существует несколько путей решения: через <strong>AUX-вход</strong> штатной магнитолы (если она есть), через FM-трансмиттер или через прямой вход в усилитель.</p>
+
+<p>Наиболее качественный звук обеспечивает подключение по цифровому каналу или через <strong>DAC</strong> (цифро-аналоговый преобразователь), если планшет поддерживает вывод звука через USB. Однако, самый распространенный и простой метод — использование кабеля <em>3.5 мм Jack to RCA</em>, который подключается в линейный вход усилителя или активной антенны. Это позволяет использовать штатные динамики автомобиля.</p>
+
+<blockquote>⚠️ Внимание: При подключении через AUX-вход магнитолы убедитесь, что вы не подадите напряжение 12В на выход наушников планшета (3.5В). Это мгновенно спалит аудиотракт гаджета. Используйте только пассивные кабели без питания.</blockquote>
+
+<p>Если штатная магнитола отсутствует полностью, потребуется установка отдельного <strong>4-канального усилителя</strong>. Планшет в этом случае выступает исключительно как источник сигнала (Head Unit). Для управления громкостью удобно использовать выносной регулятор или настроить аппаратные кнопки на корпусе планшета для управления громкостью Android-системы.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Используйте кабели с ферритовыми фильтрами на концах. В автомобиле много помех от генератора и свечей зажигания, которые могут проявляться как фон или свист в колонках.</p></div>
+
+<h2 id="настройка-программного-обеспечения">Настройка программного обеспечения</h2>
+
+<p>После физической установки наступает этап программной конфигурации. Стандартный интерфейс Android не адаптирован для управления на ходу. Необходимо установить лаунчер, разработанный специально для автомобилей, например, <em>Car Launcher AG</em> или <em>Headunit Reloaded</em>. Они имеют крупные кнопки и упрощенную навигацию.</p>
+
+<p>Ключевым элементом становится навигация. Для России и стран СНГ оптимальны <strong>Яндекс.Навигатор</strong> или <em>Навител</em>. Важно настроить автоматический запуск навигатора при включении питания. Это можно сделать через специальные приложения-автостартеры или встроенные функции лаунчера. Также стоит загрузить офлайн-карты, так как в глухих районах покрытие мобильной сети <em>Лада Калина 2</em> может отсутствовать.</p>
+
+<p>Не забудьте настроить энергосбережение. Нужно запретить системе отключать Wi-Fi и GPS в спящем режиме, если вы хотите сохранять треки треков или историю перемещений. Однако, если планшет не имеет кнопки включения, лучше настроить полное выключение экрана для экономии ресурса.</p>
+
+<div class="attention-box attention-tip"><span class="attention-icon">💡</span><p>Автоматизация запуска навигатора и музыки при старте двигателя — ключ к удобству использования планшета в роли бортового компьютера.</p></div>
+
+<h2 id="часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</h2>
+
+<details>
+<summary>Можно ли оставить планшет подключенным на ночь?</summary>
+<p>Без установки дополнительного контроллера питания или таймера — не рекомендуется. Планшет может разрядить аккумулятор автомобиля в ноль, особенно зимой. Лучше настроить систему на работу только при включенном зажигании.</p>
+</details>
+
+<details>
+<summary>Как решить проблему с нагревом планшета летом?</summary>
+<p>Необходимо обеспечить приток воздуха к задней стенке устройства. Можно сделать отверстия в рамке напротив процессора или установить миниатюрный вентилятор. Также помогает отключение фоновых приложений и снижение яркости экрана.</p>
+</details>
+
+<details>
+<summary>Будет ли работать управление с руля?</summary>
+<p>Штатные кнопки руля <em>Лада Калина 2</em> работают через резистивную матрицу. Для их адаптации к Android-планшету потребуется специальный адаптер кнопок руля (например, <em>ZPR</em> или аналоги), который эмулирует нажатия клавиш громкости медиаплеера.</p>
+</details>
+
+<details>
+<summary>Какой интернет лучше использовать: Wi-Fi роутер или SIM в планшете?</summary>
+<p>Встроенный 4G-модем в планшете удобнее и требует меньше проводов. Однако, если планшет дешевый и ловит сеть плохо, внешний USB-модем с антенной на крыше будет работать стабильнее в загородных поездках.</p>
+</details></div>
+                    <!--#include virtual="/ssi/article_after.html" -->
+
+                </article>
+                <aside class="article-sidebar"><!--#include virtual="/ssi/sidebar_top.html" --><nav class="sidebar-search"><div class="sidebar-search-box"><input type="text" id="globalSearchInput" placeholder="🔍 Поиск статей..." autocomplete="off"><div class="search-dropdown" id="globalSearchDropdown"></div></div></nav><!--#include virtual="/ssi/sidebar_before_toc.html" --><nav class="sidebar-toc" id="sidebarToc"><h3>Содержание</h3><ul><li><a href="#выбор-подходящего-планшета-для-автомобиля">Выбор подходящего планшета для автомобиля</a></li><li><a href="#изготовление-переходной-рамки-и-монтаж">Изготовление переходной рамки и монтаж</a></li><li><a href="#схема-подключения-к-бортовой-сети">Схема подключения к бортовой сети</a></li><li><a href="#организация-звукового-тракта">Организация звукового тракта</a></li><li><a href="#настройка-программного-обеспечения">Настройка программного обеспечения</a></li><li><a href="#часто-задаваемые-вопросы-faq">Часто задаваемые вопросы (FAQ)</a></li></ul></nav><!--#include virtual="/ssi/sidebar_before_related.html" --><nav class="sidebar-related"><h3>Похожие статьи</h3><ul><li><a href="/articles/l/la/lada-kalina-datchik-detonatsii.html" class="related-card">Лада Калина: датчик детонации — симптомы, замена, проверка</a></li><li><a href="/articles/k/ka/kak-snyat-faru-lada-kalina-2.html" class="related-card">Как снять фару Лада Калина 2: пошаговая инструкция</a></li><li><a href="/articles/z/za/zamena-radiatora-pechki-lada-kalina-2.html" class="related-card">Замена радиатора печки Лада Калина 2: пошаговая инструкция 2026</a></li><li><a href="/articles/r/ro/romashki-lada-kalina.html" class="related-card">Ромашки Лада Калина: устройство, замена и ремонт ЭУР</a></li><li><a href="/articles/p/pr/predokhraniteli-na-lada-kalina.html" class="related-card">Предохранители Лада Калина: схема, расположение, замена</a></li></ul></nav><!--#include virtual="/ssi/sidebar_after_related.html" --></aside>
+            </div>
+        </div>
+    </main>
+
+    <!--#include virtual="/ssi/before_related_bottom.html" -->
+    <section class="related-bottom">
+        <div class="container">
+            <h2 class="related-bottom-heading">📖 Читайте также</h2>
+            <div class="related-bottom-grid"><a href="/articles/l/la/lada-kalina-datchik-detonatsii.html" class="related-bottom-card"><span class="related-bottom-title">Лада Калина: датчик детонации — симптомы, замена, проверка</span><span class="related-bottom-desc">Горит Check Engine на Лада Калина? Разбираем неисправности датчика детонации, признаки поломки, коды</span></a><a href="/articles/k/ka/kak-snyat-faru-lada-kalina-2.html" class="related-bottom-card"><span class="related-bottom-title">Как снять фару Лада Калина 2: пошаговая инструкция</span><span class="related-bottom-desc">Подробный гайд, как снять фару на Лада Калина 2. Замена ламп, регулировка пучка света, снятие бампер</span></a><a href="/articles/z/za/zamena-radiatora-pechki-lada-kalina-2.html" class="related-bottom-card"><span class="related-bottom-title">Замена радиатора печки Лада Калина 2: пошаговая инструкция 2026</span><span class="related-bottom-desc">Как самостоятельно поменять радиатор отопителя на Калина 2: инструменты, схемы, нюансы и ошибки. Фот</span></a><a href="/articles/r/ro/romashki-lada-kalina.html" class="related-bottom-card"><span class="related-bottom-title">Ромашки Лада Калина: устройство, замена и ремонт ЭУР</span><span class="related-bottom-desc">Полный разбор датчика положения руля (ромашки) на Лада Калина. Диагностика ЭУР, пошаговая инструкция</span></a><a href="/articles/p/pr/predokhraniteli-na-lada-kalina.html" class="related-bottom-card"><span class="related-bottom-title">Предохранители Лада Калина: схема, расположение, замена</span><span class="related-bottom-desc">Подробная схема предохранителей Лада Калина (1 и 2 поколения), их расположение, назначение и как пра</span></a><a href="/articles/z/za/zamena-sharovoj-lada-kalina.html" class="related-bottom-card"><span class="related-bottom-title">Замена шаровой опоры Лада Калина: инструкция и нюансы</span><span class="related-bottom-desc">Как выполняется замена шаровой опоры Лада Калина своими руками. Подробная инструкция, выбор деталей,</span></a></div>
+        </div>
+    </section>
+    <!--#include virtual="/ssi/after_related_bottom.html" -->
+
+    <footer class="site-footer-premium">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">🛠 Лада Справка</div>
+                    <p class="footer-about">Lada (ВАЗ) — самые популярные народные автомобили в России. Честные обзоры моделей от классики до Vesta и Granta, реальный опыт эксплуатации, а также полезные инструкции по обслуживанию и самостоятельному ремонту.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Разделы</h4>
+                    <ul><li><a href="/category/granta/">📁 Granta</a></li>
+<li><a href="/category/vesta/">📁 Vesta</a></li>
+<li><a href="/category/largus/">📁 Largus</a></li>
+<li><a href="/category/kalina/">📁 Kalina</a></li>
+<li><a href="/category/priora/">📁 Priora</a></li>
+<li><a href="/category/xray/">📁 Xray</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/about.html">О проекте</a></li>
+                        <li><a href="/categories.html">Все разделы</a></li>
+                        <li><a href="/contact.html">Контакты</a></li>
+                        <li><a href="/privacy.html">Конфиденциальность</a></li>
+                        <li><a href="/sitemap.xml">Карта сайта</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Лада Справка. Все права защищены.</p>
+                <!--LiveInternet counter--><div style="margin-top:10px;"><a href="https://www.liveinternet.ru/click"
+                target="_blank"><img id="licnt06C4" width="88" height="15" style="border:0" 
+                title="LiveInternet: показано число посетителей за сегодня"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7"
+                alt=""/></a><script>(function(d,s){d.getElementById("licnt06C4").src=
+                "https://counter.yadro.ru/hit?t26.5;r"+escape(d.referrer)+
+                ((typeof(s)=="undefined")?"":";s"+s.width+"*"+s.height+"*"+
+                (s.colorDepth?s.colorDepth:s.pixelDepth))+";u"+escape(d.URL)+
+                ";h"+escape(d.title.substring(0,150))+";"+Math.random()})(document,screen)</script></div><!--/LiveInternet-->
+            </div>
+        </div>
+    </footer>
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-inner">
+            <span>🍪 Мы используем файлы cookie для улучшения работы сайта.</span>
+            <button id="cookie-accept" class="cookie-btn">Принять</button>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+    <script>
+    (function() {
+        const popup = document.getElementById('cookie-consent');
+        const btn = document.getElementById('cookie-accept');
+        if (popup && btn && !localStorage.getItem('cookie-accepted')) {
+            popup.classList.add('visible');
+            btn.onclick = () => {
+                localStorage.setItem('cookie-accepted', 'true');
+                popup.classList.remove('visible');
+            };
+        }
+    })();
+    </script>
+    <!--#include virtual="/ssi/body_bottom.html" -->
+    <script src="/static/js/inject.js" defer></script>
+</body>
+</html>
